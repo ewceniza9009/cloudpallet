@@ -156,3 +156,7 @@ Authentication is handled via JWT, and authorization is managed by policies. The
   - **`Finance`**: Can access billing, generate invoices, manage rates, and view related reports, but cannot perform warehouse operations.
 
 These policies are enforced at the API controller level using `[Authorize(Policy = "...")]` attributes and are checked within CQRS handlers for fine-grained control. The frontend UI should also use these roles to hide or disable links and features (e.g., a "Billing" tab only visible to the `Finance` role).
+
+## Video Demo
+
+<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7388265305703292928?compact=1" height="399" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
