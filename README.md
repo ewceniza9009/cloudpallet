@@ -159,4 +159,4 @@ These policies are enforced at the API controller level using `[Authorize(Policy
 
 ## Video Demo
 
-<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7388265305703292928?compact=1" height="399" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+[![Watch the demo on LinkedIn!](https://media.licdn.com/dms/image/v2/D5622AQELbK5QRi_hPA/feedshare-shrink_2048_1536/B56Zn5U9mMI0Aw-/0/1760824648838?e=1764806400&v=beta&t=ZgdtPJWpWLcezEnDhKbzEIAG94f_Klft4mBZCQDY4ag)](https://www.linkedin.com/feed/update/urn:li:ugcPost:7388265305703292928/)
