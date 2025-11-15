@@ -1,0 +1,302 @@
+<mat-sidenav-container class="sidenav-container" autosize>
+   <mat-sidenav #drawer class="sidenav" mode="side" opened [class.collapsed]="!isExpanded()">
+   <div class="sidebar-header">
+      <img src="/favicon.png" alt="Cloud Pallet Logo" class="brand-icon">
+      <div class="brand-text">
+         <div class="app-brand">Cloud Pallet</div>
+         <div class="brand-subtext">WMS Cold Chain</div>
+      </div>
+   </div>
+   <mat-nav-list>
+      @if (authService.hasRole('Operator')) {
+      <div class="menu-heading" (click)="toggleOperationsMenu()" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+         <span>Operations</span>
+         @if (isExpanded()) {
+         <mat-icon style="font-size: 18px;">
+            {{ isOperationsExpanded() ? 'expand_less' : 'expand_more' }}
+         </mat-icon>
+         }
+      </div>
+      @if (isOperationsExpanded() || !isExpanded()) {
+      <a mat-list-item routerLink="/yard" routerLinkActive="active-link" matTooltip="Yard Management" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>local_parking</mat-icon>
+         <span mat-list-item-title>Yard Management</span>
+      </a>
+      <a mat-list-item routerLink="/docks" routerLinkActive="active-link" matTooltip="Dock Scheduler" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>schedule</mat-icon>
+         <span mat-list-item-title>Dock Scheduler</span>
+      </a>
+      <a mat-list-item routerLink="/dock-monitoring" routerLinkActive="active-link" matTooltip="Dock Monitoring" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>view_kanban</mat-icon>
+         <span mat-list-item-title>Dock Monitoring</span>
+      </a>
+      <a mat-list-item routerLink="/receiving" routerLinkActive="active-link" matTooltip="Goods Receiving" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>inventory_2</mat-icon>
+         <span mat-list-item-title>Goods Receiving</span>
+      </a>
+      <a mat-list-item routerLink="/putaway" routerLinkActive="active-link" matTooltip="Putaway Tasks" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>move_to_inbox</mat-icon>
+         <span mat-list-item-title>Putaway Tasks</span>
+      </a>
+      <a mat-list-item routerLink="/inventory-manager" routerLinkActive="active-link" matTooltip="Inventory Manager" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>dynamic_feed</mat-icon>
+         <span mat-list-item-title>Inventory Manager</span>
+      </a>
+      <a mat-list-item routerLink="/kitting" routerLinkActive="active-link" matTooltip="Kitting" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>all_inbox</mat-icon>
+         <span mat-list-item-title>Kitting</span>
+      </a>
+      <a mat-list-item routerLink="/repacking" routerLinkActive="active-link" matTooltip="Repacking" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>transform</mat-icon>
+         <span mat-list-item-title>Repacking</span>
+      </a>
+      <a mat-list-item routerLink="/cycle-counting" routerLinkActive="active-link" matTooltip="Cycle Counting" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>checklist_rtl</mat-icon>
+         <span mat-list-item-title>Cycle Counting</span>
+      </a>
+      <a mat-list-item routerLink="/picking" routerLinkActive="active-link" matTooltip="Order Picking" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>checklist</mat-icon>
+         <span mat-list-item-title>Order Picking</span>
+      </a>
+      <a mat-list-item routerLink="/shipping" routerLinkActive="active-link" matTooltip="Shipping" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>local_shipping</mat-icon>
+         <span mat-list-item-title>Shipping</span>
+      </a>
+      }
+      }
+      @if (authService.hasRole('Admin') || authService.hasRole('Finance')) {
+      <div class="menu-heading">Finance</div>
+      <a mat-list-item routerLink="/billing" routerLinkActive="active-link" matTooltip="Billing & Invoicing"
+         [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>receipt_long</mat-icon>
+         <span mat-list-item-title>Billing & Invoicing</span>
+      </a>
+      }
+      <div class="menu-heading">Reports & Auditing</div>
+      <a mat-list-item routerLink="/reports/inventory-ledger" routerLinkActive="active-link"
+         matTooltip="Inventory Ledger" [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>summarize</mat-icon>
+         <span mat-list-item-title>Inventory Ledger</span>
+      </a>
+      <a mat-list-item routerLink="/reports/stock-on-hand" routerLinkActive="active-link"
+       matTooltip="Stock on Hand" [matTooltipDisabled]="isExpanded()">
+       <mat-icon matListItemIcon>view_list</mat-icon>
+       <span mat-list-item-title>Stock on Hand</span>
+     </a>
+      <a mat-list-item routerLink="/reports/custom" routerLinkActive="active-link"
+        matTooltip="Custom Report" [matTooltipDisabled]="isExpanded()">
+        <mat-icon matListItemIcon>picture_as_pdf</mat-icon>
+        <span mat-list-item-title>Custom Report</span>
+      </a>
+      <a mat-list-item routerLink="/tracer" routerLinkActive="active-link" matTooltip="Pallet Tracer"
+         [matTooltipDisabled]="isExpanded()">
+         <mat-icon matListItemIcon>timeline</mat-icon>
+         <span mat-list-item-title>Pallet Tracer</span>
+      </a>
+   </mat-nav-list>
+   </mat-sidenav>
+   <mat-sidenav-content>
+      <mat-toolbar class="app-header">
+         <div class="header-section">
+            <button mat-icon-button (click)="toggleSidenav()" class="menu-toggle-button">
+               <mat-icon>{{ isExpanded() ? 'menu_open' : 'menu' }}</mat-icon>
+            </button>
+            <div class="header-nav-buttons">
+               @if (authService.hasRole('Admin') || authService.hasRole('Finance')) {
+               <button mat-button routerLink="/admin/company" class="header-button">
+                  <mat-icon>apartment</mat-icon>
+                  <span>Company</span>
+               </button>
+               <button mat-button [matMenuTriggerFor]="setupMenu" class="header-button">
+                  <mat-icon>settings</mat-icon>
+                  <span>Setup</span>
+                  <mat-icon class="expand-icon">expand_more</mat-icon>
+               </button>
+               <mat-menu #setupMenu="matMenu">
+                  <div class="menu-heading" style="margin-left: 10px; color: #006a6a;">Warehouse & Layout</div>
+                  <a mat-menu-item routerLink="/setup/warehouses">
+                     <mat-icon>location_city</mat-icon>
+                     <span>Warehouse</span>
+                  </a>
+                  <a mat-menu-item routerLink="/setup/rooms">
+                     <mat-icon>thermostat</mat-icon>
+                     <span>Rooms & Zones</span>
+                  </a>
+                  <a mat-menu-item routerLink="/setup/dock-yard">
+                    <mat-icon>dock</mat-icon>
+                    <span>Docks & Yards</span>
+                  </a>
+                  <div class="menu-heading" style="margin-left: 10px; color: #006a6a;">Logistics & Partners</div>
+                  <a mat-menu-item routerLink="/setup/carriers">
+                     <mat-icon>group</mat-icon>
+                     <span>Carriers</span>
+                  </a>
+                  <a mat-menu-item routerLink="/setup/suppliers">
+                     <mat-icon>inventory</mat-icon>
+                     <span>Suppliers</span>
+                  </a>
+                  <a mat-menu-item routerLink="/setup/accounts">
+                     <mat-icon>account_balance</mat-icon>
+                     <span>Customers</span>
+                  </a>
+                  <div class="menu-heading" style="margin-left: 10px; color: #006a6a;">Materials & UOMs</div>
+                  <a mat-menu-item routerLink="/admin/materials">
+                     <mat-icon>category</mat-icon>
+                     <span>Material</span>
+                  </a>
+                  <a mat-menu-item routerLink="/setup/units-of-measure">
+                     <mat-icon>straighten</mat-icon>
+                     <span>Units of Measure</span>
+                  </a>
+                  <a mat-menu-item routerLink="/setup/pallet-types">
+                     <mat-icon>pallet</mat-icon>
+                     <span>Pallet Types</span>
+                  </a>
+                  <a mat-menu-item routerLink="/admin/rates">
+                     <mat-icon>price_change</mat-icon>
+                     <span>Rate</span>
+                  </a>
+               </mat-menu>
+               }
+               @if (authService.hasRole('Admin') || authService.hasRole('Finance')) {
+               <button mat-button [matMenuTriggerFor]="adminMenu" class="header-button">
+                  <mat-icon>admin_panel_settings</mat-icon>
+                  <span>Administration</span>
+                  <mat-icon class="expand-icon">expand_more</mat-icon>
+               </button>
+               <mat-menu #adminMenu="matMenu">
+                  @if (authService.hasRole('Admin')) {
+                  <a mat-menu-item routerLink="/admin/users">
+                     <mat-icon>manage_accounts</mat-icon>
+                     <span>User & Role</span>
+                  </a>
+                  }
+                  <a mat-menu-item routerLink="/reports/activity-log">
+                     <mat-icon>history</mat-icon>
+                     <span>Full Activity Log</span>
+                  </a>
+               </mat-menu>
+               }
+               <button mat-button [matMenuTriggerFor]="dashboardsMenu" class="header-button">
+                  <mat-icon>dashboard</mat-icon>
+                  <span>Dashboards</span>
+                  <mat-icon class="expand-icon">expand_more</mat-icon>
+               </button>
+               <mat-menu #dashboardsMenu="matMenu">
+                  <a mat-menu-item routerLink="/dashboard">
+                     <mat-icon>thermostat</mat-icon>
+                     <span>Energy Dashboard</span>
+                  </a>
+                  <a mat-menu-item routerLink="/inventory-overview">
+                     <mat-icon>table_chart</mat-icon>
+                     <span>Inventory Overview</span>
+                  </a>
+               </mat-menu>
+            </div>
+         </div>
+         <div class="header-section">
+            <button mat-button [matMenuTriggerFor]="warehouseMenu" class="warehouse-menu-button">
+               <mat-icon>business</mat-icon>
+               <span class="warehouse-text">
+               @if (warehouseState.selectedWarehouseId(); as selectedId) {
+               {{ getWarehouseName(selectedId) }}
+               } @else {
+               Select Warehouse
+               }
+               </span>
+               <mat-icon class="expand-icon">expand_more</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="notificationsMenu" matTooltip="Notifications"
+            class="header-icon-button" [aria-label]="notificationService.unreadCount() + ' new notifications'">
+            <mat-icon matBadgeColor="warn"
+               [matBadge]="notificationService.unreadCount() > 0 ? notificationService.unreadCount() : null">notifications</mat-icon>
+            </button>
+            <button mat-button class="user-profile-button" [matMenuTriggerFor]="userMenu">
+               <mat-icon>account_circle</mat-icon>
+               @if (currentUser(); as user) {
+               <span>{{ user.email }}</span>
+               }
+               <mat-icon class="expand-icon">expand_more</mat-icon>
+            </button>
+         </div>
+         <mat-menu #warehouseMenu="matMenu" class="warehouse-menu">
+            @for (wh of warehouses(); track wh.id) {
+            <button mat-menu-item (click)="onWarehouseChange(wh.id)"
+            [class.selected]="warehouseState.selectedWarehouseId() === wh.id">
+            <mat-icon class="warehouse-menu-icon">
+               {{ warehouseState.selectedWarehouseId() === wh.id ? 'check_circle' : 'warehouse' }}
+            </mat-icon>
+            <span>{{ wh.name }}</span>
+            </button>
+            }
+         </mat-menu>
+         <mat-menu #notificationsMenu="matMenu" class="notification-menu">
+            <div class="menu-header" style="margin-left: 10px; color: #006a6a;" (click)="stopPropagation($event)">
+               <span>Notifications</span>
+               <button mat-button (click)="notificationService.clearAll()">Clear All</button>
+            </div>
+            @for (notification of notificationService.notifications().slice(0, 3); track notification.id) {
+            <div mat-menu-item class="notification-item" [class.is-read]="notification.isRead">
+               <mat-icon class="notification-icon">{{ notification.icon }}</mat-icon>
+               <div class="notification-content">
+                  <span class="notification-text">{{ notification.text }}</span>
+                  <span class="notification-time">{{ notification.time | date:'shortTime' }}</span>
+               </div>
+            </div>
+            } @empty {
+            <div class="empty-state" style="margin-left: 10px; color: #006a6a;">No new notifications</div>
+            }
+         </mat-menu>
+         <mat-menu #userMenu="matMenu">
+            @if (currentUser(); as user) {
+            <div class="menu-header user-info">
+               <div class="user-email">{{ user.email }}</div>
+               <div class="user-role">{{ user.role }}</div>
+            </div>
+            }
+            <button mat-menu-item (click)="logout()">
+               <mat-icon>logout</mat-icon>
+               <span>Logout</span>
+            </button>
+         </mat-menu>
+      </mat-toolbar>
+      <main class="content">
+         <router-outlet></router-outlet>
+      </main>
+   </mat-sidenav-content>
+</mat-sidenav-container>
+
+<div class="warehouse-animation">
+  <div class="temp-indicator">❄️ -18°C</div>
+
+  <div class="storage-shelves">
+    <div class="shelf-support"></div>
+    <div class="shelf"></div>
+    <div class="shelf"></div>
+    <div class="shelf"></div>
+  </div>
+
+  <div class="stored-pallets">
+    <div class="pallet-stack">
+      <div class="pallet"></div>
+    </div>
+    <div class="pallet-stack">
+      <div class="pallet"></div>
+    </div>
+  </div>
+
+  <div class="warehouse-truck">
+    <div class="truck-body"></div>
+    <div class="truck-wheels">
+      <div class="wheel"></div>
+      <div class="wheel"></div>
+      <div class="wheel"></div>
+    </div>
+  </div>
+
+  <div class="pallet-group">
+    <div class="pallet"></div>
+    <div class="pallet"></div>
+    <div class="pallet"></div>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="list-container">
+  <div class="list-header">
+    <div class="header-content">
+      <h2 class="list-title">Rooms & Zones</h2>
+      <p class="list-subtitle">Manage storage rooms, temperature zones, and their locations</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="createNew()" class="create-button">
+      <mat-icon>add</mat-icon>
+      <span>New Room</span>
+    </button>
+  </div>
+
+  <div class="search-section">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search rooms...</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Search by name, service type, or temperature">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <div class="results-count">
+      {{ filteredRooms().length }} of {{ rooms().length }} rooms
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+      <span>Loading rooms...</span>
+    </div>
+  } @else {
+    <div class="room-grid">
+      @for(room of filteredRooms(); track room.id) {
+        <mat-card
+          class="room-card"
+          [routerLink]="['/setup/rooms/detail', room.id]"
+          tabindex="0">
+
+          <div class="card-header">
+            <div class="room-name-section">
+              <h3 class="room-name">{{ room.name }}</h3>
+              <span class="service-type-badge" [ngClass]="getServiceTypeClass(room.serviceType)">
+                {{ room.serviceType }}
+              </span>
+            </div>
+            <button
+              mat-icon-button
+              [routerLink]="['/setup/rooms/detail', room.id]"
+              (click)="$event.stopPropagation()"
+              class="edit-button"
+              matTooltip="Manage room">
+              <mat-icon>settings</mat-icon>
+            </button>
+          </div>
+
+          <div class="card-content">
+            <div class="temperature-section">
+              <div class="temp-display">
+                <mat-icon class="temp-icon">thermostat</mat-icon>
+                <div class="temp-range">
+                  <span class="temp-min">{{ room.minTemp }}°C</span>
+                  <span class="temp-separator">to</span>
+                  <span class="temp-max">{{ room.maxTemp }}°C</span>
+                </div>
+              </div>
+              <div class="temp-average">
+                Avg: {{ (room.minTemp + room.maxTemp) / 2 | number:'1.0-0' }}°C
+              </div>
+            </div>
+
+            <div class="stats-section">
+              <div class="stat-item">
+                <div class="stat-value">{{ room.locationCount || 0 }}</div>
+                <div class="stat-label">Locations</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">{{ getLocationDensity(room) }}</div>
+                <div class="stat-label">Density</div>
+              </div>
+            </div>
+
+            <div class="room-info">
+              <mat-icon>category</mat-icon>
+              <span>{{ room.serviceType }} Zone</span>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="footer-actions">
+              <button
+                mat-stroked-button
+                color="primary"
+                [routerLink]="['/setup/rooms/detail', room.id]"
+                (click)="$event.stopPropagation()"
+                class="view-button">
+                <mat-icon>visibility</mat-icon>
+                <span>Manage Locations</span>
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      } @empty {
+        <div class="empty-state">
+          <div class="empty-icon">
+            <mat-icon>door_sliding</mat-icon>
+          </div>
+          <h3>No rooms found</h3>
+          <p>Get started by creating your first storage room or zone</p>
+          <button mat-flat-button color="primary" (click)="createNew()">
+            <mat-icon>add</mat-icon>
+            <span>Create Room</span>
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

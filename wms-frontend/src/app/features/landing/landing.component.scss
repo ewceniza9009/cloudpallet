@@ -1,0 +1,435 @@
+// ---- File: landing.component.scss ----
+:host {
+  display: block;
+  overflow-x: hidden;
+}
+
+// SIMPLIFIED BUT ELEGANT HERO SECTION
+.landing-hero {
+  background: linear-gradient(135deg, #006064 0%, #0097a7 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+
+  // Subtle animated background
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+    animation: float 20s ease-in-out infinite;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 2rem;
+  }
+
+  .hero-icon {
+    margin-bottom: 2rem;
+    .icon-wrapper {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      padding: 1.5rem;
+      display: inline-flex;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: gentlePulse 4s ease-in-out infinite;
+      mat-icon {
+        font-size: 3.5rem;
+        width: 3.5rem;
+        height: 3.5rem;
+        color: white;
+      }
+    }
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    color: white;
+    line-height: 1.1;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.8s ease-out;
+  }
+
+  .hero-title2 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: .5rem;
+    color: white;
+    line-height: 1.1;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.8s ease-out;
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 3rem;
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: slideUp 0.8s ease-out 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: slideUp 0.8s ease-out 0.4s both;
+
+    .cta-button {
+      font-size: 1.1rem;
+      padding: 12px 32px;
+      border-radius: 50px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+
+      &.primary {
+        background-color: white;
+        color: #00838f;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      &.secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+}
+
+// COMPLETELY REDESIGNED VAS SECTION - NO UGLY TABS!
+.vas-section {
+  padding: 6rem 2rem;
+  background: #f8fafc;
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+
+    h2 {
+      font-size: 2.8rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+      color: #1e293b;
+    }
+
+    .section-subtitle {
+      font-size: 1.25rem;
+      color: #64748b;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+  }
+
+  .vas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .vas-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #0097a7, #00bcd4);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+
+      &::before {
+        transform: scaleX(1);
+      }
+
+      .vas-card-icon {
+        transform: scale(1.1) rotate(5deg);
+        background: linear-gradient(135deg, #0097a7, #00bcd4);
+
+        mat-icon {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .vas-card-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    mat-icon {
+      font-size: 2.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      color: #0097a7;
+      transition: all 0.4s ease;
+    }
+  }
+
+  .vas-card-title {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 1rem;
+  }
+
+  .vas-card-description {
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .billing-model {
+    background: #f1f5f9;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #475569;
+    border-left: 4px solid #0097a7;
+
+    strong {
+      color: #1e293b;
+    }
+  }
+}
+
+// Keep existing features section (it's good)
+.features-section {
+  padding: 6rem 2rem;
+  background: white;
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+
+    h2 {
+      font-size: 2.8rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+      color: #1e293b;
+    }
+
+    .section-subtitle {
+      font-size: 1.25rem;
+      color: #64748b;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .feature-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+      margin-bottom: 1.5rem;
+      .icon-circle {
+        background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+        border-radius: 50%;
+        display: inline-flex;
+        padding: 1.2rem;
+        mat-icon {
+          font-size: 2.5rem;
+          width: 2.5rem;
+          height: 2.5rem;
+          color: #0097a7;
+        }
+      }
+    }
+
+    mat-card-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+    }
+
+    mat-card-subtitle {
+      color: #0097a7;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    mat-card-content {
+      color: #475569;
+      font-size: 1rem;
+      line-height: 1.6;
+      padding: 0;
+    }
+  }
+}
+
+// Enhanced CTA Section
+.cta-section {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #0097a7 0%, #00bcd4 100%);
+  color: white;
+  text-align: center;
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    font-weight: 300;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-button {
+    font-size: 1.1rem;
+    padding: 12px 32px;
+    border-radius: 50px;
+    font-weight: 500;
+    background: white;
+    color: #00838f;
+    border: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+// Animations
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-20px) scale(1.02); }
+}
+
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .landing-hero {
+    min-height: 90vh;
+    padding: 2rem 1rem;
+
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      align-items: center;
+
+      .cta-button {
+        width: 200px;
+      }
+    }
+  }
+
+  .vas-section,
+  .features-section,
+  .cta-section {
+    padding: 4rem 1rem;
+  }
+
+  .vas-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

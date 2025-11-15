@@ -1,0 +1,70 @@
+// ---- File: wms-frontend/src/app/features/register/register.component.scss ----
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  padding: 1.5rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(100, 116, 139, 0.2);
+  padding: 0;
+}
+
+.auth-header {
+  text-align: center;
+  padding: 2.5rem 2rem 2rem;
+  background: linear-gradient(135deg, #0097a7 0%, #006064 100%);
+  color: white;
+  border-radius: 16px 16px 0 0;
+}
+
+.auth-icon {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  padding: 1rem;
+  display: inline-flex;
+  margin-bottom: 1rem;
+  mat-icon { font-size: 2.5rem; width: 2.5rem; height: 2.5rem; }
+}
+
+mat-card-title {
+  font-size: 1.75rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+mat-card-content {
+  padding: 2.5rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+mat-card-actions {
+  padding: 0 2.5rem 2rem;
+  display: flex;
+  justify-content: center;
+
+  .link {
+    color: #0097a7;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

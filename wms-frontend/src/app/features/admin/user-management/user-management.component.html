@@ -1,0 +1,150 @@
+<div class="user-management-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>User Management</mat-card-title>
+      <mat-card-subtitle>
+        Manage user roles and permissions across the system
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (isLoading()) {
+      <div class="spinner-container" aria-label="Loading users">
+        <mat-progress-spinner
+          mode="indeterminate"
+          diameter="50"
+          aria-live="polite"
+        ></mat-progress-spinner>
+      </div>
+      } @else {
+      <div class="table-container">
+        @if (users().length > 0) {
+        <table
+          mat-table
+          [dataSource]="users()"
+          aria-label="System users and their roles"
+        >
+          <!-- Username Column -->
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef>Username</th>
+            <td mat-cell *matCellDef="let user">
+              <strong>{{ user.username }}</strong>
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Full Name</th>
+            <td mat-cell *matCellDef="let user">
+              {{ user.firstName }} {{ user.lastName }}
+            </td>
+          </ng-container>
+
+          <!-- Email Column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let user">
+              <a
+                [href]="'mailto:' + user.email"
+                class="email-link"
+                aria-label="Send email to {{ user.email }}"
+              >
+                {{ user.email }}
+              </a>
+            </td>
+          </ng-container>
+
+          <!-- Role Display Column -->
+          <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef>Current Role</th>
+            <td mat-cell *matCellDef="let user">
+              <div class="role-display">
+                <div class="role-icon" aria-hidden="true">
+                  <mat-icon>{{ getRoleOption(user.role).icon }}</mat-icon>
+                </div>
+                <span class="role-text">{{
+                  getRoleOption(user.role).label
+                }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Change Role</th>
+            <td mat-cell *matCellDef="let user">
+              <button
+                mat-stroked-button
+                class="role-menu-button"
+                [matMenuTriggerFor]="roleMenu"
+                [matMenuTriggerData]="{ user: user }"
+                [attr.aria-label]="
+                  'Change role for ' +
+                  user.username +
+                  ', current role: ' +
+                  user.role
+                "
+                matTooltip="Change user role"
+              >
+                <div class="button-content">
+                  <mat-icon>admin_panel_settings</mat-icon>
+                  <span>Change Role</span>
+                </div>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            [attr.aria-label]="'User: ' + row.username + ', Role: ' + row.role"
+          ></tr>
+        </table>
+        } @else {
+        <div class="empty-state" aria-label="No users found">
+          <mat-icon>group_off</mat-icon>
+          <h3>No Users Found</h3>
+          <p>There are no users to display in the system.</p>
+        </div>
+        }
+      </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- Role Selection Menu -->
+<mat-menu #roleMenu="matMenu" class="role-menu" xPosition="before">
+  <ng-template matMenuContent let-user="user">
+    @for (roleOption of roleOptions; track roleOption.value) {
+    <button
+      mat-menu-item
+      class="role-menu-item"
+      [class.selected]="user.role === roleOption.value"
+      (click)="onRoleChange(user.id, roleOption.value)"
+      [attr.aria-label]="
+        'Set role to ' + roleOption.label + ' for ' + user.username
+      "
+      [attr.aria-checked]="user.role === roleOption.value"
+    >
+      <div style="display: flex; align-items: center; gap: 5px;">
+        <div class="role-item-icon" aria-hidden="true">
+          <mat-icon>{{ roleOption.icon }}</mat-icon>
+        </div>
+
+        <div class="role-item-content">
+          <div class="role-item-title">{{ roleOption.label }}</div>
+          <div class="role-item-description">{{ roleOption.description }}</div>
+        </div>
+
+        @if (user.role === roleOption.value) {
+        <div class="role-item-check" aria-hidden="true">
+          <mat-icon>check</mat-icon>
+        </div>
+        }
+      </div>
+    </button>
+    }
+  </ng-template>
+</mat-menu>

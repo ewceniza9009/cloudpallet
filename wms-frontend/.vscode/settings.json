@@ -1,0 +1,115 @@
+{
+  // ===== File Cleanup and Formatting =====
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+
+  // ===== Whitespace and Character Visibility =====
+  "editor.renderWhitespace": "all",
+  "editor.unicodeHighlight.nonBasicASCII": true,
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+
+  // ===== Code Formatting and Actions =====
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit"
+  },
+
+  // ===== Indentation =====
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": true,
+  "editor.indentSize": "tabSize",
+
+  // ===== Language Specific Formatters =====
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[graphql]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.stylelint": "explicit"
+    }
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // ===== CSS/SCSS Specific Settings =====
+  "css.format.spaceAroundSelectorSeparator": true,
+  "scss.format.spaceAroundSelectorSeparator": true,
+  "css.format.enable": true,
+  "scss.format.enable": true,
+
+  // ===== Prettier Specific =====
+  "prettier.requireConfig": true,
+  "prettier.useEditorConfig": true,
+  "prettier.documentSelectors": [
+    "**/*.scss",
+    "**/*.css",
+    "**/*.js",
+    "**/*.ts",
+    "**/*.jsx",
+    "**/*.tsx",
+    "**/*.json",
+    "**/*.html",
+    "**/*.md",
+    "**/*.graphql"
+  ],
+
+  // ===== Search and File Exclusion =====
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.git": true,
+    "**/.next": true,
+    "**/.out": true,
+    "**/.vscode": true,
+    "**/coverage": true
+  },
+
+  // ===== File Watcher Exclusion for Performance =====
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/.git/**": true,
+    "**/coverage/**": true
+  },
+
+  // ===== Other Useful Settings =====
+  "editor.rulers": [100],
+  "editor.wordWrap": "off",
+  "editor.minimap.enabled": true,
+  "editor.folding": true,
+  "editor.suggestSelection": "first",
+  "editor.acceptSuggestionOnEnter": "on"
+}

@@ -1,0 +1,54 @@
+/* ---- File: wms-frontend/src/app/features/admin/pallet-type-setup/pallet-type-dialog/pallet-type-dialog.component.scss [NEW] ---- */
+/* Copy styles from uom-dialog.component.scss or edit-dock-yard-modal.component.scss and adapt */
+
+:host {
+  display: block;
+  min-width: 450px; // Adjust width as needed
+}
+
+.dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 1.5rem 1.5rem 1rem;
+  font-weight: 500;
+  font-size: 1.25rem;
+  color: var(--mat-sys-on-surface);
+
+  mat-icon {
+    color: var(--mat-sys-primary);
+  }
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; // Increase gap slightly
+  padding: 0 1.5rem; // Add horizontal padding to content area
+}
+
+.dimensions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); // Three columns for dimensions
+  gap: 1rem;
+}
+
+mat-slide-toggle {
+    margin: 0.5rem 0;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem 1.5rem;
+  margin: 0;
+
+  button {
+    min-width: 100px;
+  }
+  button mat-icon + span, button mat-progress-spinner + span {
+    margin-left: 8px;
+  }
+}

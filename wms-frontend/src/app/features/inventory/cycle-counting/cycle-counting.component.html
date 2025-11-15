@@ -1,0 +1,122 @@
+<div class="cycle-count-container">
+  <div class="header-section">
+    <h1>Record Inventory Cycle Count</h1>
+    <p>Perform physical counts, record discrepancies, and bill for the service.</p>
+  </div>
+
+  <mat-card class="cycle-count-form-card">
+    <mat-card-header>
+      <mat-card-title>Cycle Count Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="cycleCountForm" (ngSubmit)="onSubmit()">
+        <div class="form-section">
+          <h3>1. Select Customer Account</h3>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Account</mat-label>
+            <input type="text"
+                   matInput
+                   [formControl]="accountSearchCtrl"
+                   [matAutocomplete]="autoAccount"
+                   placeholder="Search for account..."
+                   aria-describedby="account-hint">
+            <mat-autocomplete #autoAccount="matAutocomplete"
+                              [displayWith]="displayAccount"
+                              (optionSelected)="onAccountSelected($event)">
+              @for(account of filteredAccounts$(); track account.id) {
+                <mat-option [value]="account">{{ account.name }}</mat-option>
+              }
+            </mat-autocomplete>
+            <mat-hint id="account-hint">Select the account whose inventory you are counting.</mat-hint>
+             @if(isLoadingLookups()) { <mat-progress-spinner matSuffix mode="indeterminate" diameter="20"></mat-progress-spinner> }
+          </mat-form-field>
+        </div>
+
+        <div class="form-section" [class.disabled-section]="!cycleCountForm.get('accountId')?.value">
+          <h3>2. Add Inventory Items to Count List</h3>
+           <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Search Inventory (Material, SKU, Pallet, Location)</mat-label>
+            <input type="text"
+                   matInput
+                   [formControl]="inventorySearchCtrl"
+                   [matAutocomplete]="autoInventory"
+                   placeholder="Start typing..."
+                   [disabled]="!cycleCountForm.get('accountId')?.value || isLoadingInventory()">
+            <mat-autocomplete #autoInventory="matAutocomplete"
+                              [displayWith]="displayInventory"
+                              (optionSelected)="addItemToCount($event)">
+               @for(inv of filteredInventories$(); track inv.inventoryId) {
+                <mat-option [value]="inv">
+                  <div>{{ inv.materialName }} ({{inv.sku}}) - Qty: {{inv.quantity}}</div>
+                  <small>Pallet: {{inv.palletBarcode}} | Loc: {{inv.location}}</small>
+                </mat-option>
+               }
+               @if(isLoadingInventory()) {
+                 <mat-option disabled><mat-spinner diameter="20"></mat-spinner> Loading...</mat-option>
+               }
+            </mat-autocomplete>
+             <mat-hint *ngIf="!cycleCountForm.get('accountId')?.value">Select an account first.</mat-hint>
+          </mat-form-field>
+
+          <div formArrayName="countedItems" class="counted-items-list">
+             @if(countedItems.controls.length > 0) {
+               <h4>Items to Count ({{countedItems.controls.length}})</h4>
+               <mat-divider></mat-divider>
+               @for(itemGroup of countedItems.controls; track $index; let i = $index) {
+                 <div [formGroupName]="i" class="counted-item-row">
+                   <div class="item-info">
+                     <mat-icon>widgets</mat-icon>
+                     <div>
+                       <div class="item-name">{{ itemGroup.value.inventoryItem.materialName }} ({{itemGroup.value.inventoryItem.sku}})</div>
+                       <div class="item-details">
+                         Pallet: {{ itemGroup.value.inventoryItem.palletBarcode }} |
+                         Loc: {{ itemGroup.value.inventoryItem.location }} |
+                         System Qty: {{ itemGroup.value.inventoryItem.quantity | number }}
+                       </div>
+                     </div>
+                   </div>
+                   <mat-form-field appearance="outline" class="count-input">
+                     <mat-label>Counted Qty</mat-label>
+                     <input matInput type="number" formControlName="countedQuantity" min="0" required>
+                     <mat-error *ngIf="itemGroup.get('countedQuantity')?.hasError('required')">Required</mat-error>
+                     <mat-error *ngIf="itemGroup.get('countedQuantity')?.hasError('min')">Must be >= 0</mat-error>
+                   </mat-form-field>
+                   <button mat-icon-button color="warn" type="button" (click)="removeItem(i)" matTooltip="Remove Item">
+                     <mat-icon>delete_outline</mat-icon>
+                   </button>
+                 </div>
+                 <mat-divider *ngIf="!$last"></mat-divider>
+               }
+             } @else if (cycleCountForm.get('accountId')?.value) {
+                <div class="empty-list-prompt">Add inventory items using the search bar above.</div>
+             }
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>3. Record Duration</h3>
+          <mat-form-field appearance="outline" class="duration-input">
+            <mat-label>Time Spent (Hours)</mat-label>
+            <input matInput type="number" formControlName="durationHours" min="0.1" step="0.1" placeholder="e.g., 1.5">
+             <mat-error *ngIf="cycleCountForm.get('durationHours')?.hasError('required')">Required</mat-error>
+             <mat-error *ngIf="cycleCountForm.get('durationHours')?.hasError('min')">Must be > 0</mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-card-actions align="end">
+          <button mat-flat-button color="primary" type="submit" [disabled]="cycleCountForm.invalid || isSubmitting() || countedItems.length === 0">
+            @if(isSubmitting()) {
+              <mat-progress-spinner diameter="20" mode="indeterminate" style="margin-right: 8px;"></mat-progress-spinner>
+              <span>Submitting...</span>
+            } @else {
+              <ng-container>
+                <mat-icon>save</mat-icon>
+                <span>Record Cycle Count</span>
+              </ng-container>
+            }
+          </button>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

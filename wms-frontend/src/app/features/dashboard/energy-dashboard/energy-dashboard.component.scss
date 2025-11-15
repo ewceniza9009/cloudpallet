@@ -1,0 +1,182 @@
+// ---- File: energy-dashboard.component.scss ----
+/* ---- File: energy-dashboard.component.scss ---- */
+:host {
+  display: block;
+}
+
+.dashboard-container {
+  padding: 1.5rem;
+}
+
+.energy-dashboard-card {
+  overflow: hidden;
+  height: 87vh;
+
+  .mat-mdc-card-header {
+    background-color: var(--mat-sys-surface-container-low);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    align-items: center;
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .header-text {
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      mat-icon {
+        color: var(--mat-sys-primary);
+      }
+    }
+    .update-info {
+      font-size: 0.875rem;
+      color: var(--mat-sys-on-surface-variant);
+    }
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: var(--mat-sys-surface-container-high);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+
+    .pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      &.offline { background: #94a3b8; } // Slate 400
+      &.connecting { background: #f59e0b; } // Amber 500
+      &.live {
+        background: #10b981; // Emerald 500
+        animation: pulse 2s infinite;
+      }
+    }
+
+    .update-count {
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+  }
+}
+
+.mat-mdc-card-content {
+  padding: 1.5rem;
+}
+
+.chart-container {
+  min-height: 400px;
+  position: relative;
+  ::ng-deep {
+    .ngx-charts {
+      text {
+        fill: #475569;
+        font-size: 13px !important;
+      }
+      .axis-label {
+        font-weight: 500 !important;
+      }
+      .gridline-path {
+        stroke: #e2e8f0;
+      }
+    }
+  }
+}
+
+.loading-state, .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  gap: 1rem;
+
+  .mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: #cbd5e1;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #1e293b;
+    margin: 0;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #64748b;
+    max-width: 400px;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.data-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+
+  .stat-item {
+    padding: 1rem;
+    background-color: var(--mat-sys-surface-container-low);
+    border-radius: 12px;
+    border: 1px solid var(--mat-sys-outline-variant);
+    text-align: center;
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 0.25rem;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: #64748b;
+      font-weight: 400;
+    }
+    // Color theming for stats
+    &.average-temp .stat-value { color: #0097a7; }
+    &.min-temp .stat-value { color: #3b82f6; }
+    &.max-temp .stat-value { color: #ef4444; }
+    &.rooms-monitored .stat-value { color: #10b981; }
+  }
+}
+
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .data-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}

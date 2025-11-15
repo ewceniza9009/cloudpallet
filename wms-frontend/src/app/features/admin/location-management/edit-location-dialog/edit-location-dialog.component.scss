@@ -1,0 +1,19 @@
+// ---- File: wms-frontend/src/app/features/admin/location-management/edit-location-dialog/edit-location-dialog.component.scss ----
+.dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 450px;
+  padding-top: 1rem;
+  overflow-y: hidden;;
+}
+
+button mat-icon + span, button mat-progress-spinner + span {
+  margin-left: 8px;
+}

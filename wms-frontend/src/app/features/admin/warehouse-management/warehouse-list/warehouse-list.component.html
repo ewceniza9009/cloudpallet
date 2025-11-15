@@ -1,0 +1,116 @@
+<div class="list-container">
+  <div class="list-header">
+    <div class="header-content">
+      <h2 class="list-title">Warehouses</h2>
+      <p class="list-subtitle">Manage your warehouse facilities and locations</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="createNew()" class="create-button">
+      <mat-icon>add</mat-icon>
+      <span>New Warehouse</span>
+    </button>
+  </div>
+
+  <div class="search-section">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search warehouses...</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Search by name, city, or state">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <div class="results-count">
+      {{ filteredWarehouses().length }} of {{ warehouses().length }} warehouses
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+      <span>Loading warehouses...</span>
+    </div>
+  } @else {
+    <div class="warehouse-grid">
+      @for(warehouse of filteredWarehouses(); track warehouse.id) {
+        <mat-card
+          class="warehouse-card"
+          [class.inactive]="!warehouse.isActive"
+          [routerLink]="['/setup/warehouses/detail', warehouse.id]"
+          tabindex="0">
+
+          <div class="card-header">
+            <div class="warehouse-name-section">
+              <h3 class="warehouse-name">{{ warehouse.name }}</h3>
+              @if (!warehouse.isActive) {
+                <span class="status-badge inactive" matTooltip="This warehouse is inactive">Inactive</span>
+              } @else {
+                <span class="status-badge active" matTooltip="This warehouse is active">Active</span>
+              }
+            </div>
+            <button
+              mat-icon-button
+              [routerLink]="['/setup/warehouses/detail', warehouse.id]"
+              (click)="$event.stopPropagation()"
+              class="edit-button"
+              matTooltip="Edit warehouse">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+
+          <div class="card-content">
+            <div class="info-row">
+              <mat-icon>location_on</mat-icon>
+              <div class="address-info">
+                <span class="street">{{ warehouse.address.street }}</span>
+                <span class="city-state">
+                  {{ warehouse.address.city }}, {{ warehouse.address.state }} {{ warehouse.address.postalCode }}
+                </span>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <mat-icon>schedule</mat-icon>
+              <span class="operating-hours">
+                {{ warehouse.operatingHours || 'Hours not specified' }}
+              </span>
+            </div>
+
+            <div class="contact-section">
+              <div class="contact-item">
+                <mat-icon>phone</mat-icon>
+                <span class="contact-info">{{ warehouse.contactPhone }}</span>
+              </div>
+              <div class="contact-item">
+                <mat-icon>email</mat-icon>
+                <span class="contact-info">{{ warehouse.contactEmail }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="footer-actions">
+              <button
+                mat-stroked-button
+                color="primary"
+                [routerLink]="['/setup/warehouses/detail', warehouse.id]"
+                (click)="$event.stopPropagation()"
+                class="view-button">
+                <mat-icon>visibility</mat-icon>
+                <span>View Details</span>
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      } @empty {
+        <div class="empty-state">
+          <div class="empty-icon">
+            <mat-icon>location_city</mat-icon>
+          </div>
+          <h3>No warehouses found</h3>
+          <p>Get started by creating your first warehouse facility</p>
+          <button mat-flat-button color="primary" (click)="createNew()">
+            <mat-icon>add</mat-icon>
+            <span>Create Warehouse</span>
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

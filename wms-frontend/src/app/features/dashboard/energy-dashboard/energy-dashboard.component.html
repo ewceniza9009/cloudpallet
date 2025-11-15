@@ -1,0 +1,79 @@
+<div class="dashboard-container">
+  <mat-card class="energy-dashboard-card">
+    <mat-card-header>
+      <div class="header-content">
+        <div class="header-text">
+            <mat-card-title><mat-icon>thermostat</mat-icon> Real-Time Energy Dashboard</mat-card-title>
+            <mat-card-subtitle>
+              Live temperature monitoring across storage facilities (°C)
+              <span class="update-info">• Last update: {{ getLastUpdateTime() }}</span>
+            </mat-card-subtitle>
+        </div>
+        <div class="status-indicator">
+          <div class="pulse-dot"
+              [class.offline]="roomTemperatures.length === 0 && !isLoading"
+              [class.connecting]="isLoading"
+              [class.live]="roomTemperatures.length > 0 && !isLoading"></div>
+          <span>{{ isLoading ? 'Connecting...' : (roomTemperatures.length > 0 ? 'Live' : 'Offline') }}</span>
+          @if(updateCount > 0){
+            <span class="update-count">({{ updateCount }})</span>
+          }
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (isLoading) {
+        <div class="loading-state">
+          <mat-progress-spinner diameter="48"></mat-progress-spinner>
+          <h3>Initializing Dashboard</h3>
+          <p>Connecting to real-time temperature monitoring system...</p>
+        </div>
+      } @else if (roomTemperatures.length > 0) {
+        <div class="chart-container">
+          <ngx-charts-bar-vertical
+            [view]="view"
+            [results]="roomTemperatures"
+            [xAxis]="xAxis"
+            [yAxis]="yAxis"
+            [legend]="false"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [showDataLabel]="showDataLabel"
+            [roundEdges]="false"
+            [gradient]="false"
+            xAxisLabel="Storage Room"
+            yAxisLabel="Temperature (°C)"
+            [scheme]="colorScheme"
+            [animations]="animations"
+            (select)="onSelect($event)">
+          </ngx-charts-bar-vertical>
+        </div>
+        <div class="data-stats">
+          <div class="stat-item average-temp">
+            <span class="stat-value">{{ calculateAverageTemp() | number:'1.1-1' }}°C</span>
+            <div class="stat-label">Average Temp</div>
+          </div>
+          <div class="stat-item min-temp">
+            <span class="stat-value">{{ calculateMinTemp() | number:'1.1-1' }}°C</span>
+            <div class="stat-label">Min Temp</div>
+          </div>
+          <div class="stat-item max-temp">
+            <span class="stat-value">{{ calculateMaxTemp() | number:'1.1-1' }}°C</span>
+            <div class="stat-label">Max Temp</div>
+          </div>
+          <div class="stat-item rooms-monitored">
+            <span class="stat-value">{{ roomTemperatures.length }}</span>
+            <div class="stat-label">Rooms Monitored</div>
+          </div>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <mat-icon>signal_wifi_off</mat-icon>
+          <h3>No Data Available</h3>
+          <p>Unable to connect to the temperature monitoring system.</p>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

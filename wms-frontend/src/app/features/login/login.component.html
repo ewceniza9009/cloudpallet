@@ -1,0 +1,42 @@
+<div class="auth-container">
+  <mat-card class="auth-card">
+    <!-- Back Button -->
+    <div class="back-button-container">
+      <button mat-icon-button class="back-btn" routerLink="/" matTooltip="Go back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+
+    <div class="auth-header">
+      <div class="auth-icon">
+        <img src="/favicon.png" alt="Cloud Pallet Logo" class="brand-icon" width="48" height="48">
+      </div>
+      <mat-card-title>CLOUD <strong>PALLET</strong> Portal</mat-card-title>
+    </div>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Email Address</mat-label>
+          <input matInput formControlName="email" type="email" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" type="password" required>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid" class="login-btn">
+            Sign In
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-button routerLink="/register" class="link">
+        <mat-icon>person_add</mat-icon>
+        <span>Create a new account</span>
+      </a>
+    </mat-card-actions>
+  </mat-card>
+</div>

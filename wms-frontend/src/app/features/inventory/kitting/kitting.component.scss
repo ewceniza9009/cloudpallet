@@ -1,0 +1,139 @@
+// ---- File: wms-frontend/src/app/features/inventory/kitting/kitting.component.scss ----
+:host {
+  display: block;
+}
+
+.kitting-container {
+  padding: 1.5rem 2.5rem;
+  max-width: 900px; // Limit width for form readability
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.header-section {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
+  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
+}
+
+.kitting-form-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
+  border-radius: 8px;
+  overflow: hidden; // Ensure contained look
+
+  .mat-mdc-card-header {
+    background-color: var(--mat-sys-surface-container-low);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; // Space between form sections
+}
+
+.form-section {
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--mat-sys-primary);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+
+  &.disabled-section {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.kit-selection-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+  align-items: start;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.components-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.component-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 8px;
+  background-color: var(--mat-sys-surface-container-lowest);
+  padding: 1rem;
+}
+
+.component-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  .mat-icon {
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  .component-title {
+    flex-grow: 1;
+    small {
+      color: var(--mat-sys-on-surface-variant);
+      font-size: 0.8rem;
+    }
+  }
+
+  .component-total {
+    text-align: right;
+    span {
+      font-size: 0.8rem;
+      color: var(--mat-sys-on-surface-variant);
+      display: block;
+    }
+    strong {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--mat-sys-primary);
+    }
+  }
+}
+
+.duration-input {
+    max-width: 200px;
+}
+
+// Autocomplete option styling
+::ng-deep .mat-mdc-autocomplete-panel {
+    .mat-mdc-option {
+        height: auto !important;
+        line-height: 1.4 !important;
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+
+        .mat-mdc-option-text > div { // Target the div inside the option text
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .mat-mdc-option-text > small { // Target the small tag
+            font-size: 0.75rem;
+            color: var(--mat-sys-on-surface-variant);
+            display: block; // Ensure it takes its own line
+        }
+    }
+}

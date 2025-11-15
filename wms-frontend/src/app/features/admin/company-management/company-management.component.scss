@@ -1,0 +1,154 @@
+// ---- File: wms-frontend/src/app/features/admin/company-management/company-management.component.scss ----
+
+:host {
+  display: block;
+  height: 100%; // Ensure host takes full height
+}
+
+// --- EXACT COPY of rate-management.component.scss ---
+.management-container {
+    padding: 1.5rem 2.5rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    // Set a height for the container, minus header and padding
+    height: calc(100vh - 64px - 3rem);
+    overflow: auto; // Allow this container to scroll
+}
+// --- END COPY ---
+
+// --- Styles for the content *inside* the management container ---
+.company-detail-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem;
+  min-height: 300px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.header-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.title-group {
+  min-width: 0;
+  h2 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.75rem;
+  }
+  .subtitle {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.detail-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  border-radius: 8px;
+
+  .mat-mdc-card-header {
+    padding: 1rem 1.5rem 0.5rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    background-color: var(--mat-sys-surface-container-lowest);
+  }
+  .mat-mdc-card-title {
+    font-size: 1.15rem;
+    font-weight: 500;
+  }
+  .mat-mdc-card-content {
+    padding: 1.5rem;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem 1.5rem;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+button mat-icon + span, button span + mat-icon, button mat-progress-spinner + span {
+    margin-left: 8px;
+}
+
+// Read-only card styling
+.read-only-card {
+    background-color: var(--mat-sys-surface-container-low);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.info-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface-variant);
+    text-transform: uppercase;
+}
+
+.info-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface);
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .management-container {
+      padding: 1rem; // Reduce padding on mobile
+      height: calc(100vh - 64px - 2rem);
+    }
+}

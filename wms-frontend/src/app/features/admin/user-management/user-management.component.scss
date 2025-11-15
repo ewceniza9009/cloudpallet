@@ -1,0 +1,318 @@
+:host {
+  display: block;
+}
+
+// Design tokens for consistency
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 0.75rem;
+$spacing-lg: 1rem;
+$spacing-xl: 1.5rem;
+$spacing-xxl: 2rem;
+
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+
+.user-management-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-xxl;
+
+  @media (max-width: 768px) {
+    padding: $spacing-lg;
+  }
+}
+
+// Card enhancements
+mat-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: $border-radius-md;
+
+  .mat-mdc-card-header {
+    padding: $spacing-xl $spacing-xl $spacing-lg;
+
+    .mat-mdc-card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: $spacing-xs;
+    }
+
+    .mat-mdc-card-subtitle {
+      font-size: 0.875rem;
+      color: var(--mat-sys-on-surface-variant);
+    }
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $spacing-xxl;
+  min-height: 200px;
+}
+
+// Table container with responsive design
+.table-container {
+  overflow-x: auto;
+  border-radius: 0 0 $border-radius-md $border-radius-md;
+
+  @media (max-width: 768px) {
+    border-radius: $border-radius-md;
+    margin: 0 $spacing-sm;
+  }
+}
+
+// Table styling improvements
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  .mat-mdc-header-row {
+    background-color: var(--mat-sys-surface-container);
+
+    .mat-mdc-header-cell {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--mat-sys-on-surface);
+      padding: $spacing-lg $spacing-md;
+      border-bottom: 2px solid var(--mat-sys-outline-variant);
+    }
+  }
+
+  .mat-mdc-row {
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--mat-sys-state-hover);
+    }
+
+    &:not(:last-child) {
+      .mat-mdc-cell {
+        border-bottom: 1px solid var(--mat-sys-outline-variant);
+      }
+    }
+
+    .mat-mdc-cell {
+      padding: $spacing-md;
+      vertical-align: middle;
+
+      // Username column
+      &:first-child {
+        font-weight: 500;
+      }
+
+      // Email column
+      &:nth-child(3) {
+        color: var(--mat-sys-on-surface-variant);
+      }
+    }
+  }
+}
+
+// Role display styling
+.role-display {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-xs 0;
+
+  .role-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: $border-radius-sm;
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .role-text {
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+}
+
+// Menu button styling
+.role-menu-button {
+  border: 1px solid var(--mat-sys-outline-variant);
+  background-color: transparent;
+  border-radius: $border-radius-sm;
+  padding: $spacing-xs $spacing-sm;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: var(--mat-sys-state-hover);
+    border-color: var(--mat-sys-outline);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+  }
+
+  .button-content {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+// Role menu styling
+.role-menu {
+  margin-top: $spacing-xs;
+  border-radius: $border-radius-md;
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+  .mat-mdc-menu-content {
+    padding: $spacing-sm;
+  }
+
+  .role-menu-item {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    border-radius: $border-radius-sm;
+    min-width: 240px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--mat-sys-state-hover);
+    }
+
+    &.selected {
+      background-color: var(--mat-sys-primary-container);
+
+      .role-item-icon {
+        background-color: var(--mat-sys-on-primary-container);
+        color: var(--mat-sys-primary-container);
+      }
+    }
+
+    .role-item-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: $border-radius-sm;
+      background-color: var(--mat-sys-surface-container-high);
+      color: var(--mat-sys-on-surface-variant);
+      flex-shrink: 0;
+      margin-top: $spacing-xs;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .role-item-content {
+      flex: 1;
+      min-width: 0;
+
+      .role-item-title {
+        font-weight: 500;
+        font-size: 0.875rem;
+        color: var(--mat-sys-on-surface);
+        margin-bottom: $spacing-xs;
+      }
+
+      .role-item-description {
+        font-size: 0.75rem;
+        color: var(--mat-sys-on-surface-variant);
+        line-height: 1.4;
+      }
+    }
+
+    .role-item-check {
+      color: var(--mat-sys-primary);
+      flex-shrink: 0;
+      margin-top: $spacing-xs;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+
+// Empty state styling
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xxl;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: $spacing-lg;
+    color: var(--mat-sys-outline-variant);
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0 0 $spacing-sm;
+    color: var(--mat-sys-on-surface);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .table-container {
+    margin: 0;
+
+    table {
+      min-width: 600px; // Allow horizontal scrolling on mobile
+    }
+  }
+
+  .role-menu-item {
+    min-width: 200px !important;
+  }
+
+  .user-management-container {
+    padding: $spacing-lg;
+  }
+}
+
+// Loading state improvements
+.mat-mdc-progress-spinner {
+  circle {
+    stroke: var(--mat-sys-primary);
+  }
+}

@@ -1,0 +1,30 @@
+// ---- File: wms-frontend/src/app/features/admin/location-management/location-management.component.scss ----
+// STYLING COPIED FROM rate-management.component.scss
+
+:host {
+    display: block;
+    height: 100%; // Ensure host takes full height
+}
+
+.management-container {
+    padding: 1.5rem 2.5rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    // Ensure the container takes up available height
+    height: calc(100vh - 64px - 3rem); // Full height minus header and padding
+    overflow: auto; // Allow this container to scroll
+}
+
+// This child element will be the <router-outlet>
+::ng-deep > .management-container > * {
+    height: 100%; // Make the child (list/detail layout) fill the container
+}
+
+@media (max-width: 768px) {
+    .management-container {
+      padding: 1rem; // Reduce padding on mobile
+      height: calc(100vh - 64px - 2rem);
+    }
+}

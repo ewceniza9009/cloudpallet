@@ -1,0 +1,213 @@
+// ---- File: wms-frontend/src/app/features/dock-scheduling/dock-scheduler/dock-scheduler.component.scss ----
+
+:host {
+  display: block;
+}
+
+// --- Standard Management Container Styles ---
+.management-container {
+  padding: 1.5rem 2.5rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header-section {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.75rem;
+  }
+  p {
+    color: var(--mat-sys-on-surface-variant);
+    margin-top: 4px;
+  }
+}
+// --- End Standard Styles ---
+
+// --- Grid Layout ---
+.scheduler-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(340px, 1fr); // Main content and sidebar
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.main-content-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0; // Prevent overflow
+}
+
+.sidebar-col {
+  position: sticky;
+  top: calc(64px + 1.5rem); // Header height + padding
+}
+
+// --- Standard Card Styles ---
+.detail-card,
+.list-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  padding: 0; // Remove default card padding
+
+  .mat-mdc-card-header {
+    padding: 1rem 1.5rem 0.5rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    background-color: var(--mat-sys-surface-container-lowest);
+  }
+  .mat-mdc-card-title {
+    font-size: 1.15rem;
+    font-weight: 500;
+  }
+  .mat-mdc-card-subtitle {
+    font-size: 0.875rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+  .mat-mdc-card-content {
+    padding: 1.5rem; // Default content padding
+  }
+}
+
+.list-card .mat-mdc-card-content {
+  padding: 0; // List card content has no padding
+}
+// --- End Standard Card Styles ---
+
+// --- Search Bar ---
+.list-search-bar {
+  padding: 1rem 1.5rem 0.5rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+// --- Component-Specific Styles ---
+.selection-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: center;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  padding: 1.5rem;
+}
+
+.empty-list-message,
+.error-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  text-align: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  color: var(--mat-sys-on-surface-variant);
+
+  .mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    color: var(--mat-sys-outline);
+  }
+}
+
+.mat-mdc-list-item {
+  height: auto !important;
+  padding: 12px 16px !important;
+}
+
+.appointment-title {
+  font-weight: 500;
+}
+
+.appointment-details {
+  display: flex;
+  flex-wrap: wrap; // Allow wrapping
+  gap: 0.25rem 1rem; // Row gap, column gap
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.detail-separator {
+  opacity: 0.3;
+}
+
+.status-chip {
+  padding: 2px 8px;
+  border-radius: 12px;
+  background-color: var(--mat-sys-surface-container-high);
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-left: auto; /* Pushes the status chip to the far right */
+}
+
+.appointment-form {
+  display: flex;
+  flex-direction: column;
+  button {
+    width: 100%;
+    mat-icon + span,
+    mat-progress-spinner + span {
+      margin-left: 8px;
+    }
+  }
+}
+
+.time-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.dock-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #f44336; // Red (Occupied)
+  &.available {
+    background-color: #4caf50; // Green
+  }
+}
+
+.appointment-type-selector {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 0.5rem; // Reduced margin
+  padding: 0.5rem;
+  background-color: var(--mat-sys-surface-container-low);
+  border-radius: 8px;
+}
+
+// --- Responsive ---
+@media (max-width: 1024px) {
+  .management-container {
+    padding: 1rem;
+  }
+  .scheduler-grid {
+    grid-template-columns: 1fr;
+  }
+  .sidebar-col {
+    position: static; // Remove sticky behavior
+  }
+}

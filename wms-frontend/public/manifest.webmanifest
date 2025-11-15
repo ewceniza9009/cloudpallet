@@ -1,0 +1,7 @@
+{
+  "name": "wms-frontend",
+  "short_name": "wms-frontend",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./"
+}

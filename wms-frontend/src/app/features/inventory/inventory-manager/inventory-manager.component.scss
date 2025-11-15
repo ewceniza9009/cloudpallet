@@ -1,0 +1,147 @@
+// ---- File: wms-frontend/src/app/features/inventory/inventory-manager/inventory-manager.component.scss ----
+
+:host {
+  display: block;
+}
+
+.inventory-manager-container {
+  padding: 1.5rem 2.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.header-section {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.75rem;
+  }
+  p {
+    color: var(--mat-sys-on-surface-variant);
+    margin-top: 4px;
+  }
+}
+
+.search-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  .search-field {
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+.search-content {
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+  padding-bottom: 1.25rem; // Adjust padding for form field
+}
+
+.search-field {
+  flex-grow: 1;
+  margin-bottom: 0; // Remove default margin
+}
+
+.search-button {
+  height: 56px; // Match outline form field height
+  flex-shrink: 0;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  gap: 1rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.pallet-details-card {
+  border: 1px solid var(--mat-sys-primary-container);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  .mat-card-header {
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+    border-radius: 8px 8px 0 0;
+  }
+  mat-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  mat-card-subtitle {
+    color: var(--mat-sys-on-primary-container);
+    opacity: 0.8;
+  }
+}
+
+.pallet-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem !important;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.details-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface-variant);
+  margin: 1rem 0 0.5rem 1rem;
+}
+
+.pallet-lines-list {
+  padding-top: 0;
+}
+
+.empty-list-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+  gap: 1rem;
+  mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    color: var(--mat-sys-outline);
+  }
+
+  &.standalone-empty {
+    border: 2px dashed var(--mat-sys-outline-variant);
+    border-radius: 8px;
+    background-color: var(--mat-sys-surface-container-lowest);
+  }
+}
+
+.pallet-lines-list .mat-mdc-list-item {
+  &.status-quarantined {
+    background-color: #fffbeb;
+    .mat-icon[matListItemIcon] {
+      color: #f59e0b;
+    }
+    div[matListItemTitle] {
+      color: #b45309;
+    }
+  }
+
+  &.status-available {
+     .mat-icon[matListItemIcon] {
+      color: var(--mat-sys-primary);
+    }
+  }
+
+  .line-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+}

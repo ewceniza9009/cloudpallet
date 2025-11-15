@@ -1,0 +1,78 @@
+<h2 mat-dialog-title>Material Transfer</h2>
+<mat-dialog-content class="dialog-content">
+  <p class="source-info">
+    **Source Pallet:** <strong>{{ data.sourcePalletBarcode }}</strong>
+    <span class="mat-caption">Select the specific material line to split and create a new pallet.</span>
+  </p>
+  @if (isLoading()) {
+  <div class="spinner-container">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+  } @else {
+  <form [formGroup]="form" class="transfer-form" (ngSubmit)="onConfirm()">
+    <div class="form-section">
+      <h3>1. Select Inventory Line to Transfer</h3>
+      <mat-form-field appearance="outline">
+        <mat-label>Material Line (LPN) to Transfer</mat-label>
+        <mat-select formControlName="sourceInventoryBarcode" (valueChange)="onInventorySelection($event)"
+          placeholder="Select a material line (LPN) to split">
+          @for (line of data.sourceInventoryLines; track line.barcode) {
+          <mat-option [value]="line.inventoryId">
+            <strong>{{ line.materialName }}</strong> (Qty: {{ line.quantity | number }} | LPN: {{ line.barcode }})
+          </mat-option>
+          }
+        </mat-select>
+        <mat-hint>Select the unique LPN to split from the source pallet.</mat-hint>
+      </mat-form-field>
+    </div>
+    @if (selectedInventoryLine()) {
+    <div class="form-section">
+      <h3>2. Quantity and Destination Details</h3>
+      <div class="quantity-limits">
+        Available Quantity: <strong>{{ selectedInventoryLine()!.quantity | number:'1.0-2' }}</strong> units
+      </div>
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Quantity to Move to New Pallet</mat-label>
+          <input matInput type="number" formControlName="quantityToMove" min="1" />
+          <mat-error *ngIf="form.controls['quantityToMove'].hasError('maxQuantityExceeded')">
+            Maximum available is {{ selectedInventoryLine()!.quantity | number:'1.0-2' }}.
+          </mat-error>
+          <mat-error *ngIf="form.controls['quantityToMove'].hasError('minQuantityRequired')">
+            Quantity must be greater than zero.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>New Pallet Type</mat-label>
+          <mat-select formControlName="newPalletTypeId" placeholder="Select type for new pallet">
+            @for (pt of palletTypes(); track pt.id) {
+            <mat-option [value]="pt.id">{{ pt.name }} (Tare: {{ pt.tareWeight }}kg)</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Actual Weighed Weight (Optional, overrides system calculation)</mat-label>
+        <input matInput type="number" formControlName="weighedWeight"
+          placeholder="Enter actual weight of transferred quantity" />
+        <span matSuffix>kg</span>
+      </mat-form-field>
+    </div>
+    }
+  </form>
+  }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onConfirm()" [disabled]="form.invalid || isSubmitting()">
+    @if (isSubmitting()) {
+    <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+    <span>Transferring...</span>
+    } @else {
+    <ng-container>
+      <mat-icon>open_with</mat-icon>
+      <span>Create New Pallet</span>
+    </ng-container>
+    }
+  </button>
+</mat-dialog-actions>

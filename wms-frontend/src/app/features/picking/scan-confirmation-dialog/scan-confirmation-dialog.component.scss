@@ -1,0 +1,17 @@
+.scan-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.weigh-section {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+
+    button {
+        height: 56px; // Match form field height
+        margin-top: -35px;
+    }
+}

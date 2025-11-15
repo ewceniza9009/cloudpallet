@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Select Manual Putaway Location</h2>
+<mat-dialog-content>
+  @if(isLoading()) {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  } @else {
+    <form [formGroup]="form">
+      <mat-form-field appearance="outline">
+        <mat-label>Available Storage Locations</mat-label>
+        <input type="text"
+               placeholder="Search by location name..."
+               matInput
+               formControlName="locationSearch"
+               [matAutocomplete]="autoLocation"
+               cdkFocusInitial>
+        <mat-autocomplete #autoLocation="matAutocomplete"
+                          [displayWith]="displayLocationName"
+                          (optionSelected)="onLocationSelected($event.option.value)">
+          @for(loc of filteredLocations(); track loc.id) {
+            <mat-option [value]="loc">{{ loc.displayName }}</mat-option>
+          }
+        </mat-autocomplete>
+        <mat-error *ngIf="form.get('locationId')?.hasError('required')">
+          A location must be selected.
+        </mat-error>
+      </mat-form-field>
+    </form>
+  }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onConfirm()" [disabled]="form.invalid">Confirm Putaway</button>
+</mat-dialog-actions>

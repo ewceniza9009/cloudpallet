@@ -1,0 +1,335 @@
+@if(isLoading()) {
+<div class="spinner-container">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  <span>Loading material...</span>
+</div>
+} @else {
+<div class="detail-container">
+  <div class="detail-header">
+    <div class="header-main">
+      <a mat-icon-button (click)="back()" matTooltip="Back to List">
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <div class="title-group">
+        <h2>
+          {{ materialId() ? materialForm.get("name")?.value : "New Material" }}
+        </h2>
+        <p class="subtitle">SKU: {{ materialForm.get("sku")?.value || "Not yet assigned" }}</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      @if(materialId()) { @if(isEditMode()) {
+      <button mat-stroked-button (click)="toggleEditMode(false)">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancel</span>
+      </button>
+      <button mat-flat-button color="primary" (click)="save()" [disabled]="isSaving()">
+        @if(isSaving()) {
+        <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+        <span>Saving...</span>
+        } @else {
+        <ng-container>
+          <mat-icon>save</mat-icon>
+          <span>Save Changes</span>
+        </ng-container>
+        }
+      </button>
+      } @else {
+      <button mat-stroked-button color="warn" (click)="delete()" [disabled]="isDeleting()">
+        @if(isDeleting()) {
+        <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+        <span>Deleting...</span>
+        } @else {
+        <ng-container>
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </ng-container>
+        }
+      </button>
+      <button mat-stroked-button color="primary" (click)="toggleEditMode(true)">
+        <mat-icon>edit</mat-icon>
+        <span>Edit</span>
+      </button>
+      } } @else {
+      <button mat-flat-button color="primary" (click)="save()" [disabled]="isSaving()">
+        @if(isSaving()) {
+        <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+        <span>Saving...</span>
+        } @else {
+        <ng-container>
+          <mat-icon>save</mat-icon>
+          <span>Save Material</span>
+        </ng-container>
+        }
+      </button>
+      }
+    </div>
+  </div>
+
+  <form [formGroup]="materialForm" class="detail-form">
+    <mat-card class="detail-card">
+      <mat-card-header>
+        <mat-card-title>Basic Information</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Material Name</mat-label>
+          <input matInput formControlName="name" required />
+          <mat-error *ngIf="materialForm.get('name')?.hasError('required')">Name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>SKU / Material Code</mat-label>
+          <input matInput formControlName="sku" [readonly]="!!materialId()" required />
+          <mat-error *ngIf="materialForm.get('sku')?.hasError('required')">SKU is required</mat-error>
+          @if(materialId()) {
+          <mat-hint align="start">SKU cannot be changed after creation.</mat-hint> }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="3"></textarea>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="detail-card">
+      <mat-card-header>
+        <mat-card-title>Classification & Logistics</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="form-grid four-columns"> <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="categoryId" required>
+            @for(cat of categories(); track cat.id) {
+            <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+            }
+          </mat-select>
+          <mat-error *ngIf="materialForm.get('categoryId')?.hasError('required')">Category is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Unit of Measure (UOM)</mat-label>
+          <mat-select formControlName="uomId" required>
+            @for(uom of uoms(); track uom.id) {
+            <mat-option [value]="uom.id">{{ uom.name }}</mat-option>
+            }
+          </mat-select>
+          <mat-error *ngIf="materialForm.get('uomId')?.hasError('required')">UOM is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Material Type</mat-label>
+          <mat-select formControlName="materialType" [disabled]="!!materialId()" required>
+            @for(type of materialTypes; track type) {
+            <mat-option [value]="type">{{ type }}</mat-option>
+            }
+          </mat-select>
+          @if(materialId()) {
+          <mat-hint align="start">Type cannot be changed after creation.</mat-hint> }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Required Temperature Zone</mat-label>
+          <mat-select formControlName="requiredTempZone" required>
+            <mat-option value="FrozenStorage">FrozenStorage</mat-option>
+            <mat-option value="Chilling">Chilling</mat-option>
+          </mat-select>
+          <mat-error *ngIf="materialForm.get('requiredTempZone')?.hasError('required')">Zone is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Base Weight (Kg per UOM)</mat-label>
+          <input matInput type="number" formControlName="baseWeight" min="0" required />
+          <mat-error *ngIf="materialForm.get('baseWeight')?.hasError('required')">Weight is required</mat-error>
+          <mat-error *ngIf="materialForm.get('baseWeight')?.hasError('min')">Must be >= 0</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Cost (₱ per UOM)</mat-label>
+          <input matInput type="number" formControlName="costPerUnit" min="0" required />
+          <mat-error *ngIf="materialForm.get('costPerUnit')?.hasError('required')">Cost is required</mat-error>
+          <mat-error *ngIf="materialForm.get('costPerUnit')?.hasError('min')">Must be >= 0</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Package Tare Weight (Kg per UOM)</mat-label>
+          <input matInput type="number" formControlName="packageTareWeightPerUom" min="0">
+          <mat-hint align="start">Weight of the packaging itself.</mat-hint>
+          <mat-error *ngIf="materialForm.get('packageTareWeightPerUom')?.hasError('min')">Must be >= 0</mat-error>
+        </mat-form-field>
+
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="detail-card">
+      <mat-card-header>
+        <mat-card-title>Handling & Storage Rules</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="form-grid">
+        <div class="toggle-group full-width">
+          <mat-slide-toggle formControlName="perishable" color="primary">Perishable</mat-slide-toggle>
+          <mat-slide-toggle formControlName="isHazardous" color="warn">Hazardous</mat-slide-toggle>
+          <mat-slide-toggle formControlName="isActive" color="accent">Is Active</mat-slide-toggle>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Shelf Life (Days)</mat-label>
+          <input matInput type="number" formControlName="shelfLifeDays" min="0">
+          <mat-error *ngIf="materialForm.get('shelfLifeDays')?.hasError('required')">Required if perishable</mat-error>
+          <mat-error *ngIf="materialForm.get('shelfLifeDays')?.hasError('min')">Must be >= 0</mat-error>
+          @if(!materialForm.get('perishable')?.value) {
+          <mat-hint align="start">Only applicable if Perishable is enabled.</mat-hint>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Min Stock Level</mat-label>
+          <input matInput type="number" formControlName="minStockLevel" min="0">
+          <mat-error *ngIf="materialForm.get('minStockLevel')?.hasError('min')">Must be >= 0</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Max Stock Level</mat-label>
+          <input matInput type="number" formControlName="maxStockLevel" min="0">
+          <mat-error *ngIf="materialForm.get('maxStockLevel')?.hasError('min')">Must be >= 0</mat-error>
+        </mat-form-field>
+
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="detail-card">
+      <mat-card-header>
+        <mat-card-title>Dimensions & Barcoding</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="form-grid four-columns"> <mat-form-field appearance="outline">
+          <mat-label>Length (cm)</mat-label>
+          <input matInput type="number" formControlName="dimensionsLength" min="0">
+          <mat-error *ngIf="materialForm.get('dimensionsLength')?.hasError('min')">Must be >= 0</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Width (cm)</mat-label>
+          <input matInput type="number" formControlName="dimensionsWidth" min="0">
+          <mat-error *ngIf="materialForm.get('dimensionsWidth')?.hasError('min')">Must be >= 0</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Height (cm)</mat-label>
+          <input matInput type="number" formControlName="dimensionsHeight" min="0">
+          <mat-error *ngIf="materialForm.get('dimensionsHeight')?.hasError('min')">Must be >= 0</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>GS1 Barcode Prefix</mat-label>
+          <input matInput formControlName="gs1BarcodePrefix">
+          <mat-hint align="start">Used for barcode generation if applicable.</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Default Barcode Format</mat-label>
+          <mat-select formControlName="defaultBarcodeFormat" required>
+            @for(format of barcodeFormats; track format) {
+            <mat-option [value]="format">{{ format }}</mat-option>
+            }
+          </mat-select>
+          <mat-error *ngIf="materialForm.get('defaultBarcodeFormat')?.hasError('required')">Format is
+            required</mat-error>
+        </mat-form-field>
+
+      </mat-card-content>
+    </mat-card>
+
+  </form>
+
+  @if(materialId() && currentMaterialType !== 'Normal') {
+  <mat-card class="detail-card"> <mat-card-header>
+      <ng-container>
+        @if(currentMaterialType === 'Kit') {
+        <mat-card-title>Kitting Recipe (Bill of Materials)</mat-card-title>
+        <mat-card-subtitle>Define the components needed to build this Kit.</mat-card-subtitle>
+        } @else {
+        <mat-card-title>Repackaging Recipe (Bill of Materials)</mat-card-title>
+        <mat-card-subtitle>Define the single component used to create this Repack.</mat-card-subtitle>
+        }
+      </ng-container>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="bomForm" (ngSubmit)="onBomSubmit()">
+        <div class="output-section">
+          <mat-form-field appearance="outline">
+            <mat-label>Output Quantity (Yield)</mat-label>
+            <input matInput type="number" formControlName="outputQuantity" min="0.001" required />
+            <mat-error *ngIf="bomForm.get('outputQuantity')?.hasError('required')">Output Qty is required</mat-error>
+            <mat-error *ngIf="bomForm.get('outputQuantity')?.hasError('min')">Must be > 0</mat-error>
+            <mat-hint align="start">How many units of this item are created from the components
+              below.</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <mat-divider style="margin: 1rem 0;"></mat-divider>
+
+        <div formArrayName="lines" class="lines-section">
+          <div class="lines-header">
+            <h3>Components (Inputs)</h3>
+            @if(currentMaterialType === 'Kit') {
+            <button mat-stroked-button type="button" (click)="addBomLine()">
+              <mat-icon>add</mat-icon>
+              <span>Add Component</span>
+            </button>
+            }
+          </div>
+
+          @if(bomLines.controls.length === 0) {
+          <p class="empty-bom-message">Add components to define the recipe.</p>
+          }
+
+          @for(line of bomLines.controls; track $index; let i = $index) {
+          <div [formGroupName]="i" class="bom-line-row">
+            <mat-form-field appearance="outline" class="line-material">
+              <mat-label>Input Material</mat-label>
+              <mat-select formControlName="inputMaterialId" required>
+                @for(mat of allMaterials(); track mat.id) { @if (mat.id !==
+                materialId()) {
+                <mat-option [value]="mat.id">{{ mat.name }} ({{ mat.sku }})</mat-option>
+                } }
+              </mat-select>
+              <mat-error *ngIf="line.get('inputMaterialId')?.hasError('required')">Material is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="line-quantity">
+              <mat-label>Input Qty</mat-label>
+              <input matInput type="number" formControlName="inputQuantity" min="0.001" required />
+              <mat-error *ngIf="line.get('inputQuantity')?.hasError('required')">Qty is required</mat-error>
+              <mat-error *ngIf="line.get('inputQuantity')?.hasError('min')">Must be > 0</mat-error>
+            </mat-form-field>
+
+            @if(currentMaterialType === 'Kit') {
+            <button mat-icon-button color="warn" type="button" (click)="removeBomLine(i)"
+              [disabled]="bomLines.length <= 1 && !line.get('inputMaterialId')?.value" matTooltip="Remove Component"
+              class="remove-button">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+            }
+          </div>
+          }
+        </div>
+
+        <mat-card-actions align="end" class="bom-actions">
+          <button mat-flat-button color="primary" type="submit"
+            [disabled]="bomForm.invalid || isSubmittingBom() || bomLines.length === 0 || !bomLines.at(0).get('inputMaterialId')?.value">
+            @if(isSubmittingBom()) {
+            <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+            <span>Saving Recipe...</span>
+            } @else {
+            <ng-container>
+              <mat-icon>save</mat-icon>
+              <span>{{ bom() ? "Update Recipe" : "Save Recipe" }}</span>
+            </ng-container>
+            }
+          </button>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  }
+</div>
+}

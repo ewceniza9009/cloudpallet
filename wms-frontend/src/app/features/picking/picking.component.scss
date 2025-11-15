@@ -1,0 +1,388 @@
+// ---- File: wms-frontend/src/app/features/picking/picking.component.scss ----
+:host {
+  display: block;
+  padding: 1.5rem 2.5rem;
+}
+
+// Typography scale for consistency
+$header-large: 2.25rem;
+$header-medium: 1.5rem;
+$header-small: 1.15rem;
+$body-large: 1rem;
+$body-medium: 0.875rem;
+$body-small: 0.75rem;
+
+// Spacing scale
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 0.75rem;
+$spacing-lg: 1rem;
+$spacing-xl: 1.5rem;
+$spacing-xxl: 2rem;
+
+// Border radius scale
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 16px;
+$border-radius-full: 50%;
+
+.page-header {
+  margin-bottom: $spacing-xxl;
+
+  h1 {
+    font-size: $header-large;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: $body-large;
+    color: var(--mat-sys-on-surface-variant);
+    margin-top: $spacing-xs;
+  }
+}
+
+.picking-container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xxl;
+}
+
+// Create Order Form - Enhanced structure
+.create-order-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: $border-radius-md;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  .mat-mdc-card-header {
+    cursor: pointer; // Make header clickable
+    user-select: none;
+
+    .mat-mdc-card-title {
+      font-size: $header-small;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    // Style for collapse button
+    .collapse-toggle-button {
+      margin-left: auto;
+      color: var(--mat-sys-on-surface-variant);
+    }
+  }
+
+  .mat-mdc-card-content {
+    padding: $spacing-lg;
+  }
+}
+
+.collapsible-header { // Duplicated selector, maybe remove if not needed elsewhere
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background-color: var(--mat-sys-state-hover);
+    border-radius: $border-radius-sm;
+  }
+}
+
+.compact-form-layout {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: $spacing-lg;
+  align-items: start; // Align items to the top
+
+  @media (max-width: 960px) { // Adjust breakpoint if needed
+    grid-template-columns: 1fr; // Stack earlier
+  }
+}
+
+.account-selector {
+  min-width: 300px; // Ensure it doesn't get too small
+  width: 100%;
+}
+
+// --- NEW STYLES for form options wrapper ---
+.form-options {
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 960px) { // Same breakpoint as layout change
+    align-self: start; // Keep it left-aligned when stacked
+    width: 100%; // Take full width when stacked
+    flex-direction: row; // Put checkbox and buttons side-by-side
+    justify-content: space-between; // Space them out
+    align-items: center; // Vertically align checkbox and buttons
+  }
+   @media (max-width: 480px) { // Stack again on very small screens
+     flex-direction: column;
+     align-items: stretch; // Make buttons full width
+   }
+}
+
+.expedited-checkbox {
+  // Styles for the checkbox itself
+  margin-bottom: $spacing-xs; // Add a little space below it
+
+  @media (max-width: 960px) {
+    margin-bottom: 0; // Remove bottom margin when side-by-side
+  }
+   @media (max-width: 480px) {
+     margin-bottom: $spacing-md; // Add margin back when stacked small
+   }
+}
+// --- END NEW STYLES ---
+
+
+.form-actions {
+  display: flex;
+  gap: $spacing-md;
+  align-items: center;
+
+  @media (max-width: 960px) {
+    justify-self: end; // Align buttons to the right
+  }
+   @media (max-width: 480px) {
+     flex-direction: column; // Stack buttons
+     align-items: stretch; // Make buttons full width
+     width: 100%;
+   }
+}
+
+.order-items-container {
+  margin-top: $spacing-lg;
+  padding-top: $spacing-lg;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+}
+
+.order-item-row {
+  display: grid;
+  // Adjusted columns for better alignment and button space
+  grid-template-columns: minmax(250px, 1fr) 120px auto;
+  gap: $spacing-md;
+  align-items: start;
+  padding: $spacing-md 0;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; // Stack fully on smaller screens
+    gap: $spacing-sm;
+
+    // Center remove button when stacked
+    button[mat-icon-button] {
+        justify-self: end;
+        margin-top: -$spacing-md; // Pull it up slightly
+    }
+  }
+}
+
+// Active Pick List - Enhanced grid system
+.active-list-section {
+  h2 {
+    font-size: $header-medium;
+    font-weight: 500;
+    margin-bottom: $spacing-xl;
+  }
+}
+
+.pick-groups-grid {
+  display: grid;
+  gap: $spacing-xl;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pick-group-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: $border-radius-md;
+  transition: box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .mat-mdc-card-header {
+    padding: $spacing-lg $spacing-lg $spacing-md;
+  }
+
+  .mat-mdc-card-content {
+    padding: 0 $spacing-lg $spacing-lg;
+  }
+}
+
+.account-avatar {
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius-full;
+  width: 40px;
+  height: 40px;
+
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// Pick Items - Enhanced layout
+.pick-item {
+  height: auto !important;
+  padding: 0 !important;
+  margin-bottom: $spacing-sm;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.pick-item-content {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: $spacing-md;
+  align-items: center;
+  padding: $spacing-md 0;
+  width: 100%;
+}
+
+.item-status-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: $border-radius-full;
+  background-color: var(--mat-sys-surface-container-high);
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+
+    &.planned { color: #f59e0b; }
+    &.confirmed { color: #10b981; }
+    &.short { color: #ef4444; }
+  }
+}
+
+.item-details-main {
+  min-width: 0; // Allows text truncation
+}
+
+.item-title {
+  font-weight: 500;
+  font-size: $body-large;
+  color: var(--mat-sys-on-surface);
+
+  .item-sku {
+    font-weight: 400;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: $body-medium;
+  }
+}
+
+.item-meta {
+  display: flex;
+  flex-wrap: wrap; // Allow wrapping on small screens
+  gap: $spacing-xs $spacing-lg; // Row gap, Column gap
+  font-size: $body-medium;
+  color: var(--mat-sys-on-surface-variant);
+  margin-top: $spacing-xs;
+
+  strong {
+    color: var(--mat-sys-on-surface);
+    font-weight: 500;
+  }
+
+  @media (max-width: 480px) {
+     gap: $spacing-xs; // Reduce gap on very small screens
+  }
+}
+
+.item-actions {
+  display: flex;
+  gap: $spacing-sm;
+  flex-shrink: 0;
+
+  .action-button {
+    border: 1px solid var(--mat-sys-outline-variant);
+    background-color: transparent;
+
+    &:hover {
+      background-color: var(--mat-sys-state-hover);
+    }
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.status-badge {
+  padding: $spacing-xs $spacing-md;
+  border-radius: $border-radius-lg;
+  font-size: $body-small;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap; // Prevent wrapping
+
+  &-confirmed { background-color: #10b981; }
+  &-short { background-color: #ef4444; }
+  &-planned { background-color: #f59e0b; }
+}
+
+.empty-list-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: $spacing-xxl $spacing-xl;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+  border: 2px dashed var(--mat-sys-outline-variant);
+  border-radius: $border-radius-md;
+  gap: $spacing-lg;
+
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: var(--mat-sys-primary);
+  }
+
+  h3 {
+    font-size: $header-small;
+    font-weight: 500;
+    margin: 0;
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+// Loading states
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $spacing-xxl;
+}
+
+// Responsive improvements
+@media (max-width: 768px) {
+  :host {
+    padding: $spacing-lg;
+  }
+}

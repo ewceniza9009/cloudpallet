@@ -1,0 +1,102 @@
+<div class="setup-container">
+  <div class="header-section">
+    <div class="header-content">
+      <h2 class="list-title">Pallet Types</h2>
+      <p class="list-subtitle">Manage different types of pallets used in the warehouse</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="openDialog()" class="create-button">
+      <mat-icon>add</mat-icon>
+      <span>New Pallet Type</span>
+    </button>
+  </div>
+
+  <div class="search-section">
+    <mat-form-field appearance="outline" class="search-bar" style="margin-top: 1.5rem;">
+      <mat-label>Search Pallet Types...</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Search by name">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <div class="results-count">
+      {{ dataSource.data.length }} of {{ resultsLength() }} types
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+      <span>Loading pallet types...</span>
+    </div>
+  } @else {
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="uom-table" matSort>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let pt" class="name-cell">
+              <span class="uom-name">{{ pt.name }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tareWeight">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="number-column">Tare (kg)</th>
+            <td mat-cell *matCellDef="let pt" class="number-column">
+              {{ pt.tareWeight | number:'1.1-3' }} kg
+            </td>
+        </ng-container>
+
+         <ng-container matColumnDef="dimensions">
+            <th mat-header-cell *matHeaderCellDef>Dimensions (LxWxH cm)</th>
+            <td mat-cell *matCellDef="let pt" class="dimensions-cell">
+              {{ pt.length | number:'1.0-1' }} x {{ pt.width | number:'1.0-1' }} x {{ pt.height | number:'1.0-1' }} cm
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isActive">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let pt">
+             <mat-icon [color]="pt.isActive ? 'primary' : 'disabled'" [matTooltip]="pt.isActive ? 'Active' : 'Inactive'">
+               {{ pt.isActive ? 'toggle_on' : 'toggle_off' }}
+             </mat-icon>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="actions-column">Actions</th>
+          <td mat-cell *matCellDef="let pt" class="actions-column">
+            <button mat-icon-button color="primary" (click)="openDialog(pt)" matTooltip="Edit Pallet Type">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDelete(pt)" matTooltip="Delete Pallet Type">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="uom-row"></tr>
+
+      </table>
+
+      @if (dataSource.data.length === 0 && !isLoading()) {
+        <div class="empty-state">
+          <div class="empty-icon">
+            <mat-icon>pallet</mat-icon>
+          </div>
+          <h3>No pallet types found</h3>
+          <p>Get started by creating your first pallet type definition</p>
+          <button mat-flat-button color="primary" (click)="openDialog()">
+            <mat-icon>add</mat-icon>
+            <span>Create Pallet Type</span>
+          </button>
+        </div>
+      }
+    </div>
+
+    <mat-paginator
+      [length]="resultsLength()"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25]"
+      showFirstLastButtons>
+    </mat-paginator>
+  }
+</div>

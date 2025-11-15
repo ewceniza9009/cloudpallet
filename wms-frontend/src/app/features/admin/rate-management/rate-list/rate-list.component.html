@@ -1,0 +1,147 @@
+<div class="list-container">
+  <div class="list-header">
+    <div class="header-content">
+      <h2 class="list-title">Billing Rates</h2>
+      <p class="list-subtitle">Manage billing rates for services, storage, and value-added services</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="createNew()" class="create-button">
+      <mat-icon>add</mat-icon>
+      <span>New Rate</span>
+    </button>
+  </div>
+
+  <div class="search-section">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search rates...</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Search by account, service, or tier">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <div class="results-count">
+      {{ filteredRates().length }} of {{ rates().length }} rates
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+      <span>Loading rates...</span>
+    </div>
+  } @else {
+    <div class="table-container">
+      <table mat-table [dataSource]="filteredRates()" class="rate-table">
+
+        <!-- Account Column -->
+        <ng-container matColumnDef="account">
+          <th mat-header-cell *matHeaderCellDef>Account</th>
+          <td mat-cell *matCellDef="let rate" class="account-cell">
+            <div class="account-content">
+              <span class="account-name">{{ getAccountName(rate.accountId) }}</span>
+              <span class="service-type">{{ rate.serviceType }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Tier Column -->
+        <ng-container matColumnDef="tier">
+          <th mat-header-cell *matHeaderCellDef>Tier</th>
+          <td mat-cell *matCellDef="let rate">
+            <span class="tier-badge" [ngClass]="getTierClass(rate.tier)">
+              {{ rate.tier || 'Default' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- UOM Column -->
+        <ng-container matColumnDef="uom">
+          <th mat-header-cell *matHeaderCellDef>UOM</th>
+          <td mat-cell *matCellDef="let rate">
+            <span class="uom-badge">{{ rate.uom }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Rate Value Column -->
+        <ng-container matColumnDef="value">
+          <th mat-header-cell *matHeaderCellDef class="number-column">Rate Value</th>
+          <td mat-cell *matCellDef="let rate" class="number-column">
+            {{ rate.value | currency:'PHP':'symbol':'1.4-4' }}
+          </td>
+        </ng-container>
+
+        <!-- Effective Dates Column -->
+        <ng-container matColumnDef="dates">
+          <th mat-header-cell *matHeaderCellDef>Effective Dates</th>
+          <td mat-cell *matCellDef="let rate">
+            <div class="dates-cell">
+              <span class="start-date">{{ rate.effectiveStartDate | date:'MMM d, y' }}</span>
+              @if(rate.effectiveEndDate) {
+                <span class="date-separator">to</span>
+                <span class="end-date">{{ rate.effectiveEndDate | date:'MMM d, y' }}</span>
+              } @else {
+                <span class="no-end-date">No end date</span>
+              }
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let rate">
+            <div class="status-cell">
+              @if(rate.isActive) {
+                <mat-icon class="status-icon active" matTooltip="Active">check_circle</mat-icon>
+                <span class="status-text active">Active</span>
+              } @else {
+                <mat-icon class="status-icon inactive" matTooltip="Inactive">cancel</mat-icon>
+                <span class="status-text inactive">Inactive</span>
+              }
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="actions-column">Actions</th>
+          <td mat-cell *matCellDef="let rate" class="actions-column">
+            <button
+              mat-icon-button
+              color="primary"
+              [routerLink]="['/admin/rates/detail', rate.id]"
+              matTooltip="Edit Rate">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="primary"
+              [routerLink]="['/admin/rates/detail', rate.id]"
+              matTooltip="View Details">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns;"
+          [routerLink]="['/admin/rates/detail', row.id]"
+          class="rate-row">
+        </tr>
+      </table>
+
+      @if (filteredRates().length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon">
+            <mat-icon>attach_money</mat-icon>
+          </div>
+          <h3>No rates found</h3>
+          <p>Get started by creating your first billing rate</p>
+          <button mat-flat-button color="primary" (click)="createNew()">
+            <mat-icon>add</mat-icon>
+            <span>Create Rate</span>
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

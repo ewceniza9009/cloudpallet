@@ -1,0 +1,61 @@
+<div class="putaway-container">
+  <div class="header-section">
+    <div>
+      <h1 class="mat-headline-6">Putaway Task List</h1>
+      <p class="mat-body-1">Pallets in the staging area ready for storage.</p>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  } @else {
+    <div class="tasks-grid">
+      @for (task of tasks(); track task.palletId) {
+        <mat-card class="task-card">
+          <mat-card-header>
+            <div mat-card-avatar class="card-avatar">
+              <mat-icon>qr_code</mat-icon>
+            </div>
+            <mat-card-title class="barcode-text">{{task.palletBarcode}}</mat-card-title>
+            <mat-card-subtitle>{{task.contents}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="location-flow">
+              <div class="location-item">
+                <span class="location-label">From</span>
+                <span class="location-badge staging">{{task.currentLocation}}</span>
+              </div>
+              <mat-icon class="flow-arrow">arrow_forward</mat-icon>
+              <div class="location-item">
+                <span class="location-label">Suggested To</span>
+                <span class="location-badge storage">{{task.suggestedLocation}}</span>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-stroked-button (click)="onBlastFreeze(task)">
+              <mat-icon>ac_unit</mat-icon>
+              <span>Blast Freeze</span>
+            </button>
+            <button mat-stroked-button (click)="onManualPutaway(task)">
+              <mat-icon>rule_folder</mat-icon>
+              <span>Manual</span>
+            </button>
+            <button mat-flat-button color="primary" (click)="onPutaway(task)">
+              <mat-icon>move_to_inbox</mat-icon>
+              <span>Put Away</span>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <mat-card class="empty-state-card">
+          <mat-icon>check_circle_outline</mat-icon>
+          <h2>All Caught Up!</h2>
+          <p>There are no pending putaway tasks.</p>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

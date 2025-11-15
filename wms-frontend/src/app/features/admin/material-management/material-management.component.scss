@@ -1,0 +1,51 @@
+// ---- File: wms-frontend/src/app/features/admin/material-management/material-management.component.scss ----
+
+:host {
+    display: block;
+}
+
+.management-container {
+    padding: 1.5rem 2.5rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    // Ensure the container takes up available height
+    height: calc(100vh - 64px - 3rem); // Full height minus header and padding
+}
+
+.header-section {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+    h1 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.75rem;
+    }
+
+    p {
+        color: var(--mat-sys-on-surface-variant);
+        margin-top: 4px;
+    }
+}
+
+.list-detail-layout {
+    display: grid;
+    grid-template-columns: minmax(320px, 1fr) 2fr; // 1/3 for list, 2/3 for detail
+    gap: 1.5rem;
+    overflow: hidden;
+    height: 100%; // Make it fill the parent
+}
+
+.list-pane, .detail-pane {
+    overflow: auto; // Allow individual scrolling
+    height: 100%;
+}
+
+@media (max-width: 992px) {
+    .list-detail-layout {
+        grid-template-columns: 1fr; // Stack on smaller screens
+    }
+}

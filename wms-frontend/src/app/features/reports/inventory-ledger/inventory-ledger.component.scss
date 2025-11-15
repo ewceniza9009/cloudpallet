@@ -1,0 +1,199 @@
+:host {
+  display: block;
+}
+
+.report-container {
+  padding: 1.5rem 2.5rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  display: grid;
+  gap: 2rem;
+}
+
+.header-section {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
+  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
+}
+
+.main-content-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
+  border-radius: 8px;
+  padding: 0;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.mat-expansion-panel {
+  background-color: transparent;
+  box-shadow: none !important;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 0 !important;
+}
+
+.mat-action-row {
+  justify-content: flex-end;
+  padding: 0.75rem 1.5rem;
+  gap: 0.75rem;
+}
+
+.table-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+}
+
+th.mat-header-cell {
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+tr.group-header-row:hover {
+  background-color: var(--mat-sys-surface-container-high);
+}
+
+.align-right { text-align: right; }
+.in-value { color: #10b981; font-weight: 500; }
+.out-value { color: #ef4444; font-weight: 500; }
+.balance-value { color: var(--mat-sys-primary); font-weight: 500; }
+
+// Expanded Detail Row & Timeline
+.detail-row-container {
+  overflow: hidden;
+  padding: 1.5rem 1rem 1rem 0;
+  background-color: var(--mat-sys-surface-container-lowest);
+}
+
+.timeline-container {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--mat-sys-outline-variant);
+  }
+}
+
+.timeline-item {
+  display: flex;
+  position: relative;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  &:last-child { margin-bottom: 0; }
+}
+
+.timeline-icon-container {
+  flex-shrink: 0;
+  z-index: 2;
+
+  .timeline-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    &.event-inbound { background-color: #10b981; }
+    &.event-outbound { background-color: #ef4444; }
+    &.event-internal { background-color: #3b82f6; }
+  }
+}
+
+.timeline-content {
+  flex-grow: 1;
+  padding-top: 4px;
+}
+
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.type-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #fff;
+  &.receiving { background-color: #10b981; }
+  &.repack { background-color: #3b82f6; }
+  &.kitting { background-color: #3b82f6; }
+  &.split { background-color: #0bb4df; }
+  &.picking { background-color: #ef4444; }
+}
+
+.event-timestamp {
+  font-size: 0.8rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.event-details {
+  border: 1px solid var(--mat-sys-outline-variant);
+  background-color: var(--mat-sys-surface-container-low);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.document-link {
+  font-weight: 500;
+  color: var(--mat-sys-on-surface);
+  display: block;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem 1.5rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--mat-sys-on-surface-variant);
+  margin-bottom: 0.25rem;
+}
+
+.detail-value {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+// Spinner and No Data Row
+.spinner-overlay, .mat-row[matNoDataRow] td {
+  position: absolute;
+  inset: 0;
+  background: rgba(var(--mat-sys-surface-rgb), 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  font-style: italic;
+  color: var(--mat-sys-on-surface-variant);
+  padding: 2rem;
+}

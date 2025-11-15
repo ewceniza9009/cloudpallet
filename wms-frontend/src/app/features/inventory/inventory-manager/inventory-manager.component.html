@@ -1,0 +1,119 @@
+<div class="inventory-manager-container">
+  <div class="header-section">
+    <h1>Inventory Manager</h1>
+    <p>Perform all inventory operations from one screen. Search for a pallet to begin.</p>
+  </div>
+
+  <mat-card class="search-card">
+    <mat-card-header>
+      <mat-card-title>Locate Pallet</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="search-content">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Scan or Type Pallet Barcode (SSCC)</mat-label>
+        <input matInput [formControl]="searchControl" placeholder="(00)0123456..." cdkFocusInitial>
+        <mat-icon matSuffix>qr_code_scanner</mat-icon>
+      </mat-form-field>
+
+      <button mat-stroked-button (click)="openSearchDialog()" class="search-button">
+        <mat-icon>search</mat-icon>
+        <span>Find Pallet</span>
+      </button>
+      </mat-card-content>
+  </mat-card>
+
+  @if (isLoading()) {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      <span>Searching for pallet...</span>
+    </div>
+  }
+
+  @if (foundPallet(); as pallet) {
+    <mat-card class="pallet-details-card">
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon color="primary">pallet</mat-icon>
+        </div>
+        <mat-card-title>Pallet: {{ pallet.palletBarcode }}</mat-card-title>
+        <mat-card-subtitle>Current Location: {{ pallet.currentLocationBarcode }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-actions class="pallet-actions">
+        <button mat-stroked-button (click)="onMove(pallet)">
+          <mat-icon>open_with</mat-icon>
+          <span>Move Pallet</span>
+        </button>
+        <button mat-stroked-button (click)="onBlastFreeze(pallet)">
+          <mat-icon>ac_unit</mat-icon>
+          <span>Blast Freeze</span>
+        </button>
+        <button mat-stroked-button (click)="onLabelPallet(pallet)">
+          <mat-icon>label_outline</mat-icon>
+          <span>Label (All)</span>
+        </button>
+        <button mat-flat-button color="primary" (click)="startTransfer(pallet)">
+          <mat-icon>content_copy</mat-icon>
+          <span>Split to New Pallet</span>
+        </button>
+      </mat-card-actions>
+
+      <mat-card-content>
+        @if (pallet.lines.length === 0) {
+          <div class="empty-list-message">
+            <h3>Pallet is Empty</h3>
+            <p>This pallet contains no inventory lines.</p>
+          </div>
+        } @else {
+          <h3 class="details-title">Inventory Lines ({{ pallet.lines.length }})</h3>
+          <mat-divider></mat-divider>
+          <mat-list role="list" class="pallet-lines-list">
+            @for (line of pallet.lines; track line.barcode) {
+              <mat-list-item [ngClass]="getItemStatusClass(line.inventoryId)">
+                <mat-icon matListItemIcon [ngClass]="getItemStatusClass(line.inventoryId)">
+                  {{ getItemStatusIcon(line.inventoryId) }}
+                </mat-icon>
+                <div matListItemTitle><strong>{{ line.materialName }}</strong></div>
+                <div matListItemLine>Qty: {{ line.quantity | number }} | LPN: {{ line.barcode }}</div>
+
+                <div matListItemMeta class="line-actions">
+
+                  <button mat-icon-button
+                          (click)="onLabelItem(line); $event.stopPropagation()"
+                          matTooltip="Record labeling for this item">
+                    <mat-icon>label</mat-icon>
+                  </button>
+
+                  @if(getItemStatusClass(line.inventoryId) === 'status-available') {
+                    <button mat-icon-button
+                            color="warn"
+                            (click)="onStartQuarantine(line); $event.stopPropagation()"
+                            matTooltip="Quarantine this item">
+                      <mat-icon>gpp_bad</mat-icon>
+                    </button>
+                  }
+                  @if(getItemStatusClass(line.inventoryId) === 'status-quarantined') {
+                    <button mat-icon-button
+                            color="primary"
+                            (click)="onCompleteFumigation(line); $event.stopPropagation()"
+                            matTooltip="Complete fumigation/release item">
+                      <mat-icon>health_and_safety</mat-icon>
+                    </button>
+                  }
+                </div>
+              </mat-list-item>
+            }
+          </mat-list>
+        }
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @else if (searchControl.value && searchControl.value.length > 5 && !isLoading()) {
+    <div class="empty-list-message standalone-empty">
+      <mat-icon>search_off</mat-icon>
+      <h3>Pallet Not Found</h3>
+      <p>The scanned barcode "{{ searchControl.value }}" does not match any stored pallet.</p>
+    </div>
+  }
+</div>

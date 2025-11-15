@@ -1,0 +1,193 @@
+@if (isLoading()) {
+<div class="spinner-container">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
+} @else if (invoice(); as inv) {
+<div class="invoice-container">
+  <div class="detail-header">
+    <div class="header-main">
+      <a mat-stroked-button routerLink="/billing" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back to List</span>
+      </a>
+
+      <div class="header-title-section">
+        <div class="title-group">
+          <h1 class="invoice-title">Invoice {{ inv.invoiceNumber }}</h1>
+          <span class="status-badge" [ngClass]="inv.status.toLowerCase()">{{
+            inv.status
+          }}</span>
+        </div>
+        <p class="invoice-subtitle">Billing details and line items</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button
+        mat-stroked-button
+        color="primary"
+        class="action-button"
+        (click)="loadPdfPreview()"
+        [disabled]="isLoadingPdf()"
+      >
+        @if(isLoadingPdf()) {
+        <mat-progress-spinner
+          diameter="20"
+          mode="indeterminate"
+          style="margin-right: 8px"
+        ></mat-progress-spinner>
+        <span>Loading...</span>
+        } @else {
+        <ng-container>
+          <mat-icon>print</mat-icon>
+          <span>Print/Preview</span>
+        </ng-container>
+        }
+      </button>
+      <button
+        mat-stroked-button
+        color="primary"
+        class="action-button"
+        [disabled]="inv.status !== 'Issued'"
+      >
+        <mat-icon>payments</mat-icon>
+        <span>Mark as Paid</span>
+      </button>
+    </div>
+  </div>
+
+  <mat-card class="summary-card">
+    <mat-card-content>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="summary-label">Account</span>
+          <span class="summary-value">{{ inv.name }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Invoice Date</span>
+          <span class="summary-value">{{
+            inv.periodStart | date : "longDate"
+          }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Due Date</span>
+          <span class="summary-value">{{
+            inv.dueDate | date : "longDate"
+          }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Billing Period</span>
+          <span class="summary-value"
+            >{{ inv.periodStart | date : "shortDate" }} -
+            {{ inv.periodEnd | date : "shortDate" }}</span
+          >
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="line-items-card">
+    <mat-card-header>
+      <mat-card-title>Invoice Line Items</mat-card-title>
+      <mat-card-subtitle>Detailed breakdown of charges</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="card-content">
+      <div class="table-container">
+        <table mat-table [dataSource]="inv.lines" class="line-items-table">
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef class="description-header">
+              Description
+            </th>
+            <td mat-cell *matCellDef="let line" class="description-cell">
+              <span class="line-description">{{ line.description }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef class="number-header">
+              Quantity
+            </th>
+            <td mat-cell *matCellDef="let line" class="number-cell">
+              {{ line.quantity | number : "1.2-2" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="unitRate">
+            <th mat-header-cell *matHeaderCellDef class="number-header">
+              Unit Rate
+            </th>
+            <td mat-cell *matCellDef="let line" class="number-cell">
+              {{ line.unitRate | currency : "PHP" : "symbol" : "1.2-2" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef class="number-header">
+              Amount
+            </th>
+            <td mat-cell *matCellDef="let line" class="number-cell amount-cell">
+              <strong>{{
+                line.amount | currency : "PHP" : "symbol" : "1.2-2"
+              }}</strong>
+            </td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns"
+            class="table-header-row"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="table-row"
+          ></tr>
+        </table>
+      </div>
+
+      <div class="invoice-totals">
+        <div class="totals-container">
+          <div class="total-row">
+            <span class="total-label">Subtotal</span>
+            <span class="total-value">{{
+              inv.totalAmount - inv.taxAmount
+                | currency : "PHP" : "symbol" : "1.2-2"
+            }}</span>
+          </div>
+          <div class="total-row">
+            <span class="total-label">Tax</span>
+            <span class="total-value">{{
+              inv.taxAmount | currency : "PHP" : "symbol" : "1.2-2"
+            }}</span>
+          </div>
+          <div class="total-row grand-total">
+            <span class="total-label">Total Amount Due</span>
+            <span class="total-value">{{
+              inv.totalAmount | currency : "PHP" : "symbol" : "1.2-2"
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+} @else {
+<div class="invoice-container">
+  <mat-card class="error-card">
+    <mat-card-content class="error-content">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <div class="error-text">
+        <h2 class="error-title">Invoice Not Found</h2>
+        <p class="error-description">
+          The requested invoice could not be found or may have been removed.
+        </p>
+      </div>
+      <a mat-stroked-button routerLink="/billing" class="error-action">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Return to Invoice List</span>
+      </a>
+    </mat-card-content>
+  </mat-card>
+</div>
+}

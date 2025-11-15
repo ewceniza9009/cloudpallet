@@ -1,0 +1,137 @@
+// ---- File: wms-frontend/src/app/features/inventory/cycle-counting/cycle-counting.component.scss ----
+:host {
+  display: block;
+}
+
+.cycle-count-container {
+  padding: 1.5rem 2.5rem;
+  max-width: 900px; // Limit width for better form readability
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.header-section {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
+  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
+}
+
+.cycle-count-form-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
+  border-radius: 8px;
+  overflow: hidden; // Ensure contained look
+
+  .mat-mdc-card-header {
+    background-color: var(--mat-sys-surface-container-low);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+}
+
+.repack-form, .cycle-count-form { // Reuse class name or create specific
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; // Space between form sections
+}
+
+.form-section {
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--mat-sys-primary);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+
+  &.disabled-section {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+// Styles specific to the counted items list
+.counted-items-list {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--mat-sys-outline-variant);
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.counted-item-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto; // Info | Input | Button
+  gap: 1rem;
+  align-items: center; // Align items vertically
+  padding: 0.75rem 0;
+}
+
+.item-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .mat-icon {
+    color: var(--mat-sys-primary);
+  }
+
+  .item-name {
+    font-weight: 500;
+  }
+  .item-details {
+    font-size: 0.8rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.count-input {
+  width: 120px; // Fixed width for quantity input
+  justify-self: end; // Align to the right of its grid cell
+}
+
+.empty-list-prompt {
+    text-align: center;
+    padding: 1.5rem;
+    font-style: italic;
+    color: var(--mat-sys-on-surface-variant);
+    background-color: var(--mat-sys-surface-container-lowest);
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+
+.duration-input {
+    max-width: 200px; // Limit width
+}
+
+// Autocomplete option styling
+::ng-deep .mat-mdc-autocomplete-panel {
+    .mat-mdc-option {
+        height: auto !important;
+        line-height: 1.4 !important;
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+
+        .mat-mdc-option-text > div { // Target the div inside the option text
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .mat-mdc-option-text > small { // Target the small tag
+            font-size: 0.75rem;
+            color: var(--mat-sys-on-surface-variant);
+            display: block; // Ensure it takes its own line
+        }
+    }
+}

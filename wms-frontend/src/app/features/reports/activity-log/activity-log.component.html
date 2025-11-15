@@ -1,0 +1,107 @@
+<div class="report-container">
+  <div class="header-section">
+    <h1>Activity Log</h1>
+    <p>Search and review a detailed, chronological history of all user and system transactions.</p>
+  </div>
+
+  <mat-card class="main-content-card">
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Report Filters
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div [formGroup]="filterForm" class="filter-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Date Range</mat-label>
+          <mat-date-range-input [formGroup]="filterForm">
+            <input matStartDate formControlName="startDate" placeholder="Start date">
+            <input matEndDate formControlName="endDate" placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Customer Account</mat-label>
+          <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto">
+          <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName">
+            @for(item of filteredAccounts$ | async; track item.id) {
+              <mat-option [value]="item">{{item.name}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>User</mat-label>
+          <input matInput [formControl]="userControl" [matAutocomplete]="userAuto">
+          <mat-autocomplete #userAuto="matAutocomplete" [displayWith]="getDisplayName">
+            @for(item of filteredUsers$ | async; track item.id) {
+              <mat-option [value]="item">{{item.name}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Truck</mat-label>
+          <input matInput [formControl]="truckControl" [matAutocomplete]="truckAuto">
+          <mat-autocomplete #truckAuto="matAutocomplete" [displayWith]="getDisplayName">
+            @for(item of filteredTrucks$ | async; track item.id) {
+              <mat-option [value]="item">{{item.name}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <mat-action-row>
+        <button mat-button (click)="resetFilters()">Clear Filters</button>
+        <button mat-flat-button color="primary" (click)="applyFilters()">
+          <mat-icon>filter_list</mat-icon>
+          <span>Apply Filters</span>
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <div class="content-wrapper">
+      @if (isLoading()) {
+        <div class="spinner-overlay">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+      }
+
+      @if (!isLoading() && data().length === 0) {
+        <div class="empty-state">
+            <mat-icon>search_off</mat-icon>
+            <h3>No Activity Found</h3>
+            <p>No transactions match the current filter criteria.</p>
+        </div>
+      } @else {
+        <div class="timeline-container">
+          @for(item of data(); track $index) {
+            <div class="timeline-item">
+              <div class="timeline-icon-container">
+                <div class="timeline-icon">
+                  <mat-icon>{{ getIconForAction(item.action) }}</mat-icon>
+                </div>
+              </div>
+              <div class="timeline-content">
+                <div class="event-header">
+                  <span class="user-name">{{ item.user }}</span>
+                  <span class="action-text"> performed an action: </span>
+                  <span class="action-badge">{{ item.action }}</span>
+                  <span class="event-timestamp">{{ item.timestamp | date:'short' }}</span>
+                </div>
+                <div class="event-details">
+                  <mat-icon>notes</mat-icon>
+                  <span>{{ item.description }} for account: <strong>{{ item.account }}</strong></span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+      <mat-paginator [length]="resultsLength()" [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,98 @@
+<div class="setup-container">
+  <div class="header-section">
+    <div class="header-content">
+      <h2 class="list-title">Units of Measure</h2>
+      <p class="list-subtitle">Manage measurement units used across your inventory system</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="openDialog()" class="create-button">
+      <mat-icon>add</mat-icon>
+      <span>New UoM</span>
+    </button>
+  </div>
+
+  <div class="search-section">
+    <mat-form-field appearance="outline" class="search-bar" style="margin-top: 1.5rem;">
+      <mat-label>Search UoMs...</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Search by name or symbol">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <div class="results-count">
+      {{ dataSource.data.length }} of {{ resultsLength() }} units
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+      <span>Loading units of measure...</span>
+    </div>
+  } @else {
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="uom-table" matSort>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Name</th>
+          <td mat-cell *matCellDef="let uom" class="name-cell">
+            <div class="name-content">
+              <span class="uom-name">{{ uom.name }}</span>
+              <span class="uom-symbol">{{ uom.symbol }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</th>
+          <td mat-cell *matCellDef="let uom">
+            <code>{{ uom.symbol }}</code>
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="actions-column">Actions</th>
+          <td mat-cell *matCellDef="let uom" class="actions-column">
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="openDialog(uom)"
+              matTooltip="Edit UoM">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="onDelete(uom)"
+              matTooltip="Delete UoM">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="uom-row"></tr>
+      </table>
+
+      @if (dataSource.data.length === 0 && !isLoading()) {
+        <div class="empty-state">
+          <div class="empty-icon">
+            <mat-icon>straighten</mat-icon>
+          </div>
+          <h3>No units of measure found</h3>
+          <p>Get started by creating your first unit of measure</p>
+          <button mat-flat-button color="primary" (click)="openDialog()">
+            <mat-icon>add</mat-icon>
+            <span>Create UoM</span>
+          </button>
+        </div>
+      }
+    </div>
+
+    <mat-paginator
+      [length]="resultsLength()"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25]"
+      showFirstLastButtons>
+    </mat-paginator>
+  }
+</div>

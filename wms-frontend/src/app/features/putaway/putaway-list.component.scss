@@ -1,0 +1,138 @@
+// ---- File: wms-frontend/src/app/features/putaway/putaway-list.component.scss ----
+
+:host {
+  display: block;
+}
+
+.putaway-container {
+  padding: 1.5rem 2.5rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  display: grid;
+  gap: 2rem;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
+  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  padding: 4rem;
+}
+
+.tasks-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+.task-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,.07), 0 4px 6px -4px rgba(0,0,0,.07);
+  }
+
+  .card-avatar {
+    background-color: var(--mat-sys-surface-container-high);
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  .barcode-text {
+    font-weight: 600;
+    font-family: monospace;
+    font-size: 1.1rem;
+  }
+}
+
+.location-flow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  justify-content: space-between;
+
+  .flow-arrow {
+    color: var(--mat-sys-outline);
+  }
+}
+
+.location-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+
+  &:last-child {
+    align-items: flex-end;
+  }
+
+  .location-label {
+    font-size: 0.75rem;
+    color: var(--mat-sys-on-surface-variant);
+    text-transform: uppercase;
+  }
+}
+
+.location-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  &.staging {
+    background-color: #fffbeb;
+    color: #b45309;
+  }
+
+  &.storage {
+    background-color: #ecfdf5;
+    color: #047857;
+  }
+}
+
+.mat-mdc-card-actions {
+  border-top: 1px solid var(--mat-sys-outline-variant);
+  background-color: var(--mat-sys-surface-container-lowest);
+  gap: 0.5rem;
+}
+
+.empty-state-card {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  text-align: center;
+  border: 2px dashed var(--mat-sys-outline-variant);
+  background: none;
+  box-shadow: none;
+  color: var(--mat-sys-on-surface-variant);
+
+  mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    color: #10b981;
+  }
+  h2 {
+    margin: 1rem 0 0.25rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface);
+  }
+}

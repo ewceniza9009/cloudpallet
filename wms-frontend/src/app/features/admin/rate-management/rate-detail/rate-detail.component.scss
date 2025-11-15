@@ -1,0 +1,124 @@
+// ---- File: wms-frontend/src/app/features/admin/rate-management/rate-detail/rate-detail.component.scss ----
+
+:host {
+  display: block;
+}
+
+// --- Copied Styles from Material Detail ---
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem;
+  min-height: 300px; // Ensure spinner has space
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; // Vertically center items
+  flex-wrap: wrap; // Allow wrapping
+  gap: 1rem; // Space between items
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  margin-bottom: 0.5rem; // Space below header
+}
+
+.header-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1; // Allow title to take space
+  min-width: 0; // Prevent overflow issues
+}
+
+.title-group {
+  min-width: 0; // Prevent overflow issues
+  h2 {
+    margin: 0;
+    font-weight: 600; // Bolder title
+    font-size: 1.75rem; // Larger title
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .subtitle { // Added class for subtitle
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0; // Prevent buttons from shrinking too much
+}
+
+.detail-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-card { // Style all cards consistently
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04); // Softer shadow
+  border-radius: 8px; // Consistent radius
+
+  .mat-mdc-card-header {
+    padding: 1rem 1.5rem 0.5rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    background-color: var(--mat-sys-surface-container-lowest); // Subtle header background
+  }
+  .mat-mdc-card-title {
+    font-size: 1.15rem; // Slightly larger card titles
+    font-weight: 500;
+  }
+  .mat-mdc-card-content {
+    padding: 1.5rem; // Consistent content padding
+  }
+   mat-card-actions {
+       padding: 0.5rem 1.5rem 1rem; // Consistent actions padding
+       border-top: 1px solid var(--mat-sys-outline-variant);
+       background-color: var(--mat-sys-surface-container-lowest); // Subtle footer background
+   }
+}
+
+
+.form-grid {
+  display: grid;
+  // Default to 2 columns, specific cards can override
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem 1.5rem; // Row gap, Column gap
+
+  // Helper for 4 columns (if needed elsewhere)
+  &.four-columns {
+     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); // Adjust min width for 4 columns
+  }
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+// General button adjustments
+button mat-icon + span, button span + mat-icon, button mat-progress-spinner + span {
+    margin-left: 8px;
+}
+
+// Responsive Adjustments
+@media (max-width: 768px) {
+    .detail-container { padding: 1rem; }
+}
+
+// --- END Copied Styles ---

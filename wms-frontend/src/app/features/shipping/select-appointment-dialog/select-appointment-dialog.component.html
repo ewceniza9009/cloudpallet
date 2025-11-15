@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Assign to Outbound Truck</h2>
+<mat-dialog-content>
+  @if(isLoading()) {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  } @else {
+    <form [formGroup]="form">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Search Truck at Dock</mat-label>
+        <input type="text"
+               placeholder="Enter license plate..."
+               matInput
+               formControlName="appointmentSearch"
+               [matAutocomplete]="autoAppointment"
+               cdkFocusInitial>
+        <mat-autocomplete #autoAppointment="matAutocomplete"
+                          [displayWith]="displayAppointmentName"
+                          (optionSelected)="onAppointmentSelected($event.option.value)">
+          @for(apt of filteredAppointments(); track apt.id) {
+            <mat-option [value]="apt">
+              <div class="option-layout">
+                <span class="license-plate">{{ apt.licensePlate }}</span>
+                <span class="start-time">{{ " _@" }}</span>
+                <span class="start-time"> {{ apt.startTime | date:'shortTime' }}</span>
+              </div>
+            </mat-option>
+          }
+        </mat-autocomplete>
+        @if(appointments().length === 0) {
+          <mat-hint>No trucks currently at an outbound dock.</mat-hint>
+        }
+      </mat-form-field>
+    </form>
+  }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-stroked-button color="primary" (click)="onConfirm()" [disabled]="form.invalid">Confirm Shipment</button>
+</mat-dialog-actions>

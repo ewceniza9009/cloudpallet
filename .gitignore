@@ -371,7 +371,7 @@ src/Presentation/WMS.Api/SeedData
 /src/Infrastructure/WMS.Infrastructure/Migrations/WmsDbContextModelSnapshot.cs
 src/Core/WMS.Application
 
-wms-frontend/.angular/
-wms-frontend/.vscode/
-wms-frontend/
+# wms-frontend/.angular/
+# wms-frontend/.vscode/
+# wms-frontend/
 

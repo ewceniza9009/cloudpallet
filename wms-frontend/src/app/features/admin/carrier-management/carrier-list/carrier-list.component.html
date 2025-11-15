@@ -1,0 +1,112 @@
+<div class="list-container">
+  <div class="list-header">
+    <div class="header-content">
+      <h2 class="list-title">Carriers</h2>
+      <p class="list-subtitle">Manage transportation carriers and their truck fleets</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="createNew()" class="create-button">
+      <mat-icon>add</mat-icon>
+      <span>New Carrier</span>
+    </button>
+  </div>
+
+  <div class="search-section">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search carriers...</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Search by name or SCAC code">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <div class="results-count">
+      {{ filteredCarriers().length }} of {{ carriers().length }} carriers
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+      <span>Loading carriers...</span>
+    </div>
+  } @else {
+    <div class="carrier-grid">
+      @for(carrier of filteredCarriers(); track carrier.id) {
+        <mat-card
+          class="carrier-card"
+          [class.inactive]="!carrier.isActive"
+          [routerLink]="['/setup/carriers/detail', carrier.id]"
+          tabindex="0">
+
+          <div class="card-header">
+            <div class="carrier-name-section">
+              <h3 class="carrier-name">{{ carrier.name }}</h3>
+              <div class="carrier-badges">
+                <span class="scac-badge">{{ carrier.scacCode }}</span>
+                @if (!carrier.isActive) {
+                  <span class="status-badge inactive" matTooltip="This carrier is inactive">Inactive</span>
+                } @else {
+                  <span class="status-badge active" matTooltip="This carrier is active">Active</span>
+                }
+              </div>
+            </div>
+            <button
+              mat-icon-button
+              [routerLink]="['/setup/carriers/detail', carrier.id]"
+              (click)="$event.stopPropagation()"
+              class="edit-button"
+              matTooltip="Manage carrier">
+              <mat-icon>settings</mat-icon>
+            </button>
+          </div>
+
+          <div class="card-content">
+            <div class="stats-section">
+              <div class="stat-item">
+                <div class="stat-value">{{ carrier.truckCount || 0 }}</div>
+                <div class="stat-label">Trucks</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">{{ getFleetSize(carrier) }}</div>
+                <div class="stat-label">Fleet Size</div>
+              </div>
+            </div>
+
+            @if(carrier.address) {
+              <div class="address-info">
+                <mat-icon>location_on</mat-icon>
+                <div class="address-text">
+                  <span class="city-state">{{ carrier.address.city }}, {{ carrier.address.state }}</span>
+                  <span class="country">{{ carrier.address.country }}</span>
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="card-footer">
+            <div class="footer-actions">
+              <button
+                mat-stroked-button
+                color="primary"
+                [routerLink]="['/setup/carriers/detail', carrier.id]"
+                (click)="$event.stopPropagation()"
+                class="view-button">
+                <mat-icon>visibility</mat-icon>
+                <span>Manage Fleet</span>
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      } @empty {
+        <div class="empty-state">
+          <div class="empty-icon">
+            <mat-icon>local_shipping</mat-icon>
+          </div>
+          <h3>No carriers found</h3>
+          <p>Get started by creating your first transportation carrier</p>
+          <button mat-flat-button color="primary" (click)="createNew()">
+            <mat-icon>add</mat-icon>
+            <span>Create Carrier</span>
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

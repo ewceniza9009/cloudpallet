@@ -1,0 +1,219 @@
+@if(isLoading()) {
+<div class="spinner-container">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  <span>Loading rate...</span>
+</div>
+} @else {
+<div class="detail-container">
+  <div class="detail-header">
+    <div class="header-main">
+      <a mat-icon-button (click)="back()" matTooltip="Back to List">
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <div class="title-group">
+        <h2>{{ rateId() ? "Edit Rate" : "New Rate" }}</h2>
+        <p class="subtitle">
+          {{
+            rateId()
+              ? "Update the details for the selected billing rate."
+              : "Create a new billing rate."
+          }}
+        </p>
+      </div>
+    </div>
+    <div class="header-actions">
+      @if(rateId()) { @if(isEditMode()) {
+      <button mat-stroked-button (click)="toggleEditMode(false)">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancel</span>
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="save()"
+        [disabled]="isSaving()"
+      >
+        @if(isSaving()) {
+        <mat-progress-spinner
+          diameter="20"
+          mode="indeterminate"
+        ></mat-progress-spinner>
+        <span>Saving...</span>
+        } @else {
+        <ng-container>
+          <mat-icon>save</mat-icon>
+          <span>Save Changes</span>
+        </ng-container>
+        }
+      </button>
+      } @else {
+      <button
+        mat-stroked-button
+        color="warn"
+        (click)="delete()"
+        [disabled]="isDeleting()"
+      >
+        @if(isDeleting()) {
+        <mat-progress-spinner
+          diameter="20"
+          mode="indeterminate"
+        ></mat-progress-spinner>
+        <span>Deleting...</span>
+        } @else {
+        <ng-container>
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </ng-container>
+        }
+      </button>
+      <button mat-stroked-button color="primary" (click)="toggleEditMode(true)">
+        <mat-icon>edit</mat-icon>
+        <span>Edit</span>
+      </button>
+      } } @else {
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="save()"
+        [disabled]="isSaving()"
+      >
+        @if(isSaving()) {
+        <mat-progress-spinner
+          diameter="20"
+          mode="indeterminate"
+        ></mat-progress-spinner>
+        <span>Saving...</span>
+        } @else {
+        <ng-container>
+          <mat-icon>save</mat-icon>
+          <span>Save Rate</span>
+        </ng-container>
+        }
+      </button>
+      }
+    </div>
+  </div>
+
+  <form [formGroup]="rateForm" class="detail-form">
+    <mat-card class="detail-card">
+      <mat-card-header>
+        <mat-card-title>Rate Configuration</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Customer Account (Optional)</mat-label>
+          <mat-select formControlName="accountId">
+            <mat-option [value]="null">Default (All Accounts)</mat-option>
+            @for(account of accounts(); track account.id) {
+            <mat-option [value]="account.id">{{ account.name }}</mat-option>
+            }
+          </mat-select>
+          <mat-hint align="start"
+            >Leave blank for a default rate applicable to all
+            accounts.</mat-hint
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Service Type</mat-label>
+          <mat-select formControlName="serviceType" required>
+            @for(st of serviceTypes; track st) {
+            <mat-option [value]="st">{{ st }}</mat-option>
+            }
+          </mat-select>
+          <mat-error *ngIf="rateForm.get('serviceType')?.hasError('required')"
+            >Service Type is required</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Unit of Measure (UOM)</mat-label>
+          <mat-select formControlName="uom" required>
+            @for(u of uoms; track u) {
+            <mat-option [value]="u">{{ u }}</mat-option>
+            }
+          </mat-select>
+          <mat-error *ngIf="rateForm.get('uom')?.hasError('required')"
+            >UOM is required</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Tier / Sub-Category</mat-label>
+          <mat-select formControlName="tier">
+            @for(tier of validRateTiers; track tier) {
+            <mat-option [value]="tier">{{
+              tier === "" ? "(No Tier / Default)" : tier
+            }}</mat-option>
+            }
+          </mat-select>
+          <mat-hint align="start"
+            >Billing key (e.g., 'FrozenStorage' for Storage type).</mat-hint
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Rate Value (₱)</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="value"
+            placeholder="0.0000"
+            min="0"
+            required
+          />
+          <mat-error *ngIf="rateForm.get('value')?.hasError('required')"
+            >Rate Value is required</mat-error
+          >
+          <mat-error *ngIf="rateForm.get('value')?.hasError('min')"
+            >Must be >= 0</mat-error
+          >
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="detail-card">
+      <mat-card-header>
+        <mat-card-title>Effective Dates</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Effective Start Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="startPicker"
+            formControlName="effectiveStartDate"
+            required
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="startPicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+          <mat-error
+            *ngIf="rateForm.get('effectiveStartDate')?.hasError('required')"
+            >Start Date is required</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Effective End Date (Optional)</mat-label>
+          <input
+            matInput
+            [matDatepicker]="endPicker"
+            formControlName="effectiveEndDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="endPicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+          <mat-hint align="start"
+            >Leave blank if the rate does not expire.</mat-hint
+          >
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>
+}

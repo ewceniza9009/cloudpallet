@@ -1,0 +1,237 @@
+:host {
+  display: block;
+  height: 100%;
+  padding: 1.5rem 2.5rem;
+}
+
+.setup-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  .header-content {
+    flex: 1;
+
+    .list-title {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1.75rem;
+      color: var(--mat-sys-on-surface);
+    }
+
+    .list-subtitle {
+      margin: 0.25rem 0 0 0;
+      color: var(--mat-sys-on-surface-variant);
+      font-size: 0.9rem;
+    }
+  }
+
+  .create-button {
+    flex-shrink: 0;
+
+    mat-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.search-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  .search-bar {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  .results-count {
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.table-container {
+  background: var(--mat-sys-surface);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 8px;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.uom-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  .mat-header-cell {
+    background-color: var(--mat-sys-surface-container-low);
+    color: var(--mat-sys-on-surface-variant);
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+
+  .mat-cell {
+    padding: 1rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    vertical-align: middle;
+  }
+
+  .uom-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--mat-sys-surface-container-hover);
+    }
+
+    &:last-child .mat-cell {
+      border-bottom: none;
+    }
+  }
+}
+
+.name-cell {
+  .name-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .uom-name {
+      font-weight: 500;
+      color: var(--mat-sys-on-surface);
+    }
+
+    .uom-symbol {
+      font-size: 0.8rem;
+      color: var(--mat-sys-on-surface-variant);
+      font-family: monospace;
+    }
+  }
+}
+
+.actions-column {
+  white-space: nowrap;
+  width: 120px;
+
+  button {
+    margin: 0 0.25rem;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--mat-sys-on-surface-variant);
+
+  .empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: var(--mat-sys-surface-container-high);
+    margin-bottom: 1.5rem;
+
+    mat-icon {
+      font-size: 2.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      color: var(--mat-sys-on-surface-variant);
+    }
+  }
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface);
+  }
+
+  p {
+    margin: 0 0 1.5rem 0;
+    font-size: 1rem;
+    max-width: 400px;
+    line-height: 1.5;
+  }
+
+  button {
+    mat-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+// Paginator styling
+mat-paginator {
+  border-top: 1px solid var(--mat-sys-outline-variant);
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  :host {
+    padding: 1rem;
+  }
+
+  .header-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+
+    .create-button {
+      align-self: flex-end;
+    }
+  }
+
+  .search-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+
+    .search-bar {
+      min-width: unset;
+    }
+
+    .results-count {
+      align-self: flex-end;
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+
+    .uom-table {
+      min-width: 600px;
+    }
+  }
+}

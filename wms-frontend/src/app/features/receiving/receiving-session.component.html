@@ -1,0 +1,197 @@
+<div class="receiving-container">
+   @if (isNewSession()) {
+   <div class="session-creation-layout">
+      <mat-card class="session-starter">
+         <mat-card-header class="card-header-elegant">
+            <mat-card-title class="card-title-main">Start New Receiving Session</mat-card-title>
+            <mat-card-subtitle class="card-subtitle-refined">Select the supplier and account to begin.</mat-card-subtitle>
+         </mat-card-header>
+         <mat-card-content class="card-content-spacious">
+            <div class="form-grid-refined">
+               <mat-form-field appearance="outline">
+                  <mat-label>Supplier</mat-label>
+                  <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto"> <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getLookupName"> @for(s of filteredSuppliers | async; track s.id){
+                  <mat-option [value]="s">{{s.name}}</mat-option>
+                  } </mat-autocomplete>
+               </mat-form-field>
+               <mat-form-field appearance="outline">
+                  <mat-label>Customer Account</mat-label>
+                  <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto"> <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getLookupName"> @for(a of filteredAccounts | async; track a.id){
+                  <mat-option [value]="a">{{a.name}}</mat-option>
+                  } </mat-autocomplete>
+               </mat-form-field>
+               <mat-form-field appearance="outline" class="form-field-full" [formGroup]="sessionForm">
+                  <mat-label>Dock Appointment (Optional)</mat-label>
+                  <mat-select formControlName="dockAppointmentId">
+                     <mat-option [value]="null">No Associated Appointment</mat-option>
+                     @for(a of appointments(); track a.id){
+                     <mat-option [value]="a.id">
+                        <div class="appointment-option-refined"> <span class="license-plate">{{a.licensePlate}}</span> <span class="appointment-time"> @{{a.startTime | date:'shortTime'}}</span> </div>
+                     </mat-option>
+                     }
+                  </mat-select>
+               </mat-form-field>
+               <mat-form-field appearance="outline" class="form-field-full" [formGroup]="sessionForm">
+                  <mat-label>Remarks (Optional)</mat-label>
+                  <textarea matInput formControlName="remarks" rows="3"></textarea>
+               </mat-form-field>
+            </div>
+         </mat-card-content>
+         <mat-card-actions align="end" class="card-actions-elegant">
+            <button mat-flat-button color="primary" (click)="startSession()" [disabled]="supplierControl.invalid || accountControl.invalid || isStartingSession()"> @if(isStartingSession()){
+            <mat-progress-spinner diameter="20"></mat-progress-spinner>
+            <span>Starting...</span> } @else {
+            <ng-container>
+               <mat-icon>play_arrow</mat-icon>
+               <span>Start Session</span>
+            </ng-container>
+            } </button>
+         </mat-card-actions>
+      </mat-card>
+   </div>
+   } @else {
+   <div class="active-session-layout">
+      <div class="header-section">
+         <div style="width: 1%;">
+            <a mat-icon-button (click)="back()" matTooltip="Back to List">
+               <mat-icon>arrow_back</mat-icon>
+            </a>
+         </div>
+         <div style="width: 75%;">
+            <h1 class="mat-headline-6">Receiving Session</h1>
+            @let selectedSupplier = getSelectedSupplier();
+            <p class="mat-body-1">Receiving goods from <strong>{{ selectedSupplier ? selectedSupplier.name : '...' }}</strong></p>
+         </div>
+         <div style="width: auto; align-items: right;" class="header-actions">
+            <button mat-flat-button color="primary" (click)="addPallet()" [disabled]="isAddingPallet()"> @if(isAddingPallet()){
+            <mat-spinner diameter="20" style="margin-right: 8px;"></mat-spinner>
+            <span>Adding...</span> } @else {
+            <ng-container>
+               <mat-icon>add</mat-icon>
+               <span>Add Pallet</span>
+            </ng-container>
+            } </button>
+            <button mat-stroked-button color="accent" (click)="finishSession()">
+               <mat-icon>check_circle</mat-icon>
+               <span>Completed</span>
+            </button>
+         </div>
+      </div>
+      @if (pallets().length === 0) {
+      <mat-card class="empty-state-card-modern">
+         <div class="empty-state-content-refined">
+            <div class="empty-state-icon-container">
+               <mat-icon>inventory_2</mat-icon>
+            </div>
+            <h4 class="empty-state-title">No Pallets Added Yet</h4>
+            <p class="empty-state-description">Start by adding the first pallet to this receiving session.</p>
+         </div>
+      </mat-card>
+      } @else {
+      <mat-accordion multi class="pallets-accordion-modern">
+         @for (pallet of pallets(); track pallet.id) {
+         <mat-expansion-panel class="pallet-panel-modern" [expanded]="true">
+            <mat-expansion-panel-header>
+               <mat-panel-title class="pallet-title-modern">
+                  <div class="pallet-icon-container">
+                     <mat-icon>pallet</mat-icon>
+                  </div>
+                  <div class="pallet-title-content"> <span class="pallet-number">Pallet #{{ pallet.palletNumber }}</span> <span class="pallet-subtitle">{{ pallet.palletTypeName }} • {{ pallet.lines.length }} line item(s)</span> </div>
+               </mat-panel-title>
+               <mat-panel-description class="pallet-description-modern">
+                  <div class="pallet-progress">
+                     <span class="progress-label">Progress: {{ getProcessedLinesCount(pallet) }}/{{ pallet.lines.length }}</span>
+                     <mat-progress-bar mode="determinate" [value]="(getProcessedLinesCount(pallet) / (pallet.lines.length || 1)) * 100"></mat-progress-bar>
+                  </div>
+                  @if(isPalletBarcodeGenerated(pallet)) {
+                  <button mat-flat-button color="accent" (click)="onPrintPalletBarcode(pallet); $event.stopPropagation()" matTooltip="Print Pallet SSCC Label" style="margin-right: 10px;">
+                     <mat-icon>qr_code</mat-icon>
+                     Print SSCC
+                  </button>
+                  }
+                  <button mat-icon-button (click)="deletePallet(pallet); $event.stopPropagation()" matTooltip="Delete Pallet">
+                     <mat-icon color="warn">delete</mat-icon>
+                  </button>
+               </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="add-material-section-modern">
+               <mat-form-field appearance="outline" class="material-select-field-modern">
+                  <mat-label>Search and Select Material</mat-label>
+                  <input type="text" matInput [formControl]="materialSearchCtrl" [matAutocomplete]="auto" (focus)="onMaterialPanelOpen()"> <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayMaterialName" (optionSelected)="onMaterialSelected($event, pallet)">
+                  <mat-option *ngIf="isMaterialLoading()" class="loading-option" disabled>
+                     <mat-spinner diameter="20"></mat-spinner>
+                  </mat-option>
+                  <cdk-virtual-scroll-viewport (scrolledIndexChange)="fetchNextMaterialPage()" [itemSize]="56" class="virtual-scroll-viewport"> @for (material of filteredMaterials(); track material.id) {
+                  <mat-option [value]="material">
+                     <div class="material-option-refined"> <span class="material-name">{{ material.name }}</span> <span class="material-sku">{{ material.sku }}</span> </div>
+                  </mat-option>
+                  } </cdk-virtual-scroll-viewport> </mat-autocomplete>
+               </mat-form-field>
+               <button mat-stroked-button color="primary" (click)="addLineToPallet(pallet)" [disabled]="!pallet.materialToAdd.value">
+               <mat-icon>add</mat-icon>
+               <span>Add</span> </button>
+            </div>
+            <div class="lines-list-container">
+               @for (line of pallet.lines; track line.palletLineId; let isLast = $last) {
+               <div class="line-item-modern" [ngClass]="'status-' + line.status.toLowerCase()">
+                  <div class="line-content">
+                     <div class="line-title-section"> <span class="line-material-name">{{ line.materialName }}</span> </div>
+                     <div class="line-details-modern">
+                        @if(line.status === 'Processed') {
+                        <div class="line-detail-item">
+                           <mat-icon class="detail-icon">qr_code</mat-icon>
+                           LPN: <strong>{{ line.barcode }}</strong>
+                        </div>
+                        <div class="line-detail-item">
+                           <mat-icon class="detail-icon">scale</mat-icon>
+                           Net Wgt: <strong>{{ line.netWeight | number:'1.2-2' }} kg</strong>
+                        </div>
+                        <div class="line-detail-item">
+                           <mat-icon class="detail-icon">pin</mat-icon>
+                           Qty: <strong>{{ line.quantity }}</strong>
+                        </div>
+                        <div class="line-detail-item">
+                           <mat-icon class="detail-icon">tag</mat-icon>
+                           Batch: <strong>{{ line.batchNumber }}</strong>
+                        </div>
+                        @if(line.dateOfManufacture) {
+                        <div class="line-detail-item">
+                           <mat-icon class="detail-icon">calendar_today</mat-icon>
+                           Mfr: <strong>{{ line.dateOfManufacture | date:'shortDate' }}</strong>
+                        </div>
+                        } @if(line.expiryDate) {
+                        <div class="line-detail-item">
+                           <mat-icon class="detail-icon">event_busy</mat-icon>
+                           Expiry: <strong>{{ line.expiryDate | date:'shortDate' }}</strong>
+                        </div>
+                        } } @else { <span class="pending-text">Pending processing...</span> }
+                     </div>
+                  </div>
+                  <div class="line-actions-modern">
+                     @if(line.status === 'Pending') {
+                     <button mat-flat-button color="primary" (click)="openProcessLineDialog(pallet, line, false)">
+                        <mat-icon>play_arrow</mat-icon>
+                        <span>Process</span>
+                     </button>
+                     } @else {
+                     <button mat-stroked-button (click)="openProcessLineDialog(pallet, line, true)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                     </button>
+                     }
+                     <button mat-icon-button (click)="deleteLineFromPallet(pallet, line)" matTooltip="Delete Line">
+                        <mat-icon color="warn">delete_outline</mat-icon>
+                     </button>
+                  </div>
+               </div>
+               @if (!isLast) {
+               <mat-divider class="line-divider"></mat-divider>
+               } }
+            </div>
+         </mat-expansion-panel>
+         }
+      </mat-accordion>
+      }
+   </div>
+   }
+</div>

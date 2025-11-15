@@ -1,0 +1,887 @@
+/* src/app/core/layout/layout.component.scss */
+
+// ==========================================================================
+// # LAYOUT VARIABLES
+// ==========================================================================
+$sidebar-width: 280px;
+$sidebar-collapsed-width: 72px;
+$header-height: 64px;
+$content-padding: 0px;
+
+// ==========================================================================
+// # BASE & CONTAINER STYLES
+// ==========================================================================
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.sidenav-container {
+  height: 100vh;
+  background-color: #f8fafc;
+}
+
+// ==========================================================================
+// # SIDE NAVIGATION - REFINED
+// ==========================================================================
+.sidenav {
+  width: $sidebar-width;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #ffffff;
+  border-right: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+
+  // --- Collapsed State Refinements ---
+  &.collapsed {
+  width: $sidebar-collapsed-width;
+  overflow: hidden; // Prevent horizontal scroll
+  white-space: nowrap; // Prevent text wrapping inside
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Hide text smoothly
+  .brand-text,
+  .menu-heading,
+  .mat-list-item-title {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+
+  // Header logo alignment
+  .sidebar-header {
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    height: $header-height;
+
+    .brand-icon {
+      margin: 0 auto;
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--mat-sys-primary);
+    }
+  }
+
+  // Centered icon-only menu items
+  .mat-mdc-list-item {
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    margin: 6px auto;
+    padding: 0;
+    overflow: hidden;
+
+    .mat-icon {
+      margin: 0;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+}
+
+.sidebar-header {
+  height: $header-height;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  transition: padding 0.3s ease;
+
+  .brand-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    color: var(--mat-sys-primary);
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+
+  .brand-text {
+    transition: opacity 0.3s ease;
+    .app-brand {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #1e293b;
+      line-height: 1.2;
+    }
+    .brand-subtext {
+      font-size: 0.8rem;
+      color: var(--mat-sys-on-surface-variant);
+      line-height: 1.2;
+    }
+  }
+}
+
+mat-nav-list {
+  padding: 8px 12px 0;
+  flex: 1;
+  overflow-y: auto;
+
+  .menu-heading {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 16px 12px 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: opacity 0.3s ease;
+  }
+
+  .mat-mdc-list-item {
+    height: 44px;
+    border-radius: 8px;
+    color: #475569;
+    padding: 0 12px;
+    margin-bottom: 2px;
+    transition: all 0.2s ease;
+
+    .mat-icon {
+      margin-right: 16px;
+      color: #64748b;
+      transition: margin 0.3s ease;
+    }
+
+    &:hover {
+      background-color: var(--mat-sys-surface-container-high);
+      transform: translateY(-1px);
+    }
+
+    &.active-link {
+      background-color: #e0f7fa;
+      color: #00838f;
+      font-weight: 500;
+      box-shadow: 0 1px 3px rgba(0, 131, 143, 0.1);
+      .mat-icon {
+        color: #0097a7;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// # TOP HEADER BAR - REFINED STRUCTURE
+// ==========================================================================
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  height: $header-height;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  gap: 16px;
+
+  // Header sections for better organization
+  .header-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    &:last-child {
+      justify-content: flex-end;
+      flex: 0 1 auto;
+    }
+  }
+
+  // --- Header Navigation Buttons - Refined ---
+  .header-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 8px;
+  }
+
+  .header-button {
+    font-weight: 500;
+    color: var(--mat-sys-on-surface-variant);
+    border-radius: 8px;
+    padding: 8px 12px;
+    height: 40px;
+    transition: all 0.2s ease;
+
+    .mat-icon {
+      margin-right: 6px;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .expand-icon {
+      margin-left: 4px;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      background-color: var(--mat-sys-surface-container-high);
+      transform: translateY(-1px);
+    }
+  }
+
+  // --- Warehouse Menu Button - REPLACED Selector ---
+  .warehouse-menu-button {
+    font-weight: 500;
+    color: var(--mat-sys-on-surface-variant);
+    border-radius: 8px;
+    padding: 8px 12px;
+    height: 40px;
+    transition: all 0.2s ease;
+    min-width: 200px;
+    justify-content: flex-start;
+
+    .mat-icon:first-child {
+      margin-right: 8px;
+      color: var(--mat-sys-primary);
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .warehouse-text {
+      flex: 1;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0 8px;
+    }
+
+    .expand-icon {
+      margin-left: auto;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      background-color: var(--mat-sys-surface-container-high);
+      transform: translateY(-1px);
+    }
+  }
+
+  // --- Header Icon Buttons ---
+  .header-icon-button {
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--mat-sys-surface-container-high);
+    }
+  }
+
+  // --- User Profile Button Refinements ---
+  .user-profile-button {
+    border-radius: 20px;
+    padding: 0 12px 0 8px;
+    height: 40px;
+    transition: all 0.2s ease;
+
+    .mat-icon {
+      color: var(--mat-sys-on-surface-variant);
+      margin-right: 6px;
+    }
+
+    .expand-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      margin-left: 4px;
+    }
+
+    span {
+      margin: 0 4px;
+      font-weight: 500;
+    }
+
+    &:hover {
+      background-color: var(--mat-sys-surface-container-high);
+    }
+  }
+}
+
+// ==========================================================================
+// # MENU STYLES - REFINED
+// ==========================================================================
+
+// Warehouse Menu Styles
+.warehouse-menu {
+  min-width: 240px;
+
+  .menu-header {
+    padding: 12px 16px 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface-variant);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    margin-bottom: 4px;
+  }
+
+  .mat-mdc-menu-item {
+    &.selected {
+      background-color: var(--mat-sys-surface-container-high);
+      font-weight: 500;
+    }
+
+    .warehouse-menu-icon {
+      margin-right: 12px;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+
+      .selected & {
+        color: var(--mat-sys-primary);
+      }
+    }
+  }
+}
+
+.notification-menu {
+  width: 360px; // A bit wider
+  max-width: 90vw;
+
+  .menu-header {
+    padding: 8px 8px 8px 16px; // Adjusted padding
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface-variant);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    margin-bottom: 4px;
+    display: flex; // NEW
+    justify-content: space-between; // NEW
+    align-items: center; // NEW
+  }
+
+  .notification-item {
+    height: auto;
+    min-height: 56px;
+    padding: 8px 8px 8px 16px; // Adjusted padding to make room for button
+    display: flex; // Ensure flex layout
+    align-items: center; // Align items vertically
+    position: relative; // For button positioning
+
+    &.is-read { // Style for read notifications
+        opacity: 0.6;
+        .notification-text {
+            font-weight: 400;
+        }
+    }
+
+    .notification-icon {
+      margin-right: 12px;
+      color: var(--mat-sys-primary);
+    }
+
+    .notification-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .notification-text {
+      white-space: normal;
+      line-height: 1.4;
+      text-align: left;
+      font-size: 0.875rem;
+      font-weight: 500; // Unread items are bolder
+    }
+
+    .notification-time {
+      font-size: 0.75rem;
+      color: var(--mat-sys-on-surface-variant);
+      margin-top: 2px;
+    }
+
+    .clear-button { // Style for the individual clear button
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    &:hover .clear-button {
+        opacity: 1;
+    }
+  }
+
+  .mat-mdc-menu-content {
+      margin: 5px;
+      padding: 8px 0;
+      outline: 0;
+  }
+
+  .empty-state {
+    padding: 24px 16px;
+    text-align: center;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.875rem;
+  }
+}
+
+.user-info {
+  padding: 16px 16px 12px;
+  margin: 0;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  .user-email {
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .user-role {
+    font-size: 0.8rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+// ==========================================================================
+// # MAIN CONTENT AREA - REFINED
+// ==========================================================================
+.content {
+  padding: $content-padding;
+  min-height: calc(100vh - #{$header-height});
+  overflow-y: auto;
+}
+
+// ==========================================================================
+// # RESPONSIVE BREAKPOINTS - REFINED
+// ==========================================================================
+@media (max-width: 1200px) {
+  .app-header {
+    padding: 0 16px;
+
+    .header-section {
+      gap: 12px;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .app-header {
+    .header-nav-buttons span,
+    .header-nav-buttons .expand-icon {
+      display: none;
+    }
+
+    .header-button {
+      padding: 8px;
+      min-width: auto;
+
+      .mat-icon {
+        margin-right: 0;
+      }
+    }
+
+    .warehouse-menu-button {
+      min-width: 160px;
+
+      .warehouse-text {
+        max-width: 100px;
+      }
+    }
+  }
+
+  .content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidenav {
+    box-shadow: none;
+    position: fixed;
+
+    &:not(.collapsed) {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+
+  .app-header {
+    padding: 0 12px;
+
+    .warehouse-menu-button {
+      display: none;
+    }
+
+    .user-profile-button span {
+      display: none;
+    }
+
+    .header-nav-buttons {
+      margin-left: 4px;
+    }
+  }
+
+  .content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0 8px;
+
+    .header-section {
+      gap: 8px;
+    }
+
+    .header-button .mat-icon {
+      font-size: 18px;
+    }
+  }
+
+  .content {
+    padding: 12px;
+  }
+}
+
+.sidenav-container {
+  overflow-x: hidden; // Prevent horizontal scrollbar globally
+}
+
+.sidenav {
+  flex-shrink: 0;
+  overflow-x: hidden;
+}
+
+/* --- FINAL SCROLLBAR FIXES --- */
+
+.sidenav-container {
+  overflow: hidden !important; // Ensure no scroll container overflow
+}
+
+.sidenav {
+  overflow: hidden !important; // Force hide any horizontal overflow
+  width: $sidebar-width;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+
+  &.collapsed {
+    width: $sidebar-collapsed-width;
+    overflow: hidden !important; // Hide during animation too
+  }
+}
+
+/* Prevent minor scrollbar caused by Material padding or shadows */
+.mat-drawer-inner-container {
+  overflow-x: hidden !important;
+}
+
+/* Optional safety: prevents phantom scrollbars on body */
+html, body {
+  overflow-x: hidden;
+}
+
+/* ---- */
+.warehouse-animation {
+  position: fixed;
+  bottom: 20px;
+  right: 0px;
+  width: 300px;
+  height: 180px;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Truck container */
+.warehouse-truck {
+  position: absolute;
+  bottom: 10px;
+  right: -100px;
+  width: 120px;
+  height: 60px;
+  animation: truckEnter 15s linear infinite;
+}
+
+.truck-body {
+  position: absolute;
+  width: 80px;
+  height: 40px;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  border-radius: 8px 4px 4px 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+    background: #374151;
+    border-radius: 4px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 5px;
+    width: 25px;
+    height: 30px;
+    background: #0d9488;
+    border-radius: 4px;
+    clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+  }
+}
+
+.truck-wheels {
+  position: absolute;
+  bottom: -8px;
+
+  .wheel {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #1f2937;
+    border-radius: 50%;
+    border: 2px solid #4b5563;
+    animation: wheelRotate 1s linear infinite;
+
+    &:nth-child(1) { left: 5px; }
+    &:nth-child(2) { left: 25px; }
+    &:nth-child(3) { left: 65px; }
+  }
+}
+
+/* Pallets */
+.pallet {
+  position: absolute;
+  width: 30px;
+  height: 25px;
+  background: linear-gradient(135deg, #92400e 0%, #78350f 100%);
+  border: 2px solid #451a03;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 5px;
+    right: 5px;
+    height: 3px;
+    background: #451a03;
+    border-radius: 1px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 5px;
+    right: 5px;
+    height: 3px;
+    background: #451a03;
+    border-radius: 1px;
+  }
+}
+
+/* Moving pallets */
+.pallet-group {
+  position: absolute;
+  bottom: 15px;
+  right: -150px;
+  animation: palletsMove 15s linear infinite;
+
+  .pallet {
+    position: absolute;
+
+    &:nth-child(1) {
+      right: 0px;
+      animation-delay: 0s;
+    }
+    &:nth-child(2) {
+      right: 35px;
+      animation-delay: 1s;
+    }
+    &:nth-child(3) {
+      right: 70px;
+      animation-delay: 2s;
+    }
+  }
+}
+
+/* Storage shelves */
+.storage-shelves {
+  position: absolute;
+  bottom: 0;
+  right: 50px;
+  width: 80px;
+  height: 80px;
+
+  .shelf {
+    position: absolute;
+    width: 80px;
+    height: 20px;
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+    border: 1px solid #4b5563;
+    border-radius: 2px;
+
+    &:nth-child(1) { bottom: 0; }
+    &:nth-child(2) { bottom: 25px; }
+    &:nth-child(3) { bottom: 50px; }
+  }
+
+  .shelf-support {
+    position: absolute;
+    width: 4px;
+    height: 80px;
+    background: #1f2937;
+    left: -4px;
+    bottom: 0;
+  }
+}
+
+/* Stacked pallets in storage */
+.stored-pallets {
+  position: absolute;
+  bottom: 5px;
+  right: 55px;
+
+  .pallet-stack {
+    position: absolute;
+
+    &:nth-child(1) {
+      bottom: 0;
+      right: 15px;
+      animation: storePallet1 15s linear infinite;
+    }
+    &:nth-child(2) {
+      bottom: 0;
+      right: 45px;
+      animation: storePallet2 15s linear infinite;
+    }
+  }
+}
+
+/* Animations */
+@keyframes truckEnter {
+  0% {
+    right: -100px;
+    opacity: 0;
+  }
+  10% {
+    right: 200px;
+    opacity: 1;
+  }
+  30% {
+    right: 200px;
+  }
+  40% {
+    right: 150px;
+  }
+  50% {
+    right: 150px;
+  }
+  60% {
+    right: 200px;
+  }
+  80% {
+    right: 200px;
+  }
+  90% {
+    right: -100px;
+    opacity: 1;
+  }
+  100% {
+    right: -100px;
+    opacity: 0;
+  }
+}
+
+@keyframes palletsMove {
+  0% {
+    right: -150px;
+    opacity: 0;
+  }
+  10% {
+    right: 220px;
+    opacity: 1;
+  }
+  30% {
+    right: 220px;
+  }
+  40% {
+    right: 170px;
+    transform: translateY(0);
+  }
+  45% {
+    right: 150px;
+    transform: translateY(-40px);
+  }
+  50% {
+    right: 150px;
+    transform: translateY(-40px);
+  }
+  55% {
+    right: 170px;
+    transform: translateY(0);
+  }
+  60% {
+    right: 220px;
+  }
+  80% {
+    right: 220px;
+  }
+  90% {
+    right: -150px;
+    opacity: 1;
+  }
+  100% {
+    right: -150px;
+    opacity: 0;
+  }
+}
+
+@keyframes wheelRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes storePallet1 {
+  0%, 45% { opacity: 0; transform: translateY(20px); }
+  50%, 100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes storePallet2 {
+  0%, 65% { opacity: 0; transform: translateY(20px); }
+  70%, 100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Cold chain temperature indicator */
+.temp-indicator {
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  background: rgba(13, 148, 136, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: bold;
+  animation: tempPulse 2s ease-in-out infinite;
+}
+
+@keyframes tempPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}

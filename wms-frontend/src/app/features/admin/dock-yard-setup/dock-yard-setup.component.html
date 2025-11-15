@@ -1,0 +1,145 @@
+<!-- ---- File: dock-yard-setup.component.html ---- -->
+<div class="setup-container">
+  <div class="list-header">
+    <div class="header-content">
+      <h1 class="list-title">Dock & Yard Setup</h1>
+      <p class="list-subtitle">
+        Manage docks and yard spots for the selected warehouse.
+      </p>
+    </div>
+    <button mat-flat-button color="primary" class="create-button" disabled>
+      <mat-icon>add</mat-icon>
+      <span>Dock & Yard Setup</span>
+    </button>
+  </div>
+
+  @if (isLoading()) {
+  <div class="spinner-container">
+    <mat-progress-spinner
+      mode="indeterminate"
+      diameter="50"
+    ></mat-progress-spinner>
+    <span>Loading dock and yard configuration...</span>
+  </div>
+  } @else {
+  <div class="setup-grid">
+    <!-- Docks Card -->
+    <mat-card class="setup-card">
+      <mat-card-header>
+        <mat-card-title>Docks ({{ filteredDocks().length }})</mat-card-title>
+        <button mat-raised-button color="primary" (click)="onAddDock()">
+          <mat-icon>add</mat-icon>
+          Add Dock
+        </button>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="search-container">
+          <mat-form-field appearance="outline" class="search-bar">
+            <mat-label>Search docks</mat-label>
+            <input matInput [formControl]="dockSearchControl" />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <mat-list class="item-list">
+          @for (dock of filteredDocks(); track dock.id) {
+          <mat-list-item>
+            <mat-icon matListItemIcon>door_sliding</mat-icon>
+            <div matListItemTitle>{{ dock.name }}</div>
+            <div matListItemLine>Dock</div>
+            <div matListItemMeta class="action-buttons">
+              <button
+                mat-icon-button
+                (click)="onEditDock(dock)"
+                matTooltip="Edit dock"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="onDeleteDock(dock)"
+                matTooltip="Delete dock"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+          } @empty {
+          <div class="empty-list-message">
+            <mat-icon>door_sliding</mat-icon>
+            <p>No docks found</p>
+            <p class="mat-caption">Add a dock to get started</p>
+          </div>
+          }
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Yard Spots Card -->
+    <mat-card class="setup-card">
+      <mat-card-header>
+        <mat-card-title
+          >Yard Spots ({{ filteredYardSpots().length }})</mat-card-title
+        >
+        <button mat-raised-button color="primary" (click)="onAddYardSpot()">
+          <mat-icon>add</mat-icon>
+          Add Spot
+        </button>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="search-container">
+          <mat-form-field appearance="outline" class="search-bar">
+            <mat-label>Search yard spots</mat-label>
+            <input matInput [formControl]="yardSearchControl" />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <mat-list class="item-list">
+          @for (spot of filteredYardSpots(); track spot.id) {
+          <mat-list-item>
+            <mat-icon
+              matListItemIcon
+              [class.active-spot]="spot.isActive"
+              [class.inactive-spot]="!spot.isActive"
+            >
+              local_parking
+            </mat-icon>
+            <div matListItemTitle>{{ spot.spotNumber }}</div>
+            <div matListItemLine>
+              {{ spot.isActive ? "Active" : "Inactive" }}
+            </div>
+            <div matListItemMeta class="action-buttons">
+              <button
+                mat-icon-button
+                (click)="onEditYardSpot(spot)"
+                matTooltip="Edit spot"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="onDeleteYardSpot(spot)"
+                matTooltip="Delete spot"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+          } @empty {
+          <div class="empty-list-message">
+            <mat-icon>local_parking</mat-icon>
+            <p>No yard spots found</p>
+            <p class="mat-caption">Add a yard spot to get started</p>
+          </div>
+          }
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  }
+</div>

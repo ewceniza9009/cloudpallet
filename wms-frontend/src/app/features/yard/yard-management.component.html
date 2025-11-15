@@ -1,0 +1,124 @@
+<div class="management-container">
+  <div class="header-section">
+    <h1 class="mat-headline-6">Yard Management</h1>
+    <p class="mat-body-1">
+      Monitor trucks in the yard and check in new arrivals.
+    </p>
+  </div>
+
+  @if (isLoading()) {
+  <div class="spinner-container-page">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>Loading Yard Data...</p>
+  </div>
+  } @else {
+  <div class="yard-grid">
+    <mat-card class="list-card">
+      <mat-card-header>
+        <mat-card-title>Trucks in Yard</mat-card-title>
+        <mat-card-subtitle
+          >Vehicles currently staged and awaiting a dock</mat-card-subtitle
+        >
+      </mat-card-header>
+      <div class="list-search-bar">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Search by Plate or Spot</mat-label>
+          <input matInput [formControl]="yardSearchControl" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+      <mat-card-content>
+        <mat-list role="list">
+          @for (spot of filteredOccupiedSpots(); track spot.yardSpotId) {
+          <mat-list-item role="listitem">
+            <mat-icon matListItemIcon color="primary">local_parking</mat-icon>
+            <div matListItemTitle>
+              {{ spot.spotNumber }}: <strong>{{ spot.licensePlate }}</strong>
+            </div>
+            <div matListItemLine>
+              Checked in at: {{ spot.occupiedSince | date : "shortTime" }}
+            </div>
+            <div matListItemMeta>
+              <button
+                mat-stroked-button
+                color="primary"
+                (click)="moveToDock(spot)"
+              >
+                <mat-icon>move_to_inbox</mat-icon>
+                <span>Move to Dock</span>
+              </button>
+            </div>
+          </mat-list-item>
+          } @empty {
+          <div class="empty-list-message">
+            <mat-icon>grass</mat-icon>
+            <p>The yard is currently empty.</p>
+          </div>
+          }
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="list-card">
+      <mat-card-header>
+        <mat-card-title>Today's Scheduled Arrivals</mat-card-title>
+        <mat-card-subtitle
+          >Trucks with appointments pending check-in</mat-card-subtitle
+        >
+      </mat-card-header>
+      <div class="list-search-bar">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Search by Plate, Carrier, or Dock</mat-label>
+          <input matInput [formControl]="arrivalsSearchControl" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+      <mat-card-content>
+        <mat-list role="list">
+          @for (apt of filteredPendingAppointments(); track apt.appointmentId) {
+          <mat-list-item role="listitem">
+            <mat-icon matListItemIcon>event_available</mat-icon>
+            <div matListItemTitle>
+              {{ apt.carrierName }} - <strong>{{ apt.licensePlate }}</strong>
+            </div>
+
+            <div matListItemLine class="arrival-details-line">
+              <span>
+                Appointment: {{ apt.appointmentTime | date : "shortTime" }} |
+                Dock: {{ apt.dockName }} | Status: {{ apt.status }}
+              </span>
+              @if(apt.isCheckedIn) {
+              <span class="in-yard-status">(In Yard)</span>
+              }
+            </div>
+            <div matListItemMeta>
+              <button
+                mat-flat-button
+                color="primary"
+                (click)="checkIn(apt)"
+                [disabled]="apt.isCheckedIn"
+              >
+                <ng-container>
+                  @if(apt.isCheckedIn) {
+                  <mat-icon>check_circle</mat-icon>
+                  <span>Checked In</span>
+                  } @else {
+                  <mat-icon>login</mat-icon>
+                  <span>Check-In</span>
+                  }
+                </ng-container>
+              </button>
+            </div>
+          </mat-list-item>
+          } @empty {
+          <div class="empty-list-message">
+            <mat-icon>celebration</mat-icon>
+            <p>No more pending arrivals for today.</p>
+          </div>
+          }
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  }
+</div>

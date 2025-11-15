@@ -1,0 +1,226 @@
+<div class="landing-hero">
+  <div class="hero-content">
+    <div class="hero-icon">
+      <div class="icon-wrapper">
+        <img src="/favicon.png" alt="Cloud Pallet Logo" class="brand-icon" width="48" height="48">
+      </div>
+    </div>
+
+    <h1 class="hero-title">CLOUD <strong>PALLET</strong></h1>
+    <h2 class="hero-title2">Intelligent Cold Storage WMS</h2>
+
+    <p class="hero-subtitle">
+      End-to-end visibility and control for your temperature-controlled supply chain.
+      Enterprise-grade warehouse management designed for complexity.
+    </p>
+
+    <div class="hero-actions">
+      <button mat-flat-button routerLink="/login" class="cta-button primary">
+        <mat-icon>login</mat-icon>
+        <span>Access System</span>
+      </button>
+
+      <button mat-stroked-button class="cta-button secondary" (click)="scrollToFeatures()">
+        <mat-icon>visibility</mat-icon>
+        <span>Explore Features</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<section class="features-section" id="features">
+  <div class="section-header">
+    <h2>Enterprise-Grade Features</h2>
+    <p class="section-subtitle">A comprehensive suite of tools designed for the complexities of modern cold chain logistics.</p>
+  </div>
+
+  <div class="features-grid">
+    <mat-card class="feature-card">
+      <div class="feature-icon">
+        <div class="icon-circle">
+          <mat-icon>local_shipping</mat-icon>
+        </div>
+      </div>
+      <mat-card-header>
+        <mat-card-title>Dock & Yard Logistics</mat-card-title>
+        <mat-card-subtitle>Optimize Inbound Flow</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Manage truck check-ins, live yard spot visualization, and advanced dock appointment scheduling to minimize wait times and dock congestion.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <div class="feature-icon">
+        <div class="icon-circle">
+          <mat-icon>qr_code_scanner</mat-icon>
+        </div>
+      </div>
+      <mat-card-header>
+        <mat-card-title>Automated Receiving</mat-card-title>
+        <mat-card-subtitle>Barcode & Scale Integration</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Streamline inbound receiving with integrated scales (KG), pallet-level SSCC/LPN generation, and intelligent, zone-based putaway suggestions.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <div class="feature-icon">
+        <div class="icon-circle">
+          <mat-icon>content_copy</mat-icon>
+        </div>
+      </div>
+      <mat-card-header>
+        <mat-card-title>Granular Inventory Control</mat-card-title>
+        <mat-card-subtitle>Total Pallet Management</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Track inventory by pallet, LPN, or batch. Perform pallet splits (material transfer), cycle counts, and manage quarantine status with full traceability.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <div class="feature-icon">
+        <div class="icon-circle">
+          <mat-icon>label</mat-icon>
+        </div>
+      </div>
+      <mat-card-header>
+        <mat-card-title>Complete VAS Management</mat-card-title>
+        <mat-card-subtitle>Bill Every Service</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Record and bill for all value-added services: Repacking, Blast Freezing, Compliance Labeling, Fumigation, and Expedited/Rush Handling.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <div class="feature-icon">
+        <div class="icon-circle">
+          <mat-icon>receipt_long</mat-icon>
+        </div>
+      </div>
+      <mat-card-header>
+        <mat-card-title>Automated Billing Engine</mat-card-title>
+        <mat-card-subtitle>Maximize Profitability</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Generate granular invoices automatically. Bill customers accurately for storage-by-zone, all handling types, and every value-added service.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <div class="feature-icon">
+        <div class="icon-circle">
+          <mat-icon>timeline</mat-icon>
+        </div>
+      </div>
+      <mat-card-header>
+        <mat-card-title>Real-Time Analytics</mat-card-title>
+        <mat-card-subtitle>Trace & Report</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Monitor live energy dashboards, view warehouse capacity overviews, and trace a pallet's entire history. Run inventory ledgers and full activity logs.</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>
+
+<section class="vas-section">
+  <div class="section-header">
+    <h2>Maximize Your Revenue</h2>
+    <p class="section-subtitle">Go beyond storage with our comprehensive, billable Value-Added Services.</p>
+  </div>
+
+  <div class="vas-grid">
+    <div class="vas-card">
+      <div class="vas-card-icon">
+        <mat-icon>transform</mat-icon>
+      </div>
+      <h3 class="vas-card-title">Kitting & Repacking</h3>
+      <p class="vas-card-description">
+        Transform bulk inventory into new, sellable SKUs. Our system handles complex Bill of Materials logic with automated inventory tracking.
+      </p>
+      <div class="billing-model">
+        <strong>Billing Model:</strong> Per Unit or Per Kit
+      </div>
+    </div>
+
+    <div class="vas-card">
+      <div class="vas-card-icon">
+        <mat-icon>ac_unit</mat-icon>
+      </div>
+      <h3 class="vas-card-title">Blast Freezing</h3>
+      <p class="vas-card-description">
+        Record specialized services for items requiring rapid temperature reduction. Automatically logged as billable events with cycle tracking.
+      </p>
+      <div class="billing-model">
+        <strong>Billing Model:</strong> Per Kg, Per Pallet, or Per Cycle
+      </div>
+    </div>
+
+    <div class="vas-card">
+      <div class="vas-card-icon">
+        <mat-icon>label</mat-icon>
+      </div>
+      <h3 class="vas-card-title">Compliance Labeling</h3>
+      <p class="vas-card-description">
+        Apply and track compliance labeling for exports, allergens, or language requirements. Full audit trail and automated billing.
+      </p>
+      <div class="billing-model">
+        <strong>Billing Model:</strong> Per Unit or Per Pallet
+      </div>
+    </div>
+
+    <div class="vas-card">
+      <div class="vas-card-icon">
+        <mat-icon>sync_alt</mat-icon>
+      </div>
+      <h3 class="vas-card-title">Cross-Docking</h3>
+      <p class="vas-card-description">
+        Maximize throughput with premium cross-docking services. Bypass storage and route directly to shipping with priority handling.
+      </p>
+      <div class="billing-model">
+        <strong>Billing Model:</strong> Premium flat fee per Pallet
+      </div>
+    </div>
+
+    <div class="vas-card">
+      <div class="vas-card-icon">
+        <mat-icon>gpp_bad</mat-icon>
+      </div>
+      <h3 class="vas-card-title">Quarantine & Fumigation</h3>
+      <p class="vas-card-description">
+        Manage regulatory holds with precision. Automated quarantine workflows with service billing upon clearance.
+      </p>
+      <div class="billing-model">
+        <strong>Billing Model:</strong> Per Cycle or Per Hour
+      </div>
+    </div>
+
+    <div class="vas-card">
+      <div class="vas-card-icon">
+        <mat-icon>bolt</mat-icon>
+      </div>
+      <h3 class="vas-card-title">Audits & Surcharges</h3>
+      <p class="vas-card-description">
+        Capture all extra labor and fees. Automated surcharge calculation for rush orders and cycle counting services.
+      </p>
+      <div class="billing-model">
+        <strong>Billing Model:</strong> Per Hour (Cycle Count) or Per Shipment (Surcharge)
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-content">
+    <h2>Ready to Optimize Your Cold Chain?</h2>
+    <p>Experience enterprise-grade warehouse management with complete visibility and control.</p>
+    <button mat-flat-button routerLink="/login" class="cta-button">
+      <mat-icon>rocket_launch</mat-icon>
+      <span>Get Started Today</span>
+    </button>
+  </div>
+</section>

@@ -1,0 +1,142 @@
+// ---- File: dock-yard-setup.component.scss ----
+:host {
+  display: block;
+  height: 100%;
+}
+
+.setup-container {
+  padding: 1.5rem 2.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 1rem;
+  margin-bottom: 1.8rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  .header-content {
+    flex: 1;
+
+    .list-title {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1.75rem;
+      color: var(--mat-sys-on-surface);
+    }
+
+    .list-subtitle {
+      margin: 0.25rem 0 0 0;
+      color: var(--mat-sys-on-surface-variant);
+      font-size: 0.9rem;
+    }
+  }
+
+  .create-button {
+    flex-shrink: 0;
+
+    mat-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 1rem;
+}
+
+.setup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  flex: 1;
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.setup-card {
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+
+  .mat-mdc-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+
+  .mat-mdc-card-title {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .mat-mdc-card-content {
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.search-container {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.item-list {
+  flex: 1;
+  padding: 0.5rem 0;
+  overflow-y: auto;
+  max-height: 500px;
+
+  .mat-mdc-list-item {
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: var(--mat-sys-surface-container-hover);
+    }
+  }
+}
+
+.empty-list-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--mat-sys-on-surface-variant);
+  text-align: center;
+
+  mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+}
+
+.active-spot {
+  color: var(--mat-sys-primary);
+}
+
+.inactive-spot {
+  color: var(--mat-sys-outline);
+}

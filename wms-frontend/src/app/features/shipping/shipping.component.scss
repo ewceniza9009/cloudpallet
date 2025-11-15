@@ -1,0 +1,131 @@
+:host {
+  display: block;
+}
+
+.shipping-container {
+    padding: 1.5rem 2.5rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: grid;
+    gap: 2rem;
+}
+
+.header-section {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
+    p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
+}
+
+.groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.group-card {
+    border: 1px solid var(--mat-sys-outline-variant);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,.07), 0 4px 6px -4px rgba(0,0,0,.07);
+    }
+
+    .card-avatar {
+        background-color: var(--mat-sys-primary-container);
+        color: var(--mat-sys-on-primary-container);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    mat-card-content {
+        flex-grow: 1;
+        padding: 1rem !important;
+    }
+}
+
+.group-details {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; // Item, Divider, Item
+    align-items: center;
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 0.8rem;
+    color: var(--mat-sys-on-surface-variant);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.value {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--mat-sys-primary);
+}
+
+.divider {
+    width: 1px;
+    height: 40px;
+    background-color: var(--mat-sys-outline-variant);
+}
+
+.card-actions-footer {
+    padding: 0 !important;
+
+    button {
+        width: 100%;
+        border-radius: 0 0 7px 7px; // Match card border-radius minus border width
+        height: 48px;
+        font-size: 1rem;
+    }
+}
+
+.empty-state-card {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    text-align: center;
+    border: 2px dashed var(--mat-sys-outline-variant);
+    background: none;
+    box-shadow: none;
+    color: var(--mat-sys-on-surface-variant);
+
+    mat-icon {
+        font-size: 3rem;
+        width: 3rem;
+        height: 3rem;
+        color: var(--mat-sys-outline);
+    }
+
+    h2 {
+        margin: 1rem 0 0.25rem;
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--mat-sys-on-surface);
+    }
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    grid-column: 1 / -1;
+}

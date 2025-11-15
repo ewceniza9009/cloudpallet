@@ -1,0 +1,121 @@
+:host {
+  display: block;
+}
+
+.repack-container {
+  padding: 1.5rem 2.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.header-section {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.75rem;
+  }
+  p {
+    color: var(--mat-sys-on-surface-variant);
+    margin-top: 4px;
+  }
+}
+
+.repack-form-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
+  border-radius: 8px;
+  overflow: hidden;
+
+  .mat-mdc-card-header {
+    background-color: var(--mat-sys-surface-container-low);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+}
+
+.repack-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section {
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--mat-sys-primary);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+
+  &.disabled-section {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.material-selection-grid,
+.processing-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.target-material-field {
+  width: 100%;
+}
+
+// Inventory option styling in autocomplete
+.inventory-option {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0;
+
+  .inventory-main {
+    font-weight: 500;
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+
+  .inventory-details {
+    font-size: 0.75rem;
+    color: var(--mat-sys-on-surface-variant);
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+}
+
+// Autocomplete panel styling to match kitting
+::ng-deep .mat-mdc-autocomplete-panel {
+  .mat-mdc-option {
+    height: auto !important;
+    line-height: 1.4 !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+
+    .mat-mdc-option-text {
+      line-height: 1.4;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .repack-container {
+    padding: 1rem;
+  }
+
+  .material-selection-grid,
+  .processing-grid {
+    grid-template-columns: 1fr;
+  }
+}

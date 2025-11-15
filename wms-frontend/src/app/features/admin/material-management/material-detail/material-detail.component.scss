@@ -1,0 +1,208 @@
+// ---- File: wms-frontend/src/app/features/admin/material-management/material-detail/material-detail.component.scss ----
+
+:host {
+  display: block;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem;
+  min-height: 300px; // Ensure spinner has space
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// --- HEADER REFINEMENTS ---
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; // Vertically center items
+  flex-wrap: wrap; // Allow wrapping
+  gap: 1rem; // Space between items
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  margin-bottom: 0.5rem; // Space below header
+}
+
+.header-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1; // Allow title to take space
+  min-width: 0; // Prevent overflow issues
+}
+
+.title-group {
+  min-width: 0; // Prevent overflow issues
+  h2 {
+    margin: 0;
+    font-weight: 600; // Bolder title
+    font-size: 1.75rem; // Larger title
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .subtitle { // Added class for subtitle
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--mat-sys-on-surface-variant);
+    font-family: monospace; // Use monospace for SKU
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0; // Prevent buttons from shrinking too much
+}
+
+// --- FORM & CARD REFINEMENTS ---
+.detail-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-card { // Style all cards consistently
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04); // Softer shadow
+  border-radius: 8px; // Consistent radius
+
+  .mat-mdc-card-header {
+    padding: 1rem 1.5rem 0.5rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    background-color: var(--mat-sys-surface-container-lowest); // Subtle header background
+    display: flex;
+    flex-direction: column;
+  }
+  .mat-mdc-card-title {
+    font-size: 1.15rem; // Slightly larger card titles
+    font-weight: 500;
+  }
+  .mat-mdc-card-content {
+    padding: 1.5rem; // Consistent content padding
+  }
+   mat-card-actions {
+       border-top: 1px solid var(--mat-sys-outline-variant);
+       background-color: var(--mat-sys-surface-container-lowest); // Subtle footer background
+       border-radius: 10px;;
+   }
+}
+
+
+.form-grid {
+  display: grid;
+  // Default to 2 columns, specific cards can override
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem 1.5rem; // Row gap, Column gap
+
+  // Helper for 4 columns
+  &.four-columns {
+     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); // Adjust min width for 4 columns
+  }
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.toggle-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 0.5rem; // Add space below toggles
+}
+
+// --- BOM SECTION REFINEMENTS ---
+.output-section {
+  padding: 0.5rem 0 1rem;
+   mat-form-field { max-width: 250px; } // Limit width of output qty field
+}
+
+.lines-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; // Increased gap between lines
+  margin-top: 1rem;
+}
+
+.lines-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.empty-bom-message {
+    text-align: center;
+    font-style: italic;
+    color: var(--mat-sys-on-surface-variant);
+    padding: 1rem;
+    background-color: var(--mat-sys-surface-container-lowest);
+    border-radius: 4px;
+}
+
+.bom-line-row {
+  display: grid;
+  // Adjust columns for better alignment
+  grid-template-columns: minmax(200px, 1fr) 130px auto;
+  gap: 1rem;
+  align-items: start; // Align tops of fields
+  padding-bottom: 1rem; // Space below each line
+  border-bottom: 1px dashed var(--mat-sys-outline-variant); // Separator
+
+  &:last-child {
+    border-bottom: none; // No border on last item
+    padding-bottom: 0;
+  }
+}
+
+.line-material {
+  flex-grow: 1;
+}
+
+.remove-button {
+    margin-top: 8px; // Align button better with form fields
+}
+
+.bom-actions { // Style BOM save action separately if needed
+   margin-top: 1rem;
+}
+
+// General button adjustments
+button mat-icon + span, button span + mat-icon { margin-left: 8px; }
+button mat-progress-spinner + span { margin-left: 8px; }
+
+// Responsive Adjustments
+@media (max-width: 768px) {
+    .detail-container { padding: 1rem; }
+    .form-grid.four-columns {
+         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // Allow slightly narrower fields on smaller screens
+    }
+     .bom-line-row {
+        grid-template-columns: 1fr auto; // Stack quantity below material on small screens
+        grid-template-areas:
+            "material remove"
+            "quantity remove";
+        .line-material { grid-area: material; }
+        .line-quantity { grid-area: quantity; width: auto; } // Allow quantity to take full width
+        .remove-button { grid-area: remove; align-self: center; } // Center remove button vertically
+     }
+}

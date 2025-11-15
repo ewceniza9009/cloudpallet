@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Select Yard Spot</h2>
+<mat-dialog-content>
+  @if(isLoading()) {
+    <div style="display: flex; justify-content: center; padding: 2rem;">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  } @else {
+    <form [formGroup]="form">
+      <mat-form-field appearance="outline" style="width: 100%; min-width: 300px;">
+        <mat-label>Available Yard Spots</mat-label>
+        <mat-select formControlName="yardSpotId">
+          @for(spot of spots(); track spot.id) {
+            <mat-option [value]="spot.id">{{ spot.spotNumber }}</mat-option>
+          }
+        </mat-select>
+        @if(spots().length === 0) {
+            <mat-hint>No available yard spots found.</mat-hint>
+        }
+      </mat-form-field>
+    </form>
+  }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-stroked-button color="primary" (click)="onConfirm()" [disabled]="form.invalid">Confirm Check-In</button>
+</mat-dialog-actions>

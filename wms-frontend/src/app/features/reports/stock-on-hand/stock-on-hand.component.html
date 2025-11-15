@@ -1,0 +1,121 @@
+<div class="report-container">
+  <div class="header-section">
+    <h1 class="mat-headline-6">Stock on Hand Report</h1>
+    <p class="mat-body-1">A live snapshot of all inventory currently in storage.</p>
+  </div>
+
+  <mat-card class="main-content-card">
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Report Filters</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div [formGroup]="filterForm" class="filter-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Customer Account</mat-label>
+          <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto">
+          <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName">
+            @for(item of filteredAccounts$ | async; track item.id) {
+              <mat-option [value]="item">{{item.name}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Material</mat-label>
+          <input matInput [formControl]="materialControl" [matAutocomplete]="materialAuto">
+          <mat-autocomplete #materialAuto="matAutocomplete" [displayWith]="getDisplayName">
+            @for(item of filteredMaterials$ | async; track item.id) {
+              <mat-option [value]="item">{{item.name}} ({{item.sku}})</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Supplier</mat-label>
+          <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto">
+          <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getDisplayName">
+            @for(item of filteredSuppliers$ | async; track item.id) {
+              <mat-option [value]="item">{{item.name}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Batch Number</mat-label>
+          <input matInput formControlName="batchNumber">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Pallet or LPN Barcode</mat-label>
+            <input matInput formControlName="barcode">
+          </mat-form-field>
+      </div>
+
+      <mat-action-row>
+        <button mat-button (click)="resetFilters()">Clear Filters</button>
+        <button mat-flat-button color="primary" (click)="applyFilters()">
+          <mat-icon>filter_list</mat-icon>
+          <span>Apply Filters</span>
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <div class="table-wrapper">
+      <div *ngIf="isLoading()" class="spinner-overlay">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
+
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="applyFilters()">
+
+        <ng-container matColumnDef="materialName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Material </th>
+          <td mat-cell *matCellDef="let row"> <strong>{{row.materialName}}</strong> <br> <small>{{row.sku}}</small> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="accountName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
+          <td mat-cell *matCellDef="let row"> {{row.accountName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="supplierName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier </th>
+            <td mat-cell *matCellDef="let row"> {{row.supplierName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="location">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+            <td mat-cell *matCellDef="let row"> <strong>{{row.location}}</strong> <br> <small>{{row.room}}</small> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="barcodes">
+            <th mat-header-cell *matHeaderCellDef> Barcodes </th>
+            <td mat-cell *matCellDef="let row"> Pallet: {{row.palletBarcode}} <br> LPN: {{row.lpnBarcode}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="batchNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch </th>
+          <td mat-cell *matCellDef="let row"> {{row.batchNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expiryDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Expiry </th>
+          <td mat-cell *matCellDef="let row"> {{row.expiryDate | date:'shortDate'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-right"> Qty </th>
+          <td mat-cell *matCellDef="let row" class="align-right"> {{row.quantity | number}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="weight">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-right"> Weight (kg) </th>
+            <td mat-cell *matCellDef="let row" class="align-right"> {{row.weight | number:'1.2-2'}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data matching the filter criteria.</td>
+        </tr>
+      </table>
+      <mat-paginator [length]="resultsLength()" [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card>
+</div>
