@@ -463,5 +463,3 @@ Login → JWT Claims (Role, CompanyId) → Policy Check → Execute Command/Quer
 ### C. References
 - Internal: Prior specs.
 - External: .NET Documentation; Angular Releases; Cold Storage Best Practices; WMS Receiving Guides; Barcode Implementation; 3PL Billing Guides; ASP.NET Core Identity for RBAC.
-
-This document is the definitive blueprint for implementation. For code generation, reference the original prompt's step-by-step plan.
