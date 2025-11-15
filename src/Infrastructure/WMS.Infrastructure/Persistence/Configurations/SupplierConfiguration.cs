@@ -1,0 +1,16 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WMS.Domain.Entities;
+
+namespace WMS.Infrastructure.Persistence.Configurations;
+
+public class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
+{
+    public void Configure(EntityTypeBuilder<Supplier> builder)
+    {
+        builder.ToTable("Suppliers");
+        builder.HasKey(s => s.Id);
+
+        builder.OwnsOne(s => s.Address);
+    }
+}
