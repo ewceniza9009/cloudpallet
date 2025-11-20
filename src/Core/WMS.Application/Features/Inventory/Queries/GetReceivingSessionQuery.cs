@@ -1,6 +1,6 @@
-﻿// src/Core/WMS.Application/Features/Inventory/Queries/GetReceivingSessionsQuery.cs
-using MediatR;
+﻿using MediatR;
 using WMS.Application.Abstractions.Persistence;
+using WMS.Application.Common.Models;
 using WMS.Domain.Enums;
 
 namespace WMS.Application.Features.Inventory.Queries;
@@ -15,13 +15,18 @@ public record ReceivingSessionDto
     public int PalletCount { get; init; }
 }
 
-public record GetReceivingSessionsQuery(Guid WarehouseId) : IRequest<IEnumerable<ReceivingSessionDto>>;
+public record GetReceivingSessionsQuery : IRequest<PagedResult<ReceivingSessionDto>>
+{
+    public Guid WarehouseId { get; init; }
+    public int Page { get; init; } = 1;
+    public int PageSize { get; init; } = 10;
+}
 
 public class GetReceivingSessionsQueryHandler(IReceivingTransactionRepository receivingRepository)
-    : IRequestHandler<GetReceivingSessionsQuery, IEnumerable<ReceivingSessionDto>>
+    : IRequestHandler<GetReceivingSessionsQuery, PagedResult<ReceivingSessionDto>>
 {
-    public async Task<IEnumerable<ReceivingSessionDto>> Handle(GetReceivingSessionsQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResult<ReceivingSessionDto>> Handle(GetReceivingSessionsQuery request, CancellationToken cancellationToken)
     {
-        return await receivingRepository.GetReceivingSessionsByWarehouseAsync(request.WarehouseId, cancellationToken);
+        return await receivingRepository.GetReceivingSessionsByWarehouseAsync(request, cancellationToken);
     }
 }

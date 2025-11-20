@@ -1,4 +1,5 @@
-﻿using WMS.Application.Features.Inventory.Queries;
+﻿using WMS.Application.Common.Models;
+using WMS.Application.Features.Inventory.Queries;
 using WMS.Domain.Entities.Transaction;
 
 namespace WMS.Application.Abstractions.Persistence;
@@ -15,11 +16,12 @@ public interface IReceivingTransactionRepository
     Task AddPalletAsync(Pallet pallet, CancellationToken cancellationToken);
     Task AddPalletLineAsync(PalletLine palletLine, CancellationToken cancellationToken);
     Task UpdatePalletLineAsync(PalletLine palletLine, CancellationToken cancellationToken);
-    Task<IEnumerable<ReceivingSessionDto>> GetReceivingSessionsByWarehouseAsync(Guid warehouseId, CancellationToken cancellationToken);
+
+    Task<PagedResult<ReceivingSessionDto>> GetReceivingSessionsByWarehouseAsync(GetReceivingSessionsQuery request, CancellationToken cancellationToken);
     Task<Pallet?> GetPalletWithLinesByIdAsync(Guid palletId, CancellationToken cancellationToken);
     Task<PalletLine?> GetPalletLineByIdAsync(Guid palletLineId, CancellationToken cancellationToken);
-    void RemovePallet(Pallet pallet);  
+    void RemovePallet(Pallet pallet);
     void RemovePalletLine(PalletLine palletLine);
-    Task<Receiving?> GetByAppointmentIdAsync(Guid appointmentId, CancellationToken cancellationToken); // ADD THIS
+    Task<Receiving?> GetByAppointmentIdAsync(Guid appointmentId, CancellationToken cancellationToken);
     Task<IEnumerable<PalletMovementDto>> GetPalletHistoryAsync(string palletBarcode, CancellationToken cancellationToken);
 }

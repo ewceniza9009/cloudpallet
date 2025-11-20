@@ -1,14 +1,17 @@
-import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
+// ---- File: receiving.component.ts ----
+
 import { CommonModule, DatePipe } from '@angular/common';
-import { Router, RouterModule, NavigationEnd } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator'; // <--- Added Import
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { InventoryApiService, ReceivingSessionDto } from '../inventory/inventory-api.service';
+import { MatTableModule } from '@angular/material/table';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
+import { InventoryApiService, ReceivingSessionDto } from '../inventory/inventory-api.service';
 
 @Component({
   selector: 'app-receiving',
@@ -21,31 +24,47 @@ import { Subscription, filter } from 'rxjs';
     MatButtonModule,
     MatIconModule,
     MatTableModule,
+    MatPaginatorModule, // <--- Added Module
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
   templateUrl: './receiving.component.html',
-  styleUrls: ['./receiving.component.scss']
+  styleUrls: ['./receiving.component.scss'],
 })
 export class ReceivingComponent implements OnInit, OnDestroy {
   private inventoryApi = inject(InventoryApiService);
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
 
+  // Data Signals
   sessions = signal<ReceivingSessionDto[]>([]);
+  totalCount = signal<number>(0); // <--- Added for Paginator length
   isLoading = signal(true);
-  displayedColumns = ['supplierName', 'licensePlate', 'status', 'palletCount', 'timestamp', 'actions'];
+
+  // Pagination Signals (Default to page 0 for Material, Size 10)
+  pageIndex = signal(0);
+  pageSize = signal(10);
+
+  displayedColumns = [
+    'supplierName',
+    'licensePlate',
+    'status',
+    'palletCount',
+    'timestamp',
+    'actions',
+  ];
 
   private routerSubscription!: Subscription;
 
   ngOnInit(): void {
     this.loadSessions();
 
-    this.routerSubscription = this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd && event.url === '/receiving')
-    ).subscribe(() => {
-      this.loadSessions();
-    });
+    this.routerSubscription = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd && event.url === '/receiving'))
+      .subscribe(() => {
+        // Reset pagination on full navigation reload if desired, or keep current state
+        this.loadSessions();
+      });
   }
 
   ngOnDestroy(): void {
@@ -56,16 +75,29 @@ export class ReceivingComponent implements OnInit, OnDestroy {
 
   loadSessions(): void {
     this.isLoading.set(true);
-    this.inventoryApi.getReceivingSessions().subscribe({
-      next: (data) => {
-        this.sessions.set(data);
+
+    // Backend expects 1-based index, Material provides 0-based
+    const apiPage = this.pageIndex() + 1;
+
+    this.inventoryApi.getReceivingSessions(apiPage, this.pageSize()).subscribe({
+      next: result => {
+        // Result is now PagedResult<T>
+        this.sessions.set(result.items);
+        this.totalCount.set(result.totalCount);
         this.isLoading.set(false);
       },
       error: () => {
         this.snackBar.open('Failed to load receiving sessions.', 'Close');
         this.isLoading.set(false);
-      }
+      },
     });
+  }
+
+  // Handle Paginator Events
+  onPageChange(event: PageEvent): void {
+    this.pageIndex.set(event.pageIndex);
+    this.pageSize.set(event.pageSize);
+    this.loadSessions();
   }
 
   startNewSession(): void {

@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Application.Features.Inventory.Queries;
 using WMS.Domain.Entities.Transaction;
-using System.Text; // Required for StringBuilder
+using System.Text;
+using WMS.Application.Common.Models; // Required for StringBuilder
 
 namespace WMS.Infrastructure.Persistence.Repositories;
 
@@ -79,17 +80,21 @@ public class ReceivingTransactionRepository(WmsDbContext context) : IReceivingTr
         return Task.CompletedTask;
     }
 
-    public async Task<IEnumerable<ReceivingSessionDto>> GetReceivingSessionsByWarehouseAsync(Guid warehouseId, CancellationToken cancellationToken)
+    public async Task<PagedResult<ReceivingSessionDto>> GetReceivingSessionsByWarehouseAsync(GetReceivingSessionsQuery request, CancellationToken cancellationToken)
     {
-        return await context.Receivings
+        // 1. Base Query with Filters
+        var query = context.Receivings
             .AsNoTracking()
-            .Include(r => r.Supplier)
-            .Include(r => r.Appointment)
-                .ThenInclude(a => a!.Dock)
-            .Include(r => r.Appointment)
-                .ThenInclude(a => a!.Truck)
-            .Where(r => r.Appointment != null && r.Appointment.Dock.WarehouseId == warehouseId)
+            .Where(r => r.Appointment != null && r.Appointment.Dock.WarehouseId == request.WarehouseId);
+
+        // 2. Get Total Count (Before Paging)
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        // 3. Apply Sorting and Pagination
+        var items = await query
             .OrderByDescending(r => r.Timestamp)
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
             .Select(r => new ReceivingSessionDto
             {
                 ReceivingId = r.Id,
@@ -100,6 +105,13 @@ public class ReceivingTransactionRepository(WmsDbContext context) : IReceivingTr
                 PalletCount = r.TotalPallets
             })
             .ToListAsync(cancellationToken);
+
+        // 4. Return Paged Result
+        return new PagedResult<ReceivingSessionDto>
+        {
+            Items = items,
+            TotalCount = totalCount
+        };
     }
 
     public async Task<Pallet?> GetPalletWithLinesByIdAsync(Guid palletId, CancellationToken cancellationToken)

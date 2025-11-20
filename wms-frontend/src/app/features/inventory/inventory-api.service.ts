@@ -4,11 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { WarehouseStateService } from '../../core/services/warehouse-state.service';
 
-export type ComplianceLabelType =
-  | 'None'
-  | 'Export'
-  | 'Allergen'
-  | 'ForeignLanguage';
+export type ComplianceLabelType = 'None' | 'Export' | 'Allergen' | 'ForeignLanguage';
 
 export interface PagedResult<T> {
   items: T[];
@@ -169,13 +165,7 @@ export interface RepackableInventoryDto {
 
 export interface RecordVasCommand {
   palletId?: string;
-  serviceType:
-    | 'Blasting'
-    | 'Repack'
-    | 'Labeling'
-    | 'Fumigation'
-    | 'CycleCount'
-    | 'Split';
+  serviceType: 'Blasting' | 'Repack' | 'Labeling' | 'Fumigation' | 'CycleCount' | 'Split';
 
   sourceInventoryId?: string;
   targetMaterialId?: string;
@@ -237,18 +227,15 @@ export class InventoryApiService {
     page: number,
     pageSize: number
   ): Observable<PagedResult<MaterialDto>> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('pageSize', pageSize.toString());
+    let params = new HttpParams().set('page', page.toString()).set('pageSize', pageSize.toString());
 
     if (searchTerm) {
       params = params.set('searchTerm', searchTerm);
     }
 
-    return this.http.get<PagedResult<MaterialDto>>(
-      `${this.lookupsUrl}/materials/search`,
-      { params }
-    );
+    return this.http.get<PagedResult<MaterialDto>>(`${this.lookupsUrl}/materials/search`, {
+      params,
+    });
   }
 
   getPalletTypes(): Observable<PalletTypeDto[]> {
@@ -261,48 +248,43 @@ export class InventoryApiService {
       throw new Error('Cannot get locations: No warehouse is selected.');
     }
     const params = new HttpParams().set('warehouseId', warehouseId);
-    return this.http.get<LocationDto[]>(
-      `${this.lookupsUrl}/available-storage-locations`,
-      { params }
-    );
+    return this.http.get<LocationDto[]>(`${this.lookupsUrl}/available-storage-locations`, {
+      params,
+    });
   }
 
-  getRepackableInventory(
-    accountId: string
-  ): Observable<RepackableInventoryDto[]> {
+  getRepackableInventory(accountId: string): Observable<RepackableInventoryDto[]> {
     const params = new HttpParams().set('accountId', accountId);
-    return this.http.get<RepackableInventoryDto[]>(
-      `${this.lookupsUrl}/repackable-inventory`,
-      { params }
-    );
+    return this.http.get<RepackableInventoryDto[]>(`${this.lookupsUrl}/repackable-inventory`, {
+      params,
+    });
   }
 
-  getReceivingSessions(): Observable<ReceivingSessionDto[]> {
+  getReceivingSessions(
+    page: number = 1,
+    pageSize: number = 10
+  ): Observable<PagedResult<ReceivingSessionDto>> {
     const warehouseId = this.warehouseState.selectedWarehouseId();
     if (!warehouseId) {
-      throw new Error(
-        'Cannot get receiving sessions: No warehouse is selected.'
-      );
+      throw new Error('Cannot get receiving sessions: No warehouse is selected.');
     }
-    const params = new HttpParams().set('warehouseId', warehouseId);
-    return this.http.get<ReceivingSessionDto[]>(
-      `${this.receivingUrl}/sessions`,
-      { params }
-    );
+
+    let params = new HttpParams()
+      .set('warehouseId', warehouseId)
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+
+    return this.http.get<PagedResult<ReceivingSessionDto>>(`${this.receivingUrl}/sessions`, {
+      params,
+    });
   }
   getReceivingSessionById(id: string): Observable<ReceivingSessionDetailDto> {
-    return this.http.get<ReceivingSessionDetailDto>(
-      `${this.receivingUrl}/session/${id}`
-    );
+    return this.http.get<ReceivingSessionDetailDto>(`${this.receivingUrl}/session/${id}`);
   }
-  createReceivingSession(
-    command: CreateReceivingSessionCommand
-  ): Observable<string> {
+  createReceivingSession(command: CreateReceivingSessionCommand): Observable<string> {
     return this.http.post<string>(`${this.receivingUrl}/session`, command);
   }
-  addPalletToReceiving(
-    command: AddPalletToReceivingCommand
-  ): Observable<string> {
+  addPalletToReceiving(command: AddPalletToReceivingCommand): Observable<string> {
     return this.http.post<string>(
       `${this.receivingUrl}/session/${command.receivingId}/pallet`,
       command
@@ -313,36 +295,23 @@ export class InventoryApiService {
       responseType: 'text',
     });
   }
-  addLineToPallet(
-    receivingId: string,
-    palletId: string,
-    materialId: string
-  ): Observable<void> {
+  addLineToPallet(receivingId: string, palletId: string, materialId: string): Observable<void> {
     const body = { materialId: materialId };
     return this.http.post<void>(
       `${this.receivingUrl}/session/${receivingId}/pallet/${palletId}/line`,
       body
     );
   }
-  deletePalletLine(
-    receivingId: string,
-    palletId: string,
-    palletLineId: string
-  ): Observable<void> {
+  deletePalletLine(receivingId: string, palletId: string, palletLineId: string): Observable<void> {
     return this.http.delete<void>(
       `${this.receivingUrl}/session/${receivingId}/pallet/${palletId}/line/${palletLineId}`
     );
   }
   deletePallet(receivingId: string, palletId: string): Observable<void> {
-    return this.http.delete<void>(
-      `${this.receivingUrl}/session/${receivingId}/pallet/${palletId}`
-    );
+    return this.http.delete<void>(`${this.receivingUrl}/session/${receivingId}/pallet/${palletId}`);
   }
   completeReceivingSession(receivingId: string): Observable<void> {
-    return this.http.post<void>(
-      `${this.receivingUrl}/session/${receivingId}/complete`,
-      {}
-    );
+    return this.http.post<void>(`${this.receivingUrl}/session/${receivingId}/complete`, {});
   }
 
   getStoredPalletsByRoom(): Observable<RoomWithPalletsDto[]> {
@@ -351,10 +320,9 @@ export class InventoryApiService {
       throw new Error('Cannot get stored pallets: No warehouse is selected.');
     }
     const params = new HttpParams().set('warehouseId', warehouseId);
-    return this.http.get<RoomWithPalletsDto[]>(
-      `${this.inventoryUrl}/stored-pallets-by-room`,
-      { params }
-    );
+    return this.http.get<RoomWithPalletsDto[]>(`${this.inventoryUrl}/stored-pallets-by-room`, {
+      params,
+    });
   }
 
   searchStoredPallets(
@@ -396,36 +364,19 @@ export class InventoryApiService {
       throw new Error('Cannot get putaway tasks: No warehouse is selected.');
     }
     const params = new HttpParams().set('warehouseId', warehouseId);
-    return this.http.get<PutawayTaskDto[]>(
-      `${this.inventoryUrl}/putaway-tasks`,
-      { params }
-    );
+    return this.http.get<PutawayTaskDto[]>(`${this.inventoryUrl}/putaway-tasks`, { params });
   }
 
-  executePutaway(
-    palletId: string,
-    destinationLocationId: string
-  ): Observable<string> {
+  executePutaway(palletId: string, destinationLocationId: string): Observable<string> {
     const command = { palletId, destinationLocationId };
-    return this.http.post<string>(
-      `${this.inventoryUrl}/manual-putaway`,
-      command
-    );
+    return this.http.post<string>(`${this.inventoryUrl}/manual-putaway`, command);
   }
   executeTransfer(command: TransferPalletCommand): Observable<string> {
-    return this.http.post<string>(
-      `${this.inventoryUrl}/transfer-pallet`,
-      command
-    );
+    return this.http.post<string>(`${this.inventoryUrl}/transfer-pallet`, command);
   }
 
-  transferItemsToNewPallet(
-    command: TransferItemsToNewPalletCommand
-  ): Observable<string> {
-    return this.http.post<string>(
-      `${this.inventoryUrl}/transfer-items`,
-      command
-    );
+  transferItemsToNewPallet(command: TransferItemsToNewPalletCommand): Observable<string> {
+    return this.http.post<string>(`${this.inventoryUrl}/transfer-items`, command);
   }
 
   recordBlastFreeze(palletId: string): Observable<void> {
@@ -459,10 +410,7 @@ export class InventoryApiService {
   }
 
   startQuarantine(command: StartQuarantineCommand): Observable<void> {
-    return this.http.post<void>(
-      `${this.inventoryUrl}/start-quarantine`,
-      command
-    );
+    return this.http.post<void>(`${this.inventoryUrl}/start-quarantine`, command);
   }
 
   completeFumigation(command: CompleteFumigationCommand): Observable<void> {

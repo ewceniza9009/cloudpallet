@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WMS.Api.Common;
+using WMS.Application.Common.Models;
 using WMS.Application.Features.Inventory.Commands;
 using WMS.Application.Features.Inventory.Queries;
 
@@ -12,10 +13,14 @@ namespace WMS.Api.Controllers;
 public class ReceivingController : ApiControllerBase
 {
     [HttpGet("sessions")]
-    [ProducesResponseType(typeof(IEnumerable<ReceivingSessionDto>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetSessions([FromQuery] Guid warehouseId)
+    [ProducesResponseType(typeof(PagedResult<ReceivingSessionDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetSessions([FromQuery] GetReceivingSessionsQuery query)
     {
-        var result = await Mediator.Send(new GetReceivingSessionsQuery(warehouseId));
+        // The [FromQuery] attribute will automatically map:
+        // ?warehouseId=...&page=1&pageSize=20 
+        // into the GetReceivingSessionsQuery object.
+
+        var result = await Mediator.Send(query);
         return Ok(result);
     }
 
