@@ -85,7 +85,19 @@ public class ReceivingTransactionRepository(WmsDbContext context) : IReceivingTr
         // 1. Base Query with Filters
         var query = context.Receivings
             .AsNoTracking()
-            .Where(r => r.Appointment != null && r.Appointment.Dock.WarehouseId == request.WarehouseId);
+            .Where(r => r.Appointment.Dock.WarehouseId == request.WarehouseId);
+
+        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+        {
+            var term = request.SearchTerm.Trim();
+            query = query.Where(r => r.Supplier.Name.Contains(term) ||
+                                     (r.Appointment.Truck != null && r.Appointment.Truck.LicensePlate.Contains(term)));
+        }
+
+        if (!string.IsNullOrEmpty(request.Date) && DateTime.TryParse(request.Date, out var parsedDate))
+        {
+            query = query.Where(r => r.Timestamp.Date == parsedDate.Date);
+        }
 
         // 2. Get Total Count (Before Paging)
         var totalCount = await query.CountAsync(cancellationToken);
@@ -99,7 +111,7 @@ public class ReceivingTransactionRepository(WmsDbContext context) : IReceivingTr
             {
                 ReceivingId = r.Id,
                 SupplierName = r.Supplier.Name,
-                LicensePlate = r.Appointment!.Truck != null ? r.Appointment.Truck.LicensePlate : "N/A",
+                LicensePlate = r.Appointment.Truck != null ? r.Appointment.Truck.LicensePlate : "N/A",
                 Status = r.Status,
                 Timestamp = r.Timestamp,
                 PalletCount = r.TotalPallets

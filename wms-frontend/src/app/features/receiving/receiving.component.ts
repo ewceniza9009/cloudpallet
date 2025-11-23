@@ -2,10 +2,15 @@
 
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator'; // <--- Added Import
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
@@ -19,14 +24,19 @@ import { InventoryApiService, ReceivingSessionDto } from '../inventory/inventory
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     DatePipe,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
     MatTableModule,
-    MatPaginatorModule, // <--- Added Module
+    MatPaginatorModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './receiving.component.html',
   styleUrls: ['./receiving.component.scss'],
@@ -38,12 +48,16 @@ export class ReceivingComponent implements OnInit, OnDestroy {
 
   // Data Signals
   sessions = signal<ReceivingSessionDto[]>([]);
-  totalCount = signal<number>(0); // <--- Added for Paginator length
+  totalCount = signal<number>(0);
   isLoading = signal(true);
 
   // Pagination Signals (Default to page 0 for Material, Size 10)
   pageIndex = signal(0);
   pageSize = signal(10);
+
+  // Search Signals
+  searchTerm = signal('');
+  searchDate = signal<Date | null>(null);
 
   displayedColumns = [
     'supplierName',
@@ -79,18 +93,36 @@ export class ReceivingComponent implements OnInit, OnDestroy {
     // Backend expects 1-based index, Material provides 0-based
     const apiPage = this.pageIndex() + 1;
 
-    this.inventoryApi.getReceivingSessions(apiPage, this.pageSize()).subscribe({
-      next: result => {
-        // Result is now PagedResult<T>
-        this.sessions.set(result.items);
-        this.totalCount.set(result.totalCount);
-        this.isLoading.set(false);
-      },
-      error: () => {
-        this.snackBar.open('Failed to load receiving sessions.', 'Close');
-        this.isLoading.set(false);
-      },
-    });
+    this.inventoryApi
+      .getReceivingSessions(
+        apiPage,
+        this.pageSize(),
+        this.searchTerm(),
+        this.searchDate()
+      )
+      .subscribe({
+        next: result => {
+          // Result is now PagedResult<T>
+          this.sessions.set(result.items);
+          this.totalCount.set(result.totalCount);
+          this.isLoading.set(false);
+        },
+        error: () => {
+          this.snackBar.open('Failed to load receiving sessions.', 'Close');
+          this.isLoading.set(false);
+        },
+      });
+  }
+
+  onSearch(): void {
+    this.pageIndex.set(0); // Reset to first page
+    this.loadSessions();
+  }
+
+  clearSearch(): void {
+    this.searchTerm.set('');
+    this.searchDate.set(null);
+    this.onSearch();
   }
 
   // Handle Paginator Events

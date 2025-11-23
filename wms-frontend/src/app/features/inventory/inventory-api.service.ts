@@ -262,7 +262,9 @@ export class InventoryApiService {
 
   getReceivingSessions(
     page: number = 1,
-    pageSize: number = 10
+    pageSize: number = 10,
+    searchTerm?: string,
+    date?: Date | null
   ): Observable<PagedResult<ReceivingSessionDto>> {
     const warehouseId = this.warehouseState.selectedWarehouseId();
     if (!warehouseId) {
@@ -273,6 +275,18 @@ export class InventoryApiService {
       .set('warehouseId', warehouseId)
       .set('page', page.toString())
       .set('pageSize', pageSize.toString());
+
+    if (searchTerm) {
+      params = params.set('searchTerm', searchTerm);
+    }
+
+    if (date) {
+      // Format as YYYY-MM-DD to avoid timezone issues in query params
+      const dateString = date.getFullYear() + '-' + 
+        ('0' + (date.getMonth() + 1)).slice(-2) + '-' + 
+        ('0' + date.getDate()).slice(-2);
+      params = params.set('date', dateString);
+    }
 
     return this.http.get<PagedResult<ReceivingSessionDto>>(`${this.receivingUrl}/sessions`, {
       params,

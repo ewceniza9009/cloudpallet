@@ -15,11 +15,13 @@ public record ReceivingSessionDto
     public int PalletCount { get; init; }
 }
 
-public record GetReceivingSessionsQuery : IRequest<PagedResult<ReceivingSessionDto>>
+public class GetReceivingSessionsQuery : IRequest<PagedResult<ReceivingSessionDto>>
 {
-    public Guid WarehouseId { get; init; }
-    public int Page { get; init; } = 1;
-    public int PageSize { get; init; } = 10;
+    public Guid WarehouseId { get; set; }
+    public int Page { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+    public string? SearchTerm { get; set; }
+    public string? Date { get; set; }
 }
 
 public class GetReceivingSessionsQueryHandler(IReceivingTransactionRepository receivingRepository)
