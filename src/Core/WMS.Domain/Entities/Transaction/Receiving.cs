@@ -48,6 +48,14 @@ public class Receiving : AggregateRoot<Guid>
         TotalPallets++;
     }
 
+    public void DecrementPalletCount()
+    {
+        if (TotalPallets > 0)
+        {
+            TotalPallets--;
+        }
+    }
+
     public void Complete()
     {
         if (Status == ReceivingStatus.Completed) return;
