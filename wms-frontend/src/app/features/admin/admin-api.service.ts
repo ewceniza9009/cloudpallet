@@ -23,6 +23,8 @@ export interface CompanyDto {
 
   status: string;
   subscriptionPlan: string;
+  gs1CompanyPrefix: string;
+  defaultBarcodeFormat: string;
 }
 
 export interface UpdateCompanyCommand {
@@ -32,6 +34,8 @@ export interface UpdateCompanyCommand {
   phoneNumber: string;
   email: string;
   website: string;
+  gs1CompanyPrefix: string;
+  defaultBarcodeFormat: string;
 }
 
 export type UserRole = 'Admin' | 'Operator' | 'Finance';

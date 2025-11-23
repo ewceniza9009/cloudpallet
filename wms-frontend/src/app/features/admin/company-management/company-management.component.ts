@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSelectModule } from '@angular/material/select';
 import {
   AdminApiService,
   CompanyDto,
@@ -33,6 +34,7 @@ import {
     MatIconModule,
     MatProgressSpinnerModule,
     MatDividerModule,
+    MatSelectModule,
   ],
   templateUrl: './company-management.component.html',
   styleUrls: ['./company-management.component.scss'],
@@ -62,6 +64,8 @@ export class CompanyManagementComponent implements OnInit {
       phoneNumber: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       website: [''],
+      gs1CompanyPrefix: ['', [Validators.maxLength(20)]],
+      defaultBarcodeFormat: ['SSCC-18', [Validators.maxLength(20)]],
     });
 
     this.companyForm.disable();

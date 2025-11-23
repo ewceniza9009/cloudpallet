@@ -11,7 +11,9 @@ public record UpdateCompanyCommand(
     AddressDto Address,
     string PhoneNumber,
     string Email,
-    string Website) : IRequest;
+    string Website,
+    string Gs1CompanyPrefix,
+    string DefaultBarcodeFormat) : IRequest;
 
 public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand>
 {
@@ -23,33 +25,65 @@ public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand>
         _companyRepository = companyRepository;
         _unitOfWork = unitOfWork;
     }
+
     public async Task Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
     {
         var company = await _companyRepository.GetCompanyAsync(cancellationToken);
 
-        if (request.Id == Guid.Empty)
+        if (company is null)
         {
-            UpdateCompany(_companyRepository, _unitOfWork, request, cancellationToken);
-            return;
+            throw new KeyNotFoundException($"Company not found.");
         }
+
+        if (request.Id != Guid.Empty && company.Id != request.Id)
+        {
+             throw new InvalidOperationException($"Company ID mismatch.");
+        }
+
+        // Use reflection or manual mapping? Manual is safer and cleaner here.
+        // Ideally, the Company entity should have an Update method.
+        // For now, I'll use reflection CAREFULLY or just assume public setters?
+        // The Company entity has private setters.
+        // I should check Company.cs again. It has private setters.
+        // It has UpdateGs1Settings. It doesn't seem to have a generic Update method.
+        // I will use reflection to set the other properties as the original code TRIED to do, but on the ENTITY, not the repo.
+        // OR, I can add an Update method to Company.cs. That is much better DDD.
+        // But to avoid changing Domain too much right now, I'll stick to the pattern but fix the bug.
+        // Wait, I can just use the backing fields or private setters via reflection on 'company' object.
+
+        UpdateEntityProperty(company, "Name", request.Name);
+        UpdateEntityProperty(company, "TaxId", request.TaxId);
+        UpdateEntityProperty(company, "Address", new Address(request.Address.Street, request.Address.City, request.Address.State, request.Address.PostalCode, request.Address.Country));
+        UpdateEntityProperty(company, "PhoneNumber", request.PhoneNumber);
+        UpdateEntityProperty(company, "Email", request.Email);
+        UpdateEntityProperty(company, "Website", request.Website);
         
-        if (company is null || company.Id != request.Id)       
-        {
-            throw new KeyNotFoundException($"Company with ID {request.Id} not found.");
-        }
-
-        UpdateCompany(_companyRepository, _unitOfWork, request, cancellationToken);
-    }
-
-    private async void UpdateCompany(ICompanyRepository company, IUnitOfWork unitOfWork, UpdateCompanyCommand request, CancellationToken cancellationToken) 
-    {
-        company.GetType().GetProperty("Name")?.SetValue(company, request.Name, null);
-        company.GetType().GetProperty("TaxId")?.SetValue(company, request.TaxId, null);
-        company.GetType().GetProperty("Address")?.SetValue(company, new Address(request.Address.Street, request.Address.City, request.Address.State, request.Address.PostalCode, request.Address.Country), null);
-        company.GetType().GetProperty("PhoneNumber")?.SetValue(company, request.PhoneNumber, null);
-        company.GetType().GetProperty("Email")?.SetValue(company, request.Email, null);
-        company.GetType().GetProperty("Website")?.SetValue(company, request.Website, null);
+        // Use the explicit method for GS1 settings
+        company.UpdateGs1Settings(request.Gs1CompanyPrefix, request.DefaultBarcodeFormat);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    private void UpdateEntityProperty(object entity, string propertyName, object value)
+    {
+        var property = entity.GetType().GetProperty(propertyName);
+        if (property != null && property.CanWrite)
+        {
+            property.SetValue(entity, value);
+        }
+        else
+        {
+            // Handle private setters
+             var backingField = entity.GetType().GetField($"<{propertyName}>k__BackingField", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+             if (backingField != null)
+             {
+                 backingField.SetValue(entity, value);
+             }
+             else
+             {
+                 // Fallback to property setter even if private
+                 property?.SetValue(entity, value, null);
+             }
+        }
     }
 }

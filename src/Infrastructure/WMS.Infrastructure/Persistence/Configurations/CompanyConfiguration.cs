@@ -17,5 +17,8 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
         builder.OwnsOne(c => c.Address);
 
         builder.Property(c => c.Status).HasConversion<string>().HasMaxLength(20);
+        
+        builder.Property(c => c.Gs1CompanyPrefix).HasMaxLength(20).HasDefaultValue("0000000");
+        builder.Property(c => c.DefaultBarcodeFormat).HasMaxLength(20).HasDefaultValue("SSCC-18");
     }
 }

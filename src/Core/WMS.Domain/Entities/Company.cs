@@ -14,6 +14,8 @@ public class Company : AggregateRoot<Guid>
     public string Website { get; private set; }
     public CompanyStatus Status { get; private set; }
     public string SubscriptionPlan { get; private set; }
+    public string Gs1CompanyPrefix { get; private set; }
+    public string DefaultBarcodeFormat { get; private set; }
 
     public Company() : base(Guid.Empty)
     {
@@ -24,5 +26,13 @@ public class Company : AggregateRoot<Guid>
         Email = null!;
         Website = null!;
         SubscriptionPlan = null!;
+        Gs1CompanyPrefix = "0000000"; // Default dummy prefix
+        DefaultBarcodeFormat = "SSCC-18";
+    }
+
+    public void UpdateGs1Settings(string prefix, string format)
+    {
+        Gs1CompanyPrefix = prefix;
+        DefaultBarcodeFormat = format;
     }
 }

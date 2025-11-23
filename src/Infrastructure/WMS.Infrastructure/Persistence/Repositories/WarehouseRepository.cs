@@ -309,9 +309,9 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
         }
         if (!string.IsNullOrWhiteSpace(barcodeQuery))
         {
-            // Use StartsWith to allow index usage
-            query = query.Where(mi => mi.Pallet.Barcode.StartsWith(barcodeQuery) ||
-                                     mi.Barcode.StartsWith(barcodeQuery));
+            // Use Contains to support new barcode format like (00-1234567)...
+            query = query.Where(mi => mi.Pallet.Barcode.Contains(barcodeQuery) ||
+                                     mi.Barcode.Contains(barcodeQuery));
         }
 
         // Get distinct Pallet IDs first (Limit to 50)

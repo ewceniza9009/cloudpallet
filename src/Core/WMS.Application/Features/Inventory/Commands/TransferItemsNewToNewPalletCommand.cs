@@ -64,47 +64,6 @@ public class TransferItemsToNewPalletCommandHandler(
             palletType.TareWeight,
             sourceInventory.AccountId);
 
-        var palletBarcode = barcodeService.GenerateSSCCBarcode(newPallet.Id);
-        newPallet.SetBarcode(palletBarcode);
-        await receivingRepository.AddPalletAsync(newPallet, cancellationToken);
-        sourceInventory.Pallet.Receiving.IncrementPalletCount();
-
-        // 4. Create New Pallet Line and Inventory (Credit)
-        var newPalletLine = Domain.Entities.Transaction.PalletLine.Create(
-           newPallet.Id,
-           sourceInventory.MaterialId,
-           request.QuantityToMove,
-           weightToMove,
-           sourceInventory.BatchNumber,
-           DateTime.UtcNow, // Assuming DateOfManufacture should be now for the new line
-           sourceInventory.ExpiryDate,
-           sourceInventory.AccountId
-       );
-        await receivingRepository.AddPalletLineAsync(newPalletLine, cancellationToken);
-
-        // Note: Since the PalletLine ID is now available, we can assign its LPN/Barcode
-        var itemLpn = barcodeService.GenerateSSCCBarcode(newPalletLine.Id);
-        newPalletLine.SetBarcode(itemLpn);
-        // Ensure the PalletLine status is marked as processed/complete
-        newPalletLine.Update(request.QuantityToMove, weightToMove, sourceInventory.BatchNumber, DateTime.UtcNow, sourceInventory.ExpiryDate);
-
-        var newInventory = MaterialInventory.Create(
-           sourceInventory.MaterialId,
-           sourceInventory.LocationId, // Remains in the original location for now
-           newPallet.Id,
-           newPalletLine.Id,
-           request.QuantityToMove,
-           sourceInventory.BatchNumber,
-           Weight.Create(weightToMove, "KG"),
-           sourceInventory.ExpiryDate,
-           sourceInventory.AccountId,
-           itemLpn);
-        await inventoryRepository.AddAsync(newInventory, cancellationToken);
-
-        // 5. Adjust Source Inventory (Debit)
-        sourceInventory.AdjustForWeighedPick(request.QuantityToMove, weightToMove);
-
-        // 6. Create Audit Trail - ItemTransferTransaction
         // The transaction needs the ID of the old inventory record (sourceInventory.Id)
         var transferTransaction = ItemTransferTransaction.Create(sourceInventory.Id, newPallet.Id, request.QuantityToMove, weightToMove, request.UserId);
         await itemTransferRepository.AddAsync(transferTransaction, cancellationToken);

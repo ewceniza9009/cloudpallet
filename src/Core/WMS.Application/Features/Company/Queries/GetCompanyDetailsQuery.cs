@@ -22,7 +22,9 @@ public record CompanyDto(
     string Email,
     string Website,
     string Status,  
-    string SubscriptionPlan);  
+    string SubscriptionPlan,
+    string Gs1CompanyPrefix,
+    string DefaultBarcodeFormat);  
 
 public record GetCompanyDetailsQuery : IRequest<CompanyDto?>;
 
@@ -56,7 +58,9 @@ public class GetCompanyDetailsQueryHandler : IRequestHandler<GetCompanyDetailsQu
             company.Email,
             company.Website,
             company.Status.ToString(),
-            company.SubscriptionPlan
+            company.SubscriptionPlan,
+            company.Gs1CompanyPrefix,
+            company.DefaultBarcodeFormat
         );
     }
 }

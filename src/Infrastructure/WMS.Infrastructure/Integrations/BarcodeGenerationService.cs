@@ -1,15 +1,29 @@
 ﻿using WMS.Application.Abstractions.Integrations;
+using Microsoft.Extensions.DependencyInjection;
+using WMS.Infrastructure.Persistence;
+using System.Linq;
 
 namespace WMS.Infrastructure.Integrations;
 
 public class BarcodeGenerationService : IBarcodeGenerationService
 {
-    private const string ExtensionDigit = "0";
-    private const string Gs1CompanyPrefix = "0123456";
+    private const string ExtensionDigit = "00";
+    private readonly IServiceScopeFactory _scopeFactory;
     private long _serialCounter = DateTime.UtcNow.Ticks;
+
+    public BarcodeGenerationService(IServiceScopeFactory scopeFactory)
+    {
+        _scopeFactory = scopeFactory;
+    }
 
     public string GenerateSSCCBarcode(Guid uniqueId)
     {
+        using var scope = _scopeFactory.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<WmsDbContext>();
+
+        var company = context.Companies.FirstOrDefault();
+        var gs1Prefix = company?.Gs1CompanyPrefix ?? "0000000";
+
         var serialReference = Interlocked.Increment(ref _serialCounter).ToString().PadLeft(9, '0');
 
         if (serialReference.Length > 9)
@@ -17,11 +31,38 @@ public class BarcodeGenerationService : IBarcodeGenerationService
             serialReference = serialReference[^9..];
         }
 
-        var baseNumber = $"{ExtensionDigit}{Gs1CompanyPrefix}{serialReference}";
+        var baseNumber = $"({ExtensionDigit}-{gs1Prefix}){serialReference}";
 
         var checkDigit = CalculateChecksum(baseNumber);
 
-        return $"(00){baseNumber}{checkDigit}";
+        return $"{baseNumber}{checkDigit}";
+    }
+
+    public string GenerateItemBarcode(Guid materialId)
+    {
+        using var scope = _scopeFactory.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<WmsDbContext>();
+
+        var material = context.Materials.FirstOrDefault(m => m.Id == materialId);
+        string prefix;
+
+        if (material != null && !string.IsNullOrWhiteSpace(material.Gs1BarcodePrefix))
+        {
+            prefix = material.Gs1BarcodePrefix;
+        }
+        else
+        {
+            var company = context.Companies.FirstOrDefault();
+            prefix = company?.Gs1CompanyPrefix ?? "0000000";
+        }
+
+        var serialReference = Interlocked.Increment(ref _serialCounter).ToString().PadLeft(5, '0'); 
+        
+        var baseNumber = $"({prefix}){serialReference}";
+        
+        var checkDigit = CalculateChecksum(baseNumber);
+        
+        return $"{baseNumber}{checkDigit}";
     }
 
     private static int CalculateChecksum(string data)

@@ -64,7 +64,7 @@ public class ProcessPalletLineCommandHandler(
         // 2. FIX: ONLY generate and set the barcode if it's currently empty/unassigned
         if (string.IsNullOrWhiteSpace(palletLine.Barcode))
         {
-            itemLpn = barcodeGenerationService.GenerateSSCCBarcode(palletLine!.Id);
+            itemLpn = barcodeGenerationService.GenerateItemBarcode(palletLine.MaterialId);
             palletLine.SetBarcode(itemLpn);
         }
         else

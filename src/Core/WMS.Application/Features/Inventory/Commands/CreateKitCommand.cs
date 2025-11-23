@@ -115,7 +115,7 @@ public class CreateKitCommandHandler(
             Weight.Create(outputWeight, "KG"),
             expiryDate, // Inherits expiry from first component (can be changed)
             accountId,
-            barcodeService.GenerateSSCCBarcode(Guid.NewGuid()) // Generate a new LPN
+            barcodeService.GenerateItemBarcode(targetMaterial.Id) // Generate a new LPN
         );
 
         await inventoryRepository.AddAsync(newKitInventory, cancellationToken);

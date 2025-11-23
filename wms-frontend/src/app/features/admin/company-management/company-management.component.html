@@ -122,6 +122,28 @@
         </mat-card-content>
       </mat-card>
 
+      <mat-card class="detail-card">
+        <mat-card-header>
+          <mat-card-title>GS1 Barcode Settings</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>GS1 Company Prefix</mat-label>
+            <input matInput formControlName="gs1CompanyPrefix" placeholder="e.g. 0123456" />
+            <mat-hint>Used for SSCC generation</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Default Barcode Format</mat-label>
+            <mat-select formControlName="defaultBarcodeFormat">
+              <mat-option value="SSCC-18">SSCC-18</mat-option>
+              <mat-option value="Code128">Code 128</mat-option>
+              <mat-option value="QR">QR Code</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
       @if(companyDetails(); as details) {
       <mat-card class="detail-card read-only-card">
         <mat-card-header>
