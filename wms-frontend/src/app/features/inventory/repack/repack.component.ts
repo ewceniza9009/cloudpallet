@@ -25,6 +25,7 @@ import {
 } from '../inventory-api.service';
 import { map, startWith, switchMap, tap, of, catchError } from 'rxjs';
 import { Observable } from 'rxjs';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 interface AccountDto {
   id: string;
@@ -46,6 +47,7 @@ interface AccountDto {
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    ScrollingModule,
   ],
   templateUrl: './repack.component.html',
   styleUrls: ['./repack.component.scss'],

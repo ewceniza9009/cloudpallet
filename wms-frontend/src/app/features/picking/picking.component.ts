@@ -47,6 +47,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { WarehouseStateService } from '../../core/services/warehouse-state.service';
 import { Observable } from 'rxjs';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 interface MaterialDto {
   id: string;
@@ -77,6 +78,7 @@ interface AccountDto {
     MatAutocompleteModule,
     MatTooltipModule,
     MatCheckboxModule,
+    ScrollingModule,
   ],
   templateUrl: './picking.component.html',
   styleUrls: ['./picking.component.scss'],

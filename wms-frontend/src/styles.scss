@@ -512,3 +512,43 @@ body {
     display: none !important;
   }
 }
+
+// ========================================
+// VIRTUAL SCROLLING FOR AUTOCOMPLETE DROPDOWNS
+// ========================================
+
+/**
+ * Global styles for autocomplete dropdowns with virtual scrolling.
+ * This ensures consistent sizing and appearance across the application.
+ *
+ * Usage: Wrap mat-option elements with cdk-virtual-scroll-viewport
+ * and add class="autocomplete-viewport"
+ */
+
+/* Virtual scroll viewport inside autocomplete panels */
+.autocomplete-viewport {
+  height: 256px; /* ~5-6 items visible (48px each) */
+  width: 100%;
+}
+
+/* Ensure mat-options inside virtual scroll viewport display correctly */
+.autocomplete-viewport .mat-mdc-option {
+  height: 48px;
+  min-height: 48px;
+}
+
+/* Ensure the virtual scroll viewport fills the autocomplete panel */
+mat-autocomplete .autocomplete-viewport {
+  display: block;
+}
+
+/* CRITICAL: Hide overflow on the autocomplete panel to prevent double scrollbar */
+.mat-mdc-autocomplete-panel {
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
+/* Ensure the panel doesn't add extra padding that causes layout issues */
+.mat-mdc-autocomplete-panel:has(.autocomplete-viewport) {
+  padding: 0 !important;
+}

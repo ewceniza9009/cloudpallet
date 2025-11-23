@@ -10,15 +10,23 @@
             <div class="form-grid-refined">
                <mat-form-field appearance="outline">
                   <mat-label>Supplier</mat-label>
-                  <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto"> <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getLookupName"> @for(s of filteredSuppliers | async; track s.id){
-                  <mat-option [value]="s">{{s.name}}</mat-option>
-                  } </mat-autocomplete>
+                  <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto"> <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getLookupName">
+                    <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
+                      @for(s of filteredSuppliers | async; track s.id){
+                        <mat-option [value]="s">{{s.name}}</mat-option>
+                      }
+                    </cdk-virtual-scroll-viewport>
+                  </mat-autocomplete>
                </mat-form-field>
                <mat-form-field appearance="outline">
                   <mat-label>Customer Account</mat-label>
-                  <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto"> <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getLookupName"> @for(a of filteredAccounts | async; track a.id){
-                  <mat-option [value]="a">{{a.name}}</mat-option>
-                  } </mat-autocomplete>
+                  <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto"> <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getLookupName">
+                    <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
+                      @for(a of filteredAccounts | async; track a.id){
+                        <mat-option [value]="a">{{a.name}}</mat-option>
+                      }
+                    </cdk-virtual-scroll-viewport>
+                  </mat-autocomplete>
                </mat-form-field>
                <mat-form-field appearance="outline" class="form-field-full" [formGroup]="sessionForm">
                   <mat-label>Dock Appointment (Optional)</mat-label>

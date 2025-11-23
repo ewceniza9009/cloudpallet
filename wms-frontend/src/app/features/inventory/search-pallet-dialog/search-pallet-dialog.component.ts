@@ -17,6 +17,7 @@ import {
   MatSelectionListChange,
 } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HttpClient } from '@angular/common/http';
 import {
   Observable,
@@ -58,6 +59,7 @@ interface MaterialDto {
     MatProgressSpinnerModule,
     MatListModule,
     MatIconModule,
+    ScrollingModule,
   ],
   templateUrl: './search-pallet-dialog.component.html',
   styleUrls: ['./search-pallet-dialog.component.scss'],

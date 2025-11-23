@@ -20,6 +20,7 @@ import { AdminApiService, BomDto, BomLineDto, MaterialDetailDto } from '../../ad
 import { InventoryApiService, MaterialDto, RepackableInventoryDto, CreateKitCommand } from '../inventory-api.service';
 import { map, startWith, switchMap, tap, of, catchError, Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 // DTOs for lookups
 interface AccountDto { id: string; name: string; }
@@ -33,7 +34,8 @@ type KitMaterialDto = MaterialDetailDto & { bom: BomDto };
     CommonModule, ReactiveFormsModule, DecimalPipe, MatCardModule, MatFormFieldModule,
     MatInputModule, MatButtonModule, MatIconModule, MatSnackBarModule,
     MatProgressSpinnerModule, MatAutocompleteModule, MatListModule, MatDividerModule,
-    MatSelectModule // <-- *** ADD THE MODULE HERE ***
+    MatSelectModule, // <-- *** ADD THE MODULE HERE ***
+    ScrollingModule
   ],
   templateUrl: './kitting.component.html',
   styleUrls: ['./kitting.component.scss']

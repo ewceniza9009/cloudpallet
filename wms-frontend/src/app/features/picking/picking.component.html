@@ -35,11 +35,13 @@
               [displayWith]="displayAccountName.bind(this)"
               (optionSelected)="onAccountChange($event.option.value)"
             >
-              @for(acc of filteredAccounts(); track acc.id) {
-                <mat-option [value]="acc">
-                  {{ acc.name }}
-                </mat-option>
-              }
+              <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
+                @for(acc of filteredAccounts(); track acc.id) {
+                  <mat-option [value]="acc">
+                    {{ acc.name }}
+                  </mat-option>
+                }
+              </cdk-virtual-scroll-viewport>
             </mat-autocomplete>
             <mat-hint id="account-hint">Select the customer account for this pick list</mat-hint>
           </mat-form-field>
@@ -92,11 +94,13 @@
                     [displayWith]="displayMaterialName"
                     (optionSelected)="onMaterialSelected($event.option.value, i)"
                   >
-                    @for(mat of item.get('filteredMaterials')?.value; track mat.id) {
-                      <mat-option [value]="mat">
-                        {{ mat.name }} ({{ mat.sku }})
-                      </mat-option>
-                    }
+                    <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
+                      @for(mat of item.get('filteredMaterials')?.value; track mat.id) {
+                        <mat-option [value]="mat">
+                          {{ mat.name }} ({{ mat.sku }})
+                        </mat-option>
+                      }
+                    </cdk-virtual-scroll-viewport>
                   </mat-autocomplete>
                   @if(materials().length === 0) {
                     <mat-hint>No pickable inventory for this account.</mat-hint>

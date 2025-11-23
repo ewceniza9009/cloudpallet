@@ -24,8 +24,10 @@
             <mat-autocomplete #autoAccount="matAutocomplete"
                               [displayWith]="displayAccount"
                               (optionSelected)="onAccountSelected($event)">
-              @for(account of filteredAccounts(); track account.id) { <mat-option [value]="account">{{ account.name }}</mat-option>
-              }
+              <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
+                @for(account of filteredAccounts(); track account.id) { <mat-option [value]="account">{{ account.name }}</mat-option>
+                }
+              </cdk-virtual-scroll-viewport>
             </mat-autocomplete>
             @if(isLoadingLookups()) { <mat-progress-spinner matSuffix mode="indeterminate" diameter="20"></mat-progress-spinner> }
           </mat-form-field>
@@ -44,8 +46,10 @@
               <mat-autocomplete #autoKit="matAutocomplete"
                                 [displayWith]="displayMaterial"
                                 (optionSelected)="onKitMaterialSelected($event)">
-                @for(kit of filteredKitMaterials(); track kit.id) { <mat-option [value]="kit">{{ kit.name }} ({{kit.sku}})</mat-option>
-                }
+                <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
+                  @for(kit of filteredKitMaterials(); track kit.id) { <mat-option [value]="kit">{{ kit.name }} ({{kit.sku}})</mat-option>
+                  }
+                </cdk-virtual-scroll-viewport>
               </mat-autocomplete>
               @if(kitMaterials().length === 0 && !isLoadingLookups()) {
                 <mat-hint>No kitting recipes (BOMs) found.</mat-hint>

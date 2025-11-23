@@ -19,9 +19,11 @@
       <mat-autocomplete #autoAccount="matAutocomplete"
                         [displayWith]="displayAccountName"
                         (optionSelected)="onFilterChange()">
-        @for(account of filteredAccounts$ | async; track account.id) {
-          <mat-option [value]="account">{{ account.name }}</mat-option>
-        }
+        <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
+          @for(account of filteredAccounts$ | async; track account.id) {
+            <mat-option [value]="account">{{ account.name }}</mat-option>
+          }
+        </cdk-virtual-scroll-viewport>
       </mat-autocomplete>
        @if(isLoadingLookups()) { <mat-progress-spinner matSuffix mode="indeterminate" diameter="20"></mat-progress-spinner> }
     </mat-form-field>
@@ -36,9 +38,11 @@
       <mat-autocomplete #autoMaterial="matAutocomplete"
                         [displayWith]="displayMaterialName"
                         (optionSelected)="onFilterChange()">
-        @for(material of filteredMaterials$ | async; track material.id) {
-          <mat-option [value]="material">{{ material.name }} ({{material.sku}})</mat-option>
-        }
+        <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
+          @for(material of filteredMaterials$ | async; track material.id) {
+            <mat-option [value]="material">{{ material.name }} ({{material.sku}})</mat-option>
+          }
+        </cdk-virtual-scroll-viewport>
       </mat-autocomplete>
        @if(isLoadingLookups()) { <mat-progress-spinner matSuffix mode="indeterminate" diameter="20"></mat-progress-spinner> }
     </mat-form-field>

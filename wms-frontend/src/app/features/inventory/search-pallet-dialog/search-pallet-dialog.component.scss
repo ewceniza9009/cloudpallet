@@ -64,3 +64,15 @@
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--mat-sys-outline-variant);
 }
+
+// Virtual scrolling viewport for autocomplete dropdowns
+.autocomplete-viewport {
+  height: 256px; // ~5-6 items visible (48px each)
+  width: 100%;
+}
+
+// Ensure mat-option inside virtual scroll viewport displays correctly
+.autocomplete-viewport .mat-mdc-option {
+  height: 48px;
+  min-height: 48px;
+}
