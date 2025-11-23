@@ -401,12 +401,14 @@ export class InventoryApiService {
   recordRepack(
     sourceInventoryId: string,
     targetMaterialId: string,
-    quantityToProcess: number
+    quantityToProcess: number,
+    durationHours: number
   ): Observable<void> {
     const command: RecordVasCommand = {
       sourceInventoryId,
       targetMaterialId,
       quantityToProcess,
+      durationHours,
       serviceType: 'Repack',
     };
     return this.http.post<void>(`${this.inventoryUrl}/record-vas`, command);

@@ -151,6 +151,14 @@ public class RecordVasCommandHandler(
         vasTransaction.AddInputLine(sourceInventory.MaterialId, request.QuantityToProcess.Value, inputWeight);
         vasTransaction.AddOutputLine(request.TargetMaterialId.Value, outputQuantity, outputWeight);
 
+        // Add Labor Line for Billing
+        if (request.DurationHours.HasValue && request.DurationHours.Value > 0)
+        {
+            // Use null for MaterialId to signify a non-material (labor) line
+            // Store the hours in the 'Quantity' field.
+            vasTransaction.AddInputLine(null, request.DurationHours.Value, 0);
+        }
+
         // Adjust source inventory
         sourceInventory.AdjustForWeighedPick(request.QuantityToProcess.Value, inputWeight);
 

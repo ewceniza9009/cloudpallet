@@ -77,6 +77,7 @@ export class RepackComponent implements OnInit {
       sourceInventory: [{ value: null, disabled: true }, Validators.required],
       targetMaterial: [{ value: null, disabled: true }, Validators.required],
       quantityToProcess: [1, [Validators.required, Validators.min(1)]],
+      durationHours: [null, [Validators.required, Validators.min(0.1)]],
     });
   }
 
@@ -217,7 +218,8 @@ export class RepackComponent implements OnInit {
       .recordRepack(
         formValue.sourceInventory.inventoryId,
         formValue.targetMaterial.id,
-        formValue.quantityToProcess
+        formValue.quantityToProcess,
+        formValue.durationHours
       )
       .subscribe({
         next: () => {
