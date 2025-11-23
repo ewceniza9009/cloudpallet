@@ -293,13 +293,12 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
         string? barcodeQuery,
         CancellationToken cancellationToken)
     {
-        // Start with MaterialInventories as the base
+        // 1. Filter MaterialInventories to find matching Pallet IDs
         var query = context.MaterialInventories.AsNoTracking()
             .Where(mi => mi.Location.Room.WarehouseId == warehouseId &&
                          mi.Location.ZoneType == LocationType.Storage &&
                          mi.Quantity > 0);
 
-        // Apply optional filters
         if (accountId.HasValue)
         {
             query = query.Where(mi => mi.AccountId == accountId.Value);
@@ -310,50 +309,51 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
         }
         if (!string.IsNullOrWhiteSpace(barcodeQuery))
         {
-            query = query.Where(mi => mi.Pallet.Barcode.Contains(barcodeQuery) ||
-                                     mi.Barcode.Contains(barcodeQuery));
+            // Use StartsWith to allow index usage
+            query = query.Where(mi => mi.Pallet.Barcode.StartsWith(barcodeQuery) ||
+                                     mi.Barcode.StartsWith(barcodeQuery));
         }
 
-        // Group by primitive keys (IDs, strings), not entire entities
-        var results = await query
-            .Include(mi => mi.Pallet)
-                .ThenInclude(p => p.Account)
-            .Include(mi => mi.Material)
-            .Include(mi => mi.Location)
-            // Group by primitive keys ***
-            .GroupBy(mi => new
-            {
-                mi.PalletId, // Use the ID
-                mi.Pallet.Barcode,
-                AccountName = mi.Pallet.Account.Name,
-                LocationBarcode = mi.Location.Barcode
-            })
-            .Select(g => new
-            {
-                // Access the keys from the group
-                PalletId = g.Key.PalletId,
-                PalletBarcode = g.Key.Barcode,
-                AccountName = g.Key.AccountName,
-                LocationBarcode = g.Key.LocationBarcode,
-                // Collect the material names from the items in this group
-                Items = g.Select(mi => mi.Material.Name).ToList()
-            })
-            .OrderBy(r => r.LocationBarcode)
-            .ThenBy(r => r.PalletBarcode)
+        // Get distinct Pallet IDs first (Limit to 50)
+        var palletIds = await query
+            .Select(mi => mi.PalletId)
+            .Distinct()
             .Take(50)
-            .ToListAsync(cancellationToken); // Execute query
+            .ToListAsync(cancellationToken);
 
-        // Now, format the final DTO in memory
-        return results.Select(r => new StoredPalletSearchResultDto
+        if (!palletIds.Any())
         {
-            PalletId = r.PalletId,
-            PalletBarcode = r.PalletBarcode,
-            LocationName = r.LocationBarcode,
-            AccountName = r.AccountName,
-            // Create a summary of materials
-            MaterialSummary = r.Items.Count > 1
-                ? $"{r.Items.First()} + {r.Items.Count - 1} other(s)"
-                : (r.Items.FirstOrDefault() ?? "N/A") // Handle potential empty group
+            return Enumerable.Empty<StoredPalletSearchResultDto>();
+        }
+
+        // 2. Fetch details for the found pallets
+        var pallets = await context.Pallets.AsNoTracking()
+            .Where(p => palletIds.Contains(p.Id))
+            .Include(p => p.Account)
+            .Include(p => p.Inventory)
+                .ThenInclude(i => i.Material)
+            .Include(p => p.Inventory)
+                .ThenInclude(i => i.Location)
+            .ToListAsync(cancellationToken);
+
+        // 3. Map to DTO in memory
+        return pallets.Select(p =>
+        {
+            var activeInventory = p.Inventory.Where(i => i.Quantity > 0).ToList();
+            var firstInv = activeInventory.FirstOrDefault();
+            var locationName = firstInv?.Location.Barcode ?? "Unknown";
+            var materials = activeInventory.Select(i => i.Material.Name).Distinct().ToList();
+
+            return new StoredPalletSearchResultDto
+            {
+                PalletId = p.Id,
+                PalletBarcode = p.Barcode,
+                LocationName = locationName,
+                AccountName = p.Account.Name,
+                MaterialSummary = materials.Count > 1
+                    ? $"{materials.First()} + {materials.Count - 1} other(s)"
+                    : (materials.FirstOrDefault() ?? "N/A")
+            };
         });
     }
 }

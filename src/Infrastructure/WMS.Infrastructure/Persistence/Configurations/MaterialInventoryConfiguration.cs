@@ -13,6 +13,7 @@ public class MaterialInventoryConfiguration : IEntityTypeConfiguration<MaterialI
         builder.HasKey(mi => mi.Id);
 
         builder.HasIndex(mi => mi.PalletLineId).IsUnique();
+        builder.HasIndex(mi => mi.Barcode); // Optimized for LPN search
 
         builder.OwnsOne(mi => mi.WeightActual);
 
