@@ -1,27 +1,23 @@
 ﻿using MediatR;
 using WMS.Application.Abstractions.Persistence;
+using WMS.Application.Common.Models;
 
 namespace WMS.Application.Features.Admin.Queries;
 
-public record GetRatesQuery : IRequest<IEnumerable<RateDto>>;
+public class GetRatesQuery : IRequest<PagedResult<RateDto>>
+{
+    public int Page { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+    public string? SortBy { get; set; }
+    public string? SortDirection { get; set; }
+    public string? SearchTerm { get; set; }
+}
 
 public class GetRatesQueryHandler(IRateRepository rateRepository)
-    : IRequestHandler<GetRatesQuery, IEnumerable<RateDto>>
+    : IRequestHandler<GetRatesQuery, PagedResult<RateDto>>
 {
-    public async Task<IEnumerable<RateDto>> Handle(GetRatesQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResult<RateDto>> Handle(GetRatesQuery request, CancellationToken cancellationToken)
     {
-        var rates = await rateRepository.GetAllAsync(cancellationToken);
-
-        return rates.Select(rate => new RateDto(
-            rate.Id,
-            rate.AccountId,
-            rate.ServiceType,
-            rate.Uom,
-            rate.Value,
-            rate.Tier,
-            rate.EffectiveStartDate,
-            rate.EffectiveEndDate,
-            rate.IsActive
-        ));
+        return await rateRepository.GetPagedListAsync(request, cancellationToken);
     }
 }

@@ -10,4 +10,5 @@ public interface IRateRepository
     Task AddAsync(Rate rate, CancellationToken cancellationToken);
     Task<Rate?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     void Remove(Rate rate);
+    Task<Common.Models.PagedResult<Features.Admin.Queries.RateDto>> GetPagedListAsync(Features.Admin.Queries.GetRatesQuery request, CancellationToken cancellationToken);
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -9,10 +9,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { AdminApiService, Rate } from '../../admin-api.service';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { AdminApiService, Rate, RateDto } from '../../admin-api.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
-import { map, startWith, debounceTime, distinctUntilChanged } from 'rxjs';
+import { map, startWith, debounceTime, distinctUntilChanged, merge, tap } from 'rxjs';
 
 interface AccountDto { id: string; name: string; }
 
@@ -32,6 +34,8 @@ interface AccountDto { id: string; name: string; }
     MatButtonModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   templateUrl: './rate-list.component.html',
   styleUrls: ['./rate-list.component.scss'],
@@ -41,8 +45,38 @@ export class RateListComponent implements OnInit {
   private http = inject(HttpClient);
   private router = inject(Router);
 
-  rates = signal<Rate[]>([]);
-  filteredRates = signal<Rate[]>([]);
+  private _paginator: MatPaginator | undefined;
+  private _sort: MatSort | undefined;
+
+  @ViewChild(MatPaginator) set paginator(value: MatPaginator) {
+    this._paginator = value;
+    if (this._paginator) {
+      this._paginator.page.pipe(
+        tap(() => this.loadData())
+      ).subscribe();
+    }
+  }
+  get paginator(): MatPaginator | undefined {
+    return this._paginator;
+  }
+
+  @ViewChild(MatSort) set sort(value: MatSort) {
+    this._sort = value;
+    if (this._sort) {
+      this._sort.sortChange.pipe(
+        tap(() => {
+          if (this.paginator) this.paginator.pageIndex = 0;
+          this.loadData();
+        })
+      ).subscribe();
+    }
+  }
+  get sort(): MatSort | undefined {
+    return this._sort;
+  }
+
+  rates = signal<RateDto[]>([]);
+  totalCount = signal(0);
   isLoading = signal(true);
   searchControl = new FormControl('');
   accountMap = new Map<string, string>();
@@ -58,28 +92,50 @@ export class RateListComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.loadAccounts();
     this.loadData();
 
     // Add debounce for better search performance
     this.searchControl.valueChanges.pipe(
-      startWith(''),
       debounceTime(300),
-      distinctUntilChanged(),
-      map(value => this._filter(value || ''))
-    ).subscribe(filtered => this.filteredRates.set(filtered));
+      distinctUntilChanged()
+    ).subscribe(() => {
+      if (this.paginator) this.paginator.pageIndex = 0;
+      this.loadData();
+    });
   }
 
-  loadData(): void {
-    this.isLoading.set(true);
+  loadAccounts(): void {
     this.http.get<AccountDto[]>(`${environment.apiUrl}/Lookups/accounts`).subscribe(accounts => {
         accounts.forEach(acc => this.accountMap.set(acc.id, acc.name));
         this.accountMap.set('00000000-0000-0000-0000-000000000000', 'Default');
     });
+  }
 
-    this.adminApi.getRates().subscribe({
-      next: (data) => {
-        this.rates.set(data);
-        this.filteredRates.set(data);
+  loadData(): void {
+    // Note: We don't set isLoading(true) here to avoid flickering/re-rendering the table
+    // which would destroy the paginator/sort view children.
+    // Only set it on initial load or if you want to hide the table.
+    if (this.rates().length === 0) {
+        this.isLoading.set(true);
+    }
+    
+    const page = this.paginator ? this.paginator.pageIndex + 1 : 1;
+    const pageSize = this.paginator ? this.paginator.pageSize : 10;
+    const sortBy = this.sort ? this.sort.active : 'ServiceType';
+    const sortDirection = this.sort ? this.sort.direction : 'asc';
+    const searchTerm = this.searchControl.value || '';
+
+    this.adminApi.getRates({
+      page,
+      pageSize,
+      sortBy,
+      sortDirection: sortDirection === '' ? undefined : sortDirection as 'asc' | 'desc',
+      searchTerm
+    }).subscribe({
+      next: (result) => {
+        this.rates.set(result.items);
+        this.totalCount.set(result.totalCount);
         this.isLoading.set(false);
       },
       error: (error) => {
@@ -87,16 +143,6 @@ export class RateListComponent implements OnInit {
         this.isLoading.set(false);
       }
     });
-  }
-
-  private _filter(value: string): Rate[] {
-    const filterValue = value.toLowerCase();
-    return this.rates().filter(rate =>
-      this.getAccountName(rate.accountId).toLowerCase().includes(filterValue) ||
-      rate.serviceType.toLowerCase().includes(filterValue) ||
-      rate.tier.toLowerCase().includes(filterValue) ||
-      rate.uom.toLowerCase().includes(filterValue)
-    );
   }
 
   getAccountName(accountId: string | null): string {

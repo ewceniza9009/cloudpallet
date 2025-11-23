@@ -28,9 +28,10 @@ public class AdminController : ApiControllerBase
 
     [HttpGet("rates")]
     [Authorize(Policy = "FinancePolicy")]
-    public async Task<IActionResult> GetRates()
+    [ProducesResponseType(typeof(PagedResult<RateDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetRates([FromQuery] GetRatesQuery query)
     {
-        return Ok(await Mediator.Send(new GetRatesQuery()));
+        return Ok(await Mediator.Send(query));
     }
 
     [HttpPost("rates")]

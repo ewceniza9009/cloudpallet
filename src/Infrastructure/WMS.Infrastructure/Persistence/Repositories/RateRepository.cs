@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Domain.Entities;
 using WMS.Domain.Enums;
@@ -66,5 +67,59 @@ public class RateRepository(WmsDbContext context) : IRateRepository
     public void Remove(Rate rate)
     {
         context.Rates.Remove(rate);
+    }
+
+    public async Task<Application.Common.Models.PagedResult<Application.Features.Admin.Queries.RateDto>> GetPagedListAsync(Application.Features.Admin.Queries.GetRatesQuery request, CancellationToken cancellationToken)
+    {
+        var query = context.Rates.AsNoTracking();
+
+        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+        {
+            var term = request.SearchTerm.Trim().ToLower();
+            // Note: ServiceType and Uom are enums, so we might need to filter client-side or use string conversion if supported by DB provider.
+            // For now, let's assume we filter by Tier or Account ID (if we had account name join).
+            // Since we don't have Account Name join easily here without Include, let's filter by Tier.
+            query = query.Where(r => r.Tier.ToLower().Contains(term));
+        }
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        if (!string.IsNullOrWhiteSpace(request.SortBy))
+        {
+            var sortColumn = request.SortBy.ToLowerInvariant() switch
+            {
+                "servicetype" => "ServiceType",
+                "uom" => "Uom",
+                "value" => "Value",
+                "tier" => "Tier",
+                "effectivestartdate" => "EffectiveStartDate",
+                "isactive" => "IsActive",
+                _ => "ServiceType"
+            };
+            var sortDirection = request.SortDirection?.ToLower() == "desc" ? "descending" : "ascending";
+            query = query.OrderBy($"{sortColumn} {sortDirection}");
+        }
+        else
+        {
+            query = query.OrderBy(r => r.ServiceType);
+        }
+
+        var items = await query
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .Select(rate => new Application.Features.Admin.Queries.RateDto(
+                rate.Id,
+                rate.AccountId,
+                rate.ServiceType,
+                rate.Uom,
+                rate.Value,
+                rate.Tier,
+                rate.EffectiveStartDate,
+                rate.EffectiveEndDate,
+                rate.IsActive
+            ))
+            .ToListAsync(cancellationToken);
+
+        return new Application.Common.Models.PagedResult<Application.Features.Admin.Queries.RateDto> { Items = items, TotalCount = totalCount };
     }
 }

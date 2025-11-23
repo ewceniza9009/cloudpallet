@@ -239,6 +239,14 @@ export interface GetMaterialsQuery {
     searchTerm?: string;
 }
 
+export interface GetRatesQuery {
+    page: number;
+    pageSize: number;
+    sortBy?: string;
+    sortDirection?: 'asc' | 'desc';
+    searchTerm?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AdminApiService {
   private http = inject(HttpClient);
@@ -268,8 +276,16 @@ export class AdminApiService {
     );
   }
 
-  getRates(): Observable<RateDto[]> {
-    return this.http.get<RateDto[]>(`${this.adminApiUrl}/rates`);
+  getRates(query: GetRatesQuery): Observable<PagedResult<RateDto>> {
+    let params = new HttpParams()
+        .set('page', query.page.toString())
+        .set('pageSize', query.pageSize.toString());
+
+    if (query.sortBy) params = params.set('sortBy', query.sortBy);
+    if (query.sortDirection) params = params.set('sortDirection', query.sortDirection);
+    if (query.searchTerm) params = params.set('searchTerm', query.searchTerm);
+
+    return this.http.get<PagedResult<RateDto>>(`${this.adminApiUrl}/rates`, { params });
   }
 
   createRate(command: CreateRateCommand): Observable<string> {
