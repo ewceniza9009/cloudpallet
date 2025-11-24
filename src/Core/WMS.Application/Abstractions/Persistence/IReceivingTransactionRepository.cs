@@ -24,4 +24,5 @@ public interface IReceivingTransactionRepository
     void RemovePalletLine(PalletLine palletLine);
     Task<Receiving?> GetByAppointmentIdAsync(Guid appointmentId, CancellationToken cancellationToken);
     Task<IEnumerable<PalletMovementDto>> GetPalletHistoryAsync(string palletBarcode, CancellationToken cancellationToken);
+    void Remove(Receiving receiving);
 }

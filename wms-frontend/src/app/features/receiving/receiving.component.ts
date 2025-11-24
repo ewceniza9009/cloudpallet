@@ -135,4 +135,19 @@ export class ReceivingComponent implements OnInit, OnDestroy {
   startNewSession(): void {
     this.router.navigate(['/receiving/new']);
   }
+
+  deleteSession(receivingId: string): void {
+    if (!confirm('Are you sure you want to delete this receiving session?')) {
+      return;
+    }
+    this.inventoryApi.deleteReceivingSession(receivingId).subscribe({
+      next: () => {
+        this.snackBar.open('Receiving session deleted.', 'OK', { duration: 3000 });
+        this.loadSessions();
+      },
+      error: (err) => {
+        this.snackBar.open(`Failed to delete session: ${err.error?.title || 'Error'}`, 'Close', { duration: 5000 });
+      },
+    });
+  }
 }

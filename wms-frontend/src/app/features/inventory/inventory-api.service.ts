@@ -378,6 +378,11 @@ export class InventoryApiService {
     return this.http.post<void>(`${this.receivingUrl}/session/${receivingId}/complete`, {});
   }
 
+  // Delete a receiving session by ID
+  deleteReceivingSession(receivingId: string): Observable<void> {
+    return this.http.delete<void>(`${this.receivingUrl}/session/${receivingId}`);
+  }
+
   getStoredPalletsByRoom(): Observable<RoomWithPalletsDto[]> {
     const warehouseId = this.warehouseState.selectedWarehouseId();
     if (!warehouseId) {

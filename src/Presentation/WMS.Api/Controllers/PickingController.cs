@@ -82,4 +82,15 @@ public class PickingController : ApiControllerBase
         await Mediator.Send(command);
         return NoContent();
     }
+
+    [HttpDelete("items/{pickTransactionId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeletePickItem(Guid pickTransactionId)
+    {
+        var command = new DeletePickItemCommand(pickTransactionId);
+        await Mediator.Send(command);
+        return NoContent();
+    }
 }

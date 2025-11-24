@@ -296,4 +296,9 @@ public class ReceivingTransactionRepository(WmsDbContext context) : IReceivingTr
         // Finally, sort all collected events by date
         return movements.OrderBy(m => m.Timestamp);
     }
+
+    public void Remove(Receiving receiving)
+    {
+        context.Receivings.Remove(receiving);
+    }
 }

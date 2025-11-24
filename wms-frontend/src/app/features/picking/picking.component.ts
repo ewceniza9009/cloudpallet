@@ -401,4 +401,24 @@ export class PickingComponent implements OnInit {
       duration: 3000,
     });
   }
+
+  deleteItem(item: PickItem): void {
+    if (!confirm(`Are you sure you want to delete this pick item: ${item.material}?`)) {
+      return;
+    }
+
+    this.pickingApi.deletePickItem(item.pickId).subscribe({
+      next: () => {
+        this.snackBar.open('Pick item deleted successfully.', 'OK', { duration: 3000 });
+        this.loadPickList(); // Reload to refresh the list
+      },
+      error: (err) => {
+        this.snackBar.open(
+          `Failed to delete item: ${err.error?.title || 'Unknown error'}`,
+          'Close',
+          { duration: 5000 }
+        );
+      },
+    });
+  }
 }

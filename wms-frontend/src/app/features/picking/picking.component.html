@@ -181,6 +181,9 @@
                             <button mat-icon-button color="warn" (click)="markAsShort(item)" matTooltip="Mark as Short" [attr.aria-label]="'Mark ' + item.material + ' as short'" class="action-button">
                               <mat-icon>warning</mat-icon>
                             </button>
+                            <button mat-icon-button color="warn" (click)="deleteItem(item)" matTooltip="Delete Item" [attr.aria-label]="'Delete ' + item.material" class="action-button">
+                              <mat-icon>delete</mat-icon>
+                            </button>
                             <button mat-icon-button color="primary" (click)="openScanDialog(item)" matTooltip="Scan to Confirm" [attr.aria-label]="'Scan to confirm ' + item.material" class="action-button">
                               <mat-icon>qr_code_scanner</mat-icon>
                             </button>

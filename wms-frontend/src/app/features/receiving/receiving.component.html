@@ -91,22 +91,25 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let session" class="actions-cell">
-              <a
-                mat-stroked-button
-                color="primary"
-                [routerLink]="['/receiving', session.receivingId]"
-              >
-                @if (session.status === 'InProgress') {
-                <ng-container>
-                  <mat-icon>play_arrow</mat-icon>
-                </ng-container>
-                } @else {
-                <ng-container>
-                  <mat-icon>visibility</mat-icon>
-                </ng-container>
-                }
-              </a>
-            </td>
+      <a
+        mat-stroked-button
+        color="primary"
+        [routerLink]="['/receiving', session.receivingId]"
+      >
+        @if (session.status === 'InProgress') {
+          <ng-container>
+            <mat-icon>play_arrow</mat-icon>
+          </ng-container>
+        } @else {
+          <ng-container>
+            <mat-icon>visibility</mat-icon>
+          </ng-container>
+        }
+      </a>
+      <button mat-icon-button color="warn" (click)="deleteSession(session.receivingId)" matTooltip="Delete Session" class="action-button">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -12,4 +12,5 @@ public interface IPickTransactionRepository
     Task<PickTransaction?> GetByIdWithDetailsAsync(Guid id, CancellationToken cancellationToken);
     Task<IEnumerable<PickTransaction>> GetForAccountByPeriodAsync(Guid accountId, DateTime startDate, DateTime endDate, CancellationToken cancellationToken);
     Task<IEnumerable<ShippableGroupDto>> GetConfirmedPicksGroupedByAccountAsync(Guid warehouseId, CancellationToken cancellationToken);    
+    void Remove(PickTransaction transaction);
 }

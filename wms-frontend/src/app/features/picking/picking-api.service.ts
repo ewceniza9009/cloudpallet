@@ -62,4 +62,8 @@ export class PickingApiService {
   confirmPickByScan(request: ConfirmPickByScanRequest): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/confirm-by-scan`, request);
   }
+
+  deletePickItem(pickId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/items/${pickId}`);
+  }
 }

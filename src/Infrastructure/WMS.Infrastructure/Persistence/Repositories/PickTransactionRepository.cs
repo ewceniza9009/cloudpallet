@@ -86,4 +86,9 @@ public class PickTransactionRepository(WmsDbContext context) : IPickTransactionR
             .Where(p => p.AccountId == accountId && p.Timestamp >= startDate && p.Timestamp < endDate)
             .ToListAsync(cancellationToken);
     }
+
+    public void Remove(PickTransaction transaction)
+    {
+        context.PickTransactions.Remove(transaction);
+    }
 }

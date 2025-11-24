@@ -102,4 +102,14 @@ public class ReceivingController : ApiControllerBase
         await Mediator.Send(new CompleteReceivingSessionCommand(id));
         return NoContent();
     }
+
+    [HttpDelete("session/{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteSession(Guid id)
+    {
+        await Mediator.Send(new DeleteReceivingSessionCommand(id));
+        return NoContent();
+    }
 }
