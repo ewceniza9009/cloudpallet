@@ -1,4 +1,5 @@
 <div class="picking-container">
+  
   <mat-card class="create-order-card">
     <mat-card-header
       (click)="isFormCollapsed.set(!isFormCollapsed())"
@@ -20,7 +21,8 @@
     @if (!isFormCollapsed()) {
       <mat-card-content [formGroup]="orderForm">
         <div class="compact-form-layout">
-          <mat-form-field appearance="outline" class="account-selector">
+          
+          <mat-form-field appearance="outline" class="account-selector" subscriptSizing="dynamic">
             <mat-label>Customer Account</mat-label>
             <input
               type="text"
@@ -28,7 +30,6 @@
               matInput
               formControlName="accountSearch"
               [matAutocomplete]="autoAccount"
-              aria-describedby="account-hint"
             >
             <mat-autocomplete
               #autoAccount="matAutocomplete"
@@ -43,10 +44,10 @@
                 }
               </cdk-virtual-scroll-viewport>
             </mat-autocomplete>
-            <mat-hint id="account-hint">Select the customer account for this pick list</mat-hint>
           </mat-form-field>
 
-          <div class="form-options"> <mat-checkbox formControlName="isExpedited" color="warn" class="expedited-checkbox">
+          <div class="form-options"> 
+            <mat-checkbox formControlName="isExpedited" color="warn" class="expedited-checkbox">
               Expedited Order (Rush)
             </mat-checkbox>
             <div class="form-actions">
@@ -54,7 +55,6 @@
                 mat-stroked-button
                 (click)="addOrderItem()"
                 [disabled]="orderItems.disabled"
-                aria-label="Add new order item"
               >
                 <mat-icon>add</mat-icon>
                 <span>Add Line</span>
@@ -64,7 +64,6 @@
                 color="primary"
                 (click)="createPickList()"
                 [disabled]="orderForm.invalid || isCreating()"
-                aria-label="Create pick list"
               >
                 @if(isCreating()) {
                   <mat-spinner diameter="20" style="margin-right: 8px;"></mat-spinner>
@@ -79,15 +78,15 @@
           <div formArrayName="orderItems" class="order-items-container">
             @for(item of orderItems.controls; track $index; let i = $index) {
               <div [formGroupName]="i" class="order-item-row">
-                <mat-form-field appearance="outline" class="material-select">
+                
+                <mat-form-field appearance="outline" class="material-select" subscriptSizing="dynamic">
                   <mat-label>Material</mat-label>
                   <input
                     type="text"
-                    placeholder="Search for material or SKU..."
+                    placeholder="Search material/SKU..."
                     matInput
                     formControlName="materialSearch"
                     [matAutocomplete]="autoMaterial"
-                    [attr.aria-label]="'Material search for item ' + (i + 1)"
                   >
                   <mat-autocomplete
                     #autoMaterial="matAutocomplete"
@@ -103,19 +102,13 @@
                     </cdk-virtual-scroll-viewport>
                   </mat-autocomplete>
                   @if(materials().length === 0) {
-                    <mat-hint>No pickable inventory for this account.</mat-hint>
+                    <mat-hint>No inventory found.</mat-hint>
                   }
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="quantity-input">
-                  <mat-label>Quantity</mat-label>
-                  <input
-                    matInput
-                    type="number"
-                    formControlName="quantity"
-                    min="1"
-                    [attr.aria-label]="'Quantity for item ' + (i + 1)"
-                  >
+                <mat-form-field appearance="outline" class="quantity-input" subscriptSizing="dynamic">
+                  <mat-label>Qty</mat-label>
+                  <input matInput type="number" formControlName="quantity" min="1">
                 </mat-form-field>
 
                 <button
@@ -124,7 +117,6 @@
                   (click)="removeOrderItem(i)"
                   [disabled]="orderItems.controls.length <= 1"
                   matTooltip="Remove Line"
-                  aria-label="Remove this order item"
                 >
                   <mat-icon>remove_circle_outline</mat-icon>
                 </button>
@@ -138,7 +130,7 @@
 
   <section class="active-list-section" aria-labelledby="active-picks-heading">
     @if (isLoading()) {
-      <div class="spinner-container" aria-label="Loading pick lists">
+      <div class="spinner-container">
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
     } @else {
@@ -146,8 +138,8 @@
         @for (group of pickListGroups(); track group.accountId) {
           <mat-card class="pick-group-card">
             <mat-card-header>
-              <div mat-card-avatar class="account-avatar" aria-hidden="true">
-                <mat-icon>account_circle</mat-icon>
+              <div mat-card-avatar class="account-avatar">
+                <mat-icon>business</mat-icon>
               </div>
               <mat-card-title>{{ group.accountName }}</mat-card-title>
               <mat-card-subtitle>
@@ -156,39 +148,41 @@
             </mat-card-header>
 
             <mat-card-content>
-              <mat-list aria-label="Pick items for {{ group.accountName }}">
+              <mat-list>
                 @for(item of group.items; track item.pickId) {
                   <mat-list-item class="pick-item">
                     <div class="pick-item-content">
-                       <div class="item-status-indicator" aria-hidden="true">
+                        <div class="item-status-indicator">
                           <mat-icon [ngClass]="item.status.toLowerCase()">
                             {{ item.status === 'Confirmed' ? 'check_circle' :
                                (item.status === 'Short' ? 'warning' : 'pending') }}
                           </mat-icon>
                         </div>
+                        
                         <div class="item-details-main">
                           <div class="item-title">
                             {{ item.material }}
                             <span class="item-sku">({{ item.sku }})</span>
                           </div>
                           <div class="item-meta">
-                            <span>Location: <strong class="item-location">{{ item.location }}</strong></span>
-                            <span>Quantity: <strong class="item-quantity">{{ item.quantity }}</strong></span>
+                            <span>Loc: <strong>{{ item.location }}</strong></span>
+                            <span>Qty: <strong>{{ item.quantity }}</strong></span>
                           </div>
                         </div>
+
                         <div class="item-actions">
                           @if (item.status === 'Planned') {
-                            <button mat-icon-button color="warn" (click)="markAsShort(item)" matTooltip="Mark as Short" [attr.aria-label]="'Mark ' + item.material + ' as short'" class="action-button">
+                            <button mat-icon-button color="warn" (click)="markAsShort(item)" matTooltip="Mark Short" class="action-button">
                               <mat-icon>warning</mat-icon>
                             </button>
-                            <button mat-icon-button color="warn" (click)="deleteItem(item)" matTooltip="Delete Item" [attr.aria-label]="'Delete ' + item.material" class="action-button">
+                            <button mat-icon-button color="warn" (click)="deleteItem(item)" matTooltip="Delete" class="action-button">
                               <mat-icon>delete</mat-icon>
                             </button>
-                            <button mat-icon-button color="primary" (click)="openScanDialog(item)" matTooltip="Scan to Confirm" [attr.aria-label]="'Scan to confirm ' + item.material" class="action-button">
+                            <button mat-icon-button color="primary" (click)="openScanDialog(item)" matTooltip="Scan" class="action-button">
                               <mat-icon>qr_code_scanner</mat-icon>
                             </button>
                           } @else {
-                            <span class="status-badge" [ngClass]="'status-badge-' + item.status.toLowerCase()" [attr.aria-label]="'Status: ' + item.status">{{ item.status }}</span>
+                            <span class="status-badge" [ngClass]="'status-badge-' + item.status.toLowerCase()">{{ item.status }}</span>
                           }
                         </div>
                     </div>
@@ -198,11 +192,11 @@
             </mat-card-content>
           </mat-card>
         } @empty {
-          <mat-card>
+          <mat-card class="empty-card">
             <mat-card-content>
-              <div class="empty-list-message" aria-label="No pending picks">
+              <div class="empty-list-message">
                 <mat-icon>checklist</mat-icon>
-                <h3>No pending picks assigned.</h3>
+                <h3>No pending picks.</h3>
                 <p>Create a new pick list to get started.</p>
               </div>
             </mat-card-content>

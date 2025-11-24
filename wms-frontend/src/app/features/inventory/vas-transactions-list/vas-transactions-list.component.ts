@@ -17,6 +17,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { environment } from '../../../../environments/environment';
 import { InventoryApiService, VasTransactionDto } from '../inventory-api.service';
 import { AmendVasDialogComponent } from '../amend-vas-dialog/amend-vas-dialog.component';
@@ -46,7 +47,8 @@ interface AccountDto {
     MatAutocompleteModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTooltipModule
   ],
   templateUrl: './vas-transactions-list.component.html',
   styleUrls: ['./vas-transactions-list.component.scss']

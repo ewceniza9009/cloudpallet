@@ -1,10 +1,10 @@
 // ---- File: wms-frontend/src/app/features/picking/picking.component.scss ----
 :host {
   display: block;
-  padding: 1.5rem 2.5rem;
+  // Padding removed from host to allow container to center properly
 }
 
-// Typography scale for consistency
+// Variables (kept your scale)
 $header-large: 2.25rem;
 $header-medium: 1.5rem;
 $header-small: 1.15rem;
@@ -12,7 +12,6 @@ $body-large: 1rem;
 $body-medium: 0.875rem;
 $body-small: 0.75rem;
 
-// Spacing scale
 $spacing-xs: 0.25rem;
 $spacing-sm: 0.5rem;
 $spacing-md: 0.75rem;
@@ -20,52 +19,46 @@ $spacing-lg: 1rem;
 $spacing-xl: 1.5rem;
 $spacing-xxl: 2rem;
 
-// Border radius scale
 $border-radius-sm: 4px;
 $border-radius-md: 8px;
 $border-radius-lg: 16px;
 $border-radius-full: 50%;
 
-.page-header {
-  margin-bottom: $spacing-xxl;
-
-  h1 {
-    font-size: $header-large;
-    font-weight: 600;
-    margin: 0;
-    line-height: 1.2;
-  }
-
-  p {
-    font-size: $body-large;
-    color: var(--mat-sys-on-surface-variant);
-    margin-top: $spacing-xs;
-  }
-}
-
+// ===== MAIN CONTAINER (MATCHING VAS MARGINS) =====
 .picking-container {
+  padding: 2rem 2.5rem;   // Matches VAS
+  max-width: 1600px;      // Matches VAS
+  margin: 0 auto;         // Matches VAS
+  animation: fadeIn 0.3s ease-out; // Matches VAS animation
+  
   display: flex;
   flex-direction: column;
-  gap: $spacing-xxl;
+  gap: 2rem;
 }
 
-// Create Order Form - Enhanced structure
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// ===== CREATE ORDER CARD =====
 .create-order-card {
   border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: $border-radius-md;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 20px; // Matching VAS radius
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); // Matching VAS shadow
+  overflow: visible;
 
   .mat-mdc-card-header {
-    cursor: pointer; // Make header clickable
+    cursor: pointer;
     user-select: none;
-
+    padding: 1.25rem 1.5rem; // Align with VAS headers
+    
     .mat-mdc-card-title {
-      font-size: $header-small;
+      font-size: 1.25rem;
       font-weight: 600;
       margin: 0;
     }
 
-    // Style for collapse button
     .collapse-toggle-button {
       margin-left: auto;
       color: var(--mat-sys-on-surface-variant);
@@ -73,17 +66,7 @@ $border-radius-full: 50%;
   }
 
   .mat-mdc-card-content {
-    padding: $spacing-lg;
-  }
-}
-
-.collapsible-header { // Duplicated selector, maybe remove if not needed elsewhere
-  cursor: pointer;
-  user-select: none;
-
-  &:hover {
-    background-color: var(--mat-sys-state-hover);
-    border-radius: $border-radius-sm;
+    padding: 0 1.5rem 1.5rem; // Align content padding
   }
 }
 
@@ -91,65 +74,62 @@ $border-radius-full: 50%;
   display: grid;
   grid-template-columns: 1fr auto;
   gap: $spacing-lg;
-  align-items: start; // Align items to the top
+  align-items: start;
 
-  @media (max-width: 960px) { // Adjust breakpoint if needed
-    grid-template-columns: 1fr; // Stack earlier
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
   }
 }
 
 .account-selector {
-  min-width: 300px; // Ensure it doesn't get too small
   width: 100%;
+  
+  // VAS Field Style Overrides for consistency
+  --mat-form-field-container-height: 44px;
+  
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
-// --- NEW STYLES for form options wrapper ---
 .form-options {
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 960px) { // Same breakpoint as layout change
-    align-self: start; // Keep it left-aligned when stacked
-    width: 100%; // Take full width when stacked
-    flex-direction: row; // Put checkbox and buttons side-by-side
-    justify-content: space-between; // Space them out
-    align-items: center; // Vertically align checkbox and buttons
+  @media (max-width: 960px) {
+    align-self: start;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
-   @media (max-width: 480px) { // Stack again on very small screens
+   @media (max-width: 480px) {
      flex-direction: column;
-     align-items: stretch; // Make buttons full width
+     align-items: stretch;
    }
 }
 
 .expedited-checkbox {
-  // Styles for the checkbox itself
-  margin-bottom: $spacing-xs; // Add a little space below it
-
-  @media (max-width: 960px) {
-    margin-bottom: 0; // Remove bottom margin when side-by-side
-  }
-   @media (max-width: 480px) {
-     margin-bottom: $spacing-md; // Add margin back when stacked small
-   }
+  margin-bottom: $spacing-xs;
+  @media (max-width: 960px) { margin-bottom: 0; }
+   @media (max-width: 480px) { margin-bottom: $spacing-md; }
 }
-// --- END NEW STYLES ---
-
 
 .form-actions {
   display: flex;
   gap: $spacing-md;
   align-items: center;
 
-  @media (max-width: 960px) {
-    justify-self: end; // Align buttons to the right
-  }
+  @media (max-width: 960px) { justify-self: end; }
    @media (max-width: 480px) {
-     flex-direction: column; // Stack buttons
-     align-items: stretch; // Make buttons full width
+     flex-direction: column;
+     align-items: stretch;
      width: 100%;
    }
 }
 
+// Order Items Table/List
 .order-items-container {
   margin-top: $spacing-lg;
   padding-top: $spacing-lg;
@@ -158,92 +138,79 @@ $border-radius-full: 50%;
 
 .order-item-row {
   display: grid;
-  // Adjusted columns for better alignment and button space
   grid-template-columns: minmax(250px, 1fr) 120px auto;
   gap: $spacing-md;
-  align-items: start;
+  align-items: center; // Vertically center inputs and buttons
   padding: $spacing-md 0;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
 
-  &:last-child {
-    border-bottom: none;
-  }
+  &:last-child { border-bottom: none; }
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr; // Stack fully on smaller screens
+    grid-template-columns: 1fr;
     gap: $spacing-sm;
-
-    // Center remove button when stacked
+    align-items: start;
+    
     button[mat-icon-button] {
         justify-self: end;
-        margin-top: -$spacing-md; // Pull it up slightly
+        margin-top: -10px;
     }
   }
-}
 
-// Active Pick List - Enhanced grid system
-.active-list-section {
-  h2 {
-    font-size: $header-medium;
-    font-weight: 500;
-    margin-bottom: $spacing-xl;
+  // Consistent Field sizing
+  mat-form-field {
+    width: 100%;
+    --mat-form-field-container-height: 44px; 
   }
 }
 
+// ===== ACTIVE PICK LISTS SECTION =====
 .pick-groups-grid {
   display: grid;
-  gap: $spacing-xl;
+  gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-  }
+  @media (max-width: 480px) { grid-template-columns: 1fr; }
 }
 
 .pick-group-card {
   border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: $border-radius-md;
-  transition: box-shadow 0.2s ease-in-out;
+  border-radius: 20px; // Match VAS radius
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 
   &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
   }
 
   .mat-mdc-card-header {
-    padding: $spacing-lg $spacing-lg $spacing-md;
+    padding: 1.25rem;
   }
 
   .mat-mdc-card-content {
-    padding: 0 $spacing-lg $spacing-lg;
+    padding: 0 1.25rem 1.25rem;
   }
 }
 
 .account-avatar {
-  background-color: var(--mat-sys-primary-container);
-  color: var(--mat-sys-on-primary-container);
+  background: linear-gradient(135deg, var(--mat-sys-primary-container) 0%, rgba(204, 251, 241, 0.5) 100%);
+  color: var(--mat-sys-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: $border-radius-full;
+  border-radius: 50%;
   width: 40px;
   height: 40px;
-
-  mat-icon {
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
-  }
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.2);
 }
 
-// Pick Items - Enhanced layout
+// Pick Items
 .pick-item {
   height: auto !important;
   padding: 0 !important;
   margin-bottom: $spacing-sm;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
+  &:last-child { margin-bottom: 0; }
 }
 
 .pick-item-content {
@@ -253,6 +220,7 @@ $border-radius-full: 50%;
   align-items: center;
   padding: $spacing-md 0;
   width: 100%;
+  border-bottom: 1px solid var(--mat-sys-outline-variant-low);
 }
 
 .item-status-indicator {
@@ -261,27 +229,22 @@ $border-radius-full: 50%;
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: $border-radius-full;
-  background-color: var(--mat-sys-surface-container-high);
+  border-radius: 50%;
+  background-color: var(--mat-sys-surface-container);
   flex-shrink: 0;
 
   mat-icon {
     font-size: 20px;
     height: 20px;
     width: 20px;
-
     &.planned { color: #f59e0b; }
     &.confirmed { color: #10b981; }
     &.short { color: #ef4444; }
   }
 }
 
-.item-details-main {
-  min-width: 0; // Allows text truncation
-}
-
 .item-title {
-  font-weight: 500;
+  font-weight: 600;
   font-size: $body-large;
   color: var(--mat-sys-on-surface);
 
@@ -294,19 +257,15 @@ $border-radius-full: 50%;
 
 .item-meta {
   display: flex;
-  flex-wrap: wrap; // Allow wrapping on small screens
-  gap: $spacing-xs $spacing-lg; // Row gap, Column gap
+  flex-wrap: wrap;
+  gap: $spacing-xs $spacing-lg;
   font-size: $body-medium;
   color: var(--mat-sys-on-surface-variant);
-  margin-top: $spacing-xs;
+  margin-top: 4px;
 
   strong {
     color: var(--mat-sys-on-surface);
     font-weight: 500;
-  }
-
-  @media (max-width: 480px) {
-     gap: $spacing-xs; // Reduce gap on very small screens
   }
 }
 
@@ -317,37 +276,26 @@ $border-radius-full: 50%;
   align-items: center;
 
   .action-button {
-    border: 1px solid var(--mat-sys-outline-variant);
-    background-color: transparent;
-
-    &:hover {
-      background-color: var(--mat-sys-state-hover);
-    }
-
-    mat-icon {
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-    }
-  }
-  
-  .status-badge {
-    align-self: center;
+    width: 32px;
+    height: 32px;
+    padding: 6px;
+    
+    mat-icon { font-size: 20px; }
   }
 }
 
 .status-badge {
-  padding: $spacing-xs $spacing-md;
-  border-radius: $border-radius-lg;
-  font-size: $body-small;
-  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
   color: #fff;
-  white-space: nowrap; // Prevent wrapping
+  white-space: nowrap;
 
-  &-confirmed { background-color: #10b981; }
-  &-short { background-color: #ef4444; }
-  &-planned { background-color: #f59e0b; }
+  &-confirmed { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+  &-short { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+  &-planned { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
 }
 
 .empty-list-message {
@@ -355,39 +303,50 @@ $border-radius-full: 50%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: $spacing-xxl $spacing-xl;
+  padding: 4rem 2rem;
   text-align: center;
   color: var(--mat-sys-on-surface-variant);
-  border: 2px dashed var(--mat-sys-outline-variant);
-  border-radius: $border-radius-md;
-  gap: $spacing-lg;
+  border: 2px dashed var(--mat-sys-outline);
+  border-radius: 20px;
+  background: var(--mat-sys-surface-container-low);
+  gap: 1rem;
 
   mat-icon {
     font-size: 4rem;
     width: 4rem;
     height: 4rem;
     color: var(--mat-sys-primary);
+    opacity: 0.5;
   }
 
   h3 {
-    font-size: $header-small;
-    font-weight: 500;
+    font-size: 1.25rem;
+    font-weight: 600;
     margin: 0;
     color: var(--mat-sys-on-surface);
   }
 }
 
-// Loading states
 .spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: $spacing-xxl;
+  padding: 4rem;
 }
 
-// Responsive improvements
+// ===== RESPONSIVE =====
 @media (max-width: 768px) {
-  :host {
-    padding: $spacing-lg;
+  .picking-container {
+    padding: 1rem;
+  }
+  
+  .pick-item-content {
+      grid-template-columns: auto 1fr;
+  }
+  
+  .item-actions {
+      grid-column: 1 / -1;
+      justify-content: flex-end;
+      padding-top: 8px;
   }
 }
