@@ -7,7 +7,7 @@ namespace WMS.Infrastructure.Integrations;
 
 public class BarcodeGenerationService : IBarcodeGenerationService
 {
-    private const string ExtensionDigit = "00";
+    private const string ExtensionDigit = "99";
     private readonly IServiceScopeFactory _scopeFactory;
     private long _serialCounter = DateTime.UtcNow.Ticks;
 
@@ -31,7 +31,7 @@ public class BarcodeGenerationService : IBarcodeGenerationService
             serialReference = serialReference[^9..];
         }
 
-        var baseNumber = $"({ExtensionDigit}-{gs1Prefix}){serialReference}";
+        var baseNumber = $"({ExtensionDigit})({gs1Prefix}){serialReference}";
 
         var checkDigit = CalculateChecksum(baseNumber);
 
