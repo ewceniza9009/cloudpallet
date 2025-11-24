@@ -201,6 +201,56 @@ export interface RecordCycleCountCommand {
   durationHours: number;
 }
 
+// VAS Amendment DTOs
+export interface VasTransactionDto {
+  id: string;
+  serviceType: string;
+  timestamp: string;
+  description: string;
+  userId: string;
+  userName: string;
+  isAmended: boolean;
+  isVoided: boolean;
+  voidedAt: string | null;
+  voidReason: string | null;
+}
+
+export interface VasTransactionLineDto {
+  id: string;
+  materialId: string | null;
+  materialName: string | null;
+  quantity: number;
+  weight: number;
+  isInput: boolean;
+  isAmended: boolean;
+  originalQuantity: number | null;
+  originalWeight: number | null;
+  amendedAt: string | null;
+}
+
+export interface VasAmendmentDto {
+  id: string;
+  timestamp: string;
+  userName: string;
+  reason: string;
+  amendmentDetails: string;
+  amendmentType: string;
+}
+
+export interface VasTransactionDetailDto {
+  id: string;
+  serviceType: string;
+  timestamp: string;
+  description: string;
+  status: string;
+  isVoided: boolean;
+  voidedAt: string | null;
+  voidReason: string | null;
+  inputLines: VasTransactionLineDto[];
+  outputLines: VasTransactionLineDto[];
+  amendmentHistory: VasAmendmentDto[];
+}
+
 export interface KitComponentDto {
   componentMaterialId: string;
   sourceInventoryId: string;
@@ -450,6 +500,56 @@ export class InventoryApiService {
 
   createKit(command: CreateKitCommand): Observable<string> {
     return this.http.post<string>(`${this.inventoryUrl}/create-kit`, command);
+  }
+
+  // VAS Amendment Methods
+  getVasTransactions(
+    accountId: string,
+    startDate: Date,
+    endDate: Date,
+    includeVoided: boolean = false
+  ): Observable<VasTransactionDto[]> {
+    const params = new HttpParams()
+      .set('startDate', startDate.toISOString())
+      .set('endDate', endDate.toISOString())
+      .set('includeVoided', includeVoided.toString());
+    
+    return this.http.get<VasTransactionDto[]>(
+      `${this.apiUrl}/vas/accounts/${accountId}/transactions`,
+      { params }
+    );
+  }
+
+  getVasTransactionDetails(transactionId: string): Observable<VasTransactionDetailDto> {
+    return this.http.get<VasTransactionDetailDto>(
+      `${this.apiUrl}/vas/transactions/${transactionId}`
+    );
+  }
+
+  amendVasTransactionLine(
+    transactionId: string,
+    lineId: string,
+    newQuantity: number | null,
+    newWeight: number | null,
+    reason: string
+  ): Observable<void> {
+    return this.http.post<void>(
+      `${this.apiUrl}/vas/transactions/${transactionId}/lines/${lineId}/amend`,
+      {
+        newQuantity,
+        newWeight,
+        amendmentReason: reason
+      }
+    );
+  }
+
+  voidVasTransaction(transactionId: string, reason: string): Observable<void> {
+    return this.http.post<void>(
+      `${this.apiUrl}/vas/transactions/${transactionId}/void`,
+      {
+        voidReason: reason
+      }
+    );
   }
 
   getScaleWeight(): Observable<WeightDto> {

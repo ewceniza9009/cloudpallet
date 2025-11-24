@@ -7,4 +7,6 @@ public interface IVASTransactionRepository
 {
     Task AddAsync(VASTransaction transaction, CancellationToken cancellationToken);
     Task<IEnumerable<VASTransaction>> GetForAccountByPeriodAsync(Guid accountId, DateTime startDate, DateTime endDate, CancellationToken cancellationToken);
+    Task<VASTransaction?> GetByIdWithLinesAsync(Guid id, CancellationToken cancellationToken);
+    Task<VASTransaction?> GetByIdWithLinesAndAmendmentsAsync(Guid id, CancellationToken cancellationToken);
 }

@@ -146,6 +146,13 @@ export const routes: Routes = [
           ).then((c) => c.CycleCountingComponent),
       },
       {
+        path: 'vas-transactions',
+        loadComponent: () =>
+          import(
+            './features/inventory/vas-transactions-list/vas-transactions-list.component'
+          ).then((c) => c.VasTransactionsListComponent),
+      },
+      {
         path: 'tracer',
         loadComponent: () =>
           import(

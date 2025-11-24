@@ -15,13 +15,18 @@ public class VASTransactionLineConfiguration : IEntityTypeConfiguration<VASTrans
         builder.Property(vl => vl.Quantity).HasPrecision(12, 3).IsRequired();
         builder.Property(vl => vl.IsInput).IsRequired();
 
+        // Amendment tracking fields
+        builder.Property(vl => vl.OriginalQuantity).HasPrecision(12, 3);
+        builder.Property(vl => vl.OriginalWeight).HasPrecision(12, 3);
+        builder.Property(vl => vl.IsAmended)
+            .IsRequired()
+            .HasDefaultValue(false);
+        builder.Property(vl => vl.AmendedAt);
+
         // Foreign key to the Material that was consumed or produced
         builder.HasOne<Material>()
             .WithMany()
             .HasForeignKey(vl => vl.MaterialId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        // Assuming a hidden foreign key links this to VASTransaction (if VASTransaction was modeled as a standard entity, 
-        // the foreign key would be explicit here, but since it is an aggregate root, we keep it simple for now).
     }
 }

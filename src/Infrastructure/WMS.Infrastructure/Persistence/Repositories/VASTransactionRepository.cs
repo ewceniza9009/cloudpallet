@@ -17,13 +17,23 @@ public class VASTransactionRepository(WmsDbContext context) : IVASTransactionRep
     {
         return await context.VASTransactions
             .AsNoTracking()
-            // --- THIS IS THE FIX ---
-            // We Include the private backing field "_lines".
-            // EF will load all lines, and the entity's properties
-            // (InputLines/OutputLines) will filter them in memory.
             .Include("_lines")
-            // --- END FIX ---
             .Where(vt => vt.AccountId == accountId && vt.Timestamp >= startDate && vt.Timestamp < endDate)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<VASTransaction?> GetByIdWithLinesAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await context.VASTransactions
+            .Include("_lines.Material") // Use string-based include for nested navigation
+            .FirstOrDefaultAsync(vt => vt.Id == id, cancellationToken);
+    }
+
+    public async Task<VASTransaction?> GetByIdWithLinesAndAmendmentsAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await context.VASTransactions
+            .Include("_lines.Material") // String-based include for lines and their materials
+            .Include("_amendments.User") // String-based include for amendments and their users
+            .FirstOrDefaultAsync(vt => vt.Id == id, cancellationToken);
     }
 }

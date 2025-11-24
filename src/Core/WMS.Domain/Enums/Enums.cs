@@ -26,7 +26,7 @@ public enum PalletLineStatus { Pending, Processed }
 // Transactions
 public enum PickReason { Order, Adjustment }
 public enum PickStatus { Planned, Confirmed, Short }
-public enum AdjustmentReason { Damage, Count, Expiry }
+public enum AdjustmentReason { Damage, Count, Expiry, Correction }
 public enum TransactionStatus { Planned, Completed }
 public enum ReceivingStatus { Pending, InProgress, Completed }
 public enum PalletStatus { Received, Labeled, Putaway, CrossDockPending }
@@ -88,4 +88,10 @@ public enum LedgerTransactionType
     VAS_Production   // Finished good created by VAS
     // Note: Pallet-level Putaway/Transfer moves often don't need ledger entries
     // unless you specifically track location changes in the ledger itself. Consider if needed later.
+}
+
+public enum AmendmentType
+{
+    LineAmendment,    // Amendment to specific line values (quantity, weight)
+    TransactionVoid   // Full transaction void with inventory reversal
 }

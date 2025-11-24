@@ -82,4 +82,38 @@ public class VASTransaction : AggregateRoot<Guid>
         if (Status == TransactionStatus.Completed) return;
         Status = TransactionStatus.Completed;
     }
+
+    // Void tracking
+    public bool IsVoided { get; private set; }
+    public DateTime? VoidedAt { get; private set; }
+    public Guid? VoidedByUserId { get; private set; }
+    public string? VoidReason { get; private set; }
+
+    public void VoidTransaction(Guid userId, string reason)
+    {
+        if (IsVoided)
+            throw new InvalidOperationException("Transaction is already voided.");
+
+        if (string.IsNullOrWhiteSpace(reason))
+            throw new ArgumentException("Void reason is required.", nameof(reason));
+
+        IsVoided = true;
+        VoidedAt = DateTime.UtcNow;
+        VoidedByUserId = userId;
+        VoidReason = reason;
+    }
+
+    // Navigation property for amendments
+    private readonly List<VASTransactionAmendment> _amendments = new();
+    public IReadOnlyCollection<VASTransactionAmendment> Amendments => _amendments.AsReadOnly();
+
+    public VASTransactionLine? GetLineById(Guid lineId)
+    {
+        return _lines.FirstOrDefault(l => l.Id == lineId);
+    }
+
+    public IReadOnlyCollection<VASTransactionLine> GetAllLines()
+    {
+        return _lines.AsReadOnly();
+    }
 }

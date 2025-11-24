@@ -66,6 +66,7 @@ public static class DependencyInjection
         services.AddScoped<IWithdrawalTransactionRepository, WithdrawalTransactionRepository>();
 
         services.AddScoped<IVASTransactionRepository, VASTransactionRepository>();
+        services.AddScoped<IVASTransactionAmendmentRepository, VASTransactionAmendmentRepository>();
 
         services.AddScoped<IInventoryAdjustmentRepository, InventoryAdjustmentRepository>();
         services.AddScoped<IInvoiceRepository, InvoiceRepository>();

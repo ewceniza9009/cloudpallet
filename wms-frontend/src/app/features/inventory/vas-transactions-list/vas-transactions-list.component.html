@@ -1,0 +1,156 @@
+<div class="receiving-container">
+  <div class="header-section">
+    <div style="flex-grow: 1;">
+      <h1 class="mat-headline-6">VAS Transactions</h1>
+      <p class="mat-body-1">Manage Value-Added Services, amendments, and voids.</p>
+    </div>
+    <div class="header-actions">
+      <!-- Future actions like "New VAS Transaction" could go here -->
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <mat-card class="filter-card">
+    <mat-card-content>
+      <form [formGroup]="filterForm" class="filter-form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Account</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="account"
+            [matAutocomplete]="accountAuto"
+            placeholder="Select account"
+          />
+          <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="displayAccount">
+            @for (account of accounts(); track account.id) {
+              <mat-option [value]="account">{{ account.name }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startPicker" formControlName="startDate" />
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="endPicker" formControlName="endDate" />
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
+
+        <div class="filter-actions">
+          <mat-checkbox formControlName="includeVoided">Include Voided</mat-checkbox>
+          <button mat-flat-button color="primary" (click)="loadTransactions()" [disabled]="isLoading()">
+            @if (isLoading()) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              <mat-icon>search</mat-icon>
+              <span>Load</span>
+            }
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Transactions Content -->
+  @if (transactions().length === 0 && !isLoading()) {
+    <mat-card class="empty-state-card-modern">
+      <div class="empty-state-content-refined">
+        <div class="empty-state-icon-container">
+          <mat-icon>manage_search</mat-icon>
+        </div>
+        <h4 class="empty-state-title">No Transactions Found</h4>
+        <p class="empty-state-description">Adjust your filters and click "Load" to view transactions.</p>
+      </div>
+    </mat-card>
+  } @else if (transactions().length > 0) {
+    <div class="table-container mat-elevation-z2">
+      <table mat-table [dataSource]="transactions()" class="transactions-table">
+        <!-- Timestamp Column -->
+        <ng-container matColumnDef="timestamp">
+          <th mat-header-cell *matHeaderCellDef>Date/Time</th>
+          <td mat-cell *matCellDef="let tx">{{ tx.timestamp | date:'medium' }}</td>
+        </ng-container>
+
+        <!-- Service Type Column -->
+        <ng-container matColumnDef="serviceType">
+          <th mat-header-cell *matHeaderCellDef>Service</th>
+          <td mat-cell *matCellDef="let tx">
+            <span class="service-badge">{{ tx.serviceType }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let tx" class="description-cell">{{ tx.description }}</td>
+        </ng-container>
+
+        <!-- User Column -->
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef>User</th>
+          <td mat-cell *matCellDef="let tx">
+            <div class="user-info">
+              <mat-icon class="user-icon">person</mat-icon>
+              <span>{{ tx.userName }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let tx">
+            @if (tx.isVoided) {
+              <span class="status-badge voided">VOIDED</span>
+            } @else if (tx.isAmended) {
+              <span class="status-badge amended">AMENDED</span>
+            } @else {
+              <span class="status-badge active">ACTIVE</span>
+            }
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let tx">
+            <div class="action-buttons">
+              <button
+                mat-icon-button
+                (click)="openAmendDialog(tx)"
+                [disabled]="tx.isVoided"
+                matTooltip="Amend Transaction"
+                color="primary"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="voidTransaction(tx)"
+                [disabled]="tx.isVoided"
+                matTooltip="Void Transaction"
+              >
+                <mat-icon>block</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          [class.voided-row-bg]="row.isVoided"
+        ></tr>
+      </table>
+    </div>
+  }
+</div>

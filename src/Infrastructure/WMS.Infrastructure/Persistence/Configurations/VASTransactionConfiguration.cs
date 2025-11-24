@@ -13,20 +13,15 @@ public class VASTransactionConfiguration : IEntityTypeConfiguration<VASTransacti
 
         builder.HasKey(vt => vt.Id);
 
-        // --- START: MODIFICATION ---
-
-        // 1. Define the single one-to-many relationship using the private backing field name
-        // This tells EF that the collection is named "_lines" inside the VASTransaction class.
-        builder.HasMany<VASTransactionLine>("_lines") // <-- Use the private field name
+        // Define the single one-to-many relationship using the private backing field name
+        builder.HasMany<VASTransactionLine>("_lines")
             .WithOne(vl => vl.VASTransaction)
             .HasForeignKey(vl => vl.VASTransactionId)
-            .OnDelete(DeleteBehavior.Cascade); // Explicitly set cascade behavior
+            .OnDelete(DeleteBehavior.Cascade);
 
-        // 2. Tell EF to IGNORE the public properties, as they are unmapped "views"
+        // Tell EF to IGNORE the public properties, as they are unmapped "views"
         builder.Ignore(vt => vt.InputLines);
         builder.Ignore(vt => vt.OutputLines);
-
-        // --- END: MODIFICATION ---
 
         builder.HasOne(vt => vt.Account)
             .WithMany()
@@ -37,5 +32,25 @@ public class VASTransactionConfiguration : IEntityTypeConfiguration<VASTransacti
             .WithMany()
             .HasForeignKey(vt => vt.UserId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        // Void tracking fields
+        builder.Property(vt => vt.IsVoided)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        builder.Property(vt => vt.VoidedAt);
+        builder.Property(vt => vt.VoidedByUserId);
+        builder.Property(vt => vt.VoidReason).HasMaxLength(500);
+
+        // Index for querying non-voided transactions
+        builder.HasIndex(vt => vt.IsVoided);
+
+        // Amendments relationship
+        builder.HasMany<VASTransactionAmendment>("_amendments")
+            .WithOne(a => a.OriginalTransaction)
+            .HasForeignKey(a => a.OriginalTransactionId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Ignore(vt => vt.Amendments);
     }
 }

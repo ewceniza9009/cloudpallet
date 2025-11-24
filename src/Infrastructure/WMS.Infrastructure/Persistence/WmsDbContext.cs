@@ -68,6 +68,7 @@ public class WmsDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>, I
     public DbSet<TransferTransaction> TransferTransactions => Set<TransferTransaction>();
     public DbSet<VASTransaction> VASTransactions => Set<VASTransaction>();
     public DbSet<VASTransactionLine> VASTransactionLines => Set<VASTransactionLine>();
+    public DbSet<VASTransactionAmendment> VASTransactionAmendments => Set<VASTransactionAmendment>();
     public DbSet<InventoryAdjustment> InventoryAdjustments => Set<InventoryAdjustment>(); 
 
     // Financial & Billing Outputs

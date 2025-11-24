@@ -1,0 +1,252 @@
+<div class="dialog-header">
+  <h2 mat-dialog-title>Amend VAS Transaction</h2>
+  <button mat-icon-button (click)="close()" class="close-button">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content class="dialog-content-refined">
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading transaction details...</p>
+    </div>
+  } @else if (transaction()) {
+    <!-- Transaction Summary Card -->
+    <div class="summary-section">
+      <div class="summary-item">
+        <span class="label">Service Type</span>
+        <span class="value service-type">{{ transaction()!.serviceType }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Date</span>
+        <span class="value">{{ transaction()!.timestamp | date:'medium' }}</span>
+      </div>
+      <div class="summary-item full-width">
+        <span class="label">Description</span>
+        <span class="value">{{ transaction()!.description }}</span>
+      </div>
+      @if (transaction()!.isVoided) {
+        <div class="void-banner">
+          <mat-icon>warning</mat-icon>
+          <span>This transaction has been VOIDED. Amendments are disabled.</span>
+        </div>
+      }
+    </div>
+
+    <mat-tab-group animationDuration="0ms" class="refined-tabs">
+      <!-- Input Lines Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">input</mat-icon>
+          Input Lines ({{ transaction()!.inputLines.length }})
+        </ng-template>
+        
+        <div class="tab-content">
+          @if (transaction()!.inputLines.length === 0) {
+            <div class="empty-tab">No input lines found.</div>
+          } @else {
+            <mat-accordion multi displayMode="flat" class="lines-accordion">
+              @for (line of transaction()!.inputLines; track line.id) {
+                <mat-expansion-panel class="line-panel" [class.amended-panel]="line.isAmended">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <span class="material-name">{{ line.materialName || 'Labor / Service' }}</span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <div class="panel-stats">
+                        <span><strong>Qty:</strong> {{ line.quantity }}</span>
+                        <span><strong>Wgt:</strong> {{ line.weight }} kg</span>
+                      </div>
+                      @if (line.isAmended) {
+                        <span class="amended-badge">AMENDED</span>
+                      }
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <form [formGroup]="amendmentForms.get(line.id)!" class="amendment-form">
+                    <div class="form-grid">
+                      <div class="current-stats">
+                        <h4>Current Values</h4>
+                        <div class="stat-row">
+                          <span>Quantity:</span> <strong>{{ line.quantity }}</strong>
+                        </div>
+                        <div class="stat-row">
+                          <span>Weight:</span> <strong>{{ line.weight }} kg</strong>
+                        </div>
+                        @if (line.isAmended) {
+                          <div class="history-note">
+                            Originally {{ line.originalQuantity }} qty / {{ line.originalWeight }} kg
+                            <br>Amended on {{ line.amendedAt | date:'short' }}
+                          </div>
+                        }
+                      </div>
+
+                      <div class="new-values">
+                        <h4>New Values</h4>
+                        <mat-form-field appearance="outline" class="compact-field">
+                          <mat-label>New Quantity</mat-label>
+                          <input matInput type="number" formControlName="newQuantity" step="0.001" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="compact-field">
+                          <mat-label>New Weight (kg)</mat-label>
+                          <input matInput type="number" formControlName="newWeight" step="0.001" />
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="reason-field">
+                      <mat-label>Reason for Amendment</mat-label>
+                      <textarea matInput formControlName="reason" rows="2" placeholder="Required for audit trail..."></textarea>
+                      <mat-icon matSuffix>edit_note</mat-icon>
+                    </mat-form-field>
+
+                    <div class="form-actions">
+                      <button
+                        mat-flat-button
+                        color="primary"
+                        (click)="amendLine(line)"
+                        [disabled]="transaction()!.isVoided || amendmentForms.get(line.id)!.invalid || amendmentForms.get(line.id)!.pristine"
+                      >
+                        Save Changes
+                      </button>
+                    </div>
+                  </form>
+                </mat-expansion-panel>
+              }
+            </mat-accordion>
+          }
+        </div>
+      </mat-tab>
+
+      <!-- Output Lines Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">output</mat-icon>
+          Output Lines ({{ transaction()!.outputLines.length }})
+        </ng-template>
+
+        <div class="tab-content">
+          @if (transaction()!.outputLines.length === 0) {
+            <div class="empty-tab">No output lines found.</div>
+          } @else {
+            <mat-accordion multi displayMode="flat" class="lines-accordion">
+              @for (line of transaction()!.outputLines; track line.id) {
+                <mat-expansion-panel class="line-panel" [class.amended-panel]="line.isAmended">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <span class="material-name">{{ line.materialName || 'Unknown Material' }}</span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <div class="panel-stats">
+                        <span><strong>Qty:</strong> {{ line.quantity }}</span>
+                        <span><strong>Wgt:</strong> {{ line.weight }} kg</span>
+                      </div>
+                      @if (line.isAmended) {
+                        <span class="amended-badge">AMENDED</span>
+                      }
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <form [formGroup]="amendmentForms.get(line.id)!" class="amendment-form">
+                    <div class="form-grid">
+                      <div class="current-stats">
+                        <h4>Current Values</h4>
+                        <div class="stat-row">
+                          <span>Quantity:</span> <strong>{{ line.quantity }}</strong>
+                        </div>
+                        <div class="stat-row">
+                          <span>Weight:</span> <strong>{{ line.weight }} kg</strong>
+                        </div>
+                        @if (line.isAmended) {
+                          <div class="history-note">
+                            Originally {{ line.originalQuantity }} qty / {{ line.originalWeight }} kg
+                            <br>Amended on {{ line.amendedAt | date:'short' }}
+                          </div>
+                        }
+                      </div>
+
+                      <div class="new-values">
+                        <h4>New Values</h4>
+                        <mat-form-field appearance="outline" class="compact-field">
+                          <mat-label>New Quantity</mat-label>
+                          <input matInput type="number" formControlName="newQuantity" step="0.001" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="compact-field">
+                          <mat-label>New Weight (kg)</mat-label>
+                          <input matInput type="number" formControlName="newWeight" step="0.001" />
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="reason-field">
+                      <mat-label>Reason for Amendment</mat-label>
+                      <textarea matInput formControlName="reason" rows="2" placeholder="Required for audit trail..."></textarea>
+                      <mat-icon matSuffix>edit_note</mat-icon>
+                    </mat-form-field>
+
+                    <div class="form-actions">
+                      <button
+                        mat-flat-button
+                        color="primary"
+                        (click)="amendLine(line)"
+                        [disabled]="transaction()!.isVoided || amendmentForms.get(line.id)!.invalid || amendmentForms.get(line.id)!.pristine"
+                      >
+                        Save Changes
+                      </button>
+                    </div>
+                  </form>
+                </mat-expansion-panel>
+              }
+            </mat-accordion>
+          }
+        </div>
+      </mat-tab>
+
+      <!-- History Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">history</mat-icon>
+          History ({{ transaction()!.amendmentHistory.length }})
+        </ng-template>
+
+        <div class="tab-content history-container">
+          @if (transaction()!.amendmentHistory.length === 0) {
+            <div class="empty-tab">No amendment history available.</div>
+          } @else {
+            <div class="timeline">
+              @for (amendment of transaction()!.amendmentHistory; track amendment.id) {
+                <div class="timeline-item">
+                  <div class="timeline-marker"></div>
+                  <div class="timeline-content">
+                    <div class="timeline-header">
+                      <span class="amendment-type">{{ amendment.amendmentType }}</span>
+                      <span class="amendment-date">{{ amendment.timestamp | date:'medium' }}</span>
+                    </div>
+                    <div class="timeline-user">
+                      <mat-icon>person</mat-icon> {{ amendment.userName }}
+                    </div>
+                    <div class="timeline-reason">
+                      "{{ amendment.reason }}"
+                    </div>
+                    <div class="timeline-details">
+                      <details>
+                        <summary>View Technical Details</summary>
+                        <pre>{{ amendment.amendmentDetails }}</pre>
+                      </details>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions-refined">
+  <button mat-stroked-button (click)="close()">Close</button>
+  <button mat-flat-button color="primary" (click)="close('success')">Done</button>
+</mat-dialog-actions>
