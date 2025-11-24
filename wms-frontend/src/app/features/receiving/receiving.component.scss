@@ -119,6 +119,20 @@ tr.session-row:hover {
 
 .actions-cell {
   text-align: right;
+  
+  // Ensure buttons are aligned
+  a, button {
+    vertical-align: middle;
+  }
+  
+  // Button group alignment
+  > * {
+    margin-left: 0.5rem;
+    
+    &:first-child {
+      margin-left: 0;
+    }
+  }
 }
 
 .empty-sessions-state {

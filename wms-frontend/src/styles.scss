@@ -430,6 +430,51 @@ body {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
 }
 
+// ===== BUTTON ALIGNMENT UTILITIES =====
+.button-group {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+
+  &.button-group-end {
+    justify-content: flex-end;
+  }
+
+  &.button-group-start {
+    justify-content: flex-start;
+  }
+
+  &.button-group-center {
+    justify-content: center;
+  }
+
+  &.button-group-between {
+    justify-content: space-between;
+  }
+}
+
+.actions-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  button, a {
+    flex-shrink: 0;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+
+  .mat-mdc-icon-button {
+    flex-shrink: 0;
+  }
+}
+
+
 // ===== SPINNER CENTERING =====
 .spinner-container {
   display: flex;
