@@ -13,10 +13,6 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-
-  // --- FIX 2: Make this container fill the host (with padding) ---
-  height: 100%;
-  box-sizing: border-box; // Include padding in the height calculation
 }
 
 .header-section {

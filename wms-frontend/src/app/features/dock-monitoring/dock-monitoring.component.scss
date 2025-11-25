@@ -29,6 +29,17 @@ $occupied-bg: #fffbeb; // Amber-50
   gap: 2rem;
 }
 
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
+  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
+}
+
 // ==========================================================================
 // # DOCK GRID - Standardized compact spacing
 // ==========================================================================
