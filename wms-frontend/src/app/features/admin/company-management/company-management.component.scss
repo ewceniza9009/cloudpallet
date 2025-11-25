@@ -82,29 +82,43 @@
   gap: 1.5rem;
 }
 
+// New Grid Layout
+.layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; // Two equal columns
+  gap: 1.5rem;
+  align-items: start; // Align items to the top
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .detail-card {
   border: 1px solid var(--mat-sys-outline-variant);
   box-shadow: 0 2px 4px rgba(0,0,0,0.04);
   border-radius: 8px;
 
   .mat-mdc-card-header {
-    padding: 1rem 1.5rem 0.5rem;
+    padding: 0.75rem 1.25rem 0.5rem; // Reduced padding
     border-bottom: 1px solid var(--mat-sys-outline-variant);
     background-color: var(--mat-sys-surface-container-lowest);
   }
   .mat-mdc-card-title {
-    font-size: 1.15rem;
+    font-size: 1.1rem; // Slightly smaller
     font-weight: 500;
   }
   .mat-mdc-card-content {
-    padding: 1.5rem;
+    padding: 1.25rem; // Reduced padding
   }
 }
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); // Smaller min-width
+  gap: 1rem; // Tighter gap
 }
 
 .full-width {
@@ -122,7 +136,7 @@ button mat-icon + span, button span + mat-icon, button mat-progress-spinner + sp
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
 }
 
@@ -140,12 +154,28 @@ button mat-icon + span, button span + mat-icon, button mat-progress-spinner + sp
 }
 
 .info-value {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
     color: var(--mat-sys-on-surface);
 }
 
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.system-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 // Responsive
+@media (max-width: 1024px) {
+  .layout-grid {
+    grid-template-columns: 1fr; // Stack on smaller screens
+  }
+}
+
 @media (max-width: 768px) {
     .management-container {
       padding: 1rem; // Reduce padding on mobile

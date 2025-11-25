@@ -39,129 +39,134 @@
     </div>
 
     <form [formGroup]="companyForm" class="detail-form">
-      <mat-card class="detail-card">
-        <mat-card-header>
-          <mat-card-title>Company Details</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="form-grid">
-          <mat-form-field appearance="outline">
-            <mat-label>Company Name</mat-label>
-            <input matInput formControlName="name" required />
-            <mat-error *ngIf="companyForm.get('name')?.hasError('required')">Name is required</mat-error>
-          </mat-form-field>
+      <div class="layout-grid">
+        <!-- Left Column -->
+        <div class="column left-column">
+          <mat-card class="detail-card">
+            <mat-card-header>
+              <mat-card-title>Company Profile</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="form-grid">
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Company Name</mat-label>
+                <input matInput formControlName="name" required />
+                <mat-error *ngIf="companyForm.get('name')?.hasError('required')">Name is required</mat-error>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Tax ID / Registration No.</mat-label>
-            <input matInput formControlName="taxId" required />
-            <mat-error *ngIf="companyForm.get('taxId')?.hasError('required')">Tax ID is required</mat-error>
-          </mat-form-field>
-        </mat-card-content>
-      </mat-card>
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Tax ID / Registration No.</mat-label>
+                <input matInput formControlName="taxId" required />
+                <mat-error *ngIf="companyForm.get('taxId')?.hasError('required')">Tax ID is required</mat-error>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
 
-      <mat-card class="detail-card">
-        <mat-card-header>
-          <mat-card-title>Contact Information</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="form-grid">
-          <mat-form-field appearance="outline">
-            <mat-label>Phone Number</mat-label>
-            <input matInput formControlName="phoneNumber" required>
-            <mat-error *ngIf="companyForm.get('phoneNumber')?.hasError('required')">Phone is required</mat-error>
-          </mat-form-field>
+          <mat-card class="detail-card">
+            <mat-card-header>
+              <mat-card-title>Contact Information</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="form-grid">
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Phone Number</mat-label>
+                <input matInput formControlName="phoneNumber" required>
+                <mat-error *ngIf="companyForm.get('phoneNumber')?.hasError('required')">Phone is required</mat-error>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Email Address</mat-label>
-            <input matInput type="email" formControlName="email" required>
-            <mat-error *ngIf="companyForm.get('email')?.hasError('required')">Email is required</mat-error>
-            <mat-error *ngIf="companyForm.get('email')?.hasError('email')">Invalid email format</mat-error>
-          </mat-form-field>
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Email Address</mat-label>
+                <input matInput type="email" formControlName="email" required>
+                <mat-error *ngIf="companyForm.get('email')?.hasError('required')">Email is required</mat-error>
+                <mat-error *ngIf="companyForm.get('email')?.hasError('email')">Invalid email format</mat-error>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Website (Optional)</mat-label>
-            <input matInput formControlName="website">
-          </mat-form-field>
-        </mat-card-content>
-      </mat-card>
+              <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full-width">
+                <mat-label>Website (Optional)</mat-label>
+                <input matInput formControlName="website">
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </div>
 
-      <mat-card class="detail-card" formGroupName="address">
-        <mat-card-header>
-          <mat-card-title>Address</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="form-grid">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Street Address</mat-label>
-            <input matInput formControlName="street" required>
-            <mat-error *ngIf="addressFormGroup.get('street')?.hasError('required')">Street is required</mat-error>
-          </mat-form-field>
+        <!-- Right Column -->
+        <div class="column right-column">
+          <mat-card class="detail-card" formGroupName="address">
+            <mat-card-header>
+              <mat-card-title>Location Address</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="form-grid">
+              <mat-form-field appearance="outline" class="full-width" subscriptSizing="dynamic">
+                <mat-label>Street Address</mat-label>
+                <input matInput formControlName="street" required>
+                <mat-error *ngIf="addressFormGroup.get('street')?.hasError('required')">Street is required</mat-error>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>City</mat-label>
-            <input matInput formControlName="city" required>
-            <mat-error *ngIf="addressFormGroup.get('city')?.hasError('required')">City is required</mat-error>
-          </mat-form-field>
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city" required>
+                <mat-error *ngIf="addressFormGroup.get('city')?.hasError('required')">City is required</mat-error>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>State / Province</mat-label>
-            <input matInput formControlName="state" required>
-            <mat-error *ngIf="addressFormGroup.get('state')?.hasError('required')">State/Province is
-              required</mat-error>
-          </mat-form-field>
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>State / Province</mat-label>
+                <input matInput formControlName="state" required>
+                <mat-error *ngIf="addressFormGroup.get('state')?.hasError('required')">State/Province is
+                  required</mat-error>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Postal Code</mat-label>
-            <input matInput formControlName="postalCode" required>
-            <mat-error *ngIf="addressFormGroup.get('postalCode')?.hasError('required')">Postal Code is
-              required</mat-error>
-          </mat-form-field>
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Postal Code</mat-label>
+                <input matInput formControlName="postalCode" required>
+                <mat-error *ngIf="addressFormGroup.get('postalCode')?.hasError('required')">Postal Code is
+                  required</mat-error>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Country</mat-label>
-            <input matInput formControlName="country" required>
-            <mat-error *ngIf="addressFormGroup.get('country')?.hasError('required')">Country is required</mat-error>
-          </mat-form-field>
-        </mat-card-content>
-      </mat-card>
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Country</mat-label>
+                <input matInput formControlName="country" required>
+                <mat-error *ngIf="addressFormGroup.get('country')?.hasError('required')">Country is required</mat-error>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
 
-      <mat-card class="detail-card">
-        <mat-card-header>
-          <mat-card-title>GS1 Barcode Settings</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="form-grid">
-          <mat-form-field appearance="outline">
-            <mat-label>GS1 Company Prefix</mat-label>
-            <input matInput formControlName="gs1CompanyPrefix" placeholder="e.g. 0123456" />
-            <mat-hint>Used for SSCC generation</mat-hint>
-          </mat-form-field>
+          <mat-card class="detail-card">
+            <mat-card-header>
+              <mat-card-title>Settings & System</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="form-grid">
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>GS1 Company Prefix</mat-label>
+                <input matInput formControlName="gs1CompanyPrefix" placeholder="e.g. 0123456" />
+                <mat-hint>Used for SSCC generation</mat-hint>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Default Barcode Format</mat-label>
-            <mat-select formControlName="defaultBarcodeFormat">
-              <mat-option value="SSCC-18">SSCC-18</mat-option>
-              <mat-option value="Code128">Code 128</mat-option>
-              <mat-option value="QR">QR Code</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-card-content>
-      </mat-card>
-
-      @if(companyDetails(); as details) {
-      <mat-card class="detail-card read-only-card">
-        <mat-card-header>
-          <mat-card-title>System Information</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="info-grid">
-          <div class="info-item">
-            <span class="info-label">Status</span>
-            <span class="info-value">{{details.status}}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Subscription Plan</span>
-            <span class="info-value">{{details.subscriptionPlan || 'N/A'}}</span>
-          </div>
-        </mat-card-content>
-      </mat-card>
-      }
-
+              <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <mat-label>Default Barcode Format</mat-label>
+                <mat-select formControlName="defaultBarcodeFormat">
+                  <mat-option value="SSCC-18">SSCC-18</mat-option>
+                  <mat-option value="Code128">Code 128</mat-option>
+                  <mat-option value="QR">QR Code</mat-option>
+                </mat-select>
+              </mat-form-field>
+              
+              @if(companyDetails(); as details) {
+                <div class="system-info-section full-width">
+                   <mat-divider></mat-divider>
+                   <div class="info-grid mt-3">
+                      <div class="info-item">
+                        <span class="info-label">Status</span>
+                        <span class="info-value">{{details.status}}</span>
+                      </div>
+                      <div class="info-item">
+                        <span class="info-label">Subscription Plan</span>
+                        <span class="info-value">{{details.subscriptionPlan || 'N/A'}}</span>
+                      </div>
+                   </div>
+                </div>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
     </form>
   </div>
   }
