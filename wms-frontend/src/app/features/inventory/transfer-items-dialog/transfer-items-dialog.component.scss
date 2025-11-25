@@ -1,4 +1,53 @@
-// ---- File: wms-frontend/src/app/features/inventory/transfer-items-dialog/transfer-items-dialog.component.scss [REVISED] ----
+// Clean & Professional Dialog Styling
+$primary-color: var(--mat-sys-primary);
+$on-surface: var(--mat-sys-on-surface);
+$outline-variant: var(--mat-sys-outline-variant);
+
+// Header
+.clean-header {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  margin: 0 !important;
+  padding: 16px 24px !important;
+  border-bottom: 1px solid $outline-variant;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: $on-surface;
+
+  .header-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    color: $primary-color;
+  }
+}
+
+// Content
+.clean-content {
+  padding: 20px 24px !important;
+  min-width: 550px;
+}
+
+.source-info {
+  margin: 0 0 16px;
+  padding: 12px;
+  background-color: var(--mat-sys-surface-container-low);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  
+  strong {
+    color: $primary-color;
+  }
+  
+  .info-text {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.85rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
 .spinner-container {
   display: flex;
   justify-content: center;
@@ -6,59 +55,66 @@
   min-height: 150px;
 }
 
-mat-form-field {
-  width: 100%;
-}
-
-.mat-mdc-dialog-actions {
-  padding: 1rem 1.5rem;
-  border-top: 1px solid var(--mat-sys-outline-variant);
-}
-
 .transfer-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.source-info {
-  font-size: 0.95rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-  .mat-caption {
-    display: block;
-    color: var(--mat-sys-on-surface-variant);
-    margin-top: 4px;
-  }
+  padding-top: 8px;
 }
 
 .form-section {
+  margin-bottom: 20px;
+  
   h3 {
-    font-size: 1.1rem;
+    margin: 0 0 12px;
+    font-size: 0.95rem;
     font-weight: 600;
-    margin-top: 0;
-    margin-bottom: 0.75rem;
-    color: var(--mat-sys-on-surface);
+    color: $on-surface;
+  }
+  
+  mat-form-field {
+    width: 100%;
   }
 }
 
-.quantity-limits {
-  background-color: var(--mat-sys-surface-container-low);
-  padding: 0.75rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+.quantity-info {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  border-radius: 4px;
   font-size: 0.875rem;
-  color: var(--mat-sys-on-surface-variant);
-
+  
   strong {
-    color: var(--mat-sys-primary);
-    font-weight: 600;
+    font-size: 1rem;
   }
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+// Actions
+.clean-actions {
+  padding: 12px 24px !important;
+  border-top: 1px solid $outline-variant;
+  background-color: var(--mat-sys-surface-container-lowest);
+  gap: 12px;
+  margin-bottom: 0;
+
+  button {
+    height: 36px;
+    border-radius: 6px;
+    padding: 0 16px;
+    font-weight: 500;
+    
+    .btn-icon {
+      margin-right: 8px;
+    }
+    
+    mat-progress-spinner {
+      display: inline-block;
+      margin-right: 8px;
+    }
+  }
 }

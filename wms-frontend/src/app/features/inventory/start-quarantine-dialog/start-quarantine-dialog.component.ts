@@ -32,22 +32,7 @@ export interface StartQuarantineDialogResult {
     MatIconModule,
   ],
   templateUrl: './start-quarantine-dialog.component.html',
-  styles: [
-    `
-      .dialog-title {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .quarantine-form {
-        min-width: 350px;
-        padding-top: 1rem;
-      }
-      mat-form-field {
-        width: 100%;
-      }
-    `,
-  ],
+  styleUrls: ['./start-quarantine-dialog.component.scss']
 })
 export class StartQuarantineDialogComponent {
   private fb = inject(FormBuilder);

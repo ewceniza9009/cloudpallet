@@ -1,10 +1,11 @@
-<h2 mat-dialog-title class="dialog-title">
-  <mat-icon>label</mat-icon>
+<h2 mat-dialog-title class="clean-header">
+  <mat-icon class="header-icon">label</mat-icon>
   <span>Record Labeling for {{ data.targetName }}</span>
 </h2>
-<mat-dialog-content>
+
+<mat-dialog-content class="clean-content">
   <form [formGroup]="form" class="labeling-form">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>Compliance Label Type</mat-label>
       <mat-select formControlName="labelType">
         @for(type of labelTypes; track type.value) {
@@ -15,7 +16,11 @@
     </mat-form-field>
   </form>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-flat-button color="primary" (click)="onConfirm()" [disabled]="form.invalid">Record Service</button>
+
+<mat-dialog-actions align="end" class="clean-actions">
+  <button mat-stroked-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onConfirm()" [disabled]="form.invalid">
+    <mat-icon style="margin-right: 8px;">print</mat-icon>
+    Record Service
+  </button>
 </mat-dialog-actions>

@@ -37,49 +37,8 @@ export interface RecordLabelingDialogResult {
     MatSelectModule,
     MatIconModule,
   ],
-  template: `
-    <h2 mat-dialog-title class="dialog-title">
-      <mat-icon>label</mat-icon>
-      <span>Record Labeling for {{ data.targetName }}</span>
-    </h2>
-    <mat-dialog-content>
-      <form [formGroup]="form" class="labeling-form">
-        <mat-form-field appearance="outline">
-          <mat-label>Compliance Label Type</mat-label>
-          <mat-select formControlName="labelType">
-            @for(type of labelTypes; track type.value) {
-            <mat-option [value]="type.value">{{ type.viewValue }}</mat-option>
-            }
-          </mat-select>
-          <mat-hint>Select the type of compliance label applied.</mat-hint>
-        </mat-form-field>
-      </form>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button (click)="onCancel()">Cancel</button>
-      <button
-        mat-flat-button
-        color="primary"
-        (click)="onConfirm()"
-        [disabled]="form.invalid"
-      >
-        Record Service
-      </button>
-    </mat-dialog-actions>
-  `,
-  styles: [
-    `
-      .dialog-title {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .labeling-form {
-        min-width: 350px;
-        padding-top: 1rem;
-      }
-    `,
-  ],
+  templateUrl: './record-labeling-dialog.component.html',
+  styleUrls: ['./record-labeling-dialog.component.scss']
 })
 export class RecordLabelingDialogComponent {
   private fb = inject(FormBuilder);

@@ -1,13 +1,18 @@
-<h2 mat-dialog-title>Select Manual Putaway Location</h2>
-<mat-dialog-content>
+<h2 mat-dialog-title class="clean-header">
+  <mat-icon class="header-icon">move_to_inbox</mat-icon>
+  <span>Select Manual Putaway Location</span>
+</h2>
+
+<mat-dialog-content class="clean-content">
   @if(isLoading()) {
     <div class="spinner-container">
       <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     </div>
   } @else {
-    <form [formGroup]="form">
-      <mat-form-field appearance="outline">
+    <form [formGroup]="form" class="putaway-form">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Available Storage Locations</mat-label>
+        <mat-icon matPrefix class="search-icon">search</mat-icon>
         <input type="text"
                placeholder="Search by location name..."
                matInput
@@ -15,10 +20,16 @@
                [matAutocomplete]="autoLocation"
                cdkFocusInitial>
         <mat-autocomplete #autoLocation="matAutocomplete"
+                          panelClass="putaway-panel"
                           [displayWith]="displayLocationName"
                           (optionSelected)="onLocationSelected($event.option.value)">
           @for(loc of filteredLocations(); track loc.id) {
-            <mat-option [value]="loc">{{ loc.displayName }}</mat-option>
+            <mat-option [value]="loc">
+              <div class="option-content">
+                <mat-icon class="option-icon">location_on</mat-icon>
+                <span>{{ loc.displayName }}</span>
+              </div>
+            </mat-option>
           }
         </mat-autocomplete>
         <mat-error *ngIf="form.get('locationId')?.hasError('required')">
@@ -28,7 +39,11 @@
     </form>
   }
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-flat-button color="primary" (click)="onConfirm()" [disabled]="form.invalid">Confirm Putaway</button>
+
+<mat-dialog-actions align="end" class="clean-actions">
+  <button mat-stroked-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onConfirm()" [disabled]="form.invalid">
+    <mat-icon class="btn-icon">check</mat-icon>
+    Confirm Putaway
+  </button>
 </mat-dialog-actions>

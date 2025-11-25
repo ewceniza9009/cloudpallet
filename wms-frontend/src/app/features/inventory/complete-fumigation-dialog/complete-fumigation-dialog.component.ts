@@ -32,22 +32,7 @@ export interface CompleteFumigationDialogResult {
     MatIconModule,
   ],
   templateUrl: './complete-fumigation-dialog.component.html',
-  styles: [
-    `
-      .dialog-title {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .fumigation-form {
-        min-width: 350px;
-        padding-top: 1rem;
-      }
-      mat-form-field {
-        width: 100%;
-      }
-    `,
-  ],
+  styleUrls: ['./complete-fumigation-dialog.component.scss']
 })
 export class CompleteFumigationDialogComponent {
   private fb = inject(FormBuilder);

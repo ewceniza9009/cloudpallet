@@ -1,17 +1,19 @@
-<h2 mat-dialog-title class="dialog-title">
-  <mat-icon color="warn">gpp_bad</mat-icon>
+<h2 mat-dialog-title class="clean-header">
+  <mat-icon class="header-icon" color="warn">gpp_bad</mat-icon>
   <span>Quarantine Item: {{ data.targetName }}</span>
 </h2>
-<mat-dialog-content>
+
+<mat-dialog-content class="clean-content">
   <form [formGroup]="form" class="quarantine-form">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>Reason for Quarantine</mat-label>
       <input matInput formControlName="reason" cdkFocusInitial placeholder="e.g., Damaged seal, regulatory hold">
       <mat-error *ngIf="form.controls.reason.hasError('required')">A reason is required.</mat-error>
     </mat-form-field>
   </form>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
+
+<mat-dialog-actions align="end" class="clean-actions">
+  <button mat-stroked-button (click)="onCancel()">Cancel</button>
   <button mat-flat-button color="warn" (click)="onConfirm()" [disabled]="form.invalid">Quarantine Item</button>
 </mat-dialog-actions>

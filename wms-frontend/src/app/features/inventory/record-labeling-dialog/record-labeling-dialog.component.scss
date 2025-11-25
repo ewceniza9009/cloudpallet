@@ -1,0 +1,53 @@
+// Clean & Professional Dialog Styling
+$primary-color: var(--mat-sys-primary);
+$on-surface: var(--mat-sys-on-surface);
+$outline-variant: var(--mat-sys-outline-variant);
+
+// Header - Native mat-dialog-title styling
+.clean-header {
+  display: flex !important; // Override default block
+  align-items: center;
+  gap: 12px; // Fixed icon gap
+  margin: 0 !important; // Reset default margins
+  padding: 16px 24px !important; // Standard padding
+  border-bottom: 1px solid $outline-variant;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: $on-surface;
+
+  .header-icon {
+    color: $primary-color;
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+  }
+}
+
+// Content
+.clean-content {
+  padding: 20px 24px !important; // Reduced vertical padding
+  min-width: 400px;
+  max-height: 70vh;
+}
+
+.labeling-form {
+  display: flex;
+  flex-direction: column;
+  padding-top: 8px; // Slight top spacing
+}
+
+// Actions
+.clean-actions {
+  padding: 12px 24px !important; // Consistent horizontal padding
+  border-top: 1px solid $outline-variant;
+  background-color: var(--mat-sys-surface-container-lowest);
+  gap: 12px;
+  margin-bottom: 0; // Ensure no bottom margin
+
+  button {
+    height: 36px;
+    border-radius: 6px;
+    padding: 0 16px;
+    font-weight: 500;
+  }
+}

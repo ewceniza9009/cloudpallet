@@ -1,0 +1,51 @@
+// Clean & Professional Dialog Styling
+$primary-color: var(--mat-sys-primary);
+$on-surface: var(--mat-sys-on-surface);
+$outline-variant: var(--mat-sys-outline-variant);
+
+// Header
+.clean-header {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  margin: 0 !important;
+  padding: 16px 24px !important;
+  border-bottom: 1px solid $outline-variant;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: $on-surface;
+
+  .header-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+  }
+}
+
+// Content
+.clean-content {
+  padding: 20px 24px !important;
+  min-width: 400px;
+}
+
+.confirmation-message {
+  margin: 0;
+  line-height: 1.5;
+  color: $on-surface;
+}
+
+// Actions
+.clean-actions {
+  padding: 12px 24px !important;
+  border-top: 1px solid $outline-variant;
+  background-color: var(--mat-sys-surface-container-lowest);
+  gap: 12px;
+  margin-bottom: 0;
+
+  button {
+    height: 36px;
+    border-radius: 6px;
+    padding: 0 16px;
+    font-weight: 500;
+  }
+}

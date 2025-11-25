@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { InventoryApiService, LocationDto } from '../../inventory/inventory-api.service';
 import { map, startWith } from 'rxjs';
@@ -23,9 +24,11 @@ import { map, startWith } from 'rxjs';
     MatInputModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
+    MatIconModule,
   ],
   templateUrl: './manual-putaway-dialog.component.html',
-  styleUrls: ['./manual-putaway-dialog.component.scss']
+  styleUrls: ['./manual-putaway-dialog.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ManualPutawayDialogComponent implements OnInit {
   private fb = inject(FormBuilder);

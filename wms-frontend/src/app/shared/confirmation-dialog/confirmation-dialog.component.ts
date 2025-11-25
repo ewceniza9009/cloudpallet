@@ -18,35 +18,8 @@ export interface ConfirmationDialogData {
   selector: 'app-confirmation-dialog',
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule],
-  template: `
-    <h2 mat-dialog-title class="dialog-title">
-      <mat-icon color="warn">warning</mat-icon>
-      <span>{{ data.title }}</span>
-    </h2>
-    <mat-dialog-content>
-      <p>{{ data.message }}</p>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button [mat-dialog-close]="false">Cancel</button>
-      <button
-        mat-flat-button
-        color="warn"
-        [mat-dialog-close]="true"
-        cdkFocusInitial
-      >
-        {{ data.confirmButtonText || 'Delete' }}
-      </button>
-    </mat-dialog-actions>
-  `,
-  styles: [
-    `
-      .dialog-title {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-    `,
-  ],
+  templateUrl: './confirmation-dialog.component.html',
+  styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent {
   constructor(
