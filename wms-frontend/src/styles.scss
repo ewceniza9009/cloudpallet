@@ -597,3 +597,122 @@ mat-autocomplete .autocomplete-viewport {
 .mat-mdc-autocomplete-panel:has(.autocomplete-viewport) {
   padding: 0 !important;
 }
+
+// ==========================================================================
+// CUSTOM COMPACT FIELDS - FIXED FOR LABEL/PLACEHOLDER OVERLAP
+// ==========================================================================
+.custom-field {
+  width: 100%;
+  margin-bottom: 0 !important; // CRITICAL: Remove the huge bottom margin
+  
+  // 1. Force wrapper height
+  .mat-mdc-text-field-wrapper {
+    height: 42px !important;
+    padding: 0 12px !important;
+    background-color: white !important;
+  }
+
+  // 2. Force flex centering
+  .mat-mdc-form-field-flex {
+    height: 100% !important;
+    align-items: center !important;
+    padding: 0 !important;
+  }
+
+  // 3. HIDE THE FLOATING LABEL - it overlaps with placeholder
+  .mat-mdc-floating-label {
+    display: none !important;
+  }
+  
+  // Hide the notch outline label
+  .mdc-notched-outline__notch {
+    display: none !important;
+  }
+
+  // 4. Force infix centering - REDUCED padding since no label
+  .mat-mdc-form-field-infix {
+    padding: 0 !important;
+    min-height: unset !important;
+    border-top: 0 !important;
+    width: auto !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  // 5. Force input centering
+  .mat-mdc-input-element {
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 0.9rem !important;
+    height: 42px !important;
+    line-height: 42px !important; // Back to line-height for perfect centering
+  }
+
+  // Force placeholder alignment
+  .mat-mdc-input-element::placeholder {
+    line-height: 42px !important;
+    opacity: 0.5;
+  }
+
+  // 6. Force icon positioning
+  .mat-mdc-form-field-icon-prefix,
+  .mat-mdc-form-field-icon-suffix {
+    padding: 0 8px 0 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    
+    .mat-icon { 
+      font-size: 18px !important; 
+      width: 18px !important; 
+      height: 18px !important; 
+    }
+  }
+
+  // 7. Hide subscript - THIS WAS CAUSING THE GAP
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none !important; 
+    height: 0 !important;
+    margin: 0 !important;
+  }
+  
+  // 8. Fix for select dropdowns
+  .mat-mdc-select {
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 !important;
+  }
+  
+  .mat-mdc-select-trigger {
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 !important;
+  }
+  
+  .mat-mdc-select-value {
+    line-height: 42px !important;
+  }
+  
+  .mat-mdc-select-arrow-wrapper {
+    height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
+// ==========================================================================
+// BUTTON HEIGHT MATCHING - EXACT 42px to match fields
+// ==========================================================================
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-raised-button,
+.mat-mdc-button {
+  &:not(.button-large):not(.button-small) {
+    min-height: 42px !important;
+    height: 42px !important;
+    padding: 0 16px !important;
+    
+    .mdc-button__label {
+      line-height: 42px !important;
+    }
+  }
+}

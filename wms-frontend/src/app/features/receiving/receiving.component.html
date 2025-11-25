@@ -11,7 +11,7 @@
   </div>
 
   <div class="search-section">
-    <mat-form-field appearance="outline" class="search-field">
+    <mat-form-field appearance="outline" class="search-field custom-field">
       <mat-label>Search</mat-label>
       <input matInput [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" placeholder="Supplier or License Plate">
       <button mat-icon-button matSuffix (click)="onSearch()">
@@ -19,7 +19,7 @@
       </button>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="date-field">
+    <mat-form-field appearance="outline" class="date-field custom-field">
       <mat-label>Date</mat-label>
       <input matInput [matDatepicker]="picker" [(ngModel)]="searchDate" (dateChange)="onSearch()">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>

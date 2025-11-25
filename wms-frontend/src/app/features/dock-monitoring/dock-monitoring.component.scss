@@ -21,46 +21,27 @@ $occupied-bg: #fffbeb; // Amber-50
 }
 
 .dock-monitor-container {
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 1.5rem; // Reduced from 2rem
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 // ==========================================================================
-// # HEADER
-// ==========================================================================
-.page-header {
-  margin-bottom: 1.5rem; // Reduced from 2.5rem
-  
-  .header-content {
-    h1 {
-      font-size: 1.5rem; // Slightly smaller
-      font-weight: 700;
-      color: $text-primary;
-      margin: 0 0 0.25rem 0;
-      letter-spacing: -0.02em;
-    }
-    p {
-      color: $text-secondary;
-      font-size: 0.9rem;
-      margin: 0;
-    }
-  }
-}
-
-// ==========================================================================
-// # DOCK GRID
+// # DOCK GRID - Standardized compact spacing
 // ==========================================================================
 .dock-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); // Slightly narrower min-width
-  gap: 1rem; // Reduced from 1.5rem
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); // Compact grid
+  gap: 1rem; // Reduced gap for compactness
 }
 
 .dock-card {
   background: $card-bg;
   border: 1px solid $border-color;
-  border-radius: 10px; // Slightly tighter radius
+  border-radius: 8px;
   overflow: hidden;
   transition: all 0.2s ease;
   display: flex;
@@ -110,7 +91,7 @@ $occupied-bg: #fffbeb; // Amber-50
   }
 
   .dock-header {
-    padding: 0.75rem 1rem; // Reduced padding
+    padding: 0.75rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -121,7 +102,7 @@ $occupied-bg: #fffbeb; // Amber-50
       gap: 0.75rem;
 
       .dock-icon {
-        width: 32px; // Smaller icon
+        width: 32px;
         height: 32px;
         border-radius: 8px;
         display: flex;
@@ -133,7 +114,7 @@ $occupied-bg: #fffbeb; // Amber-50
       }
 
       .dock-name {
-        font-size: 1rem; // Smaller font
+        font-size: 1rem;
         font-weight: 700;
         color: $text-primary;
       }
@@ -150,9 +131,9 @@ $occupied-bg: #fffbeb; // Amber-50
   }
 
   .dock-content {
-    padding: 1rem; // Reduced padding
+    padding: 1rem;
     flex: 1;
-    min-height: 100px; // Reduced min-height
+    min-height: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -163,7 +144,7 @@ $occupied-bg: #fffbeb; // Amber-50
       color: $text-secondary;
       
       mat-icon {
-        font-size: 36px; // Smaller icon
+        font-size: 36px;
         width: 36px;
         height: 36px;
         color: #cbd5e1;
@@ -181,13 +162,13 @@ $occupied-bg: #fffbeb; // Amber-50
     .occupied-details {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem; // Reduced gap
+      gap: 0.5rem;
 
       .detail-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-bottom: 0.5rem; // Reduced padding
+        padding-bottom: 0.5rem;
         border-bottom: 1px dashed $border-color;
 
         &:last-child {
@@ -214,7 +195,7 @@ $occupied-bg: #fffbeb; // Amber-50
   }
 
   .dock-actions {
-    padding: 0.75rem 1rem; // Reduced padding
+    padding: 0.75rem 1rem;
     background: #f8fafc;
     border-top: 1px solid $border-color;
     display: flex;
@@ -222,7 +203,7 @@ $occupied-bg: #fffbeb; // Amber-50
 
     button {
       flex: 1;
-      height: 32px; // Smaller button height
+      height: 32px;
       font-size: 0.8rem;
       line-height: 32px;
     }
@@ -289,166 +270,65 @@ $occupied-bg: #fffbeb; // Amber-50
   min-height: 300px;
   color: var(--mat-sys-on-surface-variant);
 }
-// --- End Standard Styles ---
 
-.dock-grid {
-  display: grid;
-  // --- MODIFIED: Smaller min-width to fit more cards ---
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1rem; // Reduced gap
-}
-
-.dock-card {
-  border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-  border-radius: 8px;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  border-left-width: 5px;
-
-  &:hover {
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,.07), 0 4px 6px -4px rgba(0,0,0,.07);
-  }
-
-  &.status-available {
-    border-left-color: #009688; // Teal
-    .header-icon {
-      color: #009688;
-    }
-  }
-  &.status-occupied {
-    border-left-color: #d32f2f; // Red
-    .header-icon {
-      color: #d32f2f;
-    }
-  }
-}
-
-.header-icon {
-  margin-right: -20px;
-  mat-icon {
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
-  }
-}
-
-.mat-mdc-card-header .mat-mdc-card-title {
-    font-weight: 600;
-    font-size: .9rem; // --- MODIFIED: Slightly smaller ---
-    color: var(--mat-sys-on-surface);
-    margin-bottom: 0;
-}
-.mat-mdc-card-header .mat-mdc-card-subtitle {
-    font-size: 0.8rem;
-}
-
-mat-card-content {
-  flex-grow: 1;
-  min-height: 100px; // --- MODIFIED: Reduced min-height ---
-}
-
-.available-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: var(--mat-sys-on-surface-variant);
-  text-align: center;
-  padding: 0.5rem 0; // --- MODIFIED: Reduced padding ---
-
-  mat-icon {
-    font-size: 32px; // --- MODIFIED: Smaller icon ---
-    width: 32px;
-    height: 32px;
-  }
-  span {
-    font-size: 0.85rem; // --- MODIFIED: Smaller text ---
-    font-weight: 500;
-    margin-top: 0.5rem;
-  }
-}
-
-.occupied-details {
-  display: flex;
-  flex-direction: column;
-
-  .detail-item {
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-    &:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-  }
-
-  .detail-label {
-    font-size: 0.7rem;
-    color: var(--mat-sys-on-surface-variant);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 2px;
-  }
-
-  .detail-value {
-    font-size: 0.9rem; // --- MODIFIED: Smaller value text ---
-    font-weight: 500;
-    color: var(--mat-sys-on-surface);
-  }
-}
-
-.card-actions-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem !important; // --- MODIFIED: Reduced padding ---
-  border-top: 1px solid var(--mat-sys-outline-variant);
-  background-color: var(--mat-sys-surface-container-lowest);
-  border-radius: 0 0 7px 7px;
-}
-
-.no-actions-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-style: italic;
-    font-size: 0.8rem;
-    color: var(--mat-sys-on-surface-variant);
-    opacity: 0.7;
+// ==========================================================================
+// EXACT COPY FROM KITTING - DO NOT MODIFY
+// ==========================================================================
+::ng-deep {
+  .custom-field {
     width: 100%;
-}
+    
+    // 1. Reset the wrapper height and padding
+    .mat-mdc-text-field-wrapper {
+      height: 42px !important; // Fixed sleek height
+      padding: 0 12px !important;
+      background-color: white !important;
+    }
 
-.no-docks-card {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 3rem;
-  text-align: center;
-  border: 2px dashed var(--mat-sys-outline-variant);
-  background: none;
-  box-shadow: none;
-  color: var(--mat-sys-on-surface-variant);
+    // 2. Center content vertically
+    .mat-mdc-form-field-flex {
+      height: 100% !important;
+      align-items: center !important;
+      padding: 0 !important;
+    }
 
-  mat-icon {
-    font-size: 3rem;
-    width: 3rem;
-    height: 3rem;
-    color: var(--mat-sys-outline);
-  }
+    // 3. Remove default infix padding/spacing
+    .mat-mdc-form-field-infix {
+      padding: 0 !important;
+      min-height: unset !important;
+      border-top: 0 !important;
+      width: auto !important; // Allow flex to handle width
+    }
 
-  h2 {
-    margin: 1rem 0 0.25rem;
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: var(--mat-sys-on-surface);
+    // 4. Style the input element
+    .mat-mdc-input-element {
+      padding: 0 !important;
+      margin: 0 !important;
+      top: 0 !important;
+      position: relative !important;
+      font-size: 0.9rem !important;
+      line-height: 42px !important; // Match wrapper height for vertical centering
+      height: 100% !important;
+    }
+
+    // 5. Style the icon
+    .mat-mdc-form-field-icon-prefix,
+    .mat-mdc-form-field-icon-suffix {
+      padding: 0 8px 0 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      height: 100% !important;
+      
+      .mat-icon { 
+        font-size: 18px; 
+        width: 18px; 
+        height: 18px; 
+      }
+    }
+
+    // 6. Hide the subscript (error/hint) wrapper to remove bottom spacing
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none; 
+    }
   }
 }

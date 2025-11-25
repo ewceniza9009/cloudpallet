@@ -11,7 +11,7 @@
           <mat-card-title>View Schedule</mat-card-title>
         </mat-card-header>
         <mat-card-content [formGroup]="selectionForm" class="selection-controls">
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="custom-field">
             <mat-label>Select Dock</mat-label>
             <mat-select formControlName="dockId">
               @for (dock of docks(); track dock.id) {
@@ -24,7 +24,7 @@
               }
             </mat-select>
           </mat-form-field>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="custom-field">
             <mat-label>Appointment Date</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="selectedDate" />
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -46,7 +46,7 @@
         </mat-card-header>
 
         <div class="list-search-bar">
-          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic" class="custom-field">
             <mat-label>Search by License Plate</mat-label>
             <input matInput [formControl]="searchControl" placeholder="e.g., TRUCK-01" />
             <mat-icon matSuffix>search</mat-icon>
