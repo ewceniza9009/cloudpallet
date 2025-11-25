@@ -4,9 +4,15 @@
 // # LAYOUT VARIABLES
 // ==========================================================================
 $sidebar-width: 280px;
-$sidebar-collapsed-width: 72px;
-$header-height: 64px;
-$content-padding: 0px;
+$sidebar-collapsed-width: 80px;
+$header-height: 70px;
+$content-padding: 24px;
+$primary-color: #0f766e; // Teal-700
+$primary-light: #ccfbf1; // Teal-100
+$text-primary: #1e293b; // Slate-800
+$text-secondary: #64748b; // Slate-500
+$bg-hover: #f1f5f9; // Slate-100
+$transition-speed: 0.3s;
 
 // ==========================================================================
 // # BASE & CONTAINER STYLES
@@ -14,6 +20,7 @@ $content-padding: 0px;
 :host {
   display: block;
   height: 100vh;
+  --mat-sidenav-container-background-color: #f8fafc;
 }
 
 .sidenav-container {
@@ -22,575 +29,344 @@ $content-padding: 0px;
 }
 
 // ==========================================================================
-// # SIDE NAVIGATION - REFINED
+// # SIDE NAVIGATION - PREMIUM DESIGN
 // ==========================================================================
 .sidenav {
   width: $sidebar-width;
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: #ffffff;
-  border-right: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.04);
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.02);
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  transition: width $transition-speed cubic-bezier(0.2, 0, 0, 1);
 
-  // --- Collapsed State Refinements ---
+  // --- Collapsed State ---
   &.collapsed {
-  width: $sidebar-collapsed-width;
-  overflow: hidden; // Prevent horizontal scroll
-  white-space: nowrap; // Prevent text wrapping inside
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: $sidebar-collapsed-width;
 
-  // Hide text smoothly
-  .brand-text,
-  .menu-heading,
-  .mat-list-item-title {
-    opacity: 0;
-    visibility: hidden;
-    width: 0;
-    overflow: hidden;
-    transition: all 0.2s ease;
-  }
-
-  // Header logo alignment
-  .sidebar-header {
-    padding: 0;
-    justify-content: center;
-    align-items: center;
-    height: $header-height;
-
-    .brand-icon {
-      margin: 0 auto;
-      font-size: 28px;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--mat-sys-primary);
-    }
-  }
-
-  // Centered icon-only menu items
-  .mat-mdc-list-item {
-    justify-content: center;
-    align-items: center;
-    width: 48px;
-    height: 48px;
-    margin: 6px auto;
-    padding: 0;
-    overflow: hidden;
-
-    .mat-icon {
-      margin: 0;
-      font-size: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-}
-
-}
-
-.sidebar-header {
-  height: $header-height;
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  flex-shrink: 0;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-  transition: padding 0.3s ease;
-
-  .brand-icon {
-    font-size: 28px;
-    width: 28px;
-    height: 28px;
-    color: var(--mat-sys-primary);
-    margin-right: 12px;
-    flex-shrink: 0;
-  }
-
-  .brand-text {
-    transition: opacity 0.3s ease;
-    .app-brand {
-      font-size: 1.25rem;
-      font-weight: 500;
-      color: #1e293b;
-      line-height: 1.2;
-    }
+    .brand-text,
+    .menu-heading,
+    .mat-list-item-title,
     .brand-subtext {
-      font-size: 0.8rem;
-      color: var(--mat-sys-on-surface-variant);
-      line-height: 1.2;
-    }
-  }
-}
-
-mat-nav-list {
-  padding: 8px 12px 0;
-  flex: 1;
-  overflow-y: auto;
-
-  .menu-heading {
-    color: #94a3b8;
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 16px 12px 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: opacity 0.3s ease;
-  }
-
-  .mat-mdc-list-item {
-    height: 44px;
-    border-radius: 8px;
-    color: #475569;
-    padding: 0 12px;
-    margin-bottom: 2px;
-    transition: all 0.2s ease;
-
-    .mat-icon {
-      margin-right: 16px;
-      color: #64748b;
-      transition: margin 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      width: 0;
+      transition: opacity 0.1s ease;
     }
 
-    &:hover {
-      background-color: var(--mat-sys-surface-container-high);
-      transform: translateY(-1px);
+    .sidebar-header {
+      padding: 0;
+      justify-content: center;
+      
+      .brand-icon {
+        margin: 0;
+        width: 32px;
+        height: 32px;
+      }
     }
 
-    &.active-link {
-      background-color: #e0f7fa;
-      color: #00838f;
-      font-weight: 500;
-      box-shadow: 0 1px 3px rgba(0, 131, 143, 0.1);
-      .mat-icon {
-        color: #0097a7;
+    mat-nav-list {
+      padding: 16px 12px;
+      
+      .mat-mdc-list-item {
+        padding: 0;
+        justify-content: center;
+        width: 48px;
+        margin: 4px auto;
+        
+        .mat-icon {
+          margin: 0;
+          font-size: 24px;
+        }
       }
     }
   }
 }
 
 // ==========================================================================
-// # TOP HEADER BAR - REFINED STRUCTURE
+// # SIDEBAR HEADER
+// ==========================================================================
+.sidebar-header {
+  height: $header-height;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  background: #ffffff;
+  
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+    margin-right: 16px;
+    filter: drop-shadow(0 4px 6px rgba(15, 118, 110, 0.2));
+    transition: all $transition-speed ease;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity $transition-speed ease;
+
+    .app-brand {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $text-primary;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtext {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: $text-secondary;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+  }
+}
+
+// ==========================================================================
+// # NAVIGATION LIST
+// ==========================================================================
+mat-nav-list {
+  padding: 24px 16px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  // Custom Scrollbar
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 4px;
+    &:hover { background: #cbd5e1; }
+  }
+
+  .menu-heading {
+    color: #94a3b8;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 24px 12px 8px;
+    margin-top: 8px;
+    
+    &:first-child { margin-top: 0; }
+
+    &.clickable-heading {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: $primary-color;
+      }
+
+      .heading-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  // --- List Item Styling ---
+  .mat-mdc-list-item {
+    height: 48px;
+    border-radius: 12px;
+    margin-bottom: 4px;
+    color: $text-secondary;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+    // Icon Styling
+    .mat-icon {
+      color: #94a3b8;
+      margin-right: 16px;
+      font-size: 22px;
+      transition: all 0.2s ease;
+    }
+
+    // Text Styling
+    .mat-list-item-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+    }
+
+    // Hover State
+    &:hover {
+      background-color: $bg-hover;
+      color: $text-primary;
+      transform: translateX(4px);
+
+      .mat-icon {
+        color: $primary-color;
+        transform: scale(1.1);
+      }
+    }
+
+    // Active State
+    &.active-link {
+      background-color: $primary-light;
+      color: $primary-color;
+      font-weight: 600;
+
+      .mat-icon {
+        color: $primary-color;
+      }
+
+      // Active Indicator Bar
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 20px;
+        width: 3px;
+        background-color: $primary-color;
+        border-radius: 0 4px 4px 0;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// # TOP HEADER BAR
 // ==========================================================================
 .app-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   height: $header-height;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  gap: 16px;
-
-  // Header sections for better organization
+  padding: 0 32px;
+  
   .header-section {
     display: flex;
     align-items: center;
-    gap: 16px;
-
-    &:last-child {
-      justify-content: flex-end;
-      flex: 0 1 auto;
-    }
+    gap: 20px;
   }
 
-  // --- Header Navigation Buttons - Refined ---
-  .header-nav-buttons {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: 8px;
+  // Menu Toggle
+  .menu-toggle-button {
+    color: $text-secondary;
+    &:hover { color: $text-primary; background: rgba(0,0,0,0.04); }
   }
 
+  // Header Buttons
   .header-button {
+    color: $text-secondary;
     font-weight: 500;
-    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.9rem;
+    padding: 8px 16px;
     border-radius: 8px;
-    padding: 8px 12px;
-    height: 40px;
     transition: all 0.2s ease;
 
     .mat-icon {
-      margin-right: 6px;
       font-size: 20px;
-      width: 20px;
-      height: 20px;
-    }
-
-    .expand-icon {
-      margin-left: 4px;
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
+      margin-right: 8px;
+      color: #94a3b8;
     }
 
     &:hover {
-      background-color: var(--mat-sys-surface-container-high);
-      transform: translateY(-1px);
+      background-color: $bg-hover;
+      color: $text-primary;
+      .mat-icon { color: $primary-color; }
     }
   }
 
-  // --- Warehouse Menu Button - REPLACED Selector ---
+  // Warehouse Selector
   .warehouse-menu-button {
-    font-weight: 500;
-    color: var(--mat-sys-on-surface-variant);
-    border-radius: 8px;
-    padding: 8px 12px;
-    height: 40px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 6px 16px;
+    height: 42px;
     transition: all 0.2s ease;
-    min-width: 200px;
-    justify-content: flex-start;
 
     .mat-icon:first-child {
-      margin-right: 8px;
-      color: var(--mat-sys-primary);
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-    }
-
-    .warehouse-text {
-      flex: 1;
-      text-align: left;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      margin: 0 8px;
-    }
-
-    .expand-icon {
-      margin-left: auto;
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
+      color: $primary-color;
     }
 
     &:hover {
-      background-color: var(--mat-sys-surface-container-high);
-      transform: translateY(-1px);
+      background-color: #ffffff;
+      border-color: $primary-color;
+      box-shadow: 0 2px 8px rgba(15, 118, 110, 0.08);
     }
   }
 
-  // --- Header Icon Buttons ---
-  .header-icon-button {
-    border-radius: 8px;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background-color: var(--mat-sys-surface-container-high);
-    }
-  }
-
-  // --- User Profile Button Refinements ---
+  // User Profile
   .user-profile-button {
-    border-radius: 20px;
-    padding: 0 12px 0 8px;
-    height: 40px;
-    transition: all 0.2s ease;
-
-    .mat-icon {
-      color: var(--mat-sys-on-surface-variant);
-      margin-right: 6px;
-    }
-
-    .expand-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-      margin-left: 4px;
-    }
-
-    span {
-      margin: 0 4px;
-      font-weight: 500;
-    }
-
+    border: 1px solid transparent;
     &:hover {
-      background-color: var(--mat-sys-surface-container-high);
+      background-color: $bg-hover;
+      border-color: #e2e8f0;
     }
   }
 }
 
 // ==========================================================================
-// # MENU STYLES - REFINED
-// ==========================================================================
-
-// Warehouse Menu Styles
-.warehouse-menu {
-  min-width: 240px;
-
-  .menu-header {
-    padding: 12px 16px 8px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--mat-sys-on-surface-variant);
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-    margin-bottom: 4px;
-  }
-
-  .mat-mdc-menu-item {
-    &.selected {
-      background-color: var(--mat-sys-surface-container-high);
-      font-weight: 500;
-    }
-
-    .warehouse-menu-icon {
-      margin-right: 12px;
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-
-      .selected & {
-        color: var(--mat-sys-primary);
-      }
-    }
-  }
-}
-
-.notification-menu {
-  width: 360px; // A bit wider
-  max-width: 90vw;
-
-  .menu-header {
-    padding: 8px 8px 8px 16px; // Adjusted padding
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--mat-sys-on-surface-variant);
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-    margin-bottom: 4px;
-    display: flex; // NEW
-    justify-content: space-between; // NEW
-    align-items: center; // NEW
-  }
-
-  .notification-item {
-    height: auto;
-    min-height: 56px;
-    padding: 8px 8px 8px 16px; // Adjusted padding to make room for button
-    display: flex; // Ensure flex layout
-    align-items: center; // Align items vertically
-    position: relative; // For button positioning
-
-    &.is-read { // Style for read notifications
-        opacity: 0.6;
-        .notification-text {
-            font-weight: 400;
-        }
-    }
-
-    .notification-icon {
-      margin-right: 12px;
-      color: var(--mat-sys-primary);
-    }
-
-    .notification-content {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .notification-text {
-      white-space: normal;
-      line-height: 1.4;
-      text-align: left;
-      font-size: 0.875rem;
-      font-weight: 500; // Unread items are bolder
-    }
-
-    .notification-time {
-      font-size: 0.75rem;
-      color: var(--mat-sys-on-surface-variant);
-      margin-top: 2px;
-    }
-
-    .clear-button { // Style for the individual clear button
-        opacity: 0;
-        transition: opacity 0.2s ease-in-out;
-    }
-
-    &:hover .clear-button {
-        opacity: 1;
-    }
-  }
-
-  .mat-mdc-menu-content {
-      margin: 5px;
-      padding: 8px 0;
-      outline: 0;
-  }
-
-  .empty-state {
-    padding: 24px 16px;
-    text-align: center;
-    color: var(--mat-sys-on-surface-variant);
-    font-size: 0.875rem;
-  }
-}
-
-.user-info {
-  padding: 16px 16px 12px;
-  margin: 0;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-  .user-email {
-    font-weight: 500;
-    margin-bottom: 2px;
-  }
-
-  .user-role {
-    font-size: 0.8rem;
-    color: var(--mat-sys-on-surface-variant);
-  }
-}
-
-// ==========================================================================
-// # MAIN CONTENT AREA - REFINED
+// # MAIN CONTENT
 // ==========================================================================
 .content {
-  padding: $content-padding;
+  padding: 32px;
   min-height: calc(100vh - #{$header-height});
-  overflow-y: auto;
+  background-color: #f8fafc;
 }
 
 // ==========================================================================
-// # RESPONSIVE BREAKPOINTS - REFINED
+// # MENUS & DROPDOWNS
 // ==========================================================================
-@media (max-width: 1200px) {
-  .app-header {
-    padding: 0 16px;
-
-    .header-section {
-      gap: 12px;
-    }
-  }
+.mat-mdc-menu-panel {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(0,0,0,0.05);
 }
 
+// ==========================================================================
+// # RESPONSIVE
+// ==========================================================================
 @media (max-width: 992px) {
   .app-header {
-    .header-nav-buttons span,
-    .header-nav-buttons .expand-icon {
-      display: none;
-    }
-
-    .header-button {
-      padding: 8px;
-      min-width: auto;
-
-      .mat-icon {
-        margin-right: 0;
-      }
-    }
-
-    .warehouse-menu-button {
-      min-width: 160px;
-
-      .warehouse-text {
-        max-width: 100px;
-      }
-    }
+    padding: 0 16px;
+    .header-nav-buttons span { display: none; }
   }
-
-  .content {
-    padding: 20px;
-  }
+  .content { padding: 20px; }
 }
 
 @media (max-width: 768px) {
   .sidenav {
-    box-shadow: none;
     position: fixed;
-
-    &:not(.collapsed) {
-      width: 100%;
-      max-width: 280px;
-    }
+    z-index: 1000;
+    height: 100%;
+    box-shadow: 0 0 40px rgba(0,0,0,0.1);
   }
-
-  .app-header {
-    padding: 0 12px;
-
-    .warehouse-menu-button {
-      display: none;
-    }
-
-    .user-profile-button span {
-      display: none;
-    }
-
-    .header-nav-buttons {
-      margin-left: 4px;
-    }
-  }
-
-  .content {
-    padding: 16px;
-  }
+  .content { padding: 16px; }
 }
 
-@media (max-width: 480px) {
-  .app-header {
-    padding: 0 8px;
-
-    .header-section {
-      gap: 8px;
-    }
-
-    .header-button .mat-icon {
-      font-size: 18px;
-    }
-  }
-
-  .content {
-    padding: 12px;
-  }
-}
-
-.sidenav-container {
-  overflow-x: hidden; // Prevent horizontal scrollbar globally
-}
-
-.sidenav {
-  flex-shrink: 0;
-  overflow-x: hidden;
-}
-
-/* --- FINAL SCROLLBAR FIXES --- */
-
-.sidenav-container {
-  overflow: hidden !important; // Ensure no scroll container overflow
-}
-
-.sidenav {
-  overflow: hidden !important; // Force hide any horizontal overflow
-  width: $sidebar-width;
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-sizing: border-box;
-
-  &.collapsed {
-    width: $sidebar-collapsed-width;
-    overflow: hidden !important; // Hide during animation too
-  }
-}
-
-/* Prevent minor scrollbar caused by Material padding or shadows */
-.mat-drawer-inner-container {
-  overflow-x: hidden !important;
-}
-
-/* Optional safety: prevents phantom scrollbars on body */
-html, body {
-  overflow-x: hidden;
-}
-
-/* ---- */
+// ==========================================================================
+// # ANIMATIONS (Restored & Fixed)
+// ==========================================================================
 .warehouse-animation {
   position: fixed;
   bottom: 20px;
@@ -705,19 +481,9 @@ html, body {
 
   .pallet {
     position: absolute;
-
-    &:nth-child(1) {
-      right: 0px;
-      animation-delay: 0s;
-    }
-    &:nth-child(2) {
-      right: 35px;
-      animation-delay: 1s;
-    }
-    &:nth-child(3) {
-      right: 70px;
-      animation-delay: 2s;
-    }
+    &:nth-child(1) { right: 0px; animation-delay: 0s; }
+    &:nth-child(2) { right: 35px; animation-delay: 1s; }
+    &:nth-child(3) { right: 70px; animation-delay: 2s; }
   }
 }
 
@@ -736,7 +502,6 @@ html, body {
     background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
     border: 1px solid #4b5563;
     border-radius: 2px;
-
     &:nth-child(1) { bottom: 0; }
     &:nth-child(2) { bottom: 25px; }
     &:nth-child(3) { bottom: 50px; }
@@ -760,17 +525,8 @@ html, body {
 
   .pallet-stack {
     position: absolute;
-
-    &:nth-child(1) {
-      bottom: 0;
-      right: 15px;
-      animation: storePallet1 15s linear infinite;
-    }
-    &:nth-child(2) {
-      bottom: 0;
-      right: 45px;
-      animation: storePallet2 15s linear infinite;
-    }
+    &:nth-child(1) { bottom: 0; right: 15px; animation: storePallet1 15s linear infinite; }
+    &:nth-child(2) { bottom: 0; right: 45px; animation: storePallet2 15s linear infinite; }
   }
 }
 

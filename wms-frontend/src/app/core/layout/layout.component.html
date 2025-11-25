@@ -9,10 +9,10 @@
    </div>
    <mat-nav-list>
       @if (authService.hasRole('Operator')) {
-      <div class="menu-heading" (click)="toggleOperationsMenu()" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+      <div class="menu-heading clickable-heading" (click)="toggleOperationsMenu()">
          <span>Operations</span>
          @if (isExpanded()) {
-         <mat-icon style="font-size: 18px;">
+         <mat-icon class="heading-icon">
             {{ isOperationsExpanded() ? 'expand_less' : 'expand_more' }}
          </mat-icon>
          }

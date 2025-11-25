@@ -1,16 +1,275 @@
 // FILE PATH: wms-frontend/src/app/features/dock-monitoring/dock-monitoring.component.scss
+
+// Variables
+$primary-color: #0f766e; // Teal-700
+$primary-bg: #f0fdfa; // Teal-50
+$text-primary: #0f172a; // Slate-900
+$text-secondary: #64748b; // Slate-500
+$border-color: #e2e8f0; // Slate-200
+$bg-page: #f8fafc; // Slate-50
+$card-bg: #ffffff;
+$success-color: #10b981; // Emerald-500
+$success-bg: #ecfdf5; // Emerald-50
+$occupied-color: #f59e0b; // Amber-500
+$occupied-bg: #fffbeb; // Amber-50
+
 :host {
   display: block;
+  background-color: $bg-page;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-// --- Standard Management Container Styles ---
-.management-container {
-  padding: 1.5rem 2.5rem;
-  max-width: 100%; // Use full width
+.dock-monitor-container {
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 1.5rem; // Reduced from 2rem
+}
+
+// ==========================================================================
+// # HEADER
+// ==========================================================================
+.page-header {
+  margin-bottom: 1.5rem; // Reduced from 2.5rem
+  
+  .header-content {
+    h1 {
+      font-size: 1.5rem; // Slightly smaller
+      font-weight: 700;
+      color: $text-primary;
+      margin: 0 0 0.25rem 0;
+      letter-spacing: -0.02em;
+    }
+    p {
+      color: $text-secondary;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+  }
+}
+
+// ==========================================================================
+// # DOCK GRID
+// ==========================================================================
+.dock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); // Slightly narrower min-width
+  gap: 1rem; // Reduced from 1.5rem
+}
+
+.dock-card {
+  background: $card-bg;
+  border: 1px solid $border-color;
+  border-radius: 10px; // Slightly tighter radius
+  overflow: hidden;
+  transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: $primary-color;
+  }
+
+  // Status Styles
+  &.status-available {
+    .dock-header {
+      background: linear-gradient(to right, $success-bg, white);
+      border-bottom: 1px solid $border-color;
+      
+      .status-badge {
+        background: $success-bg;
+        color: $success-color;
+        border: 1px solid rgba($success-color, 0.2);
+      }
+      
+      .dock-icon {
+        color: $success-color;
+        background: white;
+      }
+    }
+  }
+
+  &.status-occupied {
+    .dock-header {
+      background: linear-gradient(to right, $occupied-bg, white);
+      border-bottom: 1px solid $border-color;
+      
+      .status-badge {
+        background: $occupied-bg;
+        color: $occupied-color;
+        border: 1px solid rgba($occupied-color, 0.2);
+      }
+      
+      .dock-icon {
+        color: $occupied-color;
+        background: white;
+      }
+    }
+  }
+
+  .dock-header {
+    padding: 0.75rem 1rem; // Reduced padding
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .dock-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .dock-icon {
+        width: 32px; // Smaller icon
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        
+        mat-icon { font-size: 20px; width: 20px; height: 20px; }
+      }
+
+      .dock-name {
+        font-size: 1rem; // Smaller font
+        font-weight: 700;
+        color: $text-primary;
+      }
+    }
+
+    .status-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  .dock-content {
+    padding: 1rem; // Reduced padding
+    flex: 1;
+    min-height: 100px; // Reduced min-height
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    // Available State
+    .available-state {
+      text-align: center;
+      color: $text-secondary;
+      
+      mat-icon {
+        font-size: 36px; // Smaller icon
+        width: 36px;
+        height: 36px;
+        color: #cbd5e1;
+        margin-bottom: 0.25rem;
+      }
+      
+      p {
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin: 0;
+      }
+    }
+
+    // Occupied State
+    .occupied-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem; // Reduced gap
+
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 0.5rem; // Reduced padding
+        border-bottom: 1px dashed $border-color;
+
+        &:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+
+        .label {
+          font-size: 0.7rem;
+          color: $text-secondary;
+          font-weight: 600;
+          text-transform: uppercase;
+        }
+
+        .value {
+          font-size: 0.9rem;
+          color: $text-primary;
+          font-weight: 600;
+          
+          &.mono { font-family: 'Roboto Mono', monospace; }
+        }
+      }
+    }
+  }
+
+  .dock-actions {
+    padding: 0.75rem 1rem; // Reduced padding
+    background: #f8fafc;
+    border-top: 1px solid $border-color;
+    display: flex;
+    gap: 0.5rem;
+
+    button {
+      flex: 1;
+      height: 32px; // Smaller button height
+      font-size: 0.8rem;
+      line-height: 32px;
+    }
+    
+    .no-actions {
+      width: 100%;
+      text-align: center;
+      font-size: 0.8rem;
+      color: $text-secondary;
+      font-style: italic;
+      padding: 0.25rem 0;
+    }
+  }
+}
+
+// ==========================================================================
+// # STATES
+// ==========================================================================
+.loading-state, .empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: $text-secondary;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    color: #cbd5e1;
+  }
+  
+  h3 { 
+    color: $text-primary; 
+    font-weight: 600; 
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem; 
+  }
+  
+  p {
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
 }
 
 .header-section {

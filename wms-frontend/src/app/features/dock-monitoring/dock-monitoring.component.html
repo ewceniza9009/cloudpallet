@@ -1,75 +1,79 @@
-<div class="management-container"> <div class="header-section">
-    <h1 class="mat-headline-6">Live Dock Monitoring</h1>
-    <p class="mat-body-1">Real-time view of dock occupancy and availability.</p>
-  </div>
+<div class="dock-monitor-container">
+  
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Live Dock Monitoring</h1>
+      <p>Real-time view of dock occupancy and availability.</p>
+    </div>
+  </header>
 
   @if (isLoading()) {
-    <div class="spinner-container-page"> <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-        <p>Loading Dock Status...</p>
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <h3>Loading Dock Status...</h3>
     </div>
   } @else {
     <div class="dock-grid">
       @for (dock of docks(); track dock.id) {
-        <mat-card class="dock-card" [ngClass]="dock.isAvailable ? 'status-available' : 'status-occupied'">
-
-          <mat-card-header>
-            <div mat-card-avatar class="header-icon">
+        <div class="dock-card" [ngClass]="dock.isAvailable ? 'status-available' : 'status-occupied'">
+          
+          <!-- Card Header -->
+          <div class="dock-header">
+            <div class="dock-info">
+              <div class="dock-icon">
                 <mat-icon>{{ dock.isAvailable ? 'check_circle_outline' : 'local_shipping' }}</mat-icon>
+              </div>
+              <span class="dock-name">{{ dock.name }}</span>
             </div>
-            <mat-card-title>{{ dock.name }}</mat-card-title>
-            <mat-card-subtitle>{{ dock.isAvailable ? 'Available' : 'Occupied' }}</mat-card-subtitle>
-          </mat-card-header>
+            <span class="status-badge">{{ dock.isAvailable ? 'Available' : 'Occupied' }}</span>
+          </div>
 
-          <mat-card-content class="dock-status-content">
+          <!-- Card Content -->
+          <div class="dock-content">
             @if(dock.isAvailable){
-              <div class="available-content">
+              <div class="available-state">
                 <mat-icon>power_settings_new</mat-icon>
-                <span>Ready for Arrival</span>
+                <p>Ready for Arrival</p>
               </div>
             } @else {
               <div class="occupied-details">
-                <div class="detail-item">
-                  <span class="detail-label">LICENSE PLATE</span>
-                  <span class="detail-value">{{ dock.licensePlate || 'Loading...' }}</span>
+                <div class="detail-row">
+                  <span class="label">License Plate</span>
+                  <span class="value mono">{{ dock.licensePlate || 'N/A' }}</span>
                 </div>
-                <div class="detail-item">
-                  <span class="detail-label">CARRIER</span>
-                  <span class="detail-value">{{ dock.carrierName || 'Loading...' }}</span>
+                <div class="detail-row">
+                  <span class="label">Carrier</span>
+                  <span class="value">{{ dock.carrierName || 'Unknown' }}</span>
                 </div>
-                <div class="detail-item">
-                  <span class="detail-label">ARRIVAL</span>
-                  <span class="detail-value">{{ dock.arrival | date:'shortTime' }}</span>
+                <div class="detail-row">
+                  <span class="label">Arrival</span>
+                  <span class="value">{{ dock.arrival | date:'shortTime' }}</span>
                 </div>
               </div>
             }
-          </mat-card-content>
+          </div>
 
-          <mat-card-actions class="card-actions-footer">
+          <!-- Card Actions -->
+          <div class="dock-actions">
             @if (!dock.isAvailable) {
               <button mat-flat-button color="primary" (click)="startReceiving(dock)">
-                <mat-icon>inventory_2</mat-icon>
-                <span>Receive</span>
+                <mat-icon>inventory_2</mat-icon> Receive
               </button>
               <button mat-stroked-button color="warn" (click)="vacateDock(dock.id)">
-                <mat-icon>logout</mat-icon>
-                <span>Vacate</span>
+                <mat-icon>logout</mat-icon> Vacate
               </button>
+            } @else {
+              <div class="no-actions">No Actions Available</div>
             }
-            @else
-            {
-              <div class="no-actions-placeholder">
-                <mat-icon>info_outline</mat-icon>
-                <span>No Actions Available</span>
-              </div>
-            }
-          </mat-card-actions>
-        </mat-card>
+          </div>
+        </div>
       } @empty {
-        <mat-card class="no-docks-card">
+        <div class="empty-state">
           <mat-icon>error_outline</mat-icon>
-          <h2>No Docks Found</h2>
+          <h3>No Docks Found</h3>
           <p>There are no docks configured for the selected warehouse.</p>
-        </mat-card>
+        </div>
       }
     </div>
   }

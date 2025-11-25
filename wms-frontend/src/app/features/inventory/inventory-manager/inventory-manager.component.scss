@@ -1,149 +1,453 @@
 // ---- File: wms-frontend/src/app/features/inventory/inventory-manager/inventory-manager.component.scss ----
 
+// Variables
+$primary-color: #0f766e; // Teal-700
+$primary-bg: #f0fdfa; // Teal-50
+$text-primary: #0f172a; // Slate-900
+$text-secondary: #64748b; // Slate-500
+$border-color: #e2e8f0; // Slate-200
+$bg-page: #f8fafc; // Slate-50
+$card-bg: #ffffff;
+
 :host {
   display: block;
+  background-color: $bg-page;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .inventory-manager-container {
-  padding: 1.5rem 2.5rem;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
-  display: grid;
-  gap: 1.5rem;
+  padding: 2rem;
 }
 
-.header-section {
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-  h1 {
-    margin: 0;
-    font-weight: 600;
-    font-size: 1.75rem;
-  }
-  p {
-    color: var(--mat-sys-on-surface-variant);
-    margin-top: 4px;
-  }
-}
-
-.search-card {
-  border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  .search-field {
-    width: 100%;
-    margin-bottom: 0;
-  }
-}
-
-.search-content {
+// ==========================================================================
+// # HEADER & SEARCH
+// ==========================================================================
+.page-header {
   display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding-bottom: 0; // Remove padding, let form field handle spacing
-}
-
-.search-field {
-  flex-grow: 1;
-  margin-bottom: 0; // Remove default margin
-}
-
-.search-button {
-  height: 56px; // Match outline form field height
-  flex-shrink: 0;
-  margin-top: 0; // Ensure no extra margin
-}
-
-.spinner-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 3rem;
-  gap: 1rem;
-  color: var(--mat-sys-on-surface-variant);
-}
-
-.pallet-details-card {
-  border: 1px solid var(--mat-sys-primary-container);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  .mat-card-header {
-    background-color: var(--mat-sys-primary-container);
-    color: var(--mat-sys-on-primary-container);
-    border-radius: 8px 8px 0 0;
-  }
-  mat-card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-  mat-card-subtitle {
-    color: var(--mat-sys-on-primary-container);
-    opacity: 0.8;
-  }
-}
-
-.pallet-actions {
-  display: flex;
+  margin-bottom: 2.5rem;
   flex-wrap: wrap;
+  gap: 1.5rem;
+
+  .header-title {
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: $text-primary;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    p {
+      color: $text-secondary;
+      font-size: 1rem;
+      margin: 0;
+    }
+  }
+}
+
+.search-bar-wrapper {
+  flex: 1;
+  max-width: 500px;
+  background: white;
+  border: 1px solid $border-color;
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
   gap: 0.75rem;
-  padding: 1rem 1.5rem !important;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:focus-within {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-color: $primary-color;
+  }
+
+  .search-icon {
+    color: $text-secondary;
+  }
+
+  .custom-search-input {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: $text-primary;
+    flex: 1;
+    background: transparent;
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+  }
+
+  .clear-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $text-secondary;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    
+    mat-icon { font-size: 20px; width: 20px; height: 20px; }
+    &:hover { color: $text-primary; }
+  }
+
+  .search-actions {
+    border-left: 1px solid $border-color;
+    padding-left: 0.75rem;
+    
+    button {
+      height: 32px;
+      font-size: 0.85rem;
+      line-height: 32px;
+    }
+  }
 }
 
-.details-title {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--mat-sys-on-surface-variant);
-  margin: 1rem 0 0.5rem 1rem;
-}
-
-.pallet-lines-list {
-  padding-top: 0;
-}
-
-.empty-list-message {
+// ==========================================================================
+// # DASHBOARD GRID
+// ==========================================================================
+.dashboard-grid {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 2rem;
+}
+
+// ==========================================================================
+// # PALLET CONTEXT CARD
+// ==========================================================================
+.pallet-context-card {
+  background: white;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 3rem;
-  text-align: center;
-  color: var(--mat-sys-on-surface-variant);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+
+  .context-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    .id-group {
+      .label {
+        display: block;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: $text-secondary;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+      .value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $text-primary;
+        font-family: 'Roboto Mono', monospace;
+      }
+    }
+
+    .location-badge {
+      background: $bg-page;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: $text-primary;
+      font-size: 0.9rem;
+      border: 1px solid $border-color;
+
+      mat-icon { font-size: 18px; width: 18px; height: 18px; color: $text-secondary; }
+    }
+  }
+
+  .context-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+}
+
+// ==========================================================================
+// # INVENTORY LIST
+// ==========================================================================
+.inventory-list-section {
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: $text-primary;
+      margin: 0;
+    }
+    
+    .badge {
+      background: $border-color;
+      color: $text-secondary;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-weight: 600;
+    }
+  }
+}
+
+.inventory-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1rem;
+}
+
+.inventory-item-card {
+  background: white;
+  border: 1px solid $border-color;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $primary-color;
+    box-shadow: 0 4px 12px rgba(15, 118, 110, 0.08);
+  }
+
+  &.quarantined {
+    border-left: 4px solid #f59e0b;
+  }
+
+  .card-main {
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    
+    .item-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      
+      .material-name {
+        font-weight: 600;
+        color: $text-primary;
+        font-size: 1rem;
+      }
+      .lpn {
+        font-size: 0.85rem;
+        color: $text-secondary;
+        font-family: 'Roboto Mono', monospace;
+      }
+    }
+
+    .item-qty {
+      text-align: right;
+      
+      .qty-val {
+        display: block;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: $text-primary;
+      }
+      .qty-unit {
+        font-size: 0.75rem;
+        color: $text-secondary;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .card-footer {
+    background: #f8fafc;
+    padding: 0.75rem 1.25rem;
+    border-top: 1px solid $border-color;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .status-indicator {
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: $text-secondary;
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #cbd5e1;
+        
+        &.active { background: $primary-color; box-shadow: 0 0 0 2px $primary-bg; }
+        &.warn { background: #f59e0b; box-shadow: 0 0 0 2px #fef3c7; }
+      }
+    }
+
+    .item-actions {
+      button {
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        
+        mat-icon { font-size: 18px; width: 18px; height: 18px; }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// # STATES
+// ==========================================================================
+.loading-state, .empty-state, .not-found {
+  text-align: center;
+  padding: 6rem 2rem;
+  color: $text-secondary;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  .illustration {
+    width: 80px;
+    height: 80px;
+    background: $bg-page;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    border: 1px solid $border-color;
+    
+    mat-icon {
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
+      color: $primary-color;
+      margin: 0;
+    }
+  }
+  
   mat-icon {
     font-size: 3rem;
     width: 3rem;
     height: 3rem;
-    color: var(--mat-sys-outline);
+    margin-bottom: 1rem;
+    color: #cbd5e1;
   }
-
-  &.standalone-empty {
-    border: 2px dashed var(--mat-sys-outline-variant);
-    border-radius: 8px;
-    background-color: var(--mat-sys-surface-container-lowest);
+  
+  h3 { 
+    color: $text-primary; 
+    font-weight: 600; 
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem; 
+  }
+  
+  p {
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.5;
   }
 }
 
-.pallet-lines-list .mat-mdc-list-item {
-  &.status-quarantined {
-    background-color: #fffbeb;
-    .mat-icon[matListItemIcon] {
-      color: #f59e0b;
+// ==========================================================================
+// # CUSTOM MATERIAL OVERRIDES (PREMIUM INPUTS)
+// ==========================================================================
+::ng-deep {
+  .custom-field {
+    width: 100%;
+    
+    // 1. Reset the wrapper height and padding
+    .mat-mdc-text-field-wrapper {
+      height: 42px !important; // Fixed sleek height
+      padding: 0 12px !important;
+      background-color: white !important;
     }
-    div[matListItemTitle] {
-      color: #b45309;
+
+    // 2. Center content vertically
+    .mat-mdc-form-field-flex {
+      height: 100% !important;
+      align-items: center !important;
+      padding: 0 !important;
+    }
+
+    // 3. Remove default infix padding/spacing
+    .mat-mdc-form-field-infix {
+      padding: 0 !important;
+      min-height: unset !important;
+      border-top: 0 !important;
+      width: auto !important; // Allow flex to handle width
+    }
+
+    // 4. Style the input element
+    .mat-mdc-input-element {
+      padding: 0 !important;
+      margin: 0 !important;
+      top: 0 !important;
+      position: relative !important;
+      font-size: 0.9rem !important;
+      line-height: 42px !important; // Match wrapper height for vertical centering
+      height: 100% !important;
+    }
+
+    // 5. Style the icon prefix
+    .mat-mdc-form-field-icon-prefix {
+      padding: 0 8px 0 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      height: 100% !important;
+      
+      .mat-icon { 
+        font-size: 18px; 
+        width: 18px; 
+        height: 18px; 
+        color: $text-secondary;
+      }
+    }
+
+    // 6. Hide the subscript wrapper
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none; 
+    }
+    
+    // Search variant
+    &.search {
+      .mat-mdc-text-field-wrapper { height: 48px !important; }
+      .mat-mdc-input-element { font-size: 1rem !important; line-height: 48px !important; }
     }
   }
+}
 
-  &.status-available {
-     .mat-icon[matListItemIcon] {
-      color: var(--mat-sys-primary);
-    }
+// Responsive
+@media (max-width: 768px) {
+  .manager-header {
+    flex-direction: column;
+    align-items: stretch;
+    
+    .search-bar-wrapper { max-width: 100%; }
   }
-
-  .line-actions {
-    display: flex;
-    gap: 0.25rem;
-    align-items: center;
+  
+  .pallet-context-card {
+    flex-direction: column;
+    align-items: flex-start;
+    
+    .context-actions {
+      width: 100%;
+      justify-content: stretch;
+      button { flex: 1; }
+      .more-btn { flex: 0; }
+    }
   }
 }

@@ -1,129 +1,158 @@
 <div class="repack-container">
-  <div class="header-section">
-    <h1>Record Repackaging Service</h1>
-    <p>Perform inventory transformation from one material SKU to another.</p>
-  </div>
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Repackaging Service</h1>
+      <p>Inventory Transformation & Processing</p>
+    </div>
+  </header>
 
-  <mat-card class="repack-form-card">
-    <mat-card-header>
-      <mat-card-title>Repackaging Transformation Form</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="repackForm" (ngSubmit)="onSubmit()" class="repack-form">
-
-        <div class="form-section">
-          <h3>1. Select Customer Account</h3>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Account</mat-label>
-            <input type="text"
-                   matInput
-                   formControlName="account"
-                   [matAutocomplete]="autoAccount"
-                   placeholder="Search for account..."
-                   cdkFocusInitial>
-            <mat-autocomplete #autoAccount="matAutocomplete"
-                              [displayWith]="displayAccount"
-                              (optionSelected)="onAccountSelected($event.option.value)">
-              <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
-                @for(account of filteredAccounts$ | async; track account.id) {
+  <form [formGroup]="repackForm" (ngSubmit)="onSubmit()" class="repack-layout">
+    
+    <!-- Left Panel: Configuration -->
+    <div class="config-panel">
+      <div class="panel-section">
+        <h3 class="section-title">Job Configuration</h3>
+        
+        <div class="card-base config-card">
+          <!-- Account Selection -->
+          <div class="form-group">
+            <label class="form-label">Customer Account</label>
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-icon matPrefix>business</mat-icon>
+              <input type="text" matInput formControlName="account" [matAutocomplete]="autoAccount" placeholder="Select Account">
+              <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccount" (optionSelected)="onAccountSelected($event.option.value)">
+                @for (account of filteredAccounts$ | async; track account.id) {
                   <mat-option [value]="account">{{ account.name }}</mat-option>
                 }
-              </cdk-virtual-scroll-viewport>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-
-        <div class="form-section" [class.disabled-section]="!repackForm.get('account')?.value">
-          <h3>2. Select Target Material</h3>
-          <div class="material-selection-grid">
-            <mat-form-field appearance="outline" class="target-material-field">
-              <mat-label>Target Material (Output)</mat-label>
-              <input type="text"
-                     matInput
-                     formControlName="targetMaterial"
-                     [matAutocomplete]="autoTarget"
-                     placeholder="Search for material to create...">
-              <mat-autocomplete #autoTarget="matAutocomplete"
-                                [displayWith]="displayMaterial"
-                                (optionSelected)="onTargetMaterialSelected($event.option.value)">
-                <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
-                  @for(mat of filteredTargetMaterials$ | async; track mat.id) {
-                    <mat-option [value]="mat">{{ mat.name }} ({{mat.sku}})</mat-option>
-                  }
-                </cdk-virtual-scroll-viewport>
               </mat-autocomplete>
-              <mat-hint>Select an account first to enable material selection</mat-hint>
             </mat-form-field>
           </div>
-        </div>
 
-        <div class="form-section" [class.disabled-section]="!repackForm.get('targetMaterial')?.value">
-          <h3>3. Select Source Inventory</h3>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Source Inventory</mat-label>
-            <input type="text"
-                   matInput
-                   formControlName="sourceInventory"
-                   [matAutocomplete]="autoSource"
-                   placeholder="Search by material or pallet...">
-            @if(isLoadingSources()) {
-              <mat-progress-spinner matSuffix mode="indeterminate" diameter="20"></mat-progress-spinner>
-            }
-            <mat-autocomplete #autoSource="matAutocomplete" [displayWith]="displaySource">
-              @for(inv of displayableSourceInventories(); track inv.inventoryId) {
-                <mat-option [value]="inv">
-                  <div class="inventory-option">
-                    <div class="inventory-main">{{ inv.materialName }} ({{inv.sku}})</div>
-                    <div class="inventory-details">
-                      Pallet: {{inv.palletBarcode}} | Location: {{inv.location}} | Available: {{inv.quantity}}
+          <!-- Target Material -->
+          <div class="form-group" [class.disabled]="!repackForm.get('account')?.value">
+            <label class="form-label">Target Material (Output)</label>
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-icon matPrefix>category</mat-icon>
+              <input type="text" matInput formControlName="targetMaterial" [matAutocomplete]="autoTarget" placeholder="Search Target SKU">
+              <mat-autocomplete #autoTarget="matAutocomplete" [displayWith]="displayMaterial" (optionSelected)="onTargetMaterialSelected($event.option.value)">
+                @for (mat of filteredTargetMaterials$ | async; track mat.id) {
+                  <mat-option [value]="mat">{{ mat.name }} ({{mat.sku}})</mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <div class="row-group">
+            <!-- Quantity -->
+            <div class="form-group" [class.disabled]="!repackForm.get('targetMaterial')?.value">
+              <label class="form-label">Quantity (Units)</label>
+              <mat-form-field appearance="outline" class="custom-field">
+                <input matInput type="number" formControlName="quantityToProcess" min="1" placeholder="0">
+              </mat-form-field>
+            </div>
+
+            <!-- Labor -->
+            <div class="form-group">
+              <label class="form-label">Labor Time (Hours)</label>
+              <mat-form-field appearance="outline" class="custom-field">
+                <mat-icon matPrefix>timer</mat-icon>
+                <input matInput type="number" formControlName="durationHours" min="0.1" step="0.1" placeholder="0.0">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button mat-flat-button color="primary" type="submit" class="submit-button" 
+                    [disabled]="repackForm.invalid || isSubmitting()">
+              @if (isSubmitting()) {
+                <mat-spinner diameter="20"></mat-spinner>
+              } @else {
+                <span>Record Repack</span>
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel: Source Selection -->
+    <div class="source-panel">
+      <div class="panel-section">
+        <h3 class="section-title">Source Inventory</h3>
+        
+        <div class="source-selection-area">
+          @if (!repackForm.get('targetMaterial')?.value) {
+            <div class="empty-state">
+              <mat-icon>inventory_2</mat-icon>
+              <p>Select a Target Material to view available source inventory.</p>
+            </div>
+          } @else {
+            <div class="search-box">
+              <mat-form-field appearance="outline" class="custom-field search">
+                <mat-icon matPrefix>search</mat-icon>
+                <input type="text" matInput formControlName="sourceInventory" [matAutocomplete]="autoSource" placeholder="Search by material or pallet...">
+                @if (isLoadingSources()) {
+                  <mat-spinner matSuffix diameter="20"></mat-spinner>
+                }
+                <mat-autocomplete #autoSource="matAutocomplete" [displayWith]="displaySource">
+                  @for (inv of displayableSourceInventories(); track inv.inventoryId) {
+                    <mat-option [value]="inv" class="rich-option">
+                      <div class="inventory-option-row">
+                        <div class="main-info">
+                          <span class="mat-name">{{ inv.materialName }}</span>
+                          <span class="mat-sku">{{ inv.sku }}</span>
+                        </div>
+                        <div class="meta-info">
+                          <span class="badge pallet">{{ inv.palletBarcode }}</span>
+                          <span class="badge loc">{{ inv.location }}</span>
+                          <span class="badge qty">Qty: {{ inv.quantity }}</span>
+                        </div>
+                      </div>
+                    </mat-option>
+                  }
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+
+            @if (repackForm.get('sourceInventory')?.value; as selectedSource) {
+              <div class="selected-source-card card-base">
+                <div class="card-header">
+                  <div class="header-icon">
+                    <mat-icon>check_circle</mat-icon>
+                  </div>
+                  <div class="header-text">
+                    <span class="title">Selected Source</span>
+                    <span class="subtitle">Inventory to be consumed</span>
+                  </div>
+                </div>
+                
+                <div class="card-content">
+                  <div class="detail-grid">
+                    <div class="detail-item">
+                      <span class="label">Material</span>
+                      <span class="value">{{ selectedSource.materialName }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="label">Pallet ID</span>
+                      <span class="value mono">{{ selectedSource.palletBarcode }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="label">Location</span>
+                      <span class="value">{{ selectedSource.location }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="label">Available Qty</span>
+                      <span class="value highlight">{{ selectedSource.quantity | number }}</span>
                     </div>
                   </div>
-                </mat-option>
-              }
-            </mat-autocomplete>
-            @if(displayableSourceInventories().length === 0 && repackForm.get('targetMaterial')?.value) {
-              <mat-error>No valid source inventory found for this transformation</mat-error>
+                </div>
+              </div>
             }
-            <mat-hint>Select a target material to see available sources</mat-hint>
-          </mat-form-field>
+          }
         </div>
+      </div>
+    </div>
 
-        <div class="form-section">
-          <h3>4. Processing Details</h3>
-          <div class="processing-grid">
-            <mat-form-field appearance="outline" class="quantity-input">
-              <mat-label>Quantity to Process</mat-label>
-              <input matInput type="number" formControlName="quantityToProcess" min="1">
-              <mat-error *ngIf="repackForm.get('quantityToProcess')?.hasError('required')">Required</mat-error>
-              <mat-error *ngIf="repackForm.get('quantityToProcess')?.hasError('min')">Must be at least 1</mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class="form-section">
-          <h3>5. Record Labor</h3>
-          <mat-form-field appearance="outline" class="quantity-input">
-            <mat-label>Time Spent (Hours)</mat-label>
-            <input matInput type="number" formControlName="durationHours" min="0.1" step="0.1" placeholder="e.g., 1.5">
-            <mat-error *ngIf="repackForm.get('durationHours')?.hasError('required')">Required</mat-error>
-            <mat-error *ngIf="repackForm.get('durationHours')?.hasError('min')">Must be > 0</mat-error>
-          </mat-form-field>
-        </div>
-
-        <mat-card-actions align="end">
-          <button mat-flat-button color="primary" type="submit" [disabled]="repackForm.invalid || isSubmitting()">
-            @if(isSubmitting()) {
-              <mat-progress-spinner diameter="20" mode="indeterminate" style="margin-right: 8px;"></mat-progress-spinner>
-              <span>Processing...</span>
-            } @else {
-              <ng-container>
-                <mat-icon>transform</mat-icon>
-                <span>Record Repack</span>
-              </ng-container>
-            }
-          </button>
-        </mat-card-actions>
-      </form>
-    </mat-card-content>
-  </mat-card>
+  </form>
 </div>

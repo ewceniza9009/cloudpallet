@@ -1,128 +1,139 @@
 <div class="kitting-container">
-  <div class="header-section">
-    <h1>Create Kit from Inventory</h1>
-    <p>Assemble new "Kit" products by consuming existing inventory components based on a Bill of Materials.</p>
-  </div>
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Kitting Assembly</h1>
+      <p>Production & Assembly Management</p>
+    </div>
+  </header>
 
-  <mat-card class="kitting-form-card">
-    <mat-card-header>
-      <mat-card-title>Kitting Assembly Form</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="kittingForm" (ngSubmit)="onSubmit()">
-
-        <div class="form-section">
-          <h3>1. Select Customer Account</h3>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Account</mat-label>
-            <input type="text"
-                   matInput
-                   [formControl]="accountSearchCtrl"
-                   [matAutocomplete]="autoAccount"
-                   placeholder="Search for account..."
-                   cdkFocusInitial>
-            <mat-autocomplete #autoAccount="matAutocomplete"
-                              [displayWith]="displayAccount"
-                              (optionSelected)="onAccountSelected($event)">
-              <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
-                @for(account of filteredAccounts(); track account.id) { <mat-option [value]="account">{{ account.name }}</mat-option>
+  <form [formGroup]="kittingForm" (ngSubmit)="onSubmit()" class="kitting-layout">
+    
+    <!-- Left Panel: Configuration -->
+    <div class="config-panel">
+      <div class="panel-section">
+        <h3 class="section-title">Job Configuration</h3>
+        
+        <div class="card-base config-card">
+          <!-- Account Selection -->
+          <div class="form-group">
+            <label class="form-label">Customer Account</label>
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-icon matPrefix>business</mat-icon>
+              <input type="text" matInput [formControl]="accountSearchCtrl" [matAutocomplete]="autoAccount" placeholder="Select Account">
+              <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccount" (optionSelected)="onAccountSelected($event)">
+                @for (account of filteredAccounts(); track account.id) {
+                  <mat-option [value]="account">{{ account.name }}</mat-option>
                 }
-              </cdk-virtual-scroll-viewport>
-            </mat-autocomplete>
-            @if(isLoadingLookups()) { <mat-progress-spinner matSuffix mode="indeterminate" diameter="20"></mat-progress-spinner> }
-          </mat-form-field>
-        </div>
-
-        <div class="form-section" [class.disabled-section]="!kittingForm.get('accountId')?.value">
-          <h3>2. Select Kit to Build</h3>
-          <div class="kit-selection-grid">
-            <mat-form-field appearance="outline" class="kit-material-field">
-              <mat-label>Kit Material (Output)</mat-label>
-              <input type="text"
-                     matInput
-                     [formControl]="kitMaterialSearchCtrl"
-                     [matAutocomplete]="autoKit"
-                     placeholder="Search for kit SKU...">
-              <mat-autocomplete #autoKit="matAutocomplete"
-                                [displayWith]="displayMaterial"
-                                (optionSelected)="onKitMaterialSelected($event)">
-                <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
-                  @for(kit of filteredKitMaterials(); track kit.id) { <mat-option [value]="kit">{{ kit.name }} ({{kit.sku}})</mat-option>
-                  }
-                </cdk-virtual-scroll-viewport>
               </mat-autocomplete>
-              @if(kitMaterials().length === 0 && !isLoadingLookups()) {
-                <mat-hint>No kitting recipes (BOMs) found.</mat-hint>
-              }
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Quantity to Build</mat-label>
-              <input matInput type="number" formControlName="quantityToBuild" min="1">
             </mat-form-field>
           </div>
-        </div>
 
-        <div formArrayName="components" class="components-section">
-          @if(components.controls.length > 0) {
-            <h3>3. Select Component Inventory</h3>
-            @for(componentGroup of components.controls; track $index; let i = $index) {
-              <div [formGroupName]="i" class="component-card">
-                <div class="component-header">
-                  <mat-icon>extension</mat-icon>
-                  <div class="component-title">
-                    <div><strong>{{ componentGroup.value.componentMaterialName }}</strong></div> <small>Required Per Kit: {{ componentGroup.value.bomLine.inputQuantity | number }}</small>
+          <!-- Kit Selection -->
+          <div class="form-group" [class.disabled]="!kittingForm.get('accountId')?.value">
+            <label class="form-label">Kit Recipe (SKU)</label>
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-icon matPrefix>category</mat-icon>
+              <input type="text" matInput [formControl]="kitMaterialSearchCtrl" [matAutocomplete]="autoKit" placeholder="Search Kit SKU">
+              <mat-autocomplete #autoKit="matAutocomplete" [displayWith]="displayMaterial" (optionSelected)="onKitMaterialSelected($event)">
+                @for (kit of filteredKitMaterials(); track kit.id) {
+                  <mat-option [value]="kit">{{ kit.name }} ({{kit.sku}})</mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+            
+            @if (kitMaterials().length === 0 && !isLoadingLookups() && kittingForm.get('accountId')?.value) {
+              <div class="info-banner">No recipes found for this account.</div>
+            }
+          </div>
+
+          <div class="row-group">
+            <!-- Quantity -->
+            <div class="form-group" [class.disabled]="!kittingForm.get('accountId')?.value">
+              <label class="form-label">Quantity (Units)</label>
+              <mat-form-field appearance="outline" class="custom-field">
+                <input matInput type="number" formControlName="quantityToBuild" min="1" placeholder="0">
+              </mat-form-field>
+            </div>
+
+            <!-- Labor -->
+            <div class="form-group">
+              <label class="form-label">Labor Time (Hours)</label>
+              <mat-form-field appearance="outline" class="custom-field">
+                <mat-icon matPrefix>timer</mat-icon>
+                <input matInput type="number" formControlName="durationHours" min="0.1" step="0.1" placeholder="0.0">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button mat-flat-button color="primary" type="submit" class="submit-button" 
+                    [disabled]="kittingForm.invalid || isSubmitting() || components.length === 0">
+              @if (isSubmitting()) {
+                <mat-spinner diameter="20"></mat-spinner>
+              } @else {
+                <span>Build Kit</span>
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel: Components -->
+    <div class="components-panel">
+      <div class="panel-section">
+        <h3 class="section-title">Component Allocation</h3>
+        
+        <div formArrayName="components" class="components-list">
+          @if (components.controls.length === 0) {
+            <div class="empty-components">
+              <mat-icon>extension_off</mat-icon>
+              <p>Select a Kit Recipe to view required components.</p>
+            </div>
+          } @else {
+            @for (componentGroup of components.controls; track $index; let i = $index) {
+              <div [formGroupName]="i" class="card-base component-card">
+                <div class="card-status-bar" [class.ready]="componentGroup.valid"></div>
+                
+                <div class="card-body">
+                  <div class="component-info">
+                    <div class="info-header">
+                      <span class="component-name">{{ componentGroup.value.componentMaterialName }}</span>
+                    </div>
+                    <div class="bom-details">
+                      <span class="badge req">Required: {{ componentGroup.value.quantityToConsume | number }}</span>
+                      <span class="text-muted">Ratio: {{ componentGroup.value.bomLine.inputQuantity }}</span>
+                    </div>
                   </div>
-                  <div class="component-total">
-                    <span>Total Needed:</span>
-                    <strong>{{ componentGroup.value.quantityToConsume | number }}</strong>
+
+                  <div class="source-selection">
+                    <label class="form-label">Source Inventory</label>
+                    <mat-form-field appearance="outline" class="custom-field dense">
+                      <mat-select formControlName="sourceInventoryId" placeholder="Select Pallet...">
+                        @for (inv of componentGroup.value.availableSources; track inv.inventoryId) {
+                          <mat-option [value]="inv.inventoryId" [disabled]="inv.quantity < componentGroup.value.quantityToConsume">
+                            <div class="option-row">
+                              <span class="pallet-code">{{ inv.palletBarcode }}</span>
+                              <span class="qty-pill" [class.insufficient]="inv.quantity < componentGroup.value.quantityToConsume">
+                                Qty: {{inv.quantity}}
+                              </span>
+                            </div>
+                          </mat-option>
+                        }
+                      </mat-select>
+                      @if (componentGroup.value.availableSources.length === 0) {
+                        <mat-error>No stock available</mat-error>
+                      }
+                    </mat-form-field>
                   </div>
                 </div>
-
-                <mat-form-field appearance="outline">
-                  <mat-label>Select Source Inventory</mat-label>
-                  <mat-select formControlName="sourceInventoryId">
-                    @for(inv of componentGroup.value.availableSources; track inv.inventoryId) {
-                      <mat-option [value]="inv.inventoryId" [disabled]="inv.quantity < componentGroup.value.quantityToConsume">
-                        {{ inv.palletBarcode }} (Qty: {{inv.quantity}})
-                      </mat-option>
-                    }
-                  </mat-select>
-                  @if(componentGroup.value.availableSources.length === 0) {
-                    <mat-error>No inventory available for this component!</mat-error>
-                  }
-                  <mat-hint>Select a pallet/LPN with sufficient quantity.</mat-hint>
-                </mat-form-field>
-
               </div>
             }
           }
         </div>
+      </div>
+    </div>
 
-        <div class="form-section">
-            <h3>4. Record Labor</h3>
-             <mat-form-field appearance="outline" class="duration-input">
-              <mat-label>Time Spent (Hours)</mat-label>
-              <input matInput type="number" formControlName="durationHours" min="0.1" step="0.1" placeholder="e.g., 1.5">
-               <mat-error *ngIf="kittingForm.get('durationHours')?.hasError('required')">Required</mat-error>
-               <mat-error *ngIf="kittingForm.get('durationHours')?.hasError('min')">Must be > 0</mat-error>
-            </mat-form-field>
-        </div>
-
-        <mat-card-actions align="end">
-          <button mat-flat-button color="primary" type="submit" [disabled]="kittingForm.invalid || isSubmitting() || components.length === 0">
-            @if(isSubmitting()) {
-              <mat-progress-spinner diameter="20" mode="indeterminate" style="margin-right: 8px;"></mat-progress-spinner>
-              <span>Assembling Kits...</span>
-            } @else {
-              <ng-container>
-                <mat-icon>build</mat-icon>
-                <span>Build Kit</span>
-              </ng-container>
-            }
-          </button>
-        </mat-card-actions>
-      </form>
-    </mat-card-content>
-  </mat-card>
+  </form>
 </div>

@@ -1,125 +1,332 @@
+// ---- File: wms-frontend/src/app/features/inventory/repack/repack.component.scss ----
+
+// Variables
+$primary-color: #0f766e; // Teal-700
+$primary-bg: #f0fdfa; // Teal-50
+$text-primary: #0f172a; // Slate-900
+$text-secondary: #64748b; // Slate-500
+$border-color: #e2e8f0; // Slate-200
+$bg-page: #f8fafc; // Slate-50
+$card-bg: #ffffff;
+
 :host {
   display: block;
+  background-color: $bg-page;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .repack-container {
-  padding: 1.5rem 2.5rem;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 2rem;
+}
+
+// ==========================================================================
+// # HEADER
+// ==========================================================================
+.page-header {
+  margin-bottom: 2.5rem;
+  
+  .header-content {
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: $text-primary;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    p {
+      color: $text-secondary;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+  }
+}
+
+// ==========================================================================
+// # LAYOUT
+// ==========================================================================
+.repack-layout {
   display: grid;
-  gap: 1.5rem;
+  grid-template-columns: 400px 1fr; // Widened from 320px
+  gap: 2rem;
+  align-items: start;
 }
 
-.header-section {
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-  h1 {
-    margin: 0;
-    font-weight: 600;
-    font-size: 1.75rem;
-  }
-  p {
-    color: var(--mat-sys-on-surface-variant);
-    margin-top: 4px;
-  }
+.section-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: $text-secondary;
+  margin-bottom: 1rem;
+  padding-left: 0.25rem;
 }
 
-.repack-form-card {
-  border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
-  border-radius: 8px;
+// ==========================================================================
+// # CARDS & UTILITIES
+// ==========================================================================
+.card-base {
+  background: $card-bg;
+  border: 1px solid $border-color;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   overflow: hidden;
-
-  .mat-mdc-card-header {
-    background-color: var(--mat-sys-surface-container-low);
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-  }
 }
 
-.repack-form {
-  display: flex;
-  flex-direction: column;
-}
+.form-group {
+  margin-bottom: 1.25rem;
 
-.form-section {
-  h3 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: var(--mat-sys-primary);
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  .form-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: $text-primary;
+    margin-bottom: 0.5rem;
   }
-
-  &.disabled-section {
+  
+  &.disabled {
     opacity: 0.6;
     pointer-events: none;
   }
 }
 
-.full-width {
-  width: 100%;
-}
-
-.material-selection-grid,
-.processing-grid {
+.row-group {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  align-items: start;
 }
 
-.quantity-input {
-    max-width: 200px;
-}
+// ==========================================================================
+// # CONFIG PANEL
+// ==========================================================================
+.config-panel {
+  position: sticky;
+  top: 2rem;
 
-.target-material-field {
-  width: 100%;
-}
-
-// Inventory option styling in autocomplete
-.inventory-option {
-  display: flex;
-  flex-direction: column;
-  padding: 4px 0;
-
-  .inventory-main {
-    font-weight: 500;
-    font-size: 0.95rem;
-    line-height: 1.3;
+  .config-card {
+    padding: 1.5rem;
   }
 
-  .inventory-details {
-    font-size: 0.75rem;
-    color: var(--mat-sys-on-surface-variant);
-    line-height: 1.2;
-    margin-top: 2px;
-  }
-}
-
-// Autocomplete panel styling to match kitting
-::ng-deep .mat-mdc-autocomplete-panel {
-  .mat-mdc-option {
-    height: auto !important;
-    line-height: 1.4 !important;
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
-
-    .mat-mdc-option-text {
-      line-height: 1.4;
+  .form-actions {
+    margin-top: 2rem;
+    
+    .submit-button {
+      width: 100%;
+      height: 44px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 8px;
     }
   }
 }
 
-// Responsive adjustments
-@media (max-width: 600px) {
-  .repack-container {
-    padding: 1rem;
+// ==========================================================================
+// # SOURCE PANEL
+// ==========================================================================
+.source-selection-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.search-box {
+  width: 100%;
+}
+
+.selected-source-card {
+  border-color: $primary-color;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.08);
+
+  .card-header {
+    background: $primary-bg;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid rgba($primary-color, 0.1);
+
+    .header-icon {
+      color: $primary-color;
+      mat-icon { font-size: 24px; width: 24px; height: 24px; }
+    }
+
+    .header-text {
+      display: flex;
+      flex-direction: column;
+      
+      .title {
+        font-weight: 600;
+        color: $primary-color;
+        font-size: 0.95rem;
+      }
+      .subtitle {
+        font-size: 0.8rem;
+        color: rgba($primary-color, 0.8);
+      }
+    }
   }
 
-  .material-selection-grid,
-  .processing-grid {
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      .label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: $text-secondary;
+        font-weight: 600;
+      }
+      
+      .value {
+        font-size: 1rem;
+        font-weight: 500;
+        color: $text-primary;
+        
+        &.mono { font-family: 'Roboto Mono', monospace; }
+        &.highlight { font-size: 1.25rem; font-weight: 700; color: $primary-color; }
+      }
+    }
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem;
+  background: white;
+  border: 2px dashed $border-color;
+  border-radius: 10px;
+  color: $text-secondary;
+
+  mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+  }
+}
+
+// ==========================================================================
+// # CUSTOM MATERIAL OVERRIDES
+// ==========================================================================
+// ==========================================================================
+// # CUSTOM MATERIAL OVERRIDES
+// ==========================================================================
+::ng-deep {
+  .custom-field {
+    width: 100%;
+    
+    // 1. Reset the wrapper height and padding
+    .mat-mdc-text-field-wrapper {
+      height: 42px !important; // Fixed sleek height
+      padding: 0 12px !important;
+      background-color: white !important;
+    }
+
+    // 2. Center content vertically
+    .mat-mdc-form-field-flex {
+      height: 100% !important;
+      align-items: center !important;
+      padding: 0 !important;
+    }
+
+    // 3. Remove default infix padding/spacing
+    .mat-mdc-form-field-infix {
+      padding: 0 !important;
+      min-height: unset !important;
+      border-top: 0 !important;
+      width: auto !important; // Allow flex to handle width
+    }
+
+    // 4. Style the input element
+    .mat-mdc-input-element {
+      padding: 0 !important;
+      margin: 0 !important;
+      top: 0 !important;
+      position: relative !important;
+      font-size: 0.9rem !important;
+      line-height: 42px !important; // Match wrapper height for vertical centering
+      height: 100% !important;
+    }
+
+    // 5. Style the icon prefix
+    .mat-mdc-form-field-icon-prefix {
+      padding: 0 8px 0 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      height: 100% !important;
+      
+      .mat-icon { 
+        font-size: 18px; 
+        width: 18px; 
+        height: 18px; 
+        color: $text-secondary;
+      }
+    }
+
+    // 6. Hide the subscript wrapper
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none; 
+    }
+    
+    // Search variant
+    &.search {
+      .mat-mdc-text-field-wrapper { height: 48px !important; }
+      .mat-mdc-input-element { font-size: 1rem !important; line-height: 48px !important; }
+    }
+  }
+}
+
+// Rich Autocomplete Option
+.inventory-option-row {
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+  
+  .main-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    
+    .mat-name { font-weight: 600; color: $text-primary; font-size: 0.9rem; }
+    .mat-sku { color: $text-secondary; font-size: 0.8rem; }
+  }
+
+  .meta-info {
+    display: flex;
+    gap: 8px;
+    
+    .badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #f1f5f9;
+      color: $text-secondary;
+      
+      &.qty { background: $primary-bg; color: $primary-color; font-weight: 600; }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 992px) {
+  .repack-layout {
     grid-template-columns: 1fr;
+  }
+  
+  .config-panel {
+    position: static;
   }
 }
