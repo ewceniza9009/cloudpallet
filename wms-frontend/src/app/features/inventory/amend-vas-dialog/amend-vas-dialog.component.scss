@@ -1,211 +1,342 @@
+// ===== Variables =====
+$border-color: var(--mat-sys-outline-variant);
+$bg-subtle: var(--mat-sys-surface-container-low);
+$primary: var(--mat-sys-primary);
+$on-surface-variant: var(--mat-sys-on-surface-variant);
+
 // ===== Header =====
 .dialog-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  border-bottom: 1px solid $border-color;
+  background-color: var(--mat-sys-surface);
 
-  h2 {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
+  .header-content {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+
+    h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--mat-sys-on-surface);
+    }
+
+    .transaction-id {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.85rem;
+      color: $on-surface-variant;
+      background-color: $bg-subtle;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
   }
 
   .close-button {
     margin-right: -0.5rem;
-    color: var(--mat-sys-on-surface-variant);
+    color: $on-surface-variant;
   }
 }
 
 .dialog-content-refined {
-  padding: 0 !important; // Remove default padding to let tabs span full width
-  max-height: 75vh;
+  padding: 0 !important;
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--mat-sys-surface-container-lowest);
 }
 
 // ===== Summary Section =====
 .summary-section {
-  background-color: var(--mat-sys-surface-container-low);
-  padding: 1.5rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  padding: 1rem 1.5rem;
+  background-color: var(--mat-sys-surface);
+  border-bottom: 1px solid $border-color;
+
+  .summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .card-row {
+    display: flex;
+    gap: 2rem;
+    
+    &.description-row {
+      margin-top: 0.25rem;
+    }
+  }
 
   .summary-item {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.15rem;
 
     &.full-width {
-      grid-column: 1 / -1;
+      flex: 1;
     }
 
     .label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: var(--mat-sys-on-surface-variant);
+      color: $on-surface-variant;
       font-weight: 600;
     }
 
     .value {
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 500;
       color: var(--mat-sys-on-surface);
 
       &.service-type {
-        color: var(--mat-sys-primary);
-        font-weight: 600;
+        color: $primary;
+        font-weight: 700;
+        font-size: 0.95rem;
       }
     }
   }
 
   .void-banner {
-    grid-column: 1 / -1;
     background-color: #fce8e6;
     color: #c5221f;
-    padding: 0.75rem;
-    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-weight: 600;
+    font-size: 0.85rem;
     margin-top: 0.5rem;
+    border: 1px solid #f9d7d5;
   }
 }
 
-// ===== Tabs & Content =====
+// ===== Tabs =====
 .refined-tabs {
   flex-grow: 1;
+  background-color: var(--mat-sys-surface);
   
-  .tab-icon {
-    margin-right: 8px;
+  ::ng-deep .mat-mdc-tab-header {
+    border-bottom: 1px solid $border-color;
+    --mdc-tab-indicator-active-indicator-height: 2px;
+  }
+
+  .tab-label-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .badge {
+      background-color: $bg-subtle;
+      color: var(--mat-sys-on-surface);
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
   }
 }
 
 .tab-content {
-  padding: 1.5rem;
-  background-color: var(--mat-sys-surface);
+  padding: 0;
+  min-height: 250px;
 }
 
 .empty-tab {
-  text-align: center;
-  padding: 3rem;
-  color: var(--mat-sys-on-surface-variant);
-  font-style: italic;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  color: $on-surface-variant;
+  
+  mat-icon {
+    font-size: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.5;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
 }
 
-// ===== Accordion & Lines =====
-.lines-accordion {
-  .line-panel {
-    border: 1px solid var(--mat-sys-outline-variant);
-    border-radius: 8px !important;
-    margin-bottom: 1rem;
-    box-shadow: none !important;
+// ===== Expandable List Layout =====
+.expandable-list-container {
+  padding: 0.5rem;
+  background-color: var(--mat-sys-surface-container-lowest);
+}
 
-    &.amended-panel {
-      border-left: 4px solid var(--mat-sys-tertiary);
-    }
+.line-card {
+  margin-bottom: 0.5rem;
+  border: 1px solid $border-color;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  background-color: var(--mat-sys-surface);
+  transition: all 0.2s ease;
 
-    .mat-expansion-panel-header {
-      padding: 0 1.5rem;
-      height: 64px;
+  &:hover {
+    border-color: $primary;
+    background-color: var(--mat-sys-surface-container-low);
+  }
+
+  &.mat-expanded {
+    border-color: $primary;
+    background-color: var(--mat-sys-surface-container-low);
+    margin-bottom: 1rem; // Add space when expanded
+  }
+
+  ::ng-deep .mat-expansion-panel-body {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+  }
+}
+
+.panel-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-right: 1rem;
+
+  .material-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .name-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
 
     .material-name {
-      font-weight: 500;
-    }
-
-    .panel-stats {
-      display: flex;
-      gap: 1.5rem;
-      font-size: 0.9rem;
-      color: var(--mat-sys-on-surface-variant);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--mat-sys-on-surface);
     }
 
     .amended-badge {
+      font-size: 0.65rem;
       background-color: var(--mat-sys-tertiary-container);
       color: var(--mat-sys-on-tertiary-container);
-      font-size: 0.7rem;
-      padding: 2px 8px;
+      padding: 2px 6px;
       border-radius: 4px;
-      font-weight: 600;
-      margin-left: auto;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .error-badge {
+      font-size: 0.7rem;
+      color: var(--mat-sys-error);
+      background-color: var(--mat-sys-error-container);
+      padding: 2px 6px;
+      border-radius: 4px;
+      align-self: flex-start;
+    }
+  }
+
+  .current-values {
+    display: flex;
+    gap: 1.5rem;
+    text-align: right;
+
+    .value-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      .label {
+        font-size: 0.7rem;
+        color: $on-surface-variant;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      .value {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--mat-sys-on-surface);
+        
+        small {
+          font-size: 0.75rem;
+          color: $on-surface-variant;
+        }
+      }
     }
   }
 }
 
-// ===== Form Styling =====
-.amendment-form {
+.panel-body {
   padding-top: 1rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
 
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
-    
-    @media (max-width: 600px) {
-      grid-template-columns: 1fr;
-    }
+.amendment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 
-    h4 {
-      margin: 0 0 1rem 0;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      color: var(--mat-sys-on-surface-variant);
-      border-bottom: 1px solid var(--mat-sys-outline-variant);
-      padding-bottom: 0.5rem;
-    }
-  }
-
-  .current-stats {
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
-    }
-
-    .history-note {
-      margin-top: 1rem;
-      font-size: 0.85rem;
-      color: var(--mat-sys-on-surface-variant);
-      background-color: var(--mat-sys-surface-container);
-      padding: 0.75rem;
-      border-radius: 4px;
-      line-height: 1.4;
-    }
-  }
-
-  .new-values {
+  .inputs-grid {
     display: flex;
-    flex-direction: column;
     gap: 1rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    .compact-field {
+      width: 140px;
+      
+      ::ng-deep .mat-mdc-text-field-wrapper {
+        background-color: var(--mat-sys-surface);
+      }
+    }
+
+    .reason-field {
+      flex: 1;
+      min-width: 250px;
+
+      ::ng-deep .mat-mdc-text-field-wrapper {
+        background-color: var(--mat-sys-surface);
+      }
+    }
   }
 
-  .reason-field {
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  .form-actions {
+  .history-hint {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: $on-surface-variant;
+    padding: 0.5rem;
+    background-color: rgba(var(--mat-sys-on-surface-rgb), 0.05);
+    border-radius: 4px;
+    width: fit-content;
+
+    mat-icon {
+      font-size: 1.1rem;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
   }
 }
 
 // ===== History Timeline =====
 .history-container {
   padding: 1.5rem;
+  background-color: var(--mat-sys-surface);
 }
 
 .timeline {
   position: relative;
-  padding-left: 1rem;
+  padding-left: 0.5rem;
+  max-width: 800px;
+  margin: 0 auto;
 
   &::before {
     content: '';
@@ -214,13 +345,13 @@
     top: 0;
     bottom: 0;
     width: 2px;
-    background-color: var(--mat-sys-outline-variant);
+    background-color: $border-color;
   }
 
   .timeline-item {
     position: relative;
-    padding-left: 2rem;
-    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
 
     .timeline-marker {
       position: absolute;
@@ -229,15 +360,15 @@
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      background-color: var(--mat-sys-primary);
+      background-color: $primary;
       border: 2px solid var(--mat-sys-surface);
     }
 
     .timeline-content {
-      background-color: var(--mat-sys-surface-container-low);
+      background-color: $bg-subtle;
       padding: 1rem;
       border-radius: 8px;
-      border: 1px solid var(--mat-sys-outline-variant);
+      border: 1px solid $border-color;
 
       .timeline-header {
         display: flex;
@@ -246,39 +377,46 @@
         
         .amendment-type {
           font-weight: 600;
-          color: var(--mat-sys-primary);
+          color: $primary;
+          font-size: 0.85rem;
         }
         
         .amendment-date {
-          font-size: 0.85rem;
-          color: var(--mat-sys-on-surface-variant);
+          font-size: 0.75rem;
+          color: $on-surface-variant;
         }
       }
 
-      .timeline-user, .timeline-reason {
-        font-size: 0.9rem;
+      .timeline-user {
+        font-size: 0.85rem;
         margin-bottom: 0.25rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        font-weight: 500;
         
         mat-icon { font-size: 1rem; width: 1rem; height: 1rem; }
       }
       
       .timeline-reason {
         font-style: italic;
-        color: var(--mat-sys-on-surface-variant);
-        margin-top: 0.5rem;
+        color: var(--mat-sys-on-surface);
+        margin: 0.5rem 0;
+        padding-left: 0.5rem;
+        border-left: 2px solid var(--mat-sys-outline);
+        font-size: 0.9rem;
       }
 
       .timeline-details {
         margin-top: 0.75rem;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         
         summary {
           cursor: pointer;
-          color: var(--mat-sys-primary);
+          color: $primary;
           font-weight: 500;
+          user-select: none;
+          outline: none;
         }
         
         pre {
@@ -286,8 +424,10 @@
           padding: 0.5rem;
           border-radius: 4px;
           overflow-x: auto;
-          margin-top: 0.5rem;
-          font-size: 0.8rem;
+          margin-top: 0.25rem;
+          font-size: 0.75rem;
+          border: 1px solid $border-color;
+          color: var(--mat-sys-on-surface);
         }
       }
     }
@@ -296,8 +436,9 @@
 
 // ===== Actions Footer =====
 .dialog-actions-refined {
-  padding: 1rem 1.5rem;
-  border-top: 1px solid var(--mat-sys-outline-variant);
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid $border-color;
+  background-color: var(--mat-sys-surface);
   margin: 0;
 }
 
@@ -306,7 +447,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 300px;
+  height: 250px;
   gap: 1rem;
-  color: var(--mat-sys-on-surface-variant);
+  color: $on-surface-variant;
 }
+

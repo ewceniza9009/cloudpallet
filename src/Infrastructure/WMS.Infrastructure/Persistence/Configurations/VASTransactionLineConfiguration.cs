@@ -24,7 +24,7 @@ public class VASTransactionLineConfiguration : IEntityTypeConfiguration<VASTrans
         builder.Property(vl => vl.AmendedAt);
 
         // Foreign key to the Material that was consumed or produced
-        builder.HasOne<Material>()
+        builder.HasOne(vl => vl.Material)
             .WithMany()
             .HasForeignKey(vl => vl.MaterialId)
             .OnDelete(DeleteBehavior.Restrict);

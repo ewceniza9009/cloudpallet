@@ -243,6 +243,7 @@ export interface VasTransactionDetailDto {
   timestamp: string;
   description: string;
   status: string;
+  userName: string;
   isVoided: boolean;
   voidedAt: string | null;
   voidReason: string | null;

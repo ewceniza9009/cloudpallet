@@ -108,4 +108,8 @@ export class AmendVasDialogComponent implements OnInit {
   close(result?: string): void {
     this.dialogRef.close(result);
   }
+
+  getFormGroup(lineId: string): FormGroup {
+    return this.amendmentForms.get(lineId)!;
+  }
 }

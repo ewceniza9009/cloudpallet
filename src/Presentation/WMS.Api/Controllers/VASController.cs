@@ -68,6 +68,7 @@ public class VASController(
             transaction.IsVoided,
             transaction.VoidedAt,
             transaction.VoidReason,
+            UserName = transaction.User?.UserName ?? "Unknown",
             InputLines = transaction.InputLines.Select(l => new
             {
                 l.Id,
