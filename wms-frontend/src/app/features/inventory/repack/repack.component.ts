@@ -121,9 +121,9 @@ export class RepackComponent implements OnInit {
       this.repackForm.get('targetMaterial')?.enable();
 
       this.inventoryApi
-        .getRepackableInventory(account.id)
+        .getRepackableInventory(account.id, undefined, undefined, 1, 1000)
         .subscribe((inventories) => {
-          this.accountInventories.set(inventories);
+          this.accountInventories.set(inventories.items);
           this.isLoadingSources.set(false);
         });
     }

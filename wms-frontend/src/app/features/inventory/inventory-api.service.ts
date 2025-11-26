@@ -161,6 +161,7 @@ export interface RepackableInventoryDto {
   location: string;
   quantity: number;
   palletBarcode: string;
+  batchNumber?: string;
 }
 
 export interface RecordVasCommand {
@@ -304,9 +305,27 @@ export class InventoryApiService {
     });
   }
 
-  getRepackableInventory(accountId: string): Observable<RepackableInventoryDto[]> {
-    const params = new HttpParams().set('accountId', accountId);
-    return this.http.get<RepackableInventoryDto[]>(`${this.lookupsUrl}/repackable-inventory`, {
+  getRepackableInventory(
+    accountId: string,
+    materialId?: string,
+    searchTerm?: string,
+    page: number = 1,
+    pageSize: number = 20
+  ): Observable<PagedResult<RepackableInventoryDto>> {
+    let params = new HttpParams()
+      .set('accountId', accountId)
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+
+    if (materialId) {
+      params = params.set('materialId', materialId);
+    }
+
+    if (searchTerm) {
+      params = params.set('searchTerm', searchTerm);
+    }
+
+    return this.http.get<PagedResult<RepackableInventoryDto>>(`${this.lookupsUrl}/repackable-inventory`, {
       params,
     });
   }

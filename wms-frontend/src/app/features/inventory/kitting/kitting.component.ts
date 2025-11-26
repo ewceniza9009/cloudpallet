@@ -18,7 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { AdminApiService, BomDto, BomLineDto, MaterialDetailDto } from '../../admin/admin-api.service';
 import { InventoryApiService, MaterialDto, RepackableInventoryDto, CreateKitCommand } from '../inventory-api.service';
-import { map, startWith, switchMap, tap, of, catchError, Observable } from 'rxjs';
+import { map, startWith, switchMap, tap, of, catchError, Observable, debounceTime, distinctUntilChanged } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
@@ -51,7 +51,7 @@ export class KittingComponent implements OnInit {
   accounts = signal<AccountDto[]>([]);
   allMaterials = signal<MaterialDetailDto[]>([]); // For getting component names
   kitMaterials = signal<KitMaterialDto[]>([]); // All materials that HAVE a BOM
-  accountInventories = signal<RepackableInventoryDto[]>([]); // All inventory for the selected account
+  // accountInventories = signal<RepackableInventoryDto[]>([]); // REMOVED: No longer fetching all upfront
 
   // --- Signals for State ---
   isLoadingLookups = signal(true);
@@ -66,6 +66,7 @@ export class KittingComponent implements OnInit {
   // --- Autocomplete Signals ---
   filteredAccounts = signal<AccountDto[]>([]);
   filteredKitMaterials = signal<KitMaterialDto[]>([]);
+  componentSourceFilters: Observable<RepackableInventoryDto[]>[] = []; // Parallel array for filters
 
   constructor() {
     this.kittingForm = this.fb.group({
@@ -148,8 +149,8 @@ export class KittingComponent implements OnInit {
     this.kittingForm.patchValue({ accountId: account.id });
     this.resetKitSelection(); // Clear kit and components
     this.kitMaterialSearchCtrl.enable();
-    this.loadAccountInventory(account.id);
-  }
+    // this.loadAccountInventory(account.id); // REMOVED: Lazy load in autocomplete
+  }
 
   onKitMaterialSelected(event: MatAutocompleteSelectedEvent): void {
     const kit: KitMaterialDto = event.option.value;
@@ -157,33 +158,57 @@ export class KittingComponent implements OnInit {
     this.buildComponentForm(kit.bom);
   }
 
-  loadAccountInventory(accountId: string): void {
-    this.isLoadingInventory.set(true);
-    this.inventoryApi.getRepackableInventory(accountId).subscribe({
-      next: (data) => {
-        this.accountInventories.set(data);
-        this.isLoadingInventory.set(false);
-      },
-      error: () => {
-        this.snackBar.open('Failed to load inventory for this account.', 'Close', { duration: 4000 });
-        this.isLoadingInventory.set(false);
-      }
-    });
-  }
+  // REMOVED: loadAccountInventory - replaced by server-side search
 
   // --- Dynamic Form Building ---
   buildComponentForm(bom: BomDto): void {
-    this.components.clear();
-    bom.lines.forEach(line => {
-      const availableSources = this.accountInventories().filter(inv => inv.materialId === line.inputMaterialId);
+    this.components.clear();
+    this.componentSourceFilters = []; // Reset filters
 
-      const componentGroup = this.fb.group({
-        bomLine: [line],
-        componentMaterialName: [this.allMaterials().find(m => m.id === line.inputMaterialId)?.name || 'Unknown Material'],
-        availableSources: [availableSources],
-        sourceInventoryId: [null, Validators.required],
-        quantityToConsume: [bom.outputQuantity * line.inputQuantity, Validators.required] // Pre-calculate quantity
-      });
+    bom.lines.forEach(line => {
+      // const availableSources = this.accountInventories().filter(inv => inv.materialId === line.inputMaterialId); // REMOVED
+
+      const sourceSearchCtrl = new FormControl<string | RepackableInventoryDto>('');
+
+      const componentGroup = this.fb.group({
+        bomLine: [line],
+        componentMaterialName: [this.allMaterials().find(m => m.id === line.inputMaterialId)?.name || 'Unknown Material'],
+        // availableSources: [], // REMOVED: Not used
+        sourceInventoryId: [null, Validators.required],
+        quantityToConsume: [bom.outputQuantity * line.inputQuantity, Validators.required], // Pre-calculate quantity
+        sourceSearchCtrl: sourceSearchCtrl
+      });
+
+      // Create filter for this row - SERVER SIDE SEARCH
+      const filter$ = sourceSearchCtrl.valueChanges.pipe(
+        startWith(''),
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(value => {
+          const filterValue = typeof value === 'string' ? value : '';
+          const accountId = this.kittingForm.get('accountId')?.value;
+          if (!accountId) return of([]);
+
+          return this.inventoryApi.getRepackableInventory(
+            this.kittingForm.get('accountId')?.value,
+            line.inputMaterialId,
+            filterValue,
+            1,
+            20
+          ).pipe(
+            map(result => result.items),
+            catchError(() => of([]))
+          );
+        })
+      );
+      this.componentSourceFilters.push(filter$);
+
+      // Clear selection if user types
+      sourceSearchCtrl.valueChanges.subscribe(val => {
+        if (typeof val === 'string') {
+          componentGroup.patchValue({ sourceInventoryId: null });
+        }
+      });
 
       // When quantityToBuild changes, update all component quantities
       this.kittingForm.get('quantityToBuild')!.valueChanges.pipe(
@@ -201,6 +226,7 @@ export class KittingComponent implements OnInit {
     this.kitMaterialSearchCtrl.reset();
     this.kittingForm.patchValue({ targetKitMaterialId: '' });
     this.components.clear();
+    this.componentSourceFilters = [];
   }
 
   // --- Autocomplete Filtering & Display ---
@@ -214,6 +240,15 @@ export class KittingComponent implements OnInit {
   }
   displayAccount(account: AccountDto): string { return account?.name || ''; }
   displayMaterial(mat: KitMaterialDto): string { return mat ? `${mat.name} (${mat.sku})` : ''; }
+  displaySource(inv: RepackableInventoryDto | string): string {
+    if (typeof inv === 'string') return inv;
+    return inv ? `${inv.palletBarcode} ${inv.batchNumber ? '(Batch: ' + inv.batchNumber + ')' : ''}` : '';
+  }
+
+  onSourceSelected(event: MatAutocompleteSelectedEvent, index: number): void {
+    const inv: RepackableInventoryDto = event.option.value;
+    this.components.at(index).patchValue({ sourceInventoryId: inv.inventoryId });
+  }
 
   // --- Form Submission ---
   onSubmit(): void {
@@ -246,8 +281,8 @@ export class KittingComponent implements OnInit {
         this.accountSearchCtrl.reset();
         this.kitMaterialSearchCtrl.disable();
         this.kittingForm.reset({ quantityToBuild: 1 });
-        this.accountInventories.set([]);
-      },
+        // this.accountInventories.set([]); // REMOVED
+      },
       error: (err: any) => {
         this.snackBar.open(`Error: ${err.error?.title || 'Failed to create kit.'}`, 'Close', { duration: 7000 });
         this.isSubmitting.set(false);

@@ -110,21 +110,20 @@
                   <div class="source-selection">
                     <label class="form-label">Source Inventory</label>
                     <mat-form-field appearance="outline" class="custom-field dense">
-                      <mat-select formControlName="sourceInventoryId" placeholder="Select Pallet...">
-                        @for (inv of componentGroup.value.availableSources; track inv.inventoryId) {
-                          <mat-option [value]="inv.inventoryId" [disabled]="inv.quantity < componentGroup.value.quantityToConsume">
+                      <input type="text" matInput formControlName="sourceSearchCtrl" [matAutocomplete]="autoSource" placeholder="Search Pallet...">
+                      <mat-autocomplete #autoSource="matAutocomplete" [displayWith]="displaySource" (optionSelected)="onSourceSelected($event, i)">
+                        @for (inv of componentSourceFilters[i] | async; track inv.inventoryId) {
+                          <mat-option [value]="inv" [disabled]="inv.quantity < componentGroup.value.quantityToConsume">
                             <div class="option-row">
-                              <span class="pallet-code">{{ inv.palletBarcode }}</span>
+                              <span class="pallet-code">{{ inv.palletBarcode }} <small *ngIf="inv.batchNumber">({{inv.batchNumber}})</small></span>
                               <span class="qty-pill" [class.insufficient]="inv.quantity < componentGroup.value.quantityToConsume">
                                 Qty: {{inv.quantity}}
                               </span>
                             </div>
                           </mat-option>
                         }
-                      </mat-select>
-                      @if (componentGroup.value.availableSources.length === 0) {
-                        <mat-error>No stock available</mat-error>
-                      }
+                      </mat-autocomplete>
+                      <!-- Error message removed as we don't know stock upfront -->
                     </mat-form-field>
                   </div>
                 </div>

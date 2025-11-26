@@ -1,6 +1,4 @@
-﻿// ---- File: src/Presentation/WMS.Api/Controllers/LookupsController.cs ----
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
@@ -32,12 +30,12 @@ public record YardSpotDto(Guid Id, string SpotNumber);
 public record TruckDto(Guid Id, string LicensePlate);
 public record LookupDto(Guid Id, string Name);
 public record PalletTypeDto(Guid Id, string Name, decimal TareWeight);
-public record RepackableInventoryDto(Guid InventoryId, Guid MaterialId, string MaterialName, string Sku, string Location, decimal Quantity, string PalletBarcode);
+public record RepackableInventoryDto(Guid InventoryId, Guid MaterialId, string MaterialName, string Sku, string Location, decimal Quantity, string PalletBarcode, string? BatchNumber);
 
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class LookupsController(WmsDbContext context, IBarcodeGenerationService barcodeGenerationService) : ControllerBase
+public class LookupsController(WmsDbContext context) : ControllerBase
 {
     [HttpGet("warehouses")]
     [ProducesResponseType(typeof(IEnumerable<WarehouseDto>), StatusCodes.Status200OK)]
@@ -276,15 +274,41 @@ public class LookupsController(WmsDbContext context, IBarcodeGenerationService b
     }
 
     [HttpGet("repackable-inventory")]
-    [ProducesResponseType(typeof(IEnumerable<RepackableInventoryDto>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetRepackableInventory([FromQuery] Guid accountId)
+    [ProducesResponseType(typeof(PagedResult<RepackableInventoryDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetRepackableInventory(
+        [FromQuery] Guid accountId,
+        [FromQuery] Guid? materialId = null,
+        [FromQuery] string? searchTerm = null,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20)
     {
-        var inventory = await context.MaterialInventories
+        var query = context.MaterialInventories
           .AsNoTracking()
           .Include(mi => mi.Material)
           .Include(mi => mi.Location)
           .Include(mi => mi.Pallet)
-          .Where(mi => mi.AccountId == accountId && mi.Quantity > 0 && mi.Location.ZoneType == LocationType.Storage)
+          .Where(mi => mi.AccountId == accountId && mi.Quantity > 0 && mi.Location.ZoneType == LocationType.Storage);
+
+        if (materialId.HasValue)
+        {
+            query = query.Where(mi => mi.MaterialId == materialId.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            var term = searchTerm.Trim().ToLower();
+            query = query.Where(mi => 
+                mi.Pallet.Barcode.ToLower().Contains(term) || 
+                mi.Material.Name.ToLower().Contains(term) || 
+                mi.Material.Sku.ToLower().Contains(term));
+        }
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+          .OrderBy(mi => mi.Pallet.Barcode)
+          .Skip((page - 1) * pageSize)
+          .Take(pageSize)
           .Select(mi => new RepackableInventoryDto(
             mi.Id,
             mi.MaterialId,
@@ -292,14 +316,14 @@ public class LookupsController(WmsDbContext context, IBarcodeGenerationService b
             mi.Material.Sku,
             mi.Location.Barcode,
             mi.Quantity,
-            mi.Pallet.Barcode
+            mi.Pallet.Barcode,
+            mi.BatchNumber
           ))
           .ToListAsync();
 
-        return Ok(inventory);
+        return Ok(new PagedResult<RepackableInventoryDto> { Items = items, TotalCount = totalCount });
     }
 
-    // --- MODIFIED ENDPOINT: BARCODE GENERATION AND PRINT PREVIEW ---
     [HttpGet("barcode-image")]
     [ProducesResponseType(typeof(ContentResult), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -313,8 +337,6 @@ public class LookupsController(WmsDbContext context, IBarcodeGenerationService b
         // --- Simulated Data Retrieval for Rich Label ---
         string materialName = "N/A";
         string palletNumber = "N/A";
-
-        string palletBarcode = "N/A";
 
         if (type == "Item")
         {
@@ -445,5 +467,4 @@ public class LookupsController(WmsDbContext context, IBarcodeGenerationService b
 
         return Content(htmlContent, "text/html", Encoding.UTF8);
     }
-    // --- END MODIFIED ENDPOINT ---
 }

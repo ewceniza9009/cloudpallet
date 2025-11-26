@@ -224,10 +224,10 @@ export class CycleCountingComponent implements OnInit {
     this.isLoadingInventory.set(true);
     this.accountInventories.set([]);
     this.filteredInventories$.set([]);
-    this.inventoryApi.getRepackableInventory(accountId).subscribe({
+    this.inventoryApi.getRepackableInventory(accountId, undefined, undefined, 1, 1000).subscribe({
       next: (data) => {
-        this.accountInventories.set(data);
-        this.filteredInventories$.set(data);
+        this.accountInventories.set(data.items);
+        this.filteredInventories$.set(data.items);
         this.isLoadingInventory.set(false);
       },
       error: () => {
