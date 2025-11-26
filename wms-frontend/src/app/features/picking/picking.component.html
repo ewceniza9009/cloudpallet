@@ -172,12 +172,12 @@
 
                         <div class="item-actions">
                           @if (item.status === 'Planned') {
-                            <button mat-icon-button color="warn" (click)="markAsShort(item)" matTooltip="Mark Short" class="action-button">
-                              <mat-icon>warning</mat-icon>
-                            </button>
                             <button mat-icon-button color="warn" (click)="deleteItem(item)" matTooltip="Delete" class="action-button">
                               <mat-icon>delete</mat-icon>
                             </button>
+                            <button mat-icon-button color="warn" (click)="markAsShort(item)" matTooltip="Mark Short" class="action-button">
+                              <mat-icon>warning</mat-icon>
+                            </button>                           
                             <button mat-icon-button color="primary" (click)="openScanDialog(item)" matTooltip="Scan" class="action-button">
                               <mat-icon>qr_code_scanner</mat-icon>
                             </button>
