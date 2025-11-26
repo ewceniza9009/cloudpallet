@@ -23,7 +23,7 @@ import {
   MaterialDto,
   RepackableInventoryDto,
 } from '../inventory-api.service';
-import { map, startWith, switchMap, tap, of, catchError } from 'rxjs';
+import { map, startWith, switchMap, tap, of, catchError, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Observable } from 'rxjs';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
@@ -63,12 +63,11 @@ export class RepackComponent implements OnInit {
   accounts = signal<AccountDto[]>([]);
   allMaterials = signal<MaterialDto[]>([]);
 
-  private accountInventories = signal<RepackableInventoryDto[]>([]);
-
-  displayableSourceInventories = signal<RepackableInventoryDto[]>([]);
+  requiredInputMaterialId = signal<string | null>(null);
 
   filteredAccounts$!: Observable<AccountDto[]>;
   filteredTargetMaterials$!: Observable<MaterialDto[]>;
+  filteredSourceInventories$!: Observable<RepackableInventoryDto[]>;
 
   isSubmitting = signal(false);
   isLoadingSources = signal(false);
@@ -108,31 +107,47 @@ export class RepackComponent implements OnInit {
         startWith(''),
         map((value) => this._filterMaterials(value))
       );
+
+    this.filteredSourceInventories$ = this.repackForm.get('sourceInventory')!.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((value) => {
+        const accountId = this.repackForm.get('account')?.value?.id;
+        const materialId = this.requiredInputMaterialId();
+        
+        if (!accountId || !materialId) return of([]);
+
+        const searchTerm = typeof value === 'string' ? value : '';
+        this.isLoadingSources.set(true);
+
+        return this.inventoryApi.getRepackableInventory(accountId, materialId, searchTerm, 1, 20).pipe(
+          map(result => result.items),
+          tap(() => this.isLoadingSources.set(false)),
+          catchError(() => {
+            this.isLoadingSources.set(false);
+            return of([]);
+          })
+        );
+      })
+    );
   }
 
   onAccountSelected(account: AccountDto): void {
     this.repackForm.get('targetMaterial')?.reset();
     this.repackForm.get('sourceInventory')?.reset();
     this.repackForm.get('sourceInventory')?.disable();
-    this.displayableSourceInventories.set([]);
+    this.requiredInputMaterialId.set(null);
 
     if (account?.id) {
-      this.isLoadingSources.set(true);
       this.repackForm.get('targetMaterial')?.enable();
-
-      this.inventoryApi
-        .getRepackableInventory(account.id, undefined, undefined, 1, 1000)
-        .subscribe((inventories) => {
-          this.accountInventories.set(inventories.items);
-          this.isLoadingSources.set(false);
-        });
     }
   }
 
   onTargetMaterialSelected(targetMaterial: MaterialDto): void {
     this.repackForm.get('sourceInventory')?.reset();
     this.repackForm.get('sourceInventory')?.disable();
-    this.displayableSourceInventories.set([]);
+    this.requiredInputMaterialId.set(null);
 
     if (!targetMaterial?.id) return;
 
@@ -153,20 +168,16 @@ export class RepackComponent implements OnInit {
         this.isLoadingSources.set(false);
         if (bom && bom.lines.length > 0) {
           const requiredInputId = bom.lines[0].inputMaterialId;
-          const validSources = this.accountInventories().filter(
-            (inv) => inv.materialId === requiredInputId
+          this.requiredInputMaterialId.set(requiredInputId);
+          this.repackForm.get('sourceInventory')?.enable();
+          // Trigger initial load
+          this.repackForm.get('sourceInventory')?.updateValueAndValidity({ emitEvent: true });
+        } else {
+          this.snackBar.open(
+            `No stock of the required input material was found for this account.`,
+            'Close',
+            { duration: 4000 }
           );
-
-          if (validSources.length > 0) {
-            this.displayableSourceInventories.set(validSources);
-            this.repackForm.get('sourceInventory')?.enable();
-          } else {
-            this.snackBar.open(
-              `No stock of the required input material was found for this account.`,
-              'Close',
-              { duration: 4000 }
-            );
-          }
         }
       });
   }
@@ -199,6 +210,14 @@ export class RepackComponent implements OnInit {
   }
   displayMaterial(mat: MaterialDto): string {
     return mat?.name || '';
+  }
+
+  get selectedSourceInventory(): RepackableInventoryDto | null {
+    const value = this.repackForm.get('sourceInventory')?.value;
+    if (value && typeof value === 'object' && 'inventoryId' in value) {
+      return value as RepackableInventoryDto;
+    }
+    return null;
   }
 
   onSubmit(): void {

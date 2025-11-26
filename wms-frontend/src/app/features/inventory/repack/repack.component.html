@@ -96,7 +96,7 @@
                   <mat-spinner matSuffix diameter="20"></mat-spinner>
                 }
                 <mat-autocomplete #autoSource="matAutocomplete" [displayWith]="displaySource">
-                  @for (inv of displayableSourceInventories(); track inv.inventoryId) {
+                  @for (inv of filteredSourceInventories$ | async; track inv.inventoryId) {
                     <mat-option [value]="inv" class="rich-option">
                       <div class="inventory-option-row">
                         <div class="main-info">
@@ -115,7 +115,7 @@
               </mat-form-field>
             </div>
 
-            @if (repackForm.get('sourceInventory')?.value; as selectedSource) {
+            @if (selectedSourceInventory; as selectedSource) {
               <div class="selected-source-card card-base">
                 <div class="card-header">
                   <div class="header-icon">
