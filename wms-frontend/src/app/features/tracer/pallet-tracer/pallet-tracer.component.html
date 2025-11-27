@@ -1,4 +1,4 @@
-<div class="tracer-container">
+<div class="report-container">
   <div class="header-section">
     <div>
       <h1 class="mat-headline-6">Pallet Movement Tracer</h1>
@@ -6,71 +6,78 @@
     </div>
   </div>
 
-  <mat-card class="search-card">
-    <mat-card-content>
-      <form (submit)="onSearch($event)" class="search-form">
-        <mat-form-field appearance="outline" class="search-field">
-          <mat-label>Enter Pallet Barcode (LPN)</mat-label>
-          <input matInput [formControl]="searchControl" placeholder="Scan or type pallet identifier...">
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="submit" [disabled]="!searchControl.value || isLoading()">
-          <mat-icon>search</mat-icon>
-          <span>Trace</span>
-        </button>
-      </form>
-    </mat-card-content>
-  </mat-card>
+  <div class="search-section">
+    <form (submit)="onSearch($event)" class="search-form">
+      <mat-form-field appearance="outline" class="custom-field search-field" subscriptSizing="dynamic">
+        <mat-label>Enter Pallet Barcode (LPN)</mat-label>
+        <input matInput [formControl]="searchControl" placeholder="Scan or type pallet identifier...">
+        <mat-icon matSuffix>qr_code_scanner</mat-icon>
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit" [disabled]="!searchControl.value || isLoading()" class="action-button">
+        <mat-icon>search</mat-icon>
+        <span>Trace</span>
+      </button>
+    </form>
+  </div>
 
   @if (isLoading()) {
-    <div class="spinner-container">
-      <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
-      <span class="loading-text">Tracking pallet movements...</span>
-    </div>
+  <div class="spinner-container-page">
+    <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+    <p>Tracking pallet movements...</p>
+  </div>
   } @else {
-    @if (searched() && palletHistory().length === 0) {
-      <mat-card class="empty-state-card">
-        <mat-icon>search_off</mat-icon>
-        <h2>No Movement History Found</h2>
-        <p>No tracking records were found for pallet "{{searchControl.value}}". Please verify the barcode and try again.</p>
-      </mat-card>
-    }
+  @if (searched() && palletHistory().length === 0) {
+  <div class="empty-list-message">
+    <mat-icon>search_off</mat-icon>
+    <h2>No Movement History Found</h2>
+    <p>No tracking records were found for pallet "{{searchControl.value}}". Please verify the barcode and try again.</p>
+  </div>
+  }
 
-    @if (palletHistory().length > 0) {
-      <div class="results-header">
-        <h2>
-          Tracking {{ palletHistory().length }} events for pallet <strong>{{ searchControl.value }}</strong>
-        </h2>
-      </div>
+  @if (palletHistory().length > 0) {
+  <div class="results-container">
+    <div class="results-header">
+      <h2>Tracking History for <strong>{{ searchControl.value }}</strong></h2>
+      <span class="event-count">{{ palletHistory().length }} Events Found</span>
+    </div>
 
-      <div class="timeline-container">
-        @for (item of palletHistory(); track $index) {
-          <div class="timeline-item">
-            <div class="timeline-icon-container">
-              <div class="timeline-icon" [ngClass]="getColorClassForEventType(item.eventType)">
-                <mat-icon>{{ getIconForEventType(item.eventType) }}</mat-icon>
+    <div class="timeline-container">
+      @for (item of palletHistory(); track $index) {
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-icon" [ngClass]="getColorClassForEventType(item.eventType)">
+            <mat-icon>{{ getIconForEventType(item.eventType) }}</mat-icon>
+          </div>
+          <div class="timeline-line" *ngIf="!$last"></div>
+        </div>
+        
+        <div class="timeline-content">
+          <mat-card class="timeline-card">
+            <div class="card-content-wrapper">
+              <div class="event-info">
+                <span class="event-type" [ngClass]="getColorClassForEventType(item.eventType)">{{ item.eventType | titlecase }}</span>
+                <span class="event-time">{{ item.timestamp | date:'MMM d, y, h:mm a' }}</span>
+              </div>
+              
+              <div class="event-details">
+                <div class="detail-row">
+                  <mat-icon class="detail-icon">location_on</mat-icon>
+                  <span class="detail-text">{{ item.location }}</span>
+                </div>
+                @if (item.details) {
+                <div class="detail-row">
+                  <mat-icon class="detail-icon">notes</mat-icon>
+                  <span class="detail-text">{{ item.details }}</span>
+                </div>
+                }
               </div>
             </div>
-            <div class="timeline-content">
-              <mat-card class="timeline-card">
-                <mat-card-header>
-                  <mat-card-title>{{ item.eventType | titlecase }}</mat-card-title>
-                  <mat-card-subtitle>{{ item.timestamp | date:'MMM d, y, h:mm a' }}</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content class="event-details">
-                  <div class="detail-item">
-                    <mat-icon>location_on</mat-icon>
-                    <span>Location: <strong>{{ item.location }}</strong></span>
-                  </div>
-                  <div class="detail-item">
-                    <mat-icon>notes</mat-icon>
-                    <span>Details: <strong>{{ item.details }}</strong></span>
-                  </div>
-                </mat-card-content>
-              </mat-card>
-            </div>
-          </div>
-        }
+          </mat-card>
+        </div>
       </div>
-    }
+      }
+    </div>
+  </div>
+  }
   }
 </div>
