@@ -1,7 +1,9 @@
-<div class="setup-container">
+<div class="report-container">
   <div class="header-section">
-    <h1>Customer Account Setup</h1>
-    <p>Manage all customer billing accounts</p>
+    <div class="header-content">
+      <h1>Customer Account Setup</h1>
+      <p class="subtitle">Manage all customer billing accounts</p>
+    </div>
   </div>
 
   <div class="master-detail-layout">
@@ -15,11 +17,13 @@
         </button>
       </div>
 
-      <mat-form-field appearance="outline" class="search-bar">
-        <mat-label>Search Accounts</mat-label>
-        <input matInput [formControl]="searchControl">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
+      <div class="search-section">
+        <mat-form-field appearance="outline" class="search-bar compact-search">
+          <mat-label>Search Accounts</mat-label>
+          <input matInput [formControl]="searchControl">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
 
       <div class="table-wrapper">
         @if(isLoadingList()) {
@@ -27,10 +31,12 @@
             <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
           </div>
         }
-        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="refreshList()">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="refreshList()" class="standard-table">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+            <td mat-cell *matCellDef="let row">
+              <span class="primary-text">{{row.name}}</span>
+            </td>
           </ng-container>
           <ng-container matColumnDef="phone">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
@@ -43,9 +49,9 @@
           <ng-container matColumnDef="isActive">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
             <td mat-cell *matCellDef="let row">
-              <mat-icon [color]="row.isActive ? 'primary' : 'disabled'" [matTooltip]="row.isActive ? 'Active' : 'Inactive'">
-                {{ row.isActive ? 'toggle_on' : 'toggle_off' }}
-              </mat-icon>
+              <span class="status-badge" [class.active]="row.isActive" [class.inactive]="!row.isActive">
+                {{ row.isActive ? 'ACTIVE' : 'INACTIVE' }}
+              </span>
             </td>
           </ng-container>
 
@@ -80,7 +86,7 @@
             } @else {
               <ng-container>
                 <mat-icon>save</mat-icon>
-                <span>{{ editingAccountId() ? 'Save Changes' : 'Create Account' }}</span>
+                <span>{{ editingAccountId() ? 'Save' : 'Create' }}</span>
               </ng-container>
             }
           </button>
@@ -90,7 +96,7 @@
       <form [formGroup]="accountForm" (ngSubmit)="onSaveAccount()" class="detail-form-container">
 
         <div class="detail-content" [class.loading]="isLoadingDetails()">
-          <mat-tab-group animationDuration="0ms" dynamicHeight>
+          <mat-tab-group animationDuration="0ms" dynamicHeight class="clean-tabs">
 
             <mat-tab label="General & Contact">
               <div class="tab-content-wrapper">
@@ -117,7 +123,7 @@
                     <input matInput formControlName="taxId" required>
                     <mat-error>Tax ID is required</mat-error>
                   </mat-form-field>
-                  <mat-slide-toggle formControlName="isActive" color="accent">Is Active</mat-slide-toggle>
+                  <mat-slide-toggle formControlName="isActive" color="primary">Is Active</mat-slide-toggle>
                 </div>
 
                 <div class="form-section">
@@ -223,4 +229,5 @@
       </form>
     </div>
 
-  </div> </div>
+  </div>
+</div>
