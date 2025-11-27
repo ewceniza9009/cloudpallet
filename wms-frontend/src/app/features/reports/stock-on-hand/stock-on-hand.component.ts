@@ -179,6 +179,11 @@ export class StockOnHandComponent implements OnInit, AfterViewInit {
     return item.name;
   }
 
+  getMaterialDisplayName(item: MaterialLookupDto | string | null): string {
+    if (!item || typeof item === 'string') return item || '';
+    return `${item.name} (${item.sku})`;
+  }
+
   private _filter(
     value: string | { name: string } | null,
     options: any[],

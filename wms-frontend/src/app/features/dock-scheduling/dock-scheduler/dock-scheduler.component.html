@@ -1,7 +1,9 @@
-<div class="management-container">
+<div class="report-container">
   <div class="header-section">
-    <h1 class="mat-headline-6">Dock Scheduler</h1>
-    <p class="mat-body-1">Schedule and view all dock appointments.</p>
+    <div>
+      <h1 class="mat-headline-6">Dock Scheduler</h1>
+      <p class="mat-body-1">Schedule and view all dock appointments.</p>
+    </div>
   </div>
 
   <div class="scheduler-grid">
@@ -38,10 +40,7 @@
           @if (searchControl.value) {
           <mat-card-title>Search Results for "{{ searchControl.value }}"</mat-card-title>
           } @else {
-          <mat-card-title
-            >Appointments for
-            {{ selectionForm.controls.selectedDate.value | date : 'longDate' }}</mat-card-title
-          >
+          <mat-card-title>Appointments for {{ selectionForm.controls.selectedDate.value | date : 'longDate' }}</mat-card-title>
           }
         </mat-card-header>
 
@@ -67,22 +66,12 @@
               <mat-icon matListItemIcon>local_shipping</mat-icon>
               <div matListItemTitle class="appointment-title">{{ apt.licensePlate }}</div>
               <div matListItemLine class="appointment-details">
-                <span
-                  >Scheduled:
-                  <strong
-                    >{{ apt.startDateTime | date : 'shortTime' }} -
-                    {{ apt.endDateTime | date : 'shortTime' }}</strong
-                  ></span
-                >
+                <span>Scheduled: <strong>{{ apt.startDateTime | date : 'shortTime' }} - {{ apt.endDateTime | date : 'shortTime' }}</strong></span>
                 <span class="detail-separator">|</span>
-                <span
-                  >Dock: <strong>{{ apt.dockName }}</strong></span
-                >
+                <span>Dock: <strong>{{ apt.dockName }}</strong></span>
                 @if(apt.yardSpotNumber) {
                 <span class="detail-separator">|</span>
-                <span
-                  >Yard: <strong>{{ apt.yardSpotNumber }}</strong></span
-                >
+                <span>Yard: <strong>{{ apt.yardSpotNumber }}</strong></span>
                 }
                 <span class="status-chip">{{ apt.status }}</span>
               </div>
@@ -111,29 +100,10 @@
               <mat-radio-button value="Shipping">Outbound (Shipping)</mat-radio-button>
             </mat-radio-group>
 
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" class="custom-field">
               <mat-label>Truck License Plate</mat-label>
-              <input
-                matInput
-                [formControl]="truckControl"
-                [matAutocomplete]="truckAuto"
-                placeholder="Search or type license plate"
-              />
-              <mat-autocomplete
-                #truckAuto="matAutocomplete"
-                [displayWith]="truckDisplayFn"
-                (optionSelected)="onTruckSelected($event)"
-              >
-                @for(t of filteredTrucks(); track t.id) {
-                <mat-option [value]="t">{{ t.licensePlate }}</mat-option>
-                }              
-              </mat-autocomplete>
-              <input type="hidden" formControlName="licensePlate" />
-              <mat-autocomplete
-                #truckAuto="matAutocomplete"
-                [displayWith]="getDisplayName"
-                (optionSelected)="onTruckSelected($event)"
-              >
+              <input matInput [formControl]="truckControl" [matAutocomplete]="truckAuto" placeholder="Search or type license plate" (focus)="truckAutoTrigger.openPanel()" #truckAutoTrigger="matAutocompleteTrigger"/>
+              <mat-autocomplete #truckAuto="matAutocomplete" [displayWith]="truckDisplayFn" (optionSelected)="onTruckSelected($event)">
                 @for(t of filteredTrucks(); track t.id) {
                 <mat-option [value]="t">{{ t.licensePlate }}</mat-option>
                 }
@@ -141,19 +111,10 @@
               <input type="hidden" formControlName="licensePlate" />
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" class="custom-field">
               <mat-label>Supplier</mat-label>
-              <input
-                matInput
-                [formControl]="supplierControl"
-                [matAutocomplete]="supplierAuto"
-                placeholder="Search supplier"
-              />
-              <mat-autocomplete
-                #supplierAuto="matAutocomplete"
-                [displayWith]="getDisplayName"
-                (optionSelected)="onSupplierSelected($event)"
-              >
+              <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto" placeholder="Search supplier" (focus)="supplierAutoTrigger.openPanel()" #supplierAutoTrigger="matAutocompleteTrigger"/>
+              <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getDisplayName" (optionSelected)="onSupplierSelected($event)">
                 @for(s of filteredSuppliers(); track s.id) {
                 <mat-option [value]="s">{{ s.name }}</mat-option>
                 }
@@ -161,19 +122,10 @@
               <input type="hidden" formControlName="supplierId" />
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" class="custom-field">
               <mat-label>Customer Account</mat-label>
-              <input
-                matInput
-                [formControl]="accountControl"
-                [matAutocomplete]="accountAuto"
-                placeholder="Search customer account"
-              />
-              <mat-autocomplete
-                #accountAuto="matAutocomplete"
-                [displayWith]="getDisplayName"
-                (optionSelected)="onAccountSelected($event)"
-              >
+              <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Search customer account" (focus)="accountAutoTrigger.openPanel()" #accountAutoTrigger="matAutocompleteTrigger"/>
+              <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName" (optionSelected)="onAccountSelected($event)">
                 @for(a of filteredAccounts(); track a.id) {
                 <mat-option [value]="a">{{ a.name }}</mat-option>
                 }
@@ -182,22 +134,17 @@
             </mat-form-field>
 
             <div class="time-fields">
-              <mat-form-field appearance="outline">
+              <mat-form-field appearance="outline" class="custom-field">
                 <mat-label>Start Time</mat-label>
                 <input matInput type="time" formControlName="startTime" />
               </mat-form-field>
-              <mat-form-field appearance="outline">
+              <mat-form-field appearance="outline" class="custom-field">
                 <mat-label>End Time</mat-label>
                 <input matInput type="time" formControlName="endTime" />
               </mat-form-field>
             </div>
 
-            <button
-              mat-stroked-button
-              color="primary"
-              type="submit"
-              [disabled]="appointmentForm.invalid || !selectionForm.valid || isSubmitting()"
-            >
+            <button mat-flat-button color="primary" type="submit" [disabled]="appointmentForm.invalid || !selectionForm.valid || isSubmitting()">
               @if (isSubmitting()) {
               <mat-spinner diameter="20"></mat-spinner>
               <span>Scheduling...</span>

@@ -1,138 +1,230 @@
-// ---- File: wms-frontend/src/app/features/putaway/putaway-list.component.scss ----
-
+// Standardized UI for Putaway Task List
 :host {
   display: block;
+  height: 100%;
 }
 
-.putaway-container {
-  padding: 1.5rem 2.5rem;
+.report-container {
+  padding: 1.5rem 2rem;
   max-width: 1600px;
   margin: 0 auto;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
+  height: 100%;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .header-section {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
 
-  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
-  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: var(--mat-sys-on-surface);
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 1rem;
+    max-width: 600px;
+  }
 }
 
-.spinner-container {
+.spinner-container-page {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  padding: 4rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem;
+  min-height: 300px;
+  color: var(--mat-sys-on-surface-variant);
+  flex-grow: 1;
 }
 
 .tasks-grid {
   display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  align-items: start;
 }
 
 .task-card {
   border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
-  border-radius: 8px;
-  transition: box-shadow 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,.07), 0 4px 6px -4px rgba(0,0,0,.07);
-  }
-
-  .card-avatar {
-    background-color: var(--mat-sys-surface-container-high);
-    color: var(--mat-sys-on-surface-variant);
-  }
-
-  .barcode-text {
-    font-weight: 600;
-    font-family: monospace;
-    font-size: 1.1rem;
-  }
-}
-
-.location-flow {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 0;
-  justify-content: space-between;
-
-  .flow-arrow {
-    color: var(--mat-sys-outline);
-  }
-}
-
-.location-item {
+  box-shadow: none;
+  border-radius: 12px;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  background-color: var(--mat-sys-surface);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  }
+}
+
+.card-content-wrapper {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap; // Allow wrapping on very small screens
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   flex: 1;
+  min-width: 200px; // Ensure minimum width
+}
 
-  &:last-child {
-    align-items: flex-end;
+.barcode-row {
+  display: flex;
+  align-items: flex-start; // Align to top in case of wrapping
+  gap: 0.75rem;
+  
+  .qr-icon {
+    color: var(--mat-sys-primary);
+    font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 2px; // Visual alignment with text
+    flex-shrink: 0;
   }
 
-  .location-label {
-    font-size: 0.75rem;
-    color: var(--mat-sys-on-surface-variant);
-    text-transform: uppercase;
+  .barcode {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--mat-sys-on-surface);
+    word-break: break-all; // Allow breaking long barcodes if absolutely necessary
+    line-height: 1.4;
   }
 }
 
-.location-badge {
-  display: inline-block;
-  padding: 0.3rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 600;
-
-  &.staging {
-    background-color: #fffbeb;
-    color: #b45309;
-  }
-
-  &.storage {
-    background-color: #ecfdf5;
-    color: #047857;
-  }
+.contents-row {
+  font-size: 1rem;
+  color: var(--mat-sys-on-surface-variant);
+  padding-left: 2.25rem;
+  line-height: 1.5;
 }
 
-.mat-mdc-card-actions {
-  border-top: 1px solid var(--mat-sys-outline-variant);
-  background-color: var(--mat-sys-surface-container-lowest);
+.location-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   gap: 0.5rem;
+  flex-shrink: 0; // Don't shrink the location section
+  max-width: 50%; // Allow it to take up to 50% width
+
+  .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--mat-sys-on-surface-variant);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .location-badge {
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+    padding: 0.35rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: right;
+    white-space: normal; // Allow text to wrap
+    word-break: break-word; // Break words if they are too long
+    line-height: 1.4;
+    height: auto; // Allow height to grow
+  }
 }
 
-.empty-state-card {
+.compact-actions {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--mat-sys-surface-container-lowest);
+  border-top: 1px solid var(--mat-sys-outline-variant-low);
+  gap: 0.75rem;
+  flex-wrap: wrap; // Allow buttons to wrap
+  
+  button {
+    ::ng-deep .mat-mdc-button-touch-target {
+      height: 40px;
+    }
+  }
+}
+
+.empty-list-message {
   grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 3rem;
+  min-height: 300px;
   text-align: center;
-  border: 2px dashed var(--mat-sys-outline-variant);
-  background: none;
-  box-shadow: none;
+  gap: 1rem;
+  padding: 2rem;
   color: var(--mat-sys-on-surface-variant);
+  border: 2px dashed var(--mat-sys-outline-variant-low);
+  border-radius: 12px;
 
-  mat-icon {
-    font-size: 3rem;
-    width: 3rem;
-    height: 3rem;
-    color: #10b981;
+  .mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: var(--mat-sys-outline);
+    opacity: 0.5;
   }
+
   h2 {
-    margin: 1rem 0 0.25rem;
-    font-size: 1.25rem;
+    margin: 0;
+    font-size: 1.5rem;
     font-weight: 500;
     color: var(--mat-sys-on-surface);
   }
+  
+  p {
+    margin: 0;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+    .report-container {
+      padding: 1rem;
+    }
+    
+    .card-content-wrapper {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.5rem;
+    }
+    
+    .location-section {
+      align-items: flex-start;
+      max-width: 100%;
+      padding-left: 2.25rem;
+      
+      .location-badge {
+        text-align: left;
+      }
+    }
 }

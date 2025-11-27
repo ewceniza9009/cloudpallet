@@ -1,123 +1,71 @@
-<div class="picking-container">
-  
+<div class="report-container">
+  <div class="header-section">
+    <div>
+      <h1 class="mat-headline-6">Order Picking</h1>
+      <p class="mat-body-1">Manage outbound orders and generate pick lists.</p>
+    </div>
+  </div>
+
   <mat-card class="create-order-card">
-    <mat-card-header
-      (click)="isFormCollapsed.set(!isFormCollapsed())"
-      class="collapsible-header"
-    >
-      <mat-card-title>Create a New Pick List</mat-card-title>
-      <button
-        mat-icon-button
-        class="collapse-toggle-button"
-        matTooltip="Toggle Form"
-        aria-label="Toggle form visibility"
-      >
-        <mat-icon>
-          {{ isFormCollapsed() ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
-        </mat-icon>
+    <mat-card-header (click)="isFormCollapsed.set(!isFormCollapsed())" class="collapsible-header">
+      <mat-card-title>Create New Pick List</mat-card-title>
+      <button mat-icon-button class="collapse-toggle-button" matTooltip="Toggle Form">
+        <mat-icon>{{ isFormCollapsed() ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</mat-icon>
       </button>
     </mat-card-header>
 
     @if (!isFormCollapsed()) {
       <mat-card-content [formGroup]="orderForm">
-        <div class="compact-form-layout">
-          
-          <mat-form-field appearance="outline" class="account-selector" subscriptSizing="dynamic">
+        <div class="filter-grid">
+          <!-- Account Selector -->
+          <mat-form-field appearance="outline" class="custom-field">
             <mat-label>Customer Account</mat-label>
-            <input
-              type="text"
-              placeholder="Start typing to search..."
-              matInput
-              formControlName="accountSearch"
-              [matAutocomplete]="autoAccount"
-            >
-            <mat-autocomplete
-              #autoAccount="matAutocomplete"
-              [displayWith]="displayAccountName.bind(this)"
-              (optionSelected)="onAccountChange($event.option.value)"
-            >
-              <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
-                @for(acc of filteredAccounts(); track acc.id) {
-                  <mat-option [value]="acc">
-                    {{ acc.name }}
-                  </mat-option>
-                }
-              </cdk-virtual-scroll-viewport>
+            <input matInput formControlName="accountSearch" [matAutocomplete]="autoAccount" placeholder="Select Account" (focus)="accountAutoTrigger.openPanel()" #accountAutoTrigger="matAutocompleteTrigger">
+            <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName.bind(this)" (optionSelected)="onAccountChange($event.option.value)">
+              @for(acc of filteredAccounts(); track acc.id) {
+                <mat-option [value]="acc">{{ acc.name }}</mat-option>
+              }
             </mat-autocomplete>
           </mat-form-field>
 
-          <div class="form-options"> 
-            <mat-checkbox formControlName="isExpedited" color="warn" class="expedited-checkbox">
-              Expedited Order (Rush)
-            </mat-checkbox>
-            <div class="form-actions">
-              <button
-                mat-stroked-button
-                (click)="addOrderItem()"
-                [disabled]="orderItems.disabled"
-              >
-                <mat-icon>add</mat-icon>
-                <span>Add Line</span>
-              </button>
-              <button
-                mat-stroked-button
-                color="primary"
-                (click)="createPickList()"
-                [disabled]="orderForm.invalid || isCreating()"
-              >
-                @if(isCreating()) {
-                  <mat-spinner diameter="20" style="margin-right: 8px;"></mat-spinner>
-                }
-                <span>Create Pick List</span>
-              </button>
-            </div>
+          <!-- Expedited Checkbox -->
+           <div class="checkbox-wrapper">
+            <mat-checkbox formControlName="isExpedited" color="warn">Expedited (Rush)</mat-checkbox>
+           </div>
+
+          <!-- Action Buttons -->
+          <div class="filter-actions">
+            <button mat-stroked-button (click)="addOrderItem()" [disabled]="orderItems.disabled">
+              <mat-icon>add</mat-icon> Add Line
+            </button>
+            <button mat-flat-button color="primary" (click)="createPickList()" [disabled]="orderForm.invalid || isCreating()">
+              @if(isCreating()) { <mat-spinner diameter="20"></mat-spinner> }
+              <span>Create Pick List</span>
+            </button>
           </div>
         </div>
 
+        <!-- Order Items List -->
         @if (orderForm.get('accountId')?.value) {
           <div formArrayName="orderItems" class="order-items-container">
             @for(item of orderItems.controls; track $index; let i = $index) {
               <div [formGroupName]="i" class="order-item-row">
-                
-                <mat-form-field appearance="outline" class="material-select" subscriptSizing="dynamic">
+                <mat-form-field appearance="outline" class="custom-field material-select">
                   <mat-label>Material</mat-label>
-                  <input
-                    type="text"
-                    placeholder="Search material/SKU..."
-                    matInput
-                    formControlName="materialSearch"
-                    [matAutocomplete]="autoMaterial"
-                  >
-                  <mat-autocomplete
-                    #autoMaterial="matAutocomplete"
-                    [displayWith]="displayMaterialName"
-                    (optionSelected)="onMaterialSelected($event.option.value, i)"
-                  >
-                    <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
-                      @for(mat of item.get('filteredMaterials')?.value; track mat.id) {
-                        <mat-option [value]="mat">
-                          {{ mat.name }} ({{ mat.sku }})
-                        </mat-option>
-                      }
-                    </cdk-virtual-scroll-viewport>
+                  <input matInput formControlName="materialSearch" [matAutocomplete]="autoMaterial" placeholder="Select Material" (focus)="materialAutoTrigger.openPanel()" #materialAutoTrigger="matAutocompleteTrigger">
+                  <mat-autocomplete #autoMaterial="matAutocomplete" [displayWith]="displayMaterialName" (optionSelected)="onMaterialSelected($event.option.value, i)">
+                    @for(mat of item.get('filteredMaterials')?.value; track mat.id) {
+                      <mat-option [value]="mat">{{ mat.name }} ({{ mat.sku }})</mat-option>
+                    }
                   </mat-autocomplete>
-                  @if(materials().length === 0) {
-                    <mat-hint>No inventory found.</mat-hint>
-                  }
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="quantity-input" subscriptSizing="dynamic">
+                <mat-form-field appearance="outline" class="custom-field quantity-input">
                   <mat-label>Qty</mat-label>
                   <input matInput type="number" formControlName="quantity" min="1">
                 </mat-form-field>
 
-                <button
-                  mat-icon-button
-                  color="warn"
-                  (click)="removeOrderItem(i)"
-                  [disabled]="orderItems.controls.length <= 1"
-                  matTooltip="Remove Line"
-                >
+                <button mat-icon-button color="warn" (click)="removeOrderItem(i)" [disabled]="orderItems.controls.length <= 1" matTooltip="Remove Line">
                   <mat-icon>remove_circle_outline</mat-icon>
                 </button>
               </div>

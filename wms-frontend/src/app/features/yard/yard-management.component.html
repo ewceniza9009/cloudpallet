@@ -1,9 +1,9 @@
-<div class="management-container">
+<div class="report-container">
   <div class="header-section">
-    <h1 class="mat-headline-6">Yard Management</h1>
-    <p class="mat-body-1">
-      Monitor trucks in the yard and check in new arrivals.
-    </p>
+    <div>
+      <h1 class="mat-headline-6">Yard Management</h1>
+      <p class="mat-body-1">Monitor trucks in the yard and check in new arrivals.</p>
+    </div>
   </div>
 
   @if (isLoading()) {
@@ -16,9 +16,7 @@
     <mat-card class="list-card">
       <mat-card-header>
         <mat-card-title>Trucks in Yard</mat-card-title>
-        <mat-card-subtitle
-          >Vehicles currently staged and awaiting a dock</mat-card-subtitle
-        >
+        <mat-card-subtitle>Vehicles currently staged and awaiting a dock</mat-card-subtitle>
       </mat-card-header>
       <div class="list-search-bar">
         <mat-form-field appearance="outline" subscriptSizing="dynamic" class="custom-field">
@@ -39,11 +37,7 @@
               Checked in at: {{ spot.occupiedSince | date : "shortTime" }}
             </div>
             <div matListItemMeta>
-              <button
-                mat-stroked-button
-                color="primary"
-                (click)="moveToDock(spot)"
-              >
+              <button mat-stroked-button color="primary" (click)="moveToDock(spot)">
                 <mat-icon>move_to_inbox</mat-icon>
                 <span>Move to Dock</span>
               </button>
@@ -62,9 +56,7 @@
     <mat-card class="list-card">
       <mat-card-header>
         <mat-card-title>Today's Scheduled Arrivals</mat-card-title>
-        <mat-card-subtitle
-          >Trucks with appointments pending check-in</mat-card-subtitle
-        >
+        <mat-card-subtitle>Trucks with appointments pending check-in</mat-card-subtitle>
       </mat-card-header>
       <div class="list-search-bar">
         <mat-form-field appearance="outline" subscriptSizing="dynamic" class="custom-field">
@@ -92,12 +84,7 @@
               }
             </div>
             <div matListItemMeta>
-              <button
-                mat-flat-button
-                color="primary"
-                (click)="checkIn(apt)"
-                [disabled]="apt.isCheckedIn"
-              >
+              <button mat-flat-button color="primary" (click)="checkIn(apt)" [disabled]="apt.isCheckedIn">
                 <ng-container>
                   @if(apt.isCheckedIn) {
                   <mat-icon>check_circle</mat-icon>

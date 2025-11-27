@@ -1,51 +1,58 @@
-<div class="shipping-container">
+<div class="report-container">
   <div class="header-section">
-    <h1 class="mat-headline-6">Ready for Shipping</h1>
-    <p class="mat-body-1">Consolidated pick lists ready to be loaded and dispatched.</p>
+    <div>
+      <h1 class="mat-headline-6">Ready for Shipping</h1>
+      <p class="mat-body-1">Consolidated pick lists ready to be loaded and dispatched.</p>
+    </div>
   </div>
 
   @if (isLoading()) {
-    <div class="spinner-container">
-      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    </div>
+  <div class="spinner-container-page">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>Loading Orders...</p>
+  </div>
   } @else {
-    <div class="groups-grid">
-      @for (group of groups(); track group.accountId) {
-        <mat-card class="group-card">
-          <mat-card-header>
-            <div mat-card-avatar class="card-avatar">
-              <mat-icon>inventory</mat-icon>
-            </div>
-            <mat-card-title>{{ group.accountName }}</mat-card-title>
-            <mat-card-subtitle>Awaiting Shipment</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="group-details">
-              <div class="detail-item">
-                <span class="label">Total Items</span>
-                <span class="value">{{ group.itemCount }}</span>
-              </div>
-              <div class="divider"></div>
-              <div class="detail-item">
-                <span class="label">Total Units</span>
-                <span class="value">{{ group.totalQuantity }}</span>
-              </div>
-            </div>
-          </mat-card-content>
-          <mat-card-actions class="card-actions-footer">
-            <button mat-flat-button color="primary" (click)="onShip(group)">
-              <mat-icon>local_shipping</mat-icon>
-              <span>Ship Order</span>
-            </button>
-          </mat-card-actions>
-        </mat-card>
-      } @empty {
-        <mat-card class="empty-state-card">
-          <mat-icon>all_inbox</mat-icon>
-          <h2>No Orders Ready</h2>
-          <p>There are no fully picked orders awaiting shipment.</p>
-        </mat-card>
-      }
+  <div class="groups-grid">
+    @for (group of groups(); track group.accountId) {
+    <mat-card class="group-card">
+      <div class="card-content-wrapper">
+        <div class="info-section">
+          <div class="account-row">
+            <mat-icon class="account-icon">inventory</mat-icon>
+            <span class="account-name">{{ group.accountName }}</span>
+          </div>
+          <div class="status-row">
+            Awaiting Shipment
+          </div>
+        </div>
+
+        <div class="stats-section">
+          <div class="stat-item">
+            <span class="label">Items</span>
+            <span class="value">{{ group.itemCount }}</span>
+          </div>
+          <div class="divider"></div>
+          <div class="stat-item">
+            <span class="label">Units</span>
+            <span class="value">{{ group.totalQuantity }}</span>
+          </div>
+        </div>
+      </div>
+
+      <mat-card-actions align="end" class="compact-actions">
+        <button mat-flat-button color="primary" (click)="onShip(group)">
+          <mat-icon>local_shipping</mat-icon>
+          <span>Ship Order</span>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    } @empty {
+    <div class="empty-list-message">
+      <mat-icon>all_inbox</mat-icon>
+      <h2>No Orders Ready</h2>
+      <p>There are no fully picked orders awaiting shipment.</p>
     </div>
+    }
+  </div>
   }
 </div>

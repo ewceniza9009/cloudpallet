@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { filter } from 'rxjs';
 import {
   InventoryApiService,
@@ -25,6 +26,7 @@ import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/co
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatTooltipModule,
   ],
   templateUrl: './putaway-list.component.html',
   styleUrls: ['./putaway-list.component.scss'],

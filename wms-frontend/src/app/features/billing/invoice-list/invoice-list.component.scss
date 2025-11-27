@@ -1,183 +1,242 @@
-/* src/app/features/billing/invoice-list/invoice-list.component.scss */
+:host {
+  display: block;
+}
+
 .billing-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; // Reduced gap
+  padding: 1.5rem 2.5rem;
   max-width: 1600px;
   margin: 0 auto;
-  padding: 1rem; // Reduced padding
+  display: grid; // Match Receiving
+  gap: 2rem;
 }
 
-.billing-form-card {
-  border-radius: 8px;
-  box-shadow: none !important;
-  border: 1px solid var(--mat-sys-outline-variant);
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
 
-  .mat-mdc-card-header {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-    background-color: var(--mat-sys-surface-container-low);
+  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
+  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
+}
 
-    .mat-mdc-card-title {
-      font-size: 1rem;
-      font-weight: 600;
-    }
+.filter-grid {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
 
-    .mat-mdc-card-subtitle {
-      font-size: 0.8rem;
-      margin-top: 0;
+  // Match Receiving search-field style
+  .custom-field {
+    width: 300px; // User wanted wider, matching Receiving search width
+    margin-bottom: -1.25em; // CRITICAL FIX: Match Receiving spacing
+    
+    &.date-field {
+      width: 240px; // Slightly wider than Receiving's 200px for range
     }
   }
-
-  .mat-mdc-card-content {
-    padding: 1rem;
-  }
 }
 
-.billing-form {
+.filter-actions {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem; // Tight gap
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: minmax(250px, 1fr) 2fr;
-  gap: 0.75rem;
-  align-items: start;
-}
-
-.period-group {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-}
-
-.actions {
-  display: flex;
-  justify-content: flex-end;
+  align-items: center;
   gap: 0.5rem;
-  margin-top: 0.25rem;
+  margin-left: auto; // Restored to push to right
+  margin-bottom: -1.25em; // Kept for vertical alignment
   
   button {
-    height: 36px; // Compact buttons
-    border-radius: 6px;
+    height: 42px; // Match input height
   }
 }
 
 .invoice-list-card {
-  border-radius: 8px;
-  box-shadow: none !important;
   border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
+  border-radius: 8px;
+  padding: 0;
   overflow: hidden;
-
-  .mat-mdc-card-header {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-    background-color: var(--mat-sys-surface-container-low);
-
-    .mat-mdc-card-title {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-  }
+  background: var(--mat-sys-surface);
 }
 
 table {
   width: 100%;
-
-  th {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--mat-sys-on-surface-variant);
-    padding: 0 1rem;
-    height: 40px;
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-    
-    &.align-right {
-        text-align: right;
-    }
-  }
-
-  td {
-    font-size: 0.85rem;
-    padding: 0 1rem;
-    height: 44px; // Compact rows
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-    
-    &.align-right {
-        text-align: right;
-        font-variant-numeric: tabular-nums;
-    }
-  }
-
-  tr:last-child td {
-    border-bottom: none;
-  }
   
-  tr:hover {
-      background-color: var(--mat-sys-surface-container-high);
+  td.mat-cell, th.mat-header-cell {
+    padding: 0 1rem;
+    border-bottom-color: var(--mat-sys-outline-variant);
   }
+
+  th.mat-header-cell {
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--mat-sys-on-surface-variant);
+    height: 48px;
+    background-color: var(--mat-sys-surface-container-lowest);
+  }
+
+  td.mat-cell {
+    font-size: 0.875rem;
+    height: 48px;
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+tr.mat-row:hover {
+  background-color: var(--mat-sys-surface-container-high);
+}
+
+.align-right { text-align: right; }
+
+.status-badge {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  &.draft {
+    background-color: #f1f5f9;
+    color: #475569;
+  }
+  &.pending {
+    background-color: #fff7ed;
+    color: #c2410c;
+  }
+  &.paid {
+    background-color: #dcfce7;
+    color: #16a34a;
+  }
+  &.overdue {
+    background-color: #fef2f2;
+    color: #dc2626;
+  }
+  &.cancelled {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    text-decoration: line-through;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  padding: 4rem;
 }
 
 .empty-message {
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 150px; // Reduced height
+  padding: 48px 24px;
+  text-align: center;
   color: var(--mat-sys-on-surface-variant);
-  padding: 2rem;
-  
+  gap: 1rem;
+
   mat-icon {
-      font-size: 3rem;
-      width: 3rem;
-      height: 3rem;
-      margin-bottom: 0.5rem;
-      opacity: 0.5;
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    color: var(--mat-sys-outline);
   }
-  
   h3 {
-      margin: 0;
-      font-size: 1.1rem;
-      font-weight: 600;
-  }
-  
-  p {
-      margin: 0.25rem 0 0;
-      font-size: 0.9rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--mat-sys-on-surface);
   }
 }
 
-.status-badge {
-  padding: 2px 8px; // Smaller badge
-  border-radius: 4px; // Square corners
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  border: 1px solid;
-  line-height: 1;
-  text-transform: uppercase;
-  display: inline-block;
+// ==========================================================================
+// EXACT COPY FROM RECEIVING/KITTING - DO NOT MODIFY
+// ==========================================================================
+::ng-deep {
+  .custom-field {
+    width: 100%; // Reset to 100% so it fills the container width defined above
+    
+    // 1. Reset the wrapper height and padding
+    .mat-mdc-text-field-wrapper {
+      height: 42px !important; // Fixed sleek height
+      padding: 0 12px !important;
+      background-color: white !important;
+    }
 
-  &.draft, &.issued, &.paid, &.overdue {
-    color: var(--color);
-    background-color: var(--bg);
-    border-color: var(--border);
-  }
-  &.draft { --bg: #f1f5f9; --color: #475569; --border: #cbd5e1; }
-  &.issued { --bg: #e0f7fa; --color: #00838f; --border: #4dd0e1; }
-  &.paid { --bg: #e8f5e9; --color: #2e7d32; --border: #81c784; }
-  &.overdue { --bg: #ffebee; --color: #c62828; --border: #ef9a9a; }
-}
+    // 2. Center content vertically
+    .mat-mdc-form-field-flex {
+      height: 100% !important;
+      align-items: center !important;
+      padding: 0 !important;
+    }
 
-@media (max-width: 900px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-  .actions {
-    flex-direction: column;
-    align-items: stretch;
+    // 3. Remove default infix padding/spacing
+    .mat-mdc-form-field-infix {
+      padding: 0 !important;
+      min-height: unset !important;
+      border-top: 0 !important;
+      width: auto !important; // Allow flex to handle width
+    }
+
+    // 4. Style the input element
+    .mat-mdc-input-element {
+      padding: 0 !important;
+      margin: 0 !important;
+      top: 0 !important;
+      position: relative !important;
+      font-size: 0.9rem !important;
+      line-height: 42px !important; // Match wrapper height for vertical centering
+      height: 100% !important;
+    }
+
+    // 5. Style the icon prefix
+    .mat-mdc-form-field-icon-prefix {
+      padding: 0 8px 0 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      height: 100% !important;
+      
+      .mat-icon { 
+        font-size: 18px; 
+        width: 18px; 
+        height: 18px; 
+      }
+    }
+
+    //  Style the icon suffix
+    .mat-mdc-form-field-icon-suffix {
+      padding: 0 0 0 8px !important;
+      display: flex !important;
+      align-items: center !important;
+      height: 100% !important;
+      
+      .mat-icon { 
+        font-size: 18px; 
+        width: 18px; 
+        height: 18px; 
+      }
+      
+      // Ensure datepicker toggle button is clickable and visible
+      .mat-datepicker-toggle-default-icon {
+        width: 18px;
+        height: 18px;
+      }
+      button.mat-icon-button {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0;
+      }
+    }
+
+    // 6. Hide the subscript (error/hint) wrapper to remove bottom spacing
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none; 
+    }
+    
+    // Remove underline
+    .mdc-line-ripple { display: none; }
   }
 }

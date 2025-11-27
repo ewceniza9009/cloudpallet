@@ -1,85 +1,186 @@
-// ---- File: wms-frontend/src/app/features/reports/custom-report/custom-report.component.scss ----
+:host {
+  display: block;
+}
 
-// --- Standard Management Container Styles ---
 .management-container {
   padding: 1.5rem 2.5rem;
   max-width: 1600px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: grid; // Match Receiving
+  gap: 2rem;
 }
 
 .header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
+
   h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
   p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
 }
 
+.filter-grid {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+
+  // Match Receiving search-field style
+  .custom-field {
+    width: 300px; // User wanted wider, matching Receiving search width
+    margin-bottom: -1.25em; // CRITICAL FIX: Match Receiving spacing
+    
+    &.date-field {
+      width: 240px; // Slightly wider than Receiving's 200px for range
+    }
+  }
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto; // Restored to push to right
+  margin-bottom: -1.25em; // Kept for vertical alignment
+  
+  button {
+    height: 42px; // Match input height
+  }
+}
+
 .detail-card {
   border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
   border-radius: 8px;
   padding: 0;
-
-  .mat-mdc-card-header {
-    padding: 1rem 1.5rem 0.5rem;
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-    background-color: var(--mat-sys-surface-container-lowest);
-  }
-  .mat-mdc-card-title {
-    font-size: 1.15rem;
-    font-weight: 500;
-  }
-  .mat-mdc-card-content {
-    padding: 1.5rem;
-  }
-  mat-card-actions {
-       padding: 0.5rem 1.5rem 1rem;
-       border-top: 1px solid var(--mat-sys-outline-variant);
-       background-color: var(--mat-sys-surface-container-lowest);
-   }
-}
-// --- End Standard Styles ---
-
-.filter-form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1.25rem 1.5rem;
+  overflow: hidden;
+  background: var(--mat-sys-surface);
 }
 
-button mat-icon + span, button mat-progress-spinner + span {
-    margin-left: 8px;
-}
-
+// Preview Specific Styles
 .preview-content {
-    min-height: 500px; // Ensure card has height
-    height: 70vh; // Make it tall
-    padding: 0 !important; // No padding for the iframe
-    position: relative;
+  padding: 0;
+  height: 800px; // Fixed height for preview
+  background-color: #525659; // PDF viewer background color
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pdf-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .empty-preview {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    min-height: 500px;
-    gap: 1rem;
-    color: var(--mat-sys-on-surface-variant);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  opacity: 0.7;
+  gap: 1rem;
 
-    mat-icon {
-        font-size: 4rem;
-        width: 4rem;
-        height: 4rem;
-        color: var(--mat-sys-outline);
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  p {
+    font-size: 1.1rem;
+  }
+}
+
+// ==========================================================================
+// EXACT COPY FROM RECEIVING/KITTING - DO NOT MODIFY
+// ==========================================================================
+::ng-deep {
+  .custom-field {
+    width: 100%; // Reset to 100% so it fills the container width defined above
+    
+    // 1. Reset the wrapper height and padding
+    .mat-mdc-text-field-wrapper {
+      height: 42px !important; // Fixed sleek height
+      padding: 0 12px !important;
+      background-color: white !important;
     }
+
+    // 2. Center content vertically
+    .mat-mdc-form-field-flex {
+      height: 100% !important;
+      align-items: center !important;
+      padding: 0 !important;
+    }
+
+    // 3. Remove default infix padding/spacing
+    .mat-mdc-form-field-infix {
+      padding: 0 !important;
+      min-height: unset !important;
+      border-top: 0 !important;
+      width: auto !important; // Allow flex to handle width
+    }
+
+    // 4. Style the input element
+    .mat-mdc-input-element {
+      padding: 0 !important;
+      margin: 0 !important;
+      top: 0 !important;
+      position: relative !important;
+      font-size: 0.9rem !important;
+      line-height: 42px !important; // Match wrapper height for vertical centering
+      height: 100% !important;
+    }
+
+    // 5. Style the icon prefix
+    .mat-mdc-form-field-icon-prefix {
+      padding: 0 8px 0 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      height: 100% !important;
+      
+      .mat-icon { 
+        font-size: 18px; 
+        width: 18px; 
+        height: 18px; 
+      }
+    }
+
+    //  Style the icon suffix
+    .mat-mdc-form-field-icon-suffix {
+      padding: 0 0 0 8px !important;
+      display: flex !important;
+      align-items: center !important;
+      height: 100% !important;
+      
+      .mat-icon { 
+        font-size: 18px; 
+        width: 18px; 
+        height: 18px; 
+      }
+      
+      // Ensure datepicker toggle button is clickable and visible
+      .mat-datepicker-toggle-default-icon {
+        width: 18px;
+        height: 18px;
+      }
+      button.mat-icon-button {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0;
+      }
+    }
+
+    // 6. Hide the subscript (error/hint) wrapper to remove bottom spacing
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none; 
+    }
+    
+    // Remove underline
+    .mdc-line-ripple { display: none; }
+  }
 }

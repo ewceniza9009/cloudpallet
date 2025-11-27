@@ -1,62 +1,62 @@
 <div class="report-container">
   <div class="header-section">
-    <h1 class="mat-headline-6">Stock on Hand Report</h1>
-    <p class="mat-body-1">A live snapshot of all inventory currently in storage.</p>
+    <div>
+      <h1 class="mat-headline-6">Stock on Hand Report</h1>
+      <p class="mat-body-1">A live snapshot of all inventory currently in storage.</p>
+    </div>
+  </div>
+
+  <div [formGroup]="filterForm" class="filter-grid">
+    <mat-form-field appearance="outline" class="custom-field">
+      <mat-label>Customer Account</mat-label>
+      <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Select Account" (focus)="accountAutoTrigger.openPanel()" #accountAutoTrigger="matAutocompleteTrigger">
+      <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName">
+        @for(item of filteredAccounts$ | async; track item.id) {
+          <mat-option [value]="item">{{item.name}}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="custom-field">
+      <mat-label>Material</mat-label>
+      <input matInput [formControl]="materialControl" [matAutocomplete]="materialAuto" placeholder="Select Material" (focus)="materialAutoTrigger.openPanel()" #materialAutoTrigger="matAutocompleteTrigger">
+      <mat-autocomplete #materialAuto="matAutocomplete" [displayWith]="getMaterialDisplayName">
+        @for(item of filteredMaterials$ | async; track item.id) {
+          <mat-option [value]="item">{{item.name}} ({{item.sku}})</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="custom-field">
+      <mat-label>Supplier</mat-label>
+      <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto" placeholder="Select Supplier" (focus)="supplierAutoTrigger.openPanel()" #supplierAutoTrigger="matAutocompleteTrigger">
+      <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getDisplayName">
+        @for(item of filteredSuppliers$ | async; track item.id) {
+          <mat-option [value]="item">{{item.name}}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="custom-field">
+      <mat-label>Batch Number</mat-label>
+      <input matInput formControlName="batchNumber" placeholder="Enter Batch #">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="custom-field">
+        <mat-label>Pallet or LPN Barcode</mat-label>
+        <input matInput formControlName="barcode" placeholder="Scan Barcode">
+      </mat-form-field>
+
+    <div class="filter-actions">
+      <button mat-stroked-button (click)="resetFilters()">Clear</button>
+      <button mat-flat-button color="primary" (click)="applyFilters()">
+        <mat-icon>filter_list</mat-icon>
+        <span>Apply</span>
+      </button>
+      <button mat-stroked-button>
+        <mat-icon>print</mat-icon>
+        <span>Print</span>
+      </button>
+    </div>
   </div>
 
   <mat-card class="main-content-card">
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title>Report Filters</mat-panel-title>
-      </mat-expansion-panel-header>
-
-      <div [formGroup]="filterForm" class="filter-grid">
-        <mat-form-field appearance="outline">
-          <mat-label>Customer Account</mat-label>
-          <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto">
-          <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName">
-            @for(item of filteredAccounts$ | async; track item.id) {
-              <mat-option [value]="item">{{item.name}}</mat-option>
-            }
-          </mat-autocomplete>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Material</mat-label>
-          <input matInput [formControl]="materialControl" [matAutocomplete]="materialAuto">
-          <mat-autocomplete #materialAuto="matAutocomplete" [displayWith]="getDisplayName">
-            @for(item of filteredMaterials$ | async; track item.id) {
-              <mat-option [value]="item">{{item.name}} ({{item.sku}})</mat-option>
-            }
-          </mat-autocomplete>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Supplier</mat-label>
-          <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto">
-          <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getDisplayName">
-            @for(item of filteredSuppliers$ | async; track item.id) {
-              <mat-option [value]="item">{{item.name}}</mat-option>
-            }
-          </mat-autocomplete>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Batch Number</mat-label>
-          <input matInput formControlName="batchNumber">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Pallet or LPN Barcode</mat-label>
-            <input matInput formControlName="barcode">
-          </mat-form-field>
-      </div>
-
-      <mat-action-row>
-        <button mat-button (click)="resetFilters()">Clear Filters</button>
-        <button mat-flat-button color="primary" (click)="applyFilters()">
-          <mat-icon>filter_list</mat-icon>
-          <span>Apply Filters</span>
-        </button>
-      </mat-action-row>
-    </mat-expansion-panel>
-
     <div class="table-wrapper">
       <div *ngIf="isLoading()" class="spinner-overlay">
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
