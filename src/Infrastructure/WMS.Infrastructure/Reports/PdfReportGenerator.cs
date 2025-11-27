@@ -51,6 +51,11 @@ public class PdfReportGenerator(WmsDbContext context) : IReportGenerator
                 var vasData = await VasReportGenerator.GenerateDataAsync(context, filters, cancellationToken);
                 reportData.AddRange(vasData);
                 break;
+            case "VAS_Amend":
+                reportTitle = "VAS Amendment Report";
+                var vasAmendData = await VasAmendReportGenerator.GenerateDataAsync(context, filters, cancellationToken);
+                reportData.AddRange(vasAmendData);
+                break;
             case "Picking":
                 reportTitle = "Picking Report";
                 var pickData = await PickReportGenerator.GenerateDataAsync(context, filters, cancellationToken);
@@ -164,6 +169,9 @@ public class ReportDocument : IDocument
                     break;
                 case "VAS":
                     VasReportDocumentComposer.ComposeContent(col.Item(), _data.Cast<VasReportItem>().ToList());
+                    break;
+                case "VAS_Amend":
+                    VasAmendReportDocumentComposer.ComposeContent(col.Item(), _data.Cast<VasAmendReportItem>().ToList());
                     break;
                 case "Picking":
                     PickReportDocumentComposer.ComposeContent(col.Item(), _data.Cast<PickReportItem>().ToList());

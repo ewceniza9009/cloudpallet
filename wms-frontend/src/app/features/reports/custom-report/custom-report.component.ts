@@ -123,6 +123,7 @@ export class CustomReportComponent implements OnInit, OnDestroy {
     'Shipping',
     'Invoice',
     'VAS',
+    'VAS_Amend',
   ];
 
   @ViewChild('pdfFrame') pdfFrame!: ElementRef<HTMLIFrameElement>;

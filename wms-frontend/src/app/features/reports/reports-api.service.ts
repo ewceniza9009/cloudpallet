@@ -71,7 +71,8 @@ export type ReportType =
   | 'Picking'
   | 'Invoice'
   | 'Shipping'
-  | 'VAS';
+  | 'VAS'
+  | 'VAS_Amend';
 
 export interface ReportFilterDto {
   reportType: ReportType;
