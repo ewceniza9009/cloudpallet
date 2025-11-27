@@ -1,145 +1,133 @@
-<!-- ---- File: dock-yard-setup.component.html ---- -->
-<div class="setup-container">
-  <div class="list-header">
+<div class="report-container">
+  <div class="header-section">
     <div class="header-content">
-      <h1 class="list-title">Dock & Yard Setup</h1>
-      <p class="list-subtitle">
-        Manage docks and yard spots for the selected warehouse.
-      </p>
+      <h1>Dock & Yard Setup</h1>
+      <p class="subtitle">Manage docks and yard spots for the selected warehouse</p>
     </div>
-    <button mat-flat-button color="primary" class="create-button" disabled>
-      <mat-icon>add</mat-icon>
-      <span>Dock & Yard Setup</span>
-    </button>
   </div>
 
   @if (isLoading()) {
-  <div class="spinner-container">
-    <mat-progress-spinner
-      mode="indeterminate"
-      diameter="50"
-    ></mat-progress-spinner>
-    <span>Loading dock and yard configuration...</span>
-  </div>
+    <div class="spinner-overlay">
+      <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+    </div>
   } @else {
-  <div class="setup-grid">
-    <!-- Docks Card -->
-    <mat-card class="setup-card">
-      <mat-card-header>
-        <mat-card-title>Docks ({{ filteredDocks().length }})</mat-card-title>
-        <button mat-raised-button color="primary" (click)="onAddDock()">
-          <mat-icon>add</mat-icon>
-          Add Dock
-        </button>
-      </mat-card-header>
+    <div class="two-column-layout">
+      
+      <!-- Docks Section -->
+      <div class="section-container">
+        <div class="section-header">
+          <h3 class="section-title">Docks ({{ filteredDocks().length }})</h3>
+          <button mat-flat-button color="primary" (click)="onAddDock()">
+            <mat-icon>add</mat-icon>
+            <span>Add Dock</span>
+          </button>
+        </div>
 
-      <mat-card-content>
-        <div class="search-container">
-          <mat-form-field appearance="outline" class="search-bar">
+        <div class="search-section">
+          <mat-form-field appearance="outline" class="search-bar compact-search">
             <mat-label>Search docks</mat-label>
             <input matInput [formControl]="dockSearchControl" />
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
 
-        <mat-list class="item-list">
-          @for (dock of filteredDocks(); track dock.id) {
-          <mat-list-item>
-            <mat-icon matListItemIcon>door_sliding</mat-icon>
-            <div matListItemTitle>{{ dock.name }}</div>
-            <div matListItemLine>Dock</div>
-            <div matListItemMeta class="action-buttons">
-              <button
-                mat-icon-button
-                (click)="onEditDock(dock)"
-                matTooltip="Edit dock"
-              >
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                color="warn"
-                (click)="onDeleteDock(dock)"
-                matTooltip="Delete dock"
-              >
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </mat-list-item>
-          } @empty {
-          <div class="empty-list-message">
-            <mat-icon>door_sliding</mat-icon>
-            <p>No docks found</p>
-            <p class="mat-caption">Add a dock to get started</p>
-          </div>
-          }
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
+        <div class="table-wrapper">
+          <table mat-table [dataSource]="filteredDocks()" class="standard-table">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let dock">
+                <div class="cell-content">
+                  <mat-icon class="type-icon">door_sliding</mat-icon>
+                  <span class="primary-text">{{ dock.name }}</span>
+                </div>
+              </td>
+            </ng-container>
 
-    <!-- Yard Spots Card -->
-    <mat-card class="setup-card">
-      <mat-card-header>
-        <mat-card-title
-          >Yard Spots ({{ filteredYardSpots().length }})</mat-card-title
-        >
-        <button mat-raised-button color="primary" (click)="onAddYardSpot()">
-          <mat-icon>add</mat-icon>
-          Add Spot
-        </button>
-      </mat-card-header>
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let dock">
+                <div class="actions-cell">
+                  <button mat-icon-button (click)="onEditDock(dock)" matTooltip="Edit dock" class="action-icon edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="onDeleteDock(dock)" matTooltip="Delete dock" class="action-icon delete">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
 
-      <mat-card-content>
-        <div class="search-container">
-          <mat-form-field appearance="outline" class="search-bar">
+            <tr mat-header-row *matHeaderRowDef="dockColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: dockColumns;"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="2">No docks found.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Yard Spots Section -->
+      <div class="section-container">
+        <div class="section-header">
+          <h3 class="section-title">Yard Spots ({{ filteredYardSpots().length }})</h3>
+          <button mat-flat-button color="primary" (click)="onAddYardSpot()">
+            <mat-icon>add</mat-icon>
+            <span>Add Spot</span>
+          </button>
+        </div>
+
+        <div class="search-section">
+          <mat-form-field appearance="outline" class="search-bar compact-search">
             <mat-label>Search yard spots</mat-label>
             <input matInput [formControl]="yardSearchControl" />
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
 
-        <mat-list class="item-list">
-          @for (spot of filteredYardSpots(); track spot.id) {
-          <mat-list-item>
-            <mat-icon
-              matListItemIcon
-              [class.active-spot]="spot.isActive"
-              [class.inactive-spot]="!spot.isActive"
-            >
-              local_parking
-            </mat-icon>
-            <div matListItemTitle>{{ spot.spotNumber }}</div>
-            <div matListItemLine>
-              {{ spot.isActive ? "Active" : "Inactive" }}
-            </div>
-            <div matListItemMeta class="action-buttons">
-              <button
-                mat-icon-button
-                (click)="onEditYardSpot(spot)"
-                matTooltip="Edit spot"
-              >
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                color="warn"
-                (click)="onDeleteYardSpot(spot)"
-                matTooltip="Delete spot"
-              >
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </mat-list-item>
-          } @empty {
-          <div class="empty-list-message">
-            <mat-icon>local_parking</mat-icon>
-            <p>No yard spots found</p>
-            <p class="mat-caption">Add a yard spot to get started</p>
-          </div>
-          }
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-  </div>
+        <div class="table-wrapper">
+          <table mat-table [dataSource]="filteredYardSpots()" class="standard-table">
+            <ng-container matColumnDef="spotNumber">
+              <th mat-header-cell *matHeaderCellDef> Spot Number </th>
+              <td mat-cell *matCellDef="let spot">
+                <div class="cell-content">
+                  <mat-icon class="type-icon">local_parking</mat-icon>
+                  <span class="primary-text">{{ spot.spotNumber }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef> Status </th>
+              <td mat-cell *matCellDef="let spot">
+                <span class="status-badge" [class.active]="spot.isActive" [class.inactive]="!spot.isActive">
+                  {{ spot.isActive ? 'ACTIVE' : 'INACTIVE' }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let spot">
+                <div class="actions-cell">
+                  <button mat-icon-button (click)="onEditYardSpot(spot)" matTooltip="Edit spot" class="action-icon edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="onDeleteYardSpot(spot)" matTooltip="Delete spot" class="action-icon delete">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="yardSpotColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: yardSpotColumns;"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="3">No yard spots found.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
   }
 </div>

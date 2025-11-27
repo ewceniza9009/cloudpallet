@@ -45,23 +45,27 @@
 }
 
 .search-section {
-  background-color: var(--mat-sys-surface);
   padding: 0;
+  width: 100%;
 }
 
 .search-form {
   display: flex;
   gap: 1rem;
   align-items: flex-start;
-  max-width: 600px;
+  width: 100%;
 
   .search-field {
-    flex-grow: 1;
+    flex: 1;
+    min-width: 0;
   }
 
   .action-button {
-    height: 48px; // Match standard input height
+    height: 56px;
+    padding: 0 2rem;
+    font-size: 1rem;
     border-radius: 8px;
+    flex-shrink: 0;
   }
 }
 

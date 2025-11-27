@@ -67,177 +67,183 @@
   </div>
 
   <form [formGroup]="materialForm" class="detail-form">
-    <mat-card class="detail-card">
-      <mat-card-header>
-        <mat-card-title>Basic Information</mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="form-grid">
-        <mat-form-field appearance="outline">
-          <mat-label>Material Name</mat-label>
-          <input matInput formControlName="name" required />
-          <mat-error *ngIf="materialForm.get('name')?.hasError('required')">Name is required</mat-error>
-        </mat-form-field>
+    <div class="layout-grid">
+      <!-- Left Column -->
+      <div class="column left-column">
+        <mat-card class="detail-card">
+          <mat-card-header>
+            <mat-card-title>Basic Information</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="form-grid">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Material Name</mat-label>
+              <input matInput formControlName="name" required />
+              <mat-error *ngIf="materialForm.get('name')?.hasError('required')">Name is required</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>SKU / Material Code</mat-label>
-          <input matInput formControlName="sku" [readonly]="!!materialId()" required />
-          <mat-error *ngIf="materialForm.get('sku')?.hasError('required')">SKU is required</mat-error>
-          @if(materialId()) {
-          <mat-hint align="start">SKU cannot be changed after creation.</mat-hint> }
-        </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>SKU / Material Code</mat-label>
+              <input matInput formControlName="sku" [readonly]="!!materialId()" required />
+              <mat-error *ngIf="materialForm.get('sku')?.hasError('required')">SKU is required</mat-error>
+              @if(materialId()) {
+              <mat-hint align="start">SKU cannot be changed after creation.</mat-hint> }
+            </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description" rows="3"></textarea>
-        </mat-form-field>
-      </mat-card-content>
-    </mat-card>
+            <mat-form-field appearance="outline" class="full-width" subscriptSizing="dynamic">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="3"></textarea>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
 
-    <mat-card class="detail-card">
-      <mat-card-header>
-        <mat-card-title>Classification & Logistics</mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="form-grid four-columns"> <mat-form-field appearance="outline">
-          <mat-label>Category</mat-label>
-          <mat-select formControlName="categoryId" required>
-            @for(cat of categories(); track cat.id) {
-            <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
-            }
-          </mat-select>
-          <mat-error *ngIf="materialForm.get('categoryId')?.hasError('required')">Category is required</mat-error>
-        </mat-form-field>
+        <mat-card class="detail-card">
+          <mat-card-header>
+            <mat-card-title>Classification & Logistics</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="form-grid">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="categoryId" required>
+                @for(cat of categories(); track cat.id) {
+                <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+                }
+              </mat-select>
+              <mat-error *ngIf="materialForm.get('categoryId')?.hasError('required')">Category is required</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Unit of Measure (UOM)</mat-label>
-          <mat-select formControlName="uomId" required>
-            @for(uom of uoms(); track uom.id) {
-            <mat-option [value]="uom.id">{{ uom.name }}</mat-option>
-            }
-          </mat-select>
-          <mat-error *ngIf="materialForm.get('uomId')?.hasError('required')">UOM is required</mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Unit of Measure (UOM)</mat-label>
+              <mat-select formControlName="uomId" required>
+                @for(uom of uoms(); track uom.id) {
+                <mat-option [value]="uom.id">{{ uom.name }}</mat-option>
+                }
+              </mat-select>
+              <mat-error *ngIf="materialForm.get('uomId')?.hasError('required')">UOM is required</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Material Type</mat-label>
-          <mat-select formControlName="materialType" [disabled]="!!materialId()" required>
-            @for(type of materialTypes; track type) {
-            <mat-option [value]="type">{{ type }}</mat-option>
-            }
-          </mat-select>
-          @if(materialId()) {
-          <mat-hint align="start">Type cannot be changed after creation.</mat-hint> }
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Required Temperature Zone</mat-label>
-          <mat-select formControlName="requiredTempZone" required>
-            <mat-option value="FrozenStorage">FrozenStorage</mat-option>
-            <mat-option value="Chilling">Chilling</mat-option>
-          </mat-select>
-          <mat-error *ngIf="materialForm.get('requiredTempZone')?.hasError('required')">Zone is required</mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Material Type</mat-label>
+              <mat-select formControlName="materialType" [disabled]="!!materialId()" required>
+                @for(type of materialTypes; track type) {
+                <mat-option [value]="type">{{ type }}</mat-option>
+                }
+              </mat-select>
+              @if(materialId()) {
+              <mat-hint align="start">Type cannot be changed after creation.</mat-hint> }
+            </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Required Temperature Zone</mat-label>
+              <mat-select formControlName="requiredTempZone" required>
+                <mat-option value="FrozenStorage">FrozenStorage</mat-option>
+                <mat-option value="Chilling">Chilling</mat-option>
+              </mat-select>
+              <mat-error *ngIf="materialForm.get('requiredTempZone')?.hasError('required')">Zone is required</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Base Weight (Kg per UOM)</mat-label>
-          <input matInput type="number" formControlName="baseWeight" min="0" required />
-          <mat-error *ngIf="materialForm.get('baseWeight')?.hasError('required')">Weight is required</mat-error>
-          <mat-error *ngIf="materialForm.get('baseWeight')?.hasError('min')">Must be >= 0</mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Base Weight (Kg per UOM)</mat-label>
+              <input matInput type="number" formControlName="baseWeight" min="0" required />
+              <mat-error *ngIf="materialForm.get('baseWeight')?.hasError('required')">Weight is required</mat-error>
+              <mat-error *ngIf="materialForm.get('baseWeight')?.hasError('min')">Must be >= 0</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Cost (₱ per UOM)</mat-label>
-          <input matInput type="number" formControlName="costPerUnit" min="0" required />
-          <mat-error *ngIf="materialForm.get('costPerUnit')?.hasError('required')">Cost is required</mat-error>
-          <mat-error *ngIf="materialForm.get('costPerUnit')?.hasError('min')">Must be >= 0</mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Cost (₱ per UOM)</mat-label>
+              <input matInput type="number" formControlName="costPerUnit" min="0" required />
+              <mat-error *ngIf="materialForm.get('costPerUnit')?.hasError('required')">Cost is required</mat-error>
+              <mat-error *ngIf="materialForm.get('costPerUnit')?.hasError('min')">Must be >= 0</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Package Tare Weight (Kg per UOM)</mat-label>
-          <input matInput type="number" formControlName="packageTareWeightPerUom" min="0">
-          <mat-hint align="start">Weight of the packaging itself.</mat-hint>
-          <mat-error *ngIf="materialForm.get('packageTareWeightPerUom')?.hasError('min')">Must be >= 0</mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Package Tare Weight (Kg per UOM)</mat-label>
+              <input matInput type="number" formControlName="packageTareWeightPerUom" min="0">
+              <mat-hint align="start">Weight of the packaging itself.</mat-hint>
+              <mat-error *ngIf="materialForm.get('packageTareWeightPerUom')?.hasError('min')">Must be >= 0</mat-error>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </div>
 
-      </mat-card-content>
-    </mat-card>
+      <!-- Right Column -->
+      <div class="column right-column">
+        <mat-card class="detail-card">
+          <mat-card-header>
+            <mat-card-title>Handling & Storage Rules</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="form-grid">
+            <div class="toggle-group full-width">
+              <mat-slide-toggle formControlName="perishable" color="primary">Perishable</mat-slide-toggle>
+              <mat-slide-toggle formControlName="isHazardous" color="warn">Hazardous</mat-slide-toggle>
+              <mat-slide-toggle formControlName="isActive" color="primary">Is Active</mat-slide-toggle>
+            </div>
 
-    <mat-card class="detail-card">
-      <mat-card-header>
-        <mat-card-title>Handling & Storage Rules</mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="form-grid">
-        <div class="toggle-group full-width">
-          <mat-slide-toggle formControlName="perishable" color="primary">Perishable</mat-slide-toggle>
-          <mat-slide-toggle formControlName="isHazardous" color="warn">Hazardous</mat-slide-toggle>
-          <mat-slide-toggle formControlName="isActive" color="accent">Is Active</mat-slide-toggle>
-        </div>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Shelf Life (Days)</mat-label>
+              <input matInput type="number" formControlName="shelfLifeDays" min="0">
+              <mat-error *ngIf="materialForm.get('shelfLifeDays')?.hasError('required')">Required if perishable</mat-error>
+              <mat-error *ngIf="materialForm.get('shelfLifeDays')?.hasError('min')">Must be >= 0</mat-error>
+              @if(!materialForm.get('perishable')?.value) {
+              <mat-hint align="start">Only applicable if Perishable is enabled.</mat-hint>
+              }
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Shelf Life (Days)</mat-label>
-          <input matInput type="number" formControlName="shelfLifeDays" min="0">
-          <mat-error *ngIf="materialForm.get('shelfLifeDays')?.hasError('required')">Required if perishable</mat-error>
-          <mat-error *ngIf="materialForm.get('shelfLifeDays')?.hasError('min')">Must be >= 0</mat-error>
-          @if(!materialForm.get('perishable')?.value) {
-          <mat-hint align="start">Only applicable if Perishable is enabled.</mat-hint>
-          }
-        </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Min Stock Level</mat-label>
+              <input matInput type="number" formControlName="minStockLevel" min="0">
+              <mat-error *ngIf="materialForm.get('minStockLevel')?.hasError('min')">Must be >= 0</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Min Stock Level</mat-label>
-          <input matInput type="number" formControlName="minStockLevel" min="0">
-          <mat-error *ngIf="materialForm.get('minStockLevel')?.hasError('min')">Must be >= 0</mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Max Stock Level</mat-label>
+              <input matInput type="number" formControlName="maxStockLevel" min="0">
+              <mat-error *ngIf="materialForm.get('maxStockLevel')?.hasError('min')">Must be >= 0</mat-error>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Max Stock Level</mat-label>
-          <input matInput type="number" formControlName="maxStockLevel" min="0">
-          <mat-error *ngIf="materialForm.get('maxStockLevel')?.hasError('min')">Must be >= 0</mat-error>
-        </mat-form-field>
+        <mat-card class="detail-card">
+          <mat-card-header>
+            <mat-card-title>Dimensions & Barcoding</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="form-grid">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Length (cm)</mat-label>
+              <input matInput type="number" formControlName="dimensionsLength" min="0">
+              <mat-error *ngIf="materialForm.get('dimensionsLength')?.hasError('min')">Must be >= 0</mat-error>
+            </mat-form-field>
 
-      </mat-card-content>
-    </mat-card>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Width (cm)</mat-label>
+              <input matInput type="number" formControlName="dimensionsWidth" min="0">
+              <mat-error *ngIf="materialForm.get('dimensionsWidth')?.hasError('min')">Must be >= 0</mat-error>
+            </mat-form-field>
 
-    <mat-card class="detail-card">
-      <mat-card-header>
-        <mat-card-title>Dimensions & Barcoding</mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="form-grid four-columns"> <mat-form-field appearance="outline">
-          <mat-label>Length (cm)</mat-label>
-          <input matInput type="number" formControlName="dimensionsLength" min="0">
-          <mat-error *ngIf="materialForm.get('dimensionsLength')?.hasError('min')">Must be >= 0</mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Height (cm)</mat-label>
+              <input matInput type="number" formControlName="dimensionsHeight" min="0">
+              <mat-error *ngIf="materialForm.get('dimensionsHeight')?.hasError('min')">Must be >= 0</mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Width (cm)</mat-label>
-          <input matInput type="number" formControlName="dimensionsWidth" min="0">
-          <mat-error *ngIf="materialForm.get('dimensionsWidth')?.hasError('min')">Must be >= 0</mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>GS1 Barcode Prefix</mat-label>
+              <input matInput formControlName="gs1BarcodePrefix">
+              <mat-hint align="start">Used for barcode generation if applicable.</mat-hint>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Height (cm)</mat-label>
-          <input matInput type="number" formControlName="dimensionsHeight" min="0">
-          <mat-error *ngIf="materialForm.get('dimensionsHeight')?.hasError('min')">Must be >= 0</mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>GS1 Barcode Prefix</mat-label>
-          <input matInput formControlName="gs1BarcodePrefix">
-          <mat-hint align="start">Used for barcode generation if applicable.</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Default Barcode Format</mat-label>
-          <mat-select formControlName="defaultBarcodeFormat" required>
-            @for(format of barcodeFormats; track format) {
-            <mat-option [value]="format">{{ format }}</mat-option>
-            }
-          </mat-select>
-          <mat-error *ngIf="materialForm.get('defaultBarcodeFormat')?.hasError('required')">Format is
-            required</mat-error>
-        </mat-form-field>
-
-      </mat-card-content>
-    </mat-card>
-
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Default Barcode Format</mat-label>
+              <mat-select formControlName="defaultBarcodeFormat" required>
+                @for(format of barcodeFormats; track format) {
+                <mat-option [value]="format">{{ format }}</mat-option>
+                }
+              </mat-select>
+              <mat-error *ngIf="materialForm.get('defaultBarcodeFormat')?.hasError('required')">Format is
+                required</mat-error>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
   </form>
 
   @if(materialId() && currentMaterialType !== 'Normal') {

@@ -10,11 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatListModule } from '@angular/material/list';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTableModule } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AdminSetupApiService, DockSetupDto, YardSpotSetupDto } from '../admin-setup-api.service';
 import { WarehouseStateService } from '../../../core/services/warehouse-state.service';
 import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog/confirmation-dialog.component';
@@ -26,8 +24,8 @@ import { filter, catchError, of } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule,
-    MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatListModule, MatDividerModule,
-    MatSlideToggleModule, MatTooltipModule
+    MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatTableModule,
+    MatTooltipModule
   ],
   templateUrl: './dock-yard-setup.component.html',
   styleUrls: ['./dock-yard-setup.component.scss']
@@ -47,6 +45,7 @@ export class DockYardSetupComponent implements OnInit {
   // --- Dock State ---
   docks = signal<DockSetupDto[]>([]);
   dockSearchControl = new FormControl('');
+  dockColumns = ['name', 'actions'];
   filteredDocks = computed(() => {
     const filter = this.dockSearchControl.value?.toLowerCase() || '';
     return this.docks().filter(d => d.name.toLowerCase().includes(filter));
@@ -55,6 +54,7 @@ export class DockYardSetupComponent implements OnInit {
   // --- Yard Spot State ---
   yardSpots = signal<YardSpotSetupDto[]>([]);
   yardSearchControl = new FormControl('');
+  yardSpotColumns = ['spotNumber', 'status', 'actions'];
   filteredYardSpots = computed(() => {
     const filter = this.yardSearchControl.value?.toLowerCase() || '';
     return this.yardSpots().filter(ys => ys.spotNumber.toLowerCase().includes(filter));
