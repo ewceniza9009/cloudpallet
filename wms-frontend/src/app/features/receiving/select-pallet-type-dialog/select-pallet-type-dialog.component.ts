@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import {
   InventoryApiService,
   PalletTypeDto,
@@ -29,23 +30,10 @@ export interface SelectPalletTypeResult {
     MatSelectModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatIconModule,
   ],
   templateUrl: './select-pallet-type-dialog.component.html',
-  styles: [
-    `
-      .spinner-container {
-        display: flex;
-        justify-content: center;
-        padding: 2rem;
-      }
-      .dialog-content {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        min-width: 350px;
-      }
-    `,
-  ],
+  styleUrls: ['./select-pallet-type-dialog.component.scss'],
 })
 export class SelectPalletTypeDialogComponent implements OnInit {
   private fb = inject(FormBuilder);

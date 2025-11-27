@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
@@ -27,6 +28,7 @@ interface AppointmentDto { id: string; licensePlate: string; startTime: string; 
     MatInputModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
+    MatIconModule,
   ],
   templateUrl: './select-appointment-dialog.component.html',
   styleUrls: ['./select-appointment-dialog.component.scss']

@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 import { signal } from '@angular/core';
 import { YardApiService, YardSpotDto } from '../yard-api.service';
 
@@ -20,8 +21,10 @@ import { YardApiService, YardSpotDto } from '../yard-api.service';
     MatFormFieldModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    MatIconModule,
   ],
   templateUrl: './select-yard-spot-dialog.component.html',
+  styleUrls: ['./select-yard-spot-dialog.component.scss'],
 })
 export class SelectYardSpotDialogComponent implements OnInit {
   private fb = inject(FormBuilder);
