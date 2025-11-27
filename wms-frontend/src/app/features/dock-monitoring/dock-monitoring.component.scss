@@ -1,274 +1,47 @@
-// FILE PATH: wms-frontend/src/app/features/dock-monitoring/dock-monitoring.component.scss
-
-// Variables
-$primary-color: #0f766e; // Teal-700
-$primary-bg: #f0fdfa; // Teal-50
-$text-primary: #0f172a; // Slate-900
-$text-secondary: #64748b; // Slate-500
-$border-color: #e2e8f0; // Slate-200
-$bg-page: #f8fafc; // Slate-50
-$card-bg: #ffffff;
-$success-color: #10b981; // Emerald-500
-$success-bg: #ecfdf5; // Emerald-50
-$occupied-color: #f59e0b; // Amber-500
-$occupied-bg: #fffbeb; // Amber-50
-
+// Standardized UI for Dock Monitoring
 :host {
   display: block;
-  background-color: $bg-page;
-  min-height: 100vh;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  height: 100%;
 }
 
-.dock-monitor-container {
+.report-container {
+  padding: 1.5rem 2rem;
   max-width: 1600px;
   margin: 0 auto;
-  padding: 1.5rem 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  height: 100%;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .header-section {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
 
-  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
-  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
-}
-
-// ==========================================================================
-// # DOCK GRID - Standardized compact spacing
-// ==========================================================================
-.dock-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); // Compact grid
-  gap: 1rem; // Reduced gap for compactness
-}
-
-.dock-card {
-  background: $card-bg;
-  border: 1px solid $border-color;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  display: flex;
-  flex-direction: column;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border-color: $primary-color;
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: var(--mat-sys-on-surface);
+    letter-spacing: -0.02em;
   }
 
-  // Status Styles
-  &.status-available {
-    .dock-header {
-      background: linear-gradient(to right, $success-bg, white);
-      border-bottom: 1px solid $border-color;
-      
-      .status-badge {
-        background: $success-bg;
-        color: $success-color;
-        border: 1px solid rgba($success-color, 0.2);
-      }
-      
-      .dock-icon {
-        color: $success-color;
-        background: white;
-      }
-    }
-  }
-
-  &.status-occupied {
-    .dock-header {
-      background: linear-gradient(to right, $occupied-bg, white);
-      border-bottom: 1px solid $border-color;
-      
-      .status-badge {
-        background: $occupied-bg;
-        color: $occupied-color;
-        border: 1px solid rgba($occupied-color, 0.2);
-      }
-      
-      .dock-icon {
-        color: $occupied-color;
-        background: white;
-      }
-    }
-  }
-
-  .dock-header {
-    padding: 0.75rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .dock-info {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-
-      .dock-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        
-        mat-icon { font-size: 20px; width: 20px; height: 20px; }
-      }
-
-      .dock-name {
-        font-size: 1rem;
-        font-weight: 700;
-        color: $text-primary;
-      }
-    }
-
-    .status-badge {
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 99px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-  }
-
-  .dock-content {
-    padding: 1rem;
-    flex: 1;
-    min-height: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    // Available State
-    .available-state {
-      text-align: center;
-      color: $text-secondary;
-      
-      mat-icon {
-        font-size: 36px;
-        width: 36px;
-        height: 36px;
-        color: #cbd5e1;
-        margin-bottom: 0.25rem;
-      }
-      
-      p {
-        font-size: 0.85rem;
-        font-weight: 500;
-        margin: 0;
-      }
-    }
-
-    // Occupied State
-    .occupied-details {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-
-      .detail-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px dashed $border-color;
-
-        &:last-child {
-          border-bottom: none;
-          padding-bottom: 0;
-        }
-
-        .label {
-          font-size: 0.7rem;
-          color: $text-secondary;
-          font-weight: 600;
-          text-transform: uppercase;
-        }
-
-        .value {
-          font-size: 0.9rem;
-          color: $text-primary;
-          font-weight: 600;
-          
-          &.mono { font-family: 'Roboto Mono', monospace; }
-        }
-      }
-    }
-  }
-
-  .dock-actions {
-    padding: 0.75rem 1rem;
-    background: #f8fafc;
-    border-top: 1px solid $border-color;
-    display: flex;
-    gap: 0.5rem;
-
-    button {
-      flex: 1;
-      height: 32px;
-      font-size: 0.8rem;
-      line-height: 32px;
-    }
-    
-    .no-actions {
-      width: 100%;
-      text-align: center;
-      font-size: 0.8rem;
-      color: $text-secondary;
-      font-style: italic;
-      padding: 0.25rem 0;
-    }
-  }
-}
-
-// ==========================================================================
-// # STATES
-// ==========================================================================
-.loading-state, .empty-state {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: $text-secondary;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
-  mat-icon {
-    font-size: 3rem;
-    width: 3rem;
-    height: 3rem;
-    margin-bottom: 1rem;
-    color: #cbd5e1;
-  }
-  
-  h3 { 
-    color: $text-primary; 
-    font-weight: 600; 
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem; 
-  }
-  
   p {
-    max-width: 400px;
-    margin: 0 auto;
-    line-height: 1.5;
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 1rem;
+    max-width: 600px;
   }
-}
-
-.header-section {
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
-  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
 }
 
 .spinner-container-page {
@@ -280,66 +53,247 @@ $occupied-bg: #fffbeb; // Amber-50
   padding: 3rem;
   min-height: 300px;
   color: var(--mat-sys-on-surface-variant);
+  flex-grow: 1;
 }
 
-// ==========================================================================
-// EXACT COPY FROM KITTING - DO NOT MODIFY
-// ==========================================================================
-::ng-deep {
-  .custom-field {
-    width: 100%;
-    
-    // 1. Reset the wrapper height and padding
-    .mat-mdc-text-field-wrapper {
-      height: 42px !important; // Fixed sleek height
-      padding: 0 12px !important;
-      background-color: white !important;
-    }
+.empty-list-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  text-align: center;
+  gap: 1rem;
+  padding: 2rem;
+  color: var(--mat-sys-on-surface-variant);
+  border: 2px dashed var(--mat-sys-outline-variant-low);
+  border-radius: 12px;
 
-    // 2. Center content vertically
-    .mat-mdc-form-field-flex {
-      height: 100% !important;
-      align-items: center !important;
-      padding: 0 !important;
-    }
+  .mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: var(--mat-sys-outline);
+    opacity: 0.5;
+  }
 
-    // 3. Remove default infix padding/spacing
-    .mat-mdc-form-field-infix {
-      padding: 0 !important;
-      min-height: unset !important;
-      border-top: 0 !important;
-      width: auto !important; // Allow flex to handle width
-    }
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface);
+  }
+  
+  p {
+    margin: 0;
+    font-size: 1rem;
+    max-width: 400px;
+  }
+}
 
-    // 4. Style the input element
-    .mat-mdc-input-element {
-      padding: 0 !important;
-      margin: 0 !important;
-      top: 0 !important;
-      position: relative !important;
-      font-size: 0.9rem !important;
-      line-height: 42px !important; // Match wrapper height for vertical centering
-      height: 100% !important;
-    }
+.dock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
 
-    // 5. Style the icon
-    .mat-mdc-form-field-icon-prefix,
-    .mat-mdc-form-field-icon-suffix {
-      padding: 0 8px 0 0 !important;
-      display: flex !important;
-      align-items: center !important;
-      height: 100% !important;
+.dock-card {
+  background: var(--mat-sys-surface);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  // Status Styles
+  &.status-available {
+    .dock-header {
+      background: linear-gradient(to right, rgba(16, 185, 129, 0.05), transparent);
+      border-bottom: 1px solid rgba(16, 185, 129, 0.1);
       
-      .mat-icon { 
-        font-size: 18px; 
-        width: 18px; 
-        height: 18px; 
+      .status-badge {
+        background: #ecfdf5;
+        color: #059669;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+      }
+      
+      .dock-icon {
+        color: #059669;
+      }
+    }
+  }
+
+  &.status-occupied {
+    .dock-header {
+      background: linear-gradient(to right, rgba(245, 158, 11, 0.05), transparent);
+      border-bottom: 1px solid rgba(245, 158, 11, 0.1);
+      
+      .status-badge {
+        background: #fffbeb;
+        color: #d97706;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+      }
+      
+      .dock-icon {
+        color: #d97706;
+      }
+    }
+  }
+}
+
+.dock-header {
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  .dock-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0; // Required for flex child truncation
+    flex: 1;
+
+    .dock-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent; // Transparent background
+      
+      mat-icon { 
+        font-size: 24px; 
+        width: 24px; 
+        height: 24px; 
       }
     }
 
-    // 6. Hide the subscript (error/hint) wrapper to remove bottom spacing
-    .mat-mdc-form-field-subscript-wrapper {
-      display: none; 
+    .dock-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--mat-sys-on-surface);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
     }
   }
+
+  .status-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 99px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0; // Prevent badge from shrinking
+  }
+}
+
+.dock-content {
+  padding: 1.25rem;
+  flex: 1;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.available-state {
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+  
+  mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: var(--mat-sys-outline);
+    margin-bottom: 0.5rem;
+    opacity: 0.5;
+  }
+  
+  p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+.occupied-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--mat-sys-outline-variant-low);
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .label {
+      font-size: 0.75rem;
+      color: var(--mat-sys-on-surface-variant);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .value {
+      font-size: 0.95rem;
+      color: var(--mat-sys-on-surface);
+      font-weight: 500;
+      
+      &.mono { font-family: 'Roboto Mono', monospace; }
+    }
+  }
+}
+
+.dock-actions {
+  padding: 0.75rem 1.25rem;
+  background: var(--mat-sys-surface-container-lowest);
+  border-top: 1px solid var(--mat-sys-outline-variant-low);
+  display: flex;
+  gap: 0.75rem;
+
+  button {
+    flex: 1;
+    ::ng-deep .mat-mdc-button-touch-target {
+      height: 40px;
+    }
+  }
+  
+  .no-actions {
+    width: 100%;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--mat-sys-on-surface-variant);
+    font-style: italic;
+    padding: 0.5rem 0;
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 768px) {
+    .report-container {
+      padding: 1rem;
+    }
+    
+    .dock-grid {
+      grid-template-columns: 1fr;
+    }
 }
