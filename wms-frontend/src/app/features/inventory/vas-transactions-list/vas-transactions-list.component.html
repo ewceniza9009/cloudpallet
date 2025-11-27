@@ -1,195 +1,128 @@
-<div class="vas-container">
+<div class="report-container">
   <div class="header-section">
     <div class="header-content">
-      <div class="header-icon-wrapper">
-        <mat-icon class="header-icon">receipt_long</mat-icon>
-      </div>
-      <div class="header-text">
-        <h1 class="header-title">VAS Transactions</h1>
-        <p class="header-subtitle">Manage Value-Added Services, amendments, and voids</p>
-      </div>
+      <h1>VAS Transactions</h1>
+      <p class="subtitle">Manage Value-Added Services, amendments, and voids</p>
     </div>
   </div>
 
-  <mat-card class="slim-filter-card">
-    <mat-card-content>
-      <form [formGroup]="filterForm" class="slim-form-row">
-        
-        <div class="inputs-group">
-          <mat-form-field appearance="outline" subscriptSizing="dynamic" class="slim-field account-field">
-            <mat-icon matPrefix class="small-icon">business</mat-icon>
-            <mat-label>Account</mat-label>
-            <input type="text" matInput formControlName="account" [matAutocomplete]="accountAuto" placeholder="Select account">
-            <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="displayAccount">
-              <mat-option *ngFor="let account of accounts()" [value]="account">
-                {{ account.name }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" subscriptSizing="dynamic" class="slim-field date-field">
-            <mat-label>Start Date</mat-label>
-            <input matInput [matDatepicker]="startPicker" formControlName="startDate">
-            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-            <mat-datepicker #startPicker></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" subscriptSizing="dynamic" class="slim-field date-field">
-            <mat-label>End Date</mat-label>
-            <input matInput [matDatepicker]="endPicker" formControlName="endDate">
-            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-            <mat-datepicker #endPicker></mat-datepicker>
-          </mat-form-field>
-        </div>
-
-        <div class="actions-group">
-          <mat-checkbox formControlName="includeVoided" class="slim-checkbox">
-            Include Voided
-          </mat-checkbox>
-
-          <button mat-flat-button color="primary" (click)="loadTransactions()" [disabled]="isLoading()" class="slim-button">
-            <mat-spinner *ngIf="isLoading()" diameter="20" class="button-spinner"></mat-spinner>
-            <ng-container *ngIf="!isLoading()">
-              <mat-icon>search</mat-icon>
-              <span>Load Transactions</span>
-            </ng-container>
-          </button>
-        </div>
-
-      </form>
-    </mat-card-content>
-  </mat-card>
-
-  <div *ngIf="transactions().length === 0 && !isLoading()" class="empty-state-wrapper">
-    <mat-card class="empty-state-card">
-      <div class="empty-state-content">
-        <div class="empty-state-icon-container">
-          <mat-icon class="empty-state-icon">manage_search</mat-icon>
-        </div>
-        <h3 class="empty-state-title">No Transactions Found</h3>
-        <p class="empty-state-description">
-          Adjust your filters and click "Load Transactions" to view your VAS transaction history.
-        </p>
+  <div class="filter-section">
+    <form [formGroup]="filterForm" class="filter-grid">
+      <div class="custom-field account-field">
+        <label>Account</label>
+        <input type="text" matInput formControlName="account" [matAutocomplete]="accountAuto" placeholder="Select account">
+        <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="displayAccount">
+          <mat-option *ngFor="let account of accounts()" [value]="account">
+            {{ account.name }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-icon class="field-icon">business</mat-icon>
       </div>
-    </mat-card>
+
+      <div class="custom-field date-field">
+        <label>Start Date</label>
+        <input matInput [matDatepicker]="startPicker" formControlName="startDate" placeholder="Select date">
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </div>
+
+      <div class="custom-field date-field">
+        <label>End Date</label>
+        <input matInput [matDatepicker]="endPicker" formControlName="endDate" placeholder="Select date">
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </div>
+
+      <div class="filter-actions">
+        <mat-checkbox formControlName="includeVoided" class="compact-checkbox">
+          Include Voided
+        </mat-checkbox>
+
+        <button mat-flat-button color="primary" (click)="loadTransactions()" [disabled]="isLoading()">
+          <mat-icon>search</mat-icon>
+          <span>Load</span>
+        </button>
+      </div>
+    </form>
   </div>
 
-  <div *ngIf="transactions().length > 0" class="table-wrapper">
-    <mat-card class="table-card">
-      <div class="table-header">
-        <div class="table-header-content">
-          <mat-icon class="table-icon">list_alt</mat-icon>
-          <span class="table-title">Transaction History</span>
-          <span class="transaction-count">{{ transactions().length }} transaction{{ transactions().length !== 1 ? 's' : '' }}</span>
-        </div>
-      </div>
-      <div class="table-container">
-        <table mat-table [dataSource]="transactions()" class="transactions-table">
-          <ng-container matColumnDef="timestamp">
-            <th mat-header-cell *matHeaderCellDef class="column-timestamp">
-              <div class="header-cell-content">
-                <mat-icon class="header-icon-small">schedule</mat-icon>
-                <span>Date & Time</span>
-              </div>
-            </th>
-            <td mat-cell *matCellDef="let tx" class="cell-timestamp">
-              <div class="timestamp-content">
-                <span class="timestamp-date">{{ tx.timestamp | date:'MMM d, y' }}</span>
-                <span class="timestamp-time">{{ tx.timestamp | date:'h:mm a' }}</span>
-              </div>
-            </td>
-          </ng-container>
+  @if (transactions().length === 0 && !isLoading()) {
+    <div class="empty-list-message">
+      <mat-icon>manage_search</mat-icon>
+      <h3>No Transactions Found</h3>
+      <p>Adjust your filters and click "Load" to view history.</p>
+    </div>
+  }
 
-          <ng-container matColumnDef="serviceType">
-            <th mat-header-cell *matHeaderCellDef class="column-service">
-              <div class="header-cell-content">
-                <mat-icon class="header-icon-small">work</mat-icon>
-                <span>Service</span>
-              </div>
-            </th>
-            <td mat-cell *matCellDef="let tx" class="cell-service">
-              <span class="service-badge">
-                <mat-icon class="badge-icon">local_offer</mat-icon>
-                {{ tx.serviceType }}
-              </span>
-            </td>
-          </ng-container>
+  @if (transactions().length > 0) {
+    <div class="table-container">
+      <table mat-table [dataSource]="transactions()" class="standard-table">
+        <!-- Timestamp Column -->
+        <ng-container matColumnDef="timestamp">
+          <th mat-header-cell *matHeaderCellDef>Date & Time</th>
+          <td mat-cell *matCellDef="let tx">
+            <div class="cell-content">
+              <span class="primary-text">{{ tx.timestamp | date:'MMM d, y' }}</span>
+              <span class="secondary-text">{{ tx.timestamp | date:'h:mm a' }}</span>
+            </div>
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef class="column-description">
-              <div class="header-cell-content">
-                <mat-icon class="header-icon-small">description</mat-icon>
-                <span>Description</span>
-              </div>
-            </th>
-            <td mat-cell *matCellDef="let tx" class="cell-description" [matTooltip]="tx.description">
-              {{ tx.description }}
-            </td>
-          </ng-container>
+        <!-- Service Column -->
+        <ng-container matColumnDef="serviceType">
+          <th mat-header-cell *matHeaderCellDef>Service</th>
+          <td mat-cell *matCellDef="let tx">
+            <span class="service-badge">{{ tx.serviceType }}</span>
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="userName">
-            <th mat-header-cell *matHeaderCellDef class="column-user">
-              <div class="header-cell-content">
-                <mat-icon class="header-icon-small">person</mat-icon>
-                <span>User</span>
-              </div>
-            </th>
-            <td mat-cell *matCellDef="let tx" class="cell-user">
-              <div class="user-info">
-                <div class="user-avatar">
-                  <mat-icon class="avatar-icon">account_circle</mat-icon>
-                </div>
-                <span class="user-name">{{ tx.userName }}</span>
-              </div>
-            </td>
-          </ng-container>
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let tx" [matTooltip]="tx.description">
+            <span class="truncate-text">{{ tx.description }}</span>
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef class="column-status">
-              <div class="header-cell-content">
-                <mat-icon class="header-icon-small">info</mat-icon>
-                <span>Status</span>
-              </div>
-            </th>
-            <td mat-cell *matCellDef="let tx" class="cell-status">
-              <span *ngIf="tx.isVoided" class="status-badge voided">
-                <mat-icon class="status-icon">block</mat-icon>
-                <span>VOIDED</span>
-              </span>
-              <span *ngIf="tx.isAmended && !tx.isVoided" class="status-badge amended">
-                <mat-icon class="status-icon">edit</mat-icon>
-                <span>AMENDED</span>
-              </span>
-              <span *ngIf="!tx.isVoided && !tx.isAmended" class="status-badge active">
-                <mat-icon class="status-icon">check_circle</mat-icon>
-                <span>ACTIVE</span>
-              </span>
-            </td>
-          </ng-container>
+        <!-- User Column -->
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef>User</th>
+          <td mat-cell *matCellDef="let tx">
+            <div class="user-cell">
+              <mat-icon>account_circle</mat-icon>
+              <span>{{ tx.userName }}</span>
+            </div>
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef class="column-actions">
-              <div class="header-cell-content">
-                <mat-icon class="header-icon-small">settings</mat-icon>
-                <span>Actions</span>
-              </div>
-            </th>
-            <td mat-cell *matCellDef="let tx" class="cell-actions">
-              <div class="action-buttons-wrapper">
-                <button mat-icon-button (click)="openAmendDialog(tx)" [disabled]="tx.isVoided" matTooltip="Amend Transaction" class="action-button action-edit">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button (click)="voidTransaction(tx)" [disabled]="tx.isVoided" matTooltip="Void Transaction" class="action-button action-void">
-                  <mat-icon>block</mat-icon>
-                </button>
-              </div>
-            </td>
-          </ng-container>
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let tx">
+            <span *ngIf="tx.isVoided" class="status-badge voided">VOIDED</span>
+            <span *ngIf="tx.isAmended && !tx.isVoided" class="status-badge amended">AMENDED</span>
+            <span *ngIf="!tx.isVoided && !tx.isAmended" class="status-badge active">ACTIVE</span>
+          </td>
+        </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="header-row"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" [class.voided-row]="row.isVoided" class="data-row" [style.animation-delay.ms]="i * 30"></tr>
-        </table>
-      </div>
-    </mat-card>
-  </div>
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let tx">
+            <div class="actions-cell">
+              <button mat-icon-button (click)="openAmendDialog(tx)" [disabled]="tx.isVoided" matTooltip="Amend">
+                <mat-icon class="action-icon edit">edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="voidTransaction(tx)" [disabled]="tx.isVoided" matTooltip="Void">
+                <mat-icon class="action-icon delete">block</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.voided-row]="row.isVoided"></tr>
+      </table>
+    </div>
+  }
 </div>
