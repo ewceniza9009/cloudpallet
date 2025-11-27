@@ -83,7 +83,18 @@
     <!-- Right Panel: Components -->
     <div class="components-panel">
       <div class="panel-section">
-        <h3 class="section-title">Component Allocation</h3>
+        <div class="section-header">
+          <h3 class="section-title">Component Allocation</h3>
+          <button mat-stroked-button color="primary" type="button" (click)="autoAllocate()" 
+                  [disabled]="components.length === 0 || isAllocating()">
+            @if (isAllocating()) {
+              <mat-spinner diameter="18"></mat-spinner>
+            } @else {
+              <mat-icon>auto_fix_high</mat-icon>
+            }
+            <span>Auto Allocate</span>
+          </button>
+        </div>
         
         <div formArrayName="components" class="components-list">
           @if (components.controls.length === 0) {

@@ -64,6 +64,17 @@ $card-bg: #ffffff;
   padding-left: 0.25rem;
 }
 
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .section-title {
+    margin-bottom: 0; // Override default
+  }
+}
+
 // ==========================================================================
 // # CARDS & UTILITIES
 // ==========================================================================

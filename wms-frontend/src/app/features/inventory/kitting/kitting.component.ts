@@ -248,6 +248,112 @@ export class KittingComponent implements OnInit {
   onSourceSelected(event: MatAutocompleteSelectedEvent, index: number): void {
     const inv: RepackableInventoryDto = event.option.value;
     this.components.at(index).patchValue({ sourceInventoryId: inv.inventoryId });
+    
+    // Trigger propagation to other components
+    this.propagatePalletSelection(inv.palletBarcode, index);
+  }
+
+  async propagatePalletSelection(palletBarcode: string, excludeIndex: number): Promise<void> {
+    const accountId = this.kittingForm.get('accountId')?.value;
+    if (!accountId || !palletBarcode) return;
+
+    const componentsArray = this.components;
+    let propagatedCount = 0;
+
+    for (let i = 0; i < componentsArray.length; i++) {
+      if (i === excludeIndex) continue; // Skip the one just selected
+
+      const group = componentsArray.at(i) as FormGroup;
+      // Only auto-fill if empty
+      if (group.get('sourceInventoryId')?.value) continue;
+
+      const bomLine = group.get('bomLine')?.value as BomLineDto;
+
+      try {
+        // Search for this material on the specific pallet
+        const result = await this.inventoryApi.getRepackableInventory(
+          accountId,
+          bomLine.inputMaterialId,
+          palletBarcode, // Search by pallet barcode
+          1,
+          5 // Get a few to be safe, but we check barcode match
+        ).toPromise();
+
+        if (result && result.items.length > 0) {
+          // Find exact pallet match (search is fuzzy)
+          const match = result.items.find(item => item.palletBarcode === palletBarcode);
+          
+          if (match) {
+            group.patchValue({ 
+              sourceInventoryId: match.inventoryId,
+              sourceSearchCtrl: match 
+            });
+            propagatedCount++;
+          }
+        }
+      } catch (err) {
+        console.warn(`Failed to propagate for component ${i}`, err);
+      }
+    }
+
+    if (propagatedCount > 0) {
+      this.snackBar.open(`Automatically matched ${propagatedCount} other components from pallet ${palletBarcode}.`, 'Close', { duration: 3000 });
+    }
+  }
+
+  // --- Auto Allocation ---
+  isAllocating = signal(false);
+
+  async autoAllocate(): Promise<void> {
+    const accountId = this.kittingForm.get('accountId')?.value;
+    if (!accountId) {
+      this.snackBar.open('Please select an account first.', 'Close');
+      return;
+    }
+
+    this.isAllocating.set(true);
+    let allocatedCount = 0;
+
+    try {
+      const componentsArray = this.components;
+      for (let i = 0; i < componentsArray.length; i++) {
+        const group = componentsArray.at(i) as FormGroup;
+        // Skip if already selected
+        if (group.get('sourceInventoryId')?.value) continue;
+
+        const bomLine = group.get('bomLine')?.value as BomLineDto;
+        
+        // Fetch inventory
+        const result = await this.inventoryApi.getRepackableInventory(
+          accountId,
+          bomLine.inputMaterialId,
+          '', // No search term
+          1,
+          1 // Just get the first one
+        ).toPromise();
+
+        if (result && result.items.length > 0) {
+          const inv = result.items[0];
+          group.patchValue({ 
+            sourceInventoryId: inv.inventoryId,
+            sourceSearchCtrl: inv // Set the control value to the object to trigger display
+          });
+          allocatedCount++;
+        }
+      }
+
+      if (allocatedCount > 0) {
+        this.snackBar.open(`Auto-allocated ${allocatedCount} components.`, 'Close', { duration: 3000 });
+      } else {
+        this.snackBar.open('No suitable inventory found for remaining components.', 'Close', { duration: 3000 });
+      }
+
+    } catch (err) {
+      console.error(err);
+      this.snackBar.open('Failed to auto-allocate.', 'Close');
+    } finally {
+      this.isAllocating.set(false);
+    }
   }
 
   // --- Form Submission ---
