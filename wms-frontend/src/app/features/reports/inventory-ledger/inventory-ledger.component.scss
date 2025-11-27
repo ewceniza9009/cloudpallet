@@ -197,3 +197,11 @@ tr.group-header-row:hover {
   color: var(--mat-sys-on-surface-variant);
   padding: 2rem;
 }
+
+.loading-shade {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.05);
+}

@@ -1,6 +1,4 @@
-﻿// ---- File: src/Core/WMS.Application/Features/Reports/Queries/GetInventoryLedgerQuery.cs ----
-
-using MediatR;
+﻿using MediatR;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Application.Common.Models;
 
@@ -21,6 +19,7 @@ public record InventoryLedgerLineDto
 
 public record InventoryLedgerGroupDto
 {
+    public Guid MaterialId { get; init; }
     public string MaterialName { get; init; } = string.Empty;
     public decimal TotalQtyIn { get; init; }
     public decimal TotalQtyOut { get; init; }
@@ -42,8 +41,8 @@ public record GetInventoryLedgerQuery : IRequest<PagedResult<InventoryLedgerGrou
     public Guid? AccountId { get; init; }
     public Guid? MaterialId { get; init; }
     public Guid? SupplierId { get; init; }
-    public Guid? TruckId { get; init; } // RE-ADDED
-    public Guid? UserId { get; init; } // RE-ADDED
+    public Guid? TruckId { get; init; }
+    public Guid? UserId { get; init; }
 }
 
 public class GetInventoryLedgerQueryHandler(IReportRepository reportRepository)

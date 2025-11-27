@@ -129,6 +129,7 @@ export class InventoryLedgerComponent implements OnInit, AfterViewInit {
   resultsLength = signal(0);
   data = signal<InventoryLedgerGroupDto[]>([]);
   expandedElement: InventoryLedgerGroupDto | null = null;
+  loadingDetails = signal<Set<string>>(new Set());
 
   displayedColumns = [
     'materialName',
@@ -157,6 +158,7 @@ export class InventoryLedgerComponent implements OnInit, AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoading.set(true);
+          this.expandedElement = null;
           this.updateFilterFormIDs();
           const filters = this.filterForm.value;
           const warehouseId = this.warehouseState.selectedWarehouseId();
@@ -292,5 +294,57 @@ export class InventoryLedgerComponent implements OnInit, AfterViewInit {
       default:
         return 'event-internal';
     }
+  }
+  toggleRow(group: InventoryLedgerGroupDto): void {
+    if (this.expandedElement === group) {
+      this.expandedElement = null;
+      return;
+    }
+
+    this.expandedElement = group;
+
+    if (group.lines && group.lines.length > 0) {
+      return; // Already loaded
+    }
+
+    // Check if already loading
+    if (this.loadingDetails().has(group.materialId)) {
+      return;
+    }
+
+    // Mark as loading
+    this.loadingDetails.update(set => {
+      const newSet = new Set(set);
+      newSet.add(group.materialId);
+      return newSet;
+    });
+
+    const filters = this.filterForm.value;
+
+    this.reportsApi.getInventoryLedgerDetails({
+      page: 1,
+      pageSize: 10000,
+      startDate: filters.startDate ? filters.startDate.toISOString() : undefined,
+      endDate: filters.endDate ? filters.endDate.toISOString() : undefined,
+      accountId: filters.accountId ?? undefined,
+      materialId: group.materialId,
+      supplierId: filters.supplierId ?? undefined,
+    }).subscribe({
+      next: (lines) => {
+        group.lines = lines;
+        this.loadingDetails.update(set => {
+          const newSet = new Set(set);
+          newSet.delete(group.materialId);
+          return newSet;
+        });
+      },
+      error: () => {
+        this.loadingDetails.update(set => {
+          const newSet = new Set(set);
+          newSet.delete(group.materialId);
+          return newSet;
+        });
+      }
+    });
   }
 }

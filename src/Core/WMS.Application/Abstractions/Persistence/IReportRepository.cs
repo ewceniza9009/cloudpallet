@@ -1,5 +1,7 @@
 ﻿using WMS.Application.Common.Models;
 using WMS.Application.Features.Reports.Queries;    
+using WMS.Application.Common.Models;
+using WMS.Application.Features.Reports.Queries;    
 using WMS.Domain.Enums;    
 
 namespace WMS.Application.Abstractions.Persistence;
@@ -7,7 +9,7 @@ namespace WMS.Application.Abstractions.Persistence;
 public interface IReportRepository
 {
     Task<PagedResult<InventoryLedgerGroupDto>> GetInventoryLedgerAsync(GetInventoryLedgerQuery filter, CancellationToken cancellationToken);
-
+    Task<List<InventoryLedgerLineDto>> GetInventoryLedgerDetailsAsync(GetInventoryLedgerDetailsQuery filter, CancellationToken cancellationToken);
     Task<PagedResult<StockOnHandDto>> GetStockOnHandAsync(GetStockOnHandQuery query, CancellationToken cancellationToken);
     [Obsolete("Use GetDailyPalletCountByZoneAsync instead to differentiate storage types.")]
     Task<Dictionary<DateTime, int>> GetDailyPalletCountAsync(Guid accountId, DateTime startDate, DateTime endDate, CancellationToken cancellationToken);

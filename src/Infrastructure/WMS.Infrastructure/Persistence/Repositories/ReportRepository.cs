@@ -245,41 +245,20 @@ public class ReportRepository(WmsDbContext context, IClock clock) : IReportRepos
 
         var filteredLedgerEntries = await combinedQuery
             .Where(e => pagedMaterialNames.Contains(e.MaterialName))
-            .OrderBy(e => e.MaterialName).ThenBy(e => e.Date)       
+            .OrderBy(e => e.MaterialName).ThenBy(e => e.Date)
             .ToListAsync(cancellationToken);
 
         var groupedLedger = filteredLedgerEntries
-            .GroupBy(e => e.MaterialName)
-            .Select(g => {
-                decimal runningQty = 0;
-                decimal runningWgt = 0;
-                var lines = g.OrderBy(e => e.Date)
-                             .Select(e => {
-                                 runningQty += e.QuantityIn - e.QuantityOut;
-                                 runningWgt += e.WeightIn - e.WeightOut;
-                                 return new InventoryLedgerLineDto
-                                 {
-                                     Date = e.Date,
-                                     Type = e.Type,
-                                     Document = e.Document,
-                                     QuantityIn = e.QuantityIn,
-                                     QuantityOut = e.QuantityOut,
-                                     WeightIn = e.WeightIn,
-                                     WeightOut = e.WeightOut,
-                                     RunningBalanceQty = runningQty,
-                                     RunningBalanceWgt = runningWgt
-                                 };
-                             }).ToList();
-
-                return new InventoryLedgerGroupDto
-                {
-                    MaterialName = g.Key,
-                    TotalQtyIn = g.Sum(e => e.QuantityIn),
-                    TotalQtyOut = g.Sum(e => e.QuantityOut),
-                    TotalWgtIn = g.Sum(e => e.WeightIn),
-                    TotalWgtOut = g.Sum(e => e.WeightOut),
-                    Lines = lines
-                };
+            .GroupBy(e => new { e.MaterialName, e.MaterialId })
+            .Select(g => new InventoryLedgerGroupDto
+            {
+                MaterialName = g.Key.MaterialName,
+                MaterialId = g.Key.MaterialId,
+                TotalQtyIn = g.Sum(e => e.QuantityIn),
+                TotalQtyOut = g.Sum(e => e.QuantityOut),
+                TotalWgtIn = g.Sum(e => e.WeightIn),
+                TotalWgtOut = g.Sum(e => e.WeightOut),
+                Lines = new List<InventoryLedgerLineDto>() // Lazy loaded
             })
             .OrderBy(dto => pagedMaterialNames.IndexOf(dto.MaterialName))
             .ToList();
@@ -747,5 +726,205 @@ public class ReportRepository(WmsDbContext context, IClock clock) : IReportRepos
             "Expiry" => $"Expiry adjustment: {raw.Arg3} {Math.Abs(raw.Value1 ?? 0):N0} units of '{raw.Arg1}' (LPN: {raw.Arg2})",
             _ => raw.Description ?? raw.Arg1 ?? $"Performed {raw.Action} transaction"       
         };
+    }
+    private IQueryable<LedgerEntryIntermediate> GetBaseLedgerQuery()
+    {
+        var receivingQuery = context.PalletLines.AsNoTracking()
+            .Select(pl => new LedgerEntryIntermediate
+            {
+                Date = pl.Pallet.Receiving.Timestamp,
+                Type = "Receiving",
+                Document = "RECV-" + pl.Pallet.Receiving.Id.ToString().Substring(0, 8).ToUpper(),
+                MaterialName = pl.Material.Name,
+                MaterialId = pl.MaterialId,
+                QuantityIn = pl.Quantity,
+                QuantityOut = 0m,
+                WeightIn = pl.Weight,
+                WeightOut = 0m,
+                AccountId = pl.AccountId,
+                SupplierId = (Guid?)pl.Pallet.Receiving.SupplierId,
+                TruckId = pl.Pallet.Receiving.Appointment.TruckId,
+                UserId = pl.CreatedBy
+            });
+
+        var pickingQuery = context.PickTransactions.AsNoTracking()
+            .Select(pt => new LedgerEntryIntermediate
+            {
+                Date = pt.Timestamp,
+                Type = "Picking",
+                Document = pt.WithdrawalTransactions.FirstOrDefault() != null ? pt.WithdrawalTransactions.First().ShipmentNumber : "PICK-" + pt.Id.ToString().Substring(0, 8).ToUpper(),
+                MaterialName = pt.MaterialInventory.Material.Name,
+                MaterialId = pt.MaterialInventory.MaterialId,
+                QuantityIn = 0m,
+                QuantityOut = pt.Quantity,
+                WeightIn = 0m,
+                WeightOut = pt.PickWeight,
+                AccountId = pt.AccountId,
+                SupplierId = (Guid?)null,
+                TruckId = pt.WithdrawalTransactions.FirstOrDefault() != null ? pt.WithdrawalTransactions.First().Appointment!.TruckId : null,
+                UserId = pt.UserId
+            });
+
+        var vasInputQuery = from vt in context.VASTransactions.AsNoTracking()
+                      .Where(vt =>
+                        vt.ServiceType == ServiceType.Repack ||
+                        vt.ServiceType == ServiceType.Split ||
+                        vt.ServiceType == ServiceType.Kitting)
+                            join vl in context.VASTransactionLines on vt.Id equals vl.VASTransactionId         
+                            join m in context.Materials on vl.MaterialId.Value equals m.Id
+                            where vl.IsInput && vl.MaterialId.HasValue
+                            select new LedgerEntryIntermediate
+                            {
+                                Date = vt.Timestamp,
+                                Type = vt.ServiceType.ToString(),
+                                Document = "VAS-" + vt.Id.ToString().Substring(0, 8).ToUpper(),
+                                MaterialName = m.Name,
+                                MaterialId = vl.MaterialId.Value,
+                                QuantityIn = 0m,
+                                QuantityOut = vl.Quantity,
+                                WeightIn = 0m,
+                                WeightOut = vl.Weight,
+                                AccountId = vt.AccountId,
+                                SupplierId = null,
+                                TruckId = null,
+                                UserId = vt.UserId
+                            };
+
+        var vasOutputQuery = from vt in context.VASTransactions.AsNoTracking()
+                       .Where(vt =>
+                         vt.ServiceType == ServiceType.Repack ||
+                         vt.ServiceType == ServiceType.Split ||
+                         vt.ServiceType == ServiceType.Kitting)
+                             join vl in context.VASTransactionLines on vt.Id equals vl.VASTransactionId      
+                             join m in context.Materials on vl.MaterialId.Value equals m.Id
+                             where !vl.IsInput && vl.MaterialId.HasValue
+                             select new LedgerEntryIntermediate
+                             {
+                                 Date = vt.Timestamp,
+                                 Type = vt.ServiceType.ToString(),
+                                 Document = "VAS-" + vt.Id.ToString().Substring(0, 8).ToUpper(),
+                                 MaterialName = m.Name,
+                                 MaterialId = vl.MaterialId.Value,
+                                 QuantityIn = vl.Quantity,
+                                 QuantityOut = 0m,
+                                 WeightIn = vl.Weight,
+                                 WeightOut = 0m,
+                                 AccountId = vt.AccountId,
+                                 SupplierId = null,
+                                 TruckId = null,
+                                 UserId = vt.UserId
+                             };
+
+        var adjustmentQuery = context.Set<InventoryAdjustment>().AsNoTracking()
+            .Include(adj => adj.Inventory.Material)
+            .Select(adj => new LedgerEntryIntermediate
+            {
+                Date = adj.Timestamp,
+                Type = adj.Reason.ToString(),
+                Document = "ADJ-" + adj.Id.ToString().Substring(0, 8).ToUpper(),
+                MaterialName = adj.Inventory.Material.Name,
+                MaterialId = adj.Inventory.MaterialId,
+                QuantityIn = adj.DeltaQuantity > 0 ? adj.DeltaQuantity : 0m,
+                QuantityOut = adj.DeltaQuantity < 0 ? -adj.DeltaQuantity : 0m,
+                WeightIn = 0m,       
+                WeightOut = 0m,
+                AccountId = adj.AccountId,
+                SupplierId = null,
+                TruckId = null,
+                UserId = adj.UserId
+            });
+
+        var transferOutQuery = context.ItemTransferTransactions.AsNoTracking()
+             .Include(t => t.SourceInventory.Material)     
+             .Select(t => new LedgerEntryIntermediate
+             {
+                 Date = t.Timestamp,
+                 Type = "Item Transfer",
+                 Document = "XFER-" + t.Id.ToString().Substring(0, 8).ToUpper(),
+                 MaterialName = t.SourceInventory.Material.Name,
+                 MaterialId = t.SourceInventory.MaterialId,
+                 QuantityIn = 0m,
+                 QuantityOut = t.QuantityTransferred,
+                 WeightIn = 0m,
+                 WeightOut = t.WeightTransferred,
+                 AccountId = t.SourceInventory.AccountId,
+                 SupplierId = null,
+                 TruckId = null,
+                 UserId = t.UserId
+             });
+
+        var transferInQuery = context.ItemTransferTransactions.AsNoTracking()
+             .Include(t => t.SourceInventory.Material)     
+             .Select(t => new LedgerEntryIntermediate
+             {
+                 Date = t.Timestamp,
+                 Type = "Item Transfer",
+                 Document = "XFER-" + t.Id.ToString().Substring(0, 8).ToUpper(),
+                 MaterialName = t.SourceInventory.Material.Name,         
+                 MaterialId = t.SourceInventory.MaterialId,
+                 QuantityIn = t.QuantityTransferred,
+                 QuantityOut = 0m,
+                 WeightIn = t.WeightTransferred,
+                 WeightOut = 0m,
+                 AccountId = t.SourceInventory.AccountId,
+                 SupplierId = null,
+                 TruckId = null,
+                 UserId = t.UserId
+             });
+
+        return receivingQuery
+            .Union(pickingQuery)
+            .Union(vasInputQuery)
+            .Union(vasOutputQuery)
+            .Union(adjustmentQuery)
+            .Union(transferOutQuery)
+            .Union(transferInQuery);
+    }
+
+    public async Task<List<InventoryLedgerLineDto>> GetInventoryLedgerDetailsAsync(GetInventoryLedgerDetailsQuery filter, CancellationToken cancellationToken)
+    {
+        var combinedQuery = GetBaseLedgerQuery();
+
+        if (filter.StartDate.HasValue) combinedQuery = combinedQuery.Where(e => e.Date >= filter.StartDate.Value);
+        if (filter.EndDate.HasValue)
+        {
+            var endDateEndOfDay = filter.EndDate.Value.Date.AddDays(1).AddTicks(-1);
+            combinedQuery = combinedQuery.Where(e => e.Date <= endDateEndOfDay);
+        }
+        if (filter.AccountId.HasValue) combinedQuery = combinedQuery.Where(e => e.AccountId == filter.AccountId.Value);
+        
+        combinedQuery = combinedQuery.Where(e => e.MaterialId == filter.MaterialId);
+
+        if (filter.SupplierId.HasValue) combinedQuery = combinedQuery.Where(e => e.SupplierId == filter.SupplierId.Value);
+        if (filter.TruckId.HasValue) combinedQuery = combinedQuery.Where(e => e.TruckId == filter.TruckId.Value);
+        if (filter.UserId.HasValue) combinedQuery = combinedQuery.Where(e => e.UserId == filter.UserId.Value);
+
+        var entries = await combinedQuery
+            .OrderBy(e => e.Date)
+            .ToListAsync(cancellationToken);
+
+        decimal runningQty = 0;
+        decimal runningWgt = 0;
+        var lines = new List<InventoryLedgerLineDto>();
+
+        foreach (var e in entries)
+        {
+            runningQty += e.QuantityIn - e.QuantityOut;
+            runningWgt += e.WeightIn - e.WeightOut;
+            lines.Add(new InventoryLedgerLineDto
+            {
+                Date = e.Date,
+                Type = e.Type,
+                Document = e.Document,
+                QuantityIn = e.QuantityIn,
+                QuantityOut = e.QuantityOut,
+                WeightIn = e.WeightIn,
+                WeightOut = e.WeightOut,
+                RunningBalanceQty = runningQty,
+                RunningBalanceWgt = runningWgt
+            });
+        }
+
+        return lines;
     }
 }

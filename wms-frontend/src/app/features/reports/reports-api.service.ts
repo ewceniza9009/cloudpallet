@@ -21,6 +21,7 @@ export interface InventoryLedgerLineDto {
 }
 
 export interface InventoryLedgerGroupDto {
+  materialId: string;
   materialName: string;
   totalQtyIn: number;
   totalQtyOut: number;
@@ -146,6 +147,21 @@ export class ReportsApiService {
     }
     return this.http.get<PagedResult<InventoryLedgerGroupDto>>(
       `${this.apiUrl}/inventory-ledger`,
+      { params }
+    );
+  }
+
+  getInventoryLedgerDetails(
+    filter: LedgerFilter
+  ): Observable<InventoryLedgerLineDto[]> {
+    let params = new HttpParams();
+    for (const key in filter) {
+      if (filter[key as keyof LedgerFilter]) {
+        params = params.set(key, filter[key as keyof LedgerFilter]!.toString());
+      }
+    }
+    return this.http.get<InventoryLedgerLineDto[]>(
+      `${this.apiUrl}/inventory-ledger/details`,
       { params }
     );
   }

@@ -17,6 +17,13 @@ public class ReportsController : ApiControllerBase
         return Ok(result);
     }
 
+    [HttpGet("inventory-ledger/details")]
+    public async Task<IActionResult> GetInventoryLedgerDetails([FromQuery] GetInventoryLedgerDetailsQuery query)
+    {
+        var result = await Mediator.Send(query);
+        return Ok(result);
+    }
+
     [HttpGet("inventory-ledger/print")]
     public async Task<IActionResult> PrintInventoryLedger([FromQuery] GetInventoryLedgerQuery query)
     {
