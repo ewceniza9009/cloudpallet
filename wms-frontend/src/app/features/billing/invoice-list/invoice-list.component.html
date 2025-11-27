@@ -38,8 +38,10 @@
           <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
           <span>Generating...</span>
         } @else {
-          <mat-icon>add_circle</mat-icon>
-          <span>Generate Invoice</span>
+          <ng-container>
+            <mat-icon>add_circle</mat-icon>
+            <span>Generate Invoice</span>
+          </ng-container>
         }
       </button>
     </div>
