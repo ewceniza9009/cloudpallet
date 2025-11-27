@@ -22,7 +22,12 @@
                  matInput
                  formControlName="appointmentSearch"
                  [matAutocomplete]="autoAppointment"
+                 #trigger="matAutocompleteTrigger"
+                 (click)="trigger.openPanel()"
                  cdkFocusInitial>
+          <button mat-icon-button matSuffix (click)="trigger.openPanel(); $event.stopPropagation()">
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
           <mat-autocomplete #autoAppointment="matAutocomplete"
                             [displayWith]="displayAppointmentName"
                             (optionSelected)="onAppointmentSelected($event.option.value)">
