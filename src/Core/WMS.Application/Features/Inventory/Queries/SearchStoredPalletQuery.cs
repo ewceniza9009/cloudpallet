@@ -1,6 +1,4 @@
-﻿// ---- File: src/Core/WMS.Application/Features/Inventory/Queries/SearchStoredPalletsQuery.cs ----
-
-using MediatR;
+﻿using MediatR;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Application.Common.Models;
 
@@ -15,7 +13,8 @@ public record StoredPalletSearchResultDto
     public string PalletBarcode { get; init; } = string.Empty;
     public string LocationName { get; init; } = string.Empty;
     public string AccountName { get; init; } = string.Empty;
-    public string MaterialSummary { get; init; } = string.Empty; // e.g., "Frozen Peas + 2 other(s)"
+    public string MaterialSummary { get; init; } = string.Empty;
+    public decimal Quantity { get; init; }
 }
 
 /// <summary>
@@ -27,7 +26,6 @@ public record SearchStoredPalletsQuery(
     Guid? MaterialId,
     string? BarcodeQuery // Can be LPN or Pallet SSCC
     ) : IRequest<IEnumerable<StoredPalletSearchResultDto>>;
-
 
 public class SearchStoredPalletsQueryHandler(IWarehouseRepository warehouseRepository)
     : IRequestHandler<SearchStoredPalletsQuery, IEnumerable<StoredPalletSearchResultDto>>

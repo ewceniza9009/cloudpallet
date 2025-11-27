@@ -352,7 +352,8 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
                 AccountName = p.Account.Name,
                 MaterialSummary = materials.Count > 1
                     ? $"{materials.First()} + {materials.Count - 1} other(s)"
-                    : (materials.FirstOrDefault() ?? "N/A")
+                    : (materials.FirstOrDefault() ?? "N/A"),
+                Quantity = activeInventory.Sum(i => i.Quantity)
             };
         });
     }

@@ -152,6 +152,7 @@ export interface StoredPalletSearchResultDto {
   locationName: string;
   accountName: string;
   materialSummary: string;
+  quantity: number;
 }
 
 export interface RepackableInventoryDto {

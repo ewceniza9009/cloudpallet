@@ -1,78 +1,260 @@
-// ---- File: wms-frontend/src/app/features/inventory/search-pallet-dialog/search-pallet-dialog.component.scss ----
+// Variables
+$primary-color: #0f766e;
+$text-primary: #0f172a;
+$text-secondary: #64748b;
+$border-color: #e2e8f0;
+$bg-hover: #f8fafc;
+$bg-selected: #f0fdfa;
+
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 85vh;
+  min-width: 600px;
+  background: white;
+}
+
+// Header
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid $border-color;
+
+  .header-title {
+    h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $text-primary;
+    }
+    p {
+      margin: 0.25rem 0 0;
+      font-size: 0.875rem;
+      color: $text-secondary;
+    }
+  }
+}
+
+// Content
 .dialog-content {
-  min-width: 500px;
-  max-width: 700px;
+  flex: 1;
+  padding: 1.5rem !important;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.filter-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.5rem;
-
-  @media (min-width: 600px) {
-    grid-template-columns: 1fr 1fr;
-
-    // Make barcode span full width
-    mat-form-field:first-child {
-      grid-column: 1 / -1;
-    }
-  }
-}
-
-.results-container {
-  min-height: 200px;
-  max-height: 40vh;
-  overflow-y: auto;
-  border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: 8px;
-}
-
-.spinner-container, .empty-state {
+// Filters
+.filter-section {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 0.5rem;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem; // Reduced gap
+
+  .full-width {
+    grid-column: 1 / -1;
+  }
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+// Results
+.results-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  height: 200px;
-  color: var(--mat-sys-on-surface-variant);
-  gap: 1rem;
+  margin-bottom: 0.5rem; // Reduced margin
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $text-primary;
 
-  mat-icon {
-    font-size: 3rem;
-    width: 3rem;
-    height: 3rem;
+  .badge {
+    background: #e2e8f0;
+    color: $text-secondary;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
   }
 }
 
-.result-item {
-  height: auto !important;
-  padding: 12px 16px !important;
+.results-list-container {
+  flex: 1;
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  overflow-y: auto;
+  overflow-x: hidden; // Fix horizontal scrollbar
+  position: relative;
+  background: #fafafa;
+}
 
-  .mat-mdc-list-item-title {
-    font-weight: 500;
-    font-family: monospace;
+// List Items (Cards)
+.custom-list {
+  padding: 0 !important;
+}
+
+.result-card {
+  border-bottom: 1px solid $border-color;
+  background: white;
+  transition: all 0.2s;
+  cursor: pointer;
+  padding: 0;
+
+  &:last-child {
+    border-bottom: none;
   }
-  .item-summary {
-    font-style: italic;
-    font-size: 0.85rem;
+
+  &:hover {
+    background-color: $bg-hover;
+  }
+
+  &.selected {
+    background-color: $bg-selected;
+    .card-icon { color: $primary-color; }
+    .card-title { color: $primary-color; }
+    .selection-indicator { color: $primary-color; }
+  }
+
+  .card-content {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem; // Reduced padding for compactness
+    gap: 1rem;
+    width: 100%;
+    box-sizing: border-box; // Ensure padding doesn't add to width
+  }
+
+  .card-icon {
+    color: $text-secondary;
+    display: flex;
+    align-items: center;
+  }
+
+  .card-details {
+    flex: 1;
+    min-width: 0;
+
+    .card-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: $text-primary;
+      margin-bottom: 0.25rem;
+      font-family: monospace;
+    }
+
+    .card-subtitle {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: $text-secondary;
+      margin-bottom: 0.25rem;
+      
+      .location-badge {
+        background: #f1f5f9;
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-weight: 500;
+        color: #475569;
+      }
+    }
+
+    .card-summary {
+      font-size: 0.85rem;
+      color: #334155;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .card-meta {
+    text-align: right;
+    
+    .qty-badge {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: $text-primary;
+      background: #f1f5f9;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+  }
+
+  .selection-indicator {
+    color: $text-secondary;
+    display: flex;
+    align-items: center;
   }
 }
 
-.mat-mdc-dialog-actions {
+// States
+.loading-state, .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px;
+  padding: 2rem;
+  text-align: center;
+  color: $text-secondary;
+
+  .empty-icon {
+    background: #f1f5f9;
+    padding: 1.5rem;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    
+    mat-icon {
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+      color: #94a3b8;
+    }
+  }
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    color: $text-primary;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+// Footer
+.dialog-actions {
   padding: 1rem 1.5rem;
-  border-top: 1px solid var(--mat-sys-outline-variant);
+  border-top: 1px solid $border-color;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  background: #f8fafc;
 }
 
-// Virtual scrolling viewport for autocomplete dropdowns
+// Autocomplete
 .autocomplete-viewport {
-  height: 256px; // ~5-6 items visible (48px each)
+  height: 200px;
   width: 100%;
-}
-
-// Ensure mat-option inside virtual scroll viewport displays correctly
-.autocomplete-viewport .mat-mdc-option {
-  height: 48px;
-  min-height: 48px;
 }

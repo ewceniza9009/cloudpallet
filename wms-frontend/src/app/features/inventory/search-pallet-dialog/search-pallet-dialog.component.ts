@@ -162,8 +162,15 @@ export class SearchPalletDialogComponent implements OnInit {
     this.searchTrigger.next();
   }
 
-  onSelectionChange(event: MatSelectionListChange): void {
-    this.selectedPallet.set(event.options[0].value);
+  clearFilters(): void {
+    this.accountControl.reset();
+    this.materialControl.reset();
+    this.barcodeControl.reset();
+    this.searchTrigger.next();
+  }
+
+  selectPallet(pallet: StoredPalletSearchResultDto): void {
+    this.selectedPallet.set(pallet);
   }
 
   displayAccountName(account: AccountDto): string {
