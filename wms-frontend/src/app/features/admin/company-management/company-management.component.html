@@ -133,20 +133,29 @@
               <mat-card-title>Settings & System</mat-card-title>
             </mat-card-header>
             <mat-card-content class="form-grid">
-              <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>GS1 Company Prefix</mat-label>
-                <input matInput formControlName="gs1CompanyPrefix" placeholder="e.g. 0123456" />
-                <mat-hint>Used for SSCC generation</mat-hint>
-              </mat-form-field>
+              <div class="full-width settings-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>GS1 Company Prefix</mat-label>
+                  <input matInput formControlName="gs1CompanyPrefix" placeholder="e.g. 0123456" />
+                  <mat-hint>Used for SSCC generation</mat-hint>
+                </mat-form-field>
 
-              <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                <mat-label>Default Barcode Format</mat-label>
-                <mat-select formControlName="defaultBarcodeFormat">
-                  <mat-option value="SSCC-18">SSCC-18</mat-option>
-                  <mat-option value="Code128">Code 128</mat-option>
-                  <mat-option value="QR">QR Code</mat-option>
-                </mat-select>
-              </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Default Barcode Format</mat-label>
+                  <mat-select formControlName="defaultBarcodeFormat">
+                    <mat-option value="SSCC-18">SSCC-18</mat-option>
+                    <mat-option value="Code128">Code 128</mat-option>
+                    <mat-option value="QR">QR Code</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="full-width mt-3">
+                <mat-slide-toggle formControlName="isPickingWeightReadonly" color="primary">
+                  Picking Weight Read-Only
+                </mat-slide-toggle>
+                <p class="setting-hint">If enabled, the weight field in picking confirmation will be read-only.</p>
+              </div>
               
               @if(companyDetails(); as details) {
                 <div class="system-info-section full-width">

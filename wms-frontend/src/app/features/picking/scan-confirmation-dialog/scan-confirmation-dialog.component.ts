@@ -1,4 +1,4 @@
-import { Component, Inject, inject, signal } from '@angular/core';
+import { Component, Inject, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -17,32 +17,42 @@ export interface ScanDialogData {
   location: string;
 }
 
+import { AdminApiService } from '../../admin/admin-api.service'; // ADD THIS
+
 @Component({
   selector: 'app-scan-confirmation-dialog',
   standalone: true,
   imports: [
     CommonModule, ReactiveFormsModule, MatDialogModule,
     MatFormFieldModule, MatInputModule, MatButtonModule, CdkTrapFocus,
-    MatIconModule, MatProgressSpinnerModule // ADD THESE
+    MatIconModule, MatProgressSpinnerModule
   ],
   templateUrl: './scan-confirmation-dialog.component.html',
-  styleUrls: ['./scan-confirmation-dialog.component.scss'] // ADD THIS
+  styleUrls: ['./scan-confirmation-dialog.component.scss']
 })
-export class ScanConfirmationDialogComponent {
+export class ScanConfirmationDialogComponent implements OnInit {
   scanForm: FormGroup;
   isWeighing = signal(false);
+  isWeightReadonly = signal(false);
 
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ScanConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ScanDialogData,
-    private inventoryApi: InventoryApiService, // ADD THIS
-    private snackBar: MatSnackBar // ADD THIS
+    private inventoryApi: InventoryApiService,
+    private snackBar: MatSnackBar,
+    private adminApi: AdminApiService // ADD THIS
   ) {
     this.scanForm = this.fb.group({
       scannedLocationCode: ['', Validators.required],
       scannedLpn: ['', Validators.required],
-      actualWeight: [null as number | null, Validators.required] // ADD THIS
+      actualWeight: [null as number | null, Validators.required]
+    });
+  }
+
+  ngOnInit(): void {
+    this.adminApi.getCompanyDetails().subscribe(company => {
+      this.isWeightReadonly.set(company.isPickingWeightReadonly);
     });
   }
 

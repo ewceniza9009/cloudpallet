@@ -169,6 +169,24 @@ button mat-icon + span, button span + mat-icon, button mat-progress-spinner + sp
   gap: 1rem;
 }
 
+.settings-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  
+  mat-form-field {
+    width: 300px; // Fixed width to prevent "fat" fields
+    max-width: 100%;
+  }
+}
+
+.setting-hint {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
 // Responsive
 @media (max-width: 1024px) {
   .layout-grid {

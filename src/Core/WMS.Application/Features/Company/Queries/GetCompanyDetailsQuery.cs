@@ -1,8 +1,8 @@
 ﻿using MediatR;
-using WMS.Application.Abstractions.Persistence;     
-using AutoMapper;      
-using WMS.Domain.Entities;     
-using WMS.Domain.ValueObjects;    
+using WMS.Application.Abstractions.Persistence;
+using AutoMapper;
+using WMS.Domain.Entities;
+using WMS.Domain.ValueObjects;
 
 namespace WMS.Application.Features.Companies.Queries;
 
@@ -21,10 +21,11 @@ public record CompanyDto(
     string PhoneNumber,
     string Email,
     string Website,
-    string Status,  
+    string Status,
     string SubscriptionPlan,
     string Gs1CompanyPrefix,
-    string DefaultBarcodeFormat);  
+    string DefaultBarcodeFormat,
+    bool IsPickingWeightReadonly);
 
 public record GetCompanyDetailsQuery : IRequest<CompanyDto?>;
 
@@ -60,7 +61,8 @@ public class GetCompanyDetailsQueryHandler : IRequestHandler<GetCompanyDetailsQu
             company.Status.ToString(),
             company.SubscriptionPlan,
             company.Gs1CompanyPrefix,
-            company.DefaultBarcodeFormat
+            company.DefaultBarcodeFormat,
+            company.IsPickingWeightReadonly
         );
     }
 }

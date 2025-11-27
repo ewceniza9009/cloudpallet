@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using WMS.Application.Abstractions.Persistence;
-using WMS.Application.Features.Companies.Queries;   
+using WMS.Application.Features.Companies.Queries;
 using WMS.Domain.ValueObjects;
 namespace WMS.Application.Features.Companies.Commands;
 
@@ -13,7 +13,8 @@ public record UpdateCompanyCommand(
     string Email,
     string Website,
     string Gs1CompanyPrefix,
-    string DefaultBarcodeFormat) : IRequest;
+    string DefaultBarcodeFormat,
+    bool IsPickingWeightReadonly) : IRequest;
 
 public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand>
 {
@@ -40,26 +41,16 @@ public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand>
              throw new InvalidOperationException($"Company ID mismatch.");
         }
 
-        // Use reflection or manual mapping? Manual is safer and cleaner here.
-        // Ideally, the Company entity should have an Update method.
-        // For now, I'll use reflection CAREFULLY or just assume public setters?
-        // The Company entity has private setters.
-        // I should check Company.cs again. It has private setters.
-        // It has UpdateGs1Settings. It doesn't seem to have a generic Update method.
-        // I will use reflection to set the other properties as the original code TRIED to do, but on the ENTITY, not the repo.
-        // OR, I can add an Update method to Company.cs. That is much better DDD.
-        // But to avoid changing Domain too much right now, I'll stick to the pattern but fix the bug.
-        // Wait, I can just use the backing fields or private setters via reflection on 'company' object.
-
         UpdateEntityProperty(company, "Name", request.Name);
         UpdateEntityProperty(company, "TaxId", request.TaxId);
         UpdateEntityProperty(company, "Address", new Address(request.Address.Street, request.Address.City, request.Address.State, request.Address.PostalCode, request.Address.Country));
         UpdateEntityProperty(company, "PhoneNumber", request.PhoneNumber);
         UpdateEntityProperty(company, "Email", request.Email);
         UpdateEntityProperty(company, "Website", request.Website);
-        
+
         // Use the explicit method for GS1 settings
         company.UpdateGs1Settings(request.Gs1CompanyPrefix, request.DefaultBarcodeFormat);
+        company.UpdatePickingSettings(request.IsPickingWeightReadonly);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }

@@ -17,6 +17,8 @@ public class Company : AggregateRoot<Guid>
     public string Gs1CompanyPrefix { get; private set; }
     public string DefaultBarcodeFormat { get; private set; }
 
+    public bool IsPickingWeightReadonly { get; private set; }
+
     public Company() : base(Guid.Empty)
     {
         Name = null!;
@@ -28,11 +30,17 @@ public class Company : AggregateRoot<Guid>
         SubscriptionPlan = null!;
         Gs1CompanyPrefix = "0000000"; // Default dummy prefix
         DefaultBarcodeFormat = "SSCC-18";
+        IsPickingWeightReadonly = false;
     }
 
     public void UpdateGs1Settings(string prefix, string format)
     {
         Gs1CompanyPrefix = prefix;
         DefaultBarcodeFormat = format;
+    }
+
+    public void UpdatePickingSettings(bool isReadonly)
+    {
+        IsPickingWeightReadonly = isReadonly;
     }
 }

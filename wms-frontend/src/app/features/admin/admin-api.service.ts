@@ -25,6 +25,7 @@ export interface CompanyDto {
   subscriptionPlan: string;
   gs1CompanyPrefix: string;
   defaultBarcodeFormat: string;
+  isPickingWeightReadonly: boolean;
 }
 
 export interface UpdateCompanyCommand {
@@ -36,6 +37,7 @@ export interface UpdateCompanyCommand {
   website: string;
   gs1CompanyPrefix: string;
   defaultBarcodeFormat: string;
+  isPickingWeightReadonly: boolean;
 }
 
 export type UserRole = 'Admin' | 'Operator' | 'Finance';
