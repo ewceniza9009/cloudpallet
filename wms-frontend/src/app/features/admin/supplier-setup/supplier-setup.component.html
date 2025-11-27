@@ -65,9 +65,26 @@
     <div class="detail-view">
       <div class="detail-header">
         <h3 class="detail-title">{{ editingSupplierId() ? 'Edit Supplier' : 'Create New Supplier' }}</h3>
-        @if(isLoadingDetails()) {
-          <mat-progress-spinner mode="indeterminate" diameter="24"></mat-progress-spinner>
-        }
+        <div class="header-actions">
+          @if(isLoadingDetails()) {
+            <mat-progress-spinner mode="indeterminate" diameter="24"></mat-progress-spinner>
+          }
+          <button mat-stroked-button color="warn" type="button" (click)="onDeleteSupplier()" [disabled]="!editingSupplierId() || isSaving()">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+          <button mat-flat-button color="primary" type="button" (click)="onSaveSupplier()" [disabled]="supplierForm.invalid || isSaving() || isLoadingDetails()">
+            @if(isSaving()) {
+              <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+              <span>Saving...</span>
+            } @else {
+              <ng-container>
+                <mat-icon>save</mat-icon>
+                <span>{{ editingSupplierId() ? 'Save Changes' : 'Create Supplier' }}</span>
+              </ng-container>
+            }
+          </button>
+        </div>
       </div>
 
       <form [formGroup]="supplierForm" (ngSubmit)="onSaveSupplier()" class="detail-form-container">
@@ -160,27 +177,8 @@
 
               </div>
             </mat-tab>
-
           </mat-tab-group>
         </div>
-
-        <mat-card-actions class="detail-actions">
-          <button mat-stroked-button color="warn" type="button" (click)="onDeleteSupplier()" [disabled]="!editingSupplierId() || isSaving">
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-          </button>
-          <button mat-flat-button color="primary" type="submit" [disabled]="supplierForm.invalid || isSaving || isLoadingDetails()">
-            @if(isSaving()) {
-              <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
-              <span>Saving...</span>
-            } @else {
-              <ng-container>
-                <mat-icon>save</mat-icon>
-                <span>{{ editingSupplierId() ? 'Save Changes' : 'Create Supplier' }}</span>
-              </ng-container>
-            }
-          </button>
-        </mat-card-actions>
       </form>
     </div>
   </div>

@@ -65,9 +65,26 @@
     <div class="detail-view">
       <div class="detail-header">
         <h3 class="detail-title">{{ editingAccountId() ? 'Edit Account' : 'Create New Account' }}</h3>
-        @if(isLoadingDetails()) {
-          <mat-progress-spinner mode="indeterminate" diameter="24"></mat-progress-spinner>
-        }
+        <div class="header-actions">
+          @if(isLoadingDetails()) {
+            <mat-progress-spinner mode="indeterminate" diameter="24"></mat-progress-spinner>
+          }
+          <button mat-stroked-button color="warn" type="button" (click)="onDeleteAccount()" [disabled]="!editingAccountId() || isSaving()">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+          <button mat-flat-button color="primary" type="button" (click)="onSaveAccount()" [disabled]="accountForm.invalid || isSaving() || isLoadingDetails()">
+            @if(isSaving()) {
+              <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+              <span>Saving...</span>
+            } @else {
+              <ng-container>
+                <mat-icon>save</mat-icon>
+                <span>{{ editingAccountId() ? 'Save Changes' : 'Create Account' }}</span>
+              </ng-container>
+            }
+          </button>
+        </div>
       </div>
 
       <form [formGroup]="accountForm" (ngSubmit)="onSaveAccount()" class="detail-form-container">
@@ -203,24 +220,6 @@
 
           </mat-tab-group>
         </div>
-
-        <mat-card-actions class="detail-actions">
-          <button mat-stroked-button color="warn" type="button" (click)="onDeleteAccount()" [disabled]="!editingAccountId() || isSaving">
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-          </button>
-          <button mat-flat-button color="primary" type="submit" [disabled]="accountForm.invalid || isSaving || isLoadingDetails()">
-            @if(isSaving()) {
-              <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
-              <span>Saving...</span>
-            } @else {
-              <ng-container>
-                <mat-icon>save</mat-icon>
-                <span>{{ editingAccountId() ? 'Save Changes' : 'Create Account' }}</span>
-              </ng-container>
-            }
-          </button>
-        </mat-card-actions>
       </form>
     </div>
 
