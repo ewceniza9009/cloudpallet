@@ -132,7 +132,7 @@ export class KittingComponent implements OnInit {
       });
 
       const kits = (await Promise.all(kitMaterialPromises))
-        .filter((kit): kit is KitMaterialDto => kit !== null && (kit.bom.lines.length > 0) && (kit.materialType === 'Kit' || kit.materialType === 'Repack'));
+        .filter((kit): kit is KitMaterialDto => kit !== null && (kit.bom.lines.length > 0) && kit.materialType === 'Kit');
 
       this.kitMaterials.set(kits);
 

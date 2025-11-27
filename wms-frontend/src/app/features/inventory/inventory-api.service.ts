@@ -20,6 +20,7 @@ export interface MaterialDto {
   id: string;
   name: string;
   sku: string;
+  materialType: string;
 }
 
 export interface LocationDto {

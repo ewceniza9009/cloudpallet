@@ -93,7 +93,9 @@ export class RepackComponent implements OnInit {
       .subscribe((data) => this.accounts.set(data));
     this.http
       .get<MaterialDto[]>(`${environment.apiUrl}/Lookups/materials`)
-      .subscribe((data) => this.allMaterials.set(data));
+      .subscribe((data) => {
+        this.allMaterials.set(data.filter(m => m.materialType === 'Repack'));
+      });
   }
 
   setupFilters(): void {

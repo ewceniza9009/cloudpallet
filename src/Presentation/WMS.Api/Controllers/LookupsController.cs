@@ -13,7 +13,7 @@ using WMS.Infrastructure.Persistence.Repositories;
 namespace WMS.Api.Controllers;
 
 public record SupplierDto(Guid Id, string Name);
-public record MaterialDto(Guid Id, string Name, string Sku);
+public record MaterialDto(Guid Id, string Name, string Sku, string MaterialType);
 public record AppointmentDto(Guid Id, string LicensePlate, DateTime StartTime);
 public record AccountDto(Guid Id, string Name);
 public record DockDto(
@@ -101,7 +101,7 @@ public class LookupsController(WmsDbContext context) : ControllerBase
         return Ok(await context.Materials
           .AsNoTracking()
           .OrderBy(m => m.Name)
-          .Select(m => new MaterialDto(m.Id, m.Name, m.Sku))
+          .Select(m => new MaterialDto(m.Id, m.Name, m.Sku, m.MaterialType.ToString()))
           .ToListAsync());
     }
 
@@ -147,7 +147,7 @@ public class LookupsController(WmsDbContext context) : ControllerBase
           .OrderBy(m => m.Name)
           .Skip((page - 1) * pageSize)
           .Take(pageSize)
-          .Select(m => new MaterialDto(m.Id, m.Name, m.Sku))
+          .Select(m => new MaterialDto(m.Id, m.Name, m.Sku, m.MaterialType.ToString()))
           .ToListAsync();
 
         return Ok(new PagedResult<MaterialDto> { Items = items, TotalCount = totalCount });
@@ -250,7 +250,7 @@ public class LookupsController(WmsDbContext context) : ControllerBase
           .AsNoTracking()
           .Where(m => pickableMaterialIds.Contains(m.Id))
           .OrderBy(m => m.Name)
-          .Select(m => new MaterialDto(m.Id, m.Name, m.Sku))
+          .Select(m => new MaterialDto(m.Id, m.Name, m.Sku, m.MaterialType.ToString()))
           .ToListAsync();
 
         return Ok(materials);
