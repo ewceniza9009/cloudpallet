@@ -10,6 +10,10 @@ public class PutawayTransactionConfiguration : IEntityTypeConfiguration<PutawayT
     {
         builder.ToTable("PutawayTransactions");
         builder.HasKey(pt => pt.Id);
+        
+        builder.Property(pt => pt.BatchNumber).HasMaxLength(100).IsRequired(false);
+        builder.Property(pt => pt.ExpiryDate).IsRequired(false);
+
         builder.HasIndex(pt => pt.PalletId).IsUnique();
 
         builder.HasOne(pt => pt.User)

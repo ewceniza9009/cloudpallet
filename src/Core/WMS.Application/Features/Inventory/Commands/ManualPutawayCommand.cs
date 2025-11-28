@@ -40,7 +40,7 @@ public class ManualPutawayCommandHandler(
             item.MoveToLocation(request.DestinationLocationId);
         }
 
-        var putawayTx = PutawayTransaction.Create(request.PalletId, request.DestinationLocationId, request.UserId);
+        var putawayTx = PutawayTransaction.Create(request.PalletId, request.DestinationLocationId, request.UserId, firstInventory.BatchNumber, firstInventory.ExpiryDate);
         await putawayRepo.AddAsync(putawayTx, cancellationToken);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);

@@ -17,6 +17,9 @@ public class PickTransaction : AuditableEntity<Guid>
     public PickStatus Status { get; private set; }
     public Guid UserId { get; private set; }
     public bool IsExpedited { get; private set; } // <-- NEW FLAG
+    public string? BatchNumber { get; private set; }
+    public DateTime? ExpiryDate { get; private set; }
+
     public MaterialInventory MaterialInventory { get; private set; } = null!;
     public Account Account { get; private set; } = null!;
     public User User { get; private set; } = null!;  
@@ -27,19 +30,21 @@ public class PickTransaction : AuditableEntity<Guid>
         ScannedBarcode = null!;
     }
 
-    public static PickTransaction Create(Guid inventoryId, decimal quantity, Guid userId, Guid accountId, bool isExpedited = false) // <-- ADD isExpedited
+    public static PickTransaction Create(Guid inventoryId, decimal quantity, Guid userId, Guid accountId, string? batchNumber, DateTime? expiryDate, bool isExpedited = false) // <-- ADD isExpedited
     {
-        var pick = new PickTransaction(Guid.NewGuid(), inventoryId, quantity, userId, accountId);
+        var pick = new PickTransaction(Guid.NewGuid(), inventoryId, quantity, userId, accountId, batchNumber, expiryDate);
         pick.IsExpedited = isExpedited; // <-- SET FLAG
         return pick;
     }
 
-    private PickTransaction(Guid id, Guid inventoryId, decimal quantity, Guid userId, Guid accountId) : base(id)
+    private PickTransaction(Guid id, Guid inventoryId, decimal quantity, Guid userId, Guid accountId, string? batchNumber, DateTime? expiryDate) : base(id)
     {
         InventoryId = inventoryId;
         Quantity = quantity;
         UserId = userId;
         AccountId = accountId;
+        BatchNumber = batchNumber;
+        ExpiryDate = expiryDate;
         Reason = PickReason.Order;
         Status = PickStatus.Planned;
         Timestamp = DateTime.UtcNow;

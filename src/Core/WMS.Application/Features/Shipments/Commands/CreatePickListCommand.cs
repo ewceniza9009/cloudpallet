@@ -99,6 +99,8 @@ public class CreatePickListCommandHandler(
                     quantityToPickFromThisSource,
                     request.UserId,
                     inventorySource.AccountId,
+                    inventorySource.BatchNumber,
+                    inventorySource.ExpiryDate,
                     request.IsExpedited); // <-- PASS FLAG HERE
 
                 createdPicks.Add(pick);

@@ -13,6 +13,8 @@ public class PickTransactionConfiguration : IEntityTypeConfiguration<PickTransac
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.PickWeight).HasPrecision(10, 2);
+        builder.Property(p => p.BatchNumber).HasMaxLength(100).IsRequired(false);
+        builder.Property(p => p.ExpiryDate).IsRequired(false);
 
         builder.Property(p => p.Status)
             .HasConversion<string>()

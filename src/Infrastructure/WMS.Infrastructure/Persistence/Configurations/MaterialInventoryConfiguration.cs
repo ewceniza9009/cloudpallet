@@ -44,5 +44,8 @@ public class MaterialInventoryConfiguration : IEntityTypeConfiguration<MaterialI
               .HasMaxLength(30)
               .HasDefaultValue(InventoryStatus.Available);
 
+        builder.Property(mi => mi.RowVersion)
+               .IsRowVersion();
+
     }
 }

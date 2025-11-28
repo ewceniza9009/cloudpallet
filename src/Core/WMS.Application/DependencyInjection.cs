@@ -22,6 +22,16 @@ public static class DependencyInjection
 
         services.AddScoped<IPutawaySuggestionService, PutawaySuggestionService>();
 
+        // Register all VAS Service Handlers
+        var handlerType = typeof(Features.Inventory.Services.IVasServiceHandler);
+        var handlers = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(t => handlerType.IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+
+        foreach (var handler in handlers)
+        {
+            services.AddScoped(handlerType, handler);
+        }
+
         return services;
     }
 }

@@ -22,6 +22,7 @@ public class MaterialInventory : Entity<Guid>
     public ComplianceLabelType ComplianceLabelStatus { get; private set; } // <-- NEW PROPERTY
     public DateTime? QuarantineStartDate { get; private set; } // <-- NEW PROPERTY
     public DateTime? QuarantineEndDate { get; private set; } // <-- NEW PROPERTY
+    public byte[] RowVersion { get; set; } // Optimistic Concurrency Token
     public Material Material { get; private set; } = null!;
     public Location Location { get; private set; } = null!;
 
@@ -65,31 +66,40 @@ public class MaterialInventory : Entity<Guid>
         ExpiryDate = expiryDate;
     }
 
-    public void AdjustQuantity(decimal delta)
+    public void AdjustInventory(decimal quantityDelta, decimal weightDelta)
     {
-        if (Quantity + delta < 0)
+        if (Quantity + quantityDelta < 0)
         {
-            throw new InvalidOperationException("Inventory quantity cannot be negative.");
+            throw new InvalidOperationException($"Insufficient inventory quantity. Available: {Quantity}, Requested Delta: {quantityDelta}");
         }
-        Quantity += delta;
+
+        // Allow some tolerance for weight calculation rounding errors, but generally weight shouldn't be negative
+        if (WeightActual.Value + weightDelta < -0.01m) 
+        {
+             // If we are zeroing out quantity, we should zero out weight too, so strict check might be annoying if not exact.
+             // But generally, we shouldn't have negative weight.
+             if (Math.Abs(WeightActual.Value + weightDelta) > 0.05m) // 50g tolerance
+             {
+                 throw new InvalidOperationException($"Inventory weight cannot be negative. Available: {WeightActual.Value}, Requested Delta: {weightDelta}");
+             }
+             // Auto-correct small negative epsilon to 0
+             weightDelta = -WeightActual.Value;
+        }
+
+        Quantity += quantityDelta;
+        WeightActual = Weight.Create(Math.Max(0, WeightActual.Value + weightDelta), WeightActual.Unit);
     }
 
+    [Obsolete("Use AdjustInventory(quantityDelta, weightDelta) instead.")]
+    public void AdjustQuantity(decimal delta)
+    {
+        AdjustInventory(delta, 0);
+    }
+
+    [Obsolete("Use AdjustInventory(-pickedQuantity, -pickedWeight) instead.")]
     public void AdjustForWeighedPick(decimal pickedQuantity, decimal pickedWeight)
     {
-        if (Quantity - pickedQuantity < 0)
-        {
-            throw new InvalidOperationException("Picked quantity cannot be greater than available quantity.");
-        }
-        if (WeightActual.Value - pickedWeight < 0)
-        {
-            if (Math.Abs(WeightActual.Value - pickedWeight) > 5)       
-            {
-                throw new InvalidOperationException("Picked weight results in significant negative inventory weight.");
-            }
-        }
-
-        Quantity -= pickedQuantity;
-        WeightActual = Weight.Create(WeightActual.Value - pickedWeight, WeightActual.Unit);
+        AdjustInventory(-pickedQuantity, -pickedWeight);
     }
 
     public void MoveToLocation(Guid newLocationId)
