@@ -11,7 +11,7 @@ public class BillOfMaterialLineConfiguration : IEntityTypeConfiguration<BillOfMa
         builder.ToTable("BillOfMaterialLines");
         builder.HasKey(l => l.Id);
 
-        builder.Property(l => l.InputQuantity).HasPrecision(18, 5);
+        builder.Property(l => l.InputQuantity).HasPrecision(DecimalPrecision.QuantityPrecision, DecimalPrecision.QuantityScale);
 
         builder.HasOne<Material>()
             .WithMany()

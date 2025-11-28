@@ -13,7 +13,7 @@ public class InvoiceLineConfiguration : IEntityTypeConfiguration<InvoiceLine>
 
         builder.Property(il => il.Description).HasMaxLength(200);
         builder.Property(il => il.Tier).HasMaxLength(50);
-        builder.Property(il => il.Amount).HasPrecision(12, 2);
-        builder.Property(il => il.UnitRate).HasPrecision(10, 4);
+        builder.Property(il => il.Amount).HasPrecision(DecimalPrecision.MoneyPrecision, DecimalPrecision.MoneyScale);
+        builder.Property(il => il.UnitRate).HasPrecision(DecimalPrecision.UnitCostPrecision, DecimalPrecision.UnitCostScale);
     }
 }

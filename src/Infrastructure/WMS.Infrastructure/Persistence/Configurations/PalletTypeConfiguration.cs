@@ -17,10 +17,9 @@ public class PalletTypeConfiguration : IEntityTypeConfiguration<PalletType>
 
         builder.HasIndex(pt => pt.Name).IsUnique();
 
-        builder.Property(pt => pt.TareWeight).HasPrecision(10, 3);       
-        builder.Property(pt => pt.Length).HasPrecision(10, 2);       
-        builder.Property(pt => pt.Width).HasPrecision(10, 2);
-        builder.Property(pt => pt.Height).HasPrecision(10, 2);
-
+        builder.Property(pt => pt.TareWeight).HasPrecision(DecimalPrecision.QuantityPrecision, DecimalPrecision.QuantityScale);       
+        builder.Property(pt => pt.Length).HasPrecision(DecimalPrecision.QuantityPrecision, DecimalPrecision.QuantityScale);       
+        builder.Property(pt => pt.Width).HasPrecision(DecimalPrecision.QuantityPrecision, DecimalPrecision.QuantityScale);
+        builder.Property(pt => pt.Height).HasPrecision(DecimalPrecision.QuantityPrecision, DecimalPrecision.QuantityScale);
     }
 }

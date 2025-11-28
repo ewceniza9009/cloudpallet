@@ -13,7 +13,7 @@ public class BillOfMaterialConfiguration : IEntityTypeConfiguration<BillOfMateri
 
         builder.HasIndex(b => b.OutputMaterialId).IsUnique();
 
-        builder.Property(b => b.OutputQuantity).HasPrecision(18, 5);
+        builder.Property(b => b.OutputQuantity).HasPrecision(DecimalPrecision.QuantityPrecision, DecimalPrecision.QuantityScale);
 
         builder.HasMany(b => b.Lines)
             .WithOne()

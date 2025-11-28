@@ -11,8 +11,8 @@ public class ItemTransferTransactionConfiguration : IEntityTypeConfiguration<Ite
         builder.ToTable("ItemTransferTransactions");
         builder.HasKey(t => t.Id);
 
-        builder.Property(t => t.QuantityTransferred).HasPrecision(18, 5);
-        builder.Property(t => t.WeightTransferred).HasPrecision(18, 5);
+        builder.Property(t => t.QuantityTransferred).HasPrecision(DecimalPrecision.QuantityPrecision, DecimalPrecision.QuantityScale);
+        builder.Property(t => t.WeightTransferred).HasPrecision(DecimalPrecision.QuantityPrecision, DecimalPrecision.QuantityScale);
 
         builder.HasOne(t => t.SourceInventory)
             .WithMany()

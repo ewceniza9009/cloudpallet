@@ -11,6 +11,6 @@ public class RateConfiguration : IEntityTypeConfiguration<Rate>
         builder.ToTable("Rates");
         builder.HasKey(r => r.Id);
 
-        builder.Property(r => r.Value).HasPrecision(10, 4);
+        builder.Property(r => r.Value).HasPrecision(DecimalPrecision.UnitCostPrecision, DecimalPrecision.UnitCostScale);
     }
 }

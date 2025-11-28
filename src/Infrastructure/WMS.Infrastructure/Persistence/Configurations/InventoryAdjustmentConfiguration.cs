@@ -14,7 +14,7 @@ public class InventoryAdjustmentConfiguration : IEntityTypeConfiguration<Invento
         builder.HasKey(a => a.Id);
 
         builder.Property(a => a.DeltaQuantity)
-            .HasPrecision(18, 5)       
+            .HasPrecision(DecimalPrecision.QuantityPrecision, DecimalPrecision.QuantityScale)       
             .IsRequired();
 
         builder.Property(a => a.Reason)
