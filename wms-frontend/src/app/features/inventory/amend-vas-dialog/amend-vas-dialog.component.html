@@ -283,7 +283,7 @@
                     <div class="timeline-details">
                       <details>
                         <summary>View Technical Details</summary>
-                        <pre>{{ amendment.amendmentDetails }}</pre>
+                        <pre>{{ parseJson(amendment.amendmentDetails) | json }}</pre>
                       </details>
                     </div>
                   </div>

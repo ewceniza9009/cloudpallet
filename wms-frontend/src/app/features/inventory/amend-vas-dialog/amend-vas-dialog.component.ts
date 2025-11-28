@@ -112,4 +112,12 @@ export class AmendVasDialogComponent implements OnInit {
   getFormGroup(lineId: string): FormGroup {
     return this.amendmentForms.get(lineId)!;
   }
+
+  parseJson(jsonString: string): any {
+    try {
+      return JSON.parse(jsonString);
+    } catch (e) {
+      return jsonString;
+    }
+  }
 }
