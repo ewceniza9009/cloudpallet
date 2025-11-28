@@ -78,20 +78,23 @@ public class VoidVasTransactionCommandHandler(
                 if (existingInventory != null)
                 {
                     // Add back to existing record
-                    existingInventory.AdjustQuantity(line.Quantity);
-                    // Adjust weight if tracked
+                    // NOTE: AdjustForWeighedPick with negative values adds both quantity and weight.
+                    // We DO NOT call AdjustQuantity here because it would double-count the quantity addition.
+                    
+                    // Adjust weight if tracked (or just quantity if weight is 0)
                     if (line.Weight > 0)
                     {
-                        // We need to add weight back. MaterialInventory.AdjustForWeighedPick subtracts, so we can't use that directly for addition easily without a dedicated method?
-                        // Actually MaterialInventory has UpdateDetails but that resets everything.
-                        // Let's check if we can manually update weight or if we need a new method.
-                        // MaterialInventory.WeightActual is private set.
-                        // We might need to use reflection or add a method.
-                        // Wait, AdjustForWeighedPick takes positive values to subtract.
-                        // We can pass NEGATIVE values to ADD?
-                        // Let's check the method: Quantity -= pickedQuantity; Weight -= pickedWeight;
-                        // Yes, passing negative values will add.
                         existingInventory.AdjustForWeighedPick(-line.Quantity, -line.Weight);
+                    }
+                    else
+                    {
+                        // If no weight, we just use AdjustQuantity (which is safe here as we didn't call AdjustForWeighedPick)
+                        // But wait, if we have mixed weight/no-weight, we should be consistent.
+                        // AdjustForWeighedPick checks weight.
+                        // Let's stick to AdjustForWeighedPick with 0 weight if needed, or just AdjustQuantity.
+                        // AdjustForWeighedPick: Quantity -= q; Weight -= w;
+                        // If w is 0, Weight doesn't change.
+                        existingInventory.AdjustForWeighedPick(-line.Quantity, 0);
                     }
 
                     // Audit
@@ -119,9 +122,9 @@ public class VoidVasTransactionCommandHandler(
                             transaction.PalletId.Value,
                             Guid.NewGuid(), // New PalletLineId
                             line.Quantity,
-                            "RESTORED", // We lost the batch number if not stored in line. TODO: Add Batch to VASTransactionLine
+                            line.BatchNumber ?? "RESTORED", // Use stored batch or fallback
                             Weight.Create(line.Weight, "KG"),
-                            null, // Lost expiry
+                            line.ExpiryDate, // Use stored expiry
                             transaction.AccountId,
                             $"LPN-VOID-{Guid.NewGuid().ToString().Substring(0, 8)}"
                         );
@@ -137,7 +140,12 @@ public class VoidVasTransactionCommandHandler(
                             userId
                         ), cancellationToken);
                     }
-                    // If pallet is empty, we can't determine location. This is an edge case.
+                    else
+                    {
+                         // If pallet is empty, we can't determine location. 
+                         // STRICT MODE: Throw exception to prevent data loss.
+                         throw new InvalidOperationException($"Cannot void transaction: The input pallet for material {line.MaterialId} is empty and its location cannot be determined. Please move at least one item to this pallet to restore the location context.");
+                    }
                 }
             }
             else // IsOutput (Produced)

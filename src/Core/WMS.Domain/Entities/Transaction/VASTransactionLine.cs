@@ -10,6 +10,8 @@ public class VASTransactionLine : Entity<Guid>
     public decimal Quantity { get; private set; }
     public decimal Weight { get; private set; }
     public bool IsInput { get; private set; }
+    public string? BatchNumber { get; private set; }
+    public DateTime? ExpiryDate { get; private set; }
 
     // Amendment tracking
     public decimal? OriginalQuantity { get; private set; }
@@ -22,18 +24,20 @@ public class VASTransactionLine : Entity<Guid>
 
     private VASTransactionLine() : base(Guid.Empty) { }
 
-    public static VASTransactionLine Create(Guid vasTransactionId, Guid? materialId, decimal quantity, decimal weight, bool isInput)
+    public static VASTransactionLine Create(Guid vasTransactionId, Guid? materialId, decimal quantity, decimal weight, bool isInput, string? batchNumber, DateTime? expiryDate)
     {
-        return new VASTransactionLine(Guid.NewGuid(), vasTransactionId, materialId, quantity, weight, isInput);
+        return new VASTransactionLine(Guid.NewGuid(), vasTransactionId, materialId, quantity, weight, isInput, batchNumber, expiryDate);
     }
 
-    private VASTransactionLine(Guid id, Guid vasTransactionId, Guid? materialId, decimal quantity, decimal weight, bool isInput) : base(id)
+    private VASTransactionLine(Guid id, Guid vasTransactionId, Guid? materialId, decimal quantity, decimal weight, bool isInput, string? batchNumber, DateTime? expiryDate) : base(id)
     {
         VASTransactionId = vasTransactionId;
         MaterialId = materialId;
         Quantity = quantity;
         Weight = weight;
         IsInput = isInput;
+        BatchNumber = batchNumber;
+        ExpiryDate = expiryDate;
         IsAmended = false;
     }
 

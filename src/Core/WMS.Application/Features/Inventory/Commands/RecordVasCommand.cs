@@ -96,7 +96,7 @@ public class RecordVasCommandHandler(
 
         foreach (var line in pallet.Lines)
         {
-            vasTransaction.AddInputLine(line.MaterialId, line.Quantity, line.Weight);
+            vasTransaction.AddInputLine(line.MaterialId, line.Quantity, line.Weight, line.BatchNumber, line.ExpiryDate);
         }
 
         vasTransaction.Complete();
@@ -148,8 +148,8 @@ public class RecordVasCommandHandler(
             request.UserId,
             description);
 
-        vasTransaction.AddInputLine(sourceInventory.MaterialId, request.QuantityToProcess.Value, inputWeight);
-        vasTransaction.AddOutputLine(request.TargetMaterialId.Value, outputQuantity, outputWeight);
+        vasTransaction.AddInputLine(sourceInventory.MaterialId, request.QuantityToProcess.Value, inputWeight, sourceInventory.BatchNumber, sourceInventory.ExpiryDate);
+        vasTransaction.AddOutputLine(request.TargetMaterialId.Value, outputQuantity, outputWeight, sourceInventory.BatchNumber, sourceInventory.ExpiryDate);
 
         // Add Labor Line for Billing
         if (request.DurationHours.HasValue && request.DurationHours.Value > 0)
@@ -226,8 +226,8 @@ public class RecordVasCommandHandler(
 
         foreach (var item in itemsToUpdate)
         {
-            vasTransaction.AddInputLine(item.MaterialId, item.Quantity, item.WeightActual.Value);
-            vasTransaction.AddOutputLine(item.MaterialId, item.Quantity, item.WeightActual.Value);
+            vasTransaction.AddInputLine(item.MaterialId, item.Quantity, item.WeightActual.Value, item.BatchNumber, item.ExpiryDate);
+            vasTransaction.AddOutputLine(item.MaterialId, item.Quantity, item.WeightActual.Value, item.BatchNumber, item.ExpiryDate);
         }
         vasTransaction.Complete();
         await vasRepository.AddAsync(vasTransaction, cancellationToken);
@@ -264,7 +264,7 @@ public class RecordVasCommandHandler(
             description);
 
         // Bill per cycle
-        vasTransaction.AddInputLine(inventory.MaterialId, 1, 0); // Quantity = 1 cycle
+        vasTransaction.AddInputLine(inventory.MaterialId, 1, 0, inventory.BatchNumber, inventory.ExpiryDate); // Quantity = 1 cycle
 
         vasTransaction.Complete();
 

@@ -99,7 +99,7 @@ public class CreateKitCommandHandler(
             inventorySource.AdjustForWeighedPick(component.QuantityToConsume, weightToDebit);
 
             // Log to VAS
-            vasTransaction.AddInputLine(component.ComponentMaterialId, component.QuantityToConsume, weightToDebit);
+            vasTransaction.AddInputLine(component.ComponentMaterialId, component.QuantityToConsume, weightToDebit, inventorySource.BatchNumber, inventorySource.ExpiryDate);
         }
 
         // 3. Credit (Create) the new Kit Inventory
@@ -121,7 +121,7 @@ public class CreateKitCommandHandler(
         await inventoryRepository.AddAsync(newKitInventory, cancellationToken);
 
         // Log output to VAS
-        vasTransaction.AddOutputLine(targetMaterial.Id, request.QuantityToBuild, outputWeight);
+        vasTransaction.AddOutputLine(targetMaterial.Id, request.QuantityToBuild, outputWeight, batchNumber, expiryDate);
 
         // 4. Add Labor Line for Billing
         if (request.DurationHours > 0)

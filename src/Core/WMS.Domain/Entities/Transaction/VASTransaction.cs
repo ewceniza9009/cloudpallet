@@ -64,15 +64,15 @@ public class VASTransaction : AggregateRoot<Guid>
 
     // --- START: MODIFICATION ---
     // 3. Update Add methods to add to the SINGLE _lines list
-    public void AddInputLine(Guid? materialId, decimal quantity, decimal weight)
+    public void AddInputLine(Guid? materialId, decimal quantity, decimal weight, string? batchNumber = null, DateTime? expiryDate = null)
     {
-        var line = VASTransactionLine.Create(this.Id, materialId, quantity, weight, true);
+        var line = VASTransactionLine.Create(this.Id, materialId, quantity, weight, true, batchNumber, expiryDate);
         _lines.Add(line);
     }
 
-    public void AddOutputLine(Guid? materialId, decimal quantity, decimal weight)
+    public void AddOutputLine(Guid? materialId, decimal quantity, decimal weight, string? batchNumber = null, DateTime? expiryDate = null)
     {
-        var line = VASTransactionLine.Create(this.Id, materialId, quantity, weight, false);
+        var line = VASTransactionLine.Create(this.Id, materialId, quantity, weight, false, batchNumber, expiryDate);
         _lines.Add(line);
     }
     // --- END: MODIFICATION ---

@@ -15,6 +15,9 @@ public class VASTransactionLineConfiguration : IEntityTypeConfiguration<VASTrans
         builder.Property(vl => vl.Quantity).HasPrecision(12, 3).IsRequired();
         builder.Property(vl => vl.IsInput).IsRequired();
 
+        builder.Property(vl => vl.BatchNumber).HasMaxLength(100);
+        builder.Property(vl => vl.ExpiryDate);
+
         // Amendment tracking fields
         builder.Property(vl => vl.OriginalQuantity).HasPrecision(12, 3);
         builder.Property(vl => vl.OriginalWeight).HasPrecision(12, 3);
