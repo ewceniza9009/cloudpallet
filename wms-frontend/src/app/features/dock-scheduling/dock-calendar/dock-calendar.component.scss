@@ -87,6 +87,18 @@
     font-size: 0.875rem;
   }
 
+  // Grid Lines
+  .fc-timegrid-slot-minor {
+    border-top-style: solid !important;
+    border-top-width: 1px !important;
+    border-color: var(--mat-sys-outline-variant-low) !important; 
+  }
+  
+  .fc-timegrid-slot {
+    border-bottom-width: 1px !important;
+    border-color: var(--mat-sys-outline-variant-low) !important;
+  }
+
   // Events
   .fc-event {
     border-radius: 4px;
