@@ -587,8 +587,8 @@ mat-autocomplete .autocomplete-viewport {
   display: block;
 }
 
-/* CRITICAL: Hide overflow on the autocomplete panel to prevent double scrollbar */
-.mat-mdc-autocomplete-panel {
+/* CRITICAL: Hide overflow on the autocomplete panel ONLY when using virtual scroll */
+.mat-mdc-autocomplete-panel:has(.autocomplete-viewport) {
   max-height: none !important;
   overflow: hidden !important;
 }
