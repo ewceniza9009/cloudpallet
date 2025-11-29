@@ -22,31 +22,32 @@
 }
 
 .filter-grid {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  align-items: start;
 
-  // Match Receiving search-field style
   .custom-field {
-    width: 300px; // User wanted wider, matching Receiving search width
-    margin-bottom: -1.25em; // CRITICAL FIX: Match Receiving spacing
+    width: 100%;
+    margin-bottom: 0;
     
     &.date-field {
-      width: 240px; // Slightly wider than Receiving's 200px for range
+      width: 100%;
     }
   }
 }
 
 .filter-actions {
+  grid-column: 4; // Place in the last column
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   gap: 0.5rem;
-  margin-left: auto; // Restored to push to right
-  margin-bottom: -1.25em; // Kept for vertical alignment
+  height: 42px;
+  margin-top: 4px;
   
   button {
-    height: 42px; // Match input height
+    height: 100%;
   }
 }
 
