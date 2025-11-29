@@ -33,6 +33,7 @@ import {
 } from '@angular/material/autocomplete';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
 import {
   ScrollingModule,
   CdkVirtualScrollViewport,
@@ -56,6 +57,7 @@ import {
   MaterialDto,
   CreateReceivingSessionCommand,
   AddPalletToReceivingCommand,
+  ReceivingVarianceDto,
 } from '../inventory/inventory-api.service';
 import {
   ProcessLineDialogComponent,
@@ -127,6 +129,7 @@ interface AccountDto {
     MatProgressBarModule,
     DatePipe,
     MatDividerModule,
+    MatTableModule,
   ],
   templateUrl: './receiving-session.component.html',
   styleUrls: ['./receiving-session.component.scss'],
@@ -168,6 +171,7 @@ export class ReceivingSessionComponent implements OnInit, OnDestroy {
   isStartingSession = signal(false);
   isAddingPallet = signal(false);
   isNewSession = signal(true);
+  variance = signal<ReceivingVarianceDto | null>(null);
 
   materialSearchCtrl = new FormControl('');
   filteredMaterials = signal<MaterialDto[]>([]);
@@ -409,6 +413,7 @@ export class ReceivingSessionComponent implements OnInit, OnDestroy {
           })
         );
         this.pallets.set(palletStates);
+        this.loadVariance(sessionId);
       },
       error: () =>
         this.snackBar.open('Failed to load existing session details.', 'Close'),
@@ -757,5 +762,12 @@ export class ReceivingSessionComponent implements OnInit, OnDestroy {
 
   back(): void {
     this.router.navigate(['/receiving']);
+  }
+
+  private loadVariance(receivingId: string): void {
+    this.inventoryApi.getReceivingVariance(receivingId).subscribe({
+      next: (data) => this.variance.set(data),
+      error: () => this.variance.set(null),
+    });
   }
 }

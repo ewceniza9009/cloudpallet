@@ -16,10 +16,6 @@ public class ReceivingController : ApiControllerBase
     [ProducesResponseType(typeof(PagedResult<ReceivingSessionDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetSessions([FromQuery] GetReceivingSessionsQuery query)
     {
-        // The [FromQuery] attribute will automatically map:
-        // ?warehouseId=...&page=1&pageSize=20 
-        // into the GetReceivingSessionsQuery object.
-
         var result = await Mediator.Send(query);
         return Ok(result);
     }
@@ -30,6 +26,15 @@ public class ReceivingController : ApiControllerBase
     public async Task<IActionResult> GetSessionById(Guid id)
     {
         var result = await Mediator.Send(new GetReceivingSessionByIdQuery(id));
+        return result is not null ? Ok(result) : NotFound();
+    }
+
+    [HttpGet("session/{id:guid}/variance")]
+    [ProducesResponseType(typeof(ReceivingVarianceDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetVariance(Guid id)
+    {
+        var result = await Mediator.Send(new GetReceivingVarianceQuery(id));
         return result is not null ? Ok(result) : NotFound();
     }
 

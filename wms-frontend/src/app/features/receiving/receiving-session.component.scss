@@ -237,5 +237,62 @@
 // Others
 .mat-mdc-form-field
 {
-  width: 80;;
+  width: 100%;
+}
+
+// Variance Card
+.variance-card-modern {
+  border-radius: 12px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
+  margin-bottom: 2rem;
+
+  .card-title-small {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.variance-table {
+  width: 100%;
+  
+  th.mat-header-cell {
+    font-weight: 600;
+    color: var(--mat-sys-on-surface);
+    background-color: var(--mat-sys-surface-container-low);
+  }
+
+  td.mat-cell {
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  .text-danger { color: var(--mat-sys-error); font-weight: 500; }
+  .text-success { color: var(--mat-sys-primary); font-weight: 500; }
+
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    display: inline-block;
+
+    &.status-match {
+      background-color: rgba(var(--mat-sys-primary-rgb), 0.1);
+      color: var(--mat-sys-primary);
+      border: 1px solid rgba(var(--mat-sys-primary-rgb), 0.2);
+    }
+
+    &.status-shortage {
+      background-color: rgba(var(--mat-sys-error-rgb), 0.1);
+      color: var(--mat-sys-error);
+      border: 1px solid rgba(var(--mat-sys-error-rgb), 0.2);
+    }
+
+    &.status-overage {
+      background-color: rgba(var(--mat-sys-tertiary-rgb), 0.1);
+      color: var(--mat-sys-tertiary);
+      border: 1px solid rgba(var(--mat-sys-tertiary-rgb), 0.2);
+    }
+  }
 }

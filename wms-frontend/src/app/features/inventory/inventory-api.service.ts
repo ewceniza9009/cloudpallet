@@ -267,6 +267,21 @@ export interface CreateKitCommand {
   components: KitComponentDto[];
 }
 
+export interface ReceivingVarianceLineDto {
+  materialId: string;
+  materialName: string;
+  expectedQuantity: number;
+  receivedQuantity: number;
+  variance: number;
+  status: string;
+}
+
+export interface ReceivingVarianceDto {
+  receivingId: string;
+  manifestId: string | null;
+  lines: ReceivingVarianceLineDto[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class InventoryApiService {
   private http = inject(HttpClient);
@@ -396,8 +411,15 @@ export class InventoryApiService {
   deletePallet(receivingId: string, palletId: string): Observable<void> {
     return this.http.delete<void>(`${this.receivingUrl}/session/${receivingId}/pallet/${palletId}`);
   }
+
+// ... existing code ...
+
   completeReceivingSession(receivingId: string): Observable<void> {
     return this.http.post<void>(`${this.receivingUrl}/session/${receivingId}/complete`, {});
+  }
+
+  getReceivingVariance(receivingId: string): Observable<ReceivingVarianceDto> {
+    return this.http.get<ReceivingVarianceDto>(`${this.receivingUrl}/session/${receivingId}/variance`);
   }
 
   // Delete a receiving session by ID
