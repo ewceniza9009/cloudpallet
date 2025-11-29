@@ -8,28 +8,34 @@
 
   <div class="filter-section">
     <form [formGroup]="filterForm" class="filter-grid">
-      <div class="custom-field account-field">
+      <div class="filter-field account-field">
         <label>Account</label>
-        <input type="text" matInput formControlName="account" [matAutocomplete]="accountAuto" placeholder="Select account" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
+        <div class="input-wrapper">
+          <input type="text" matInput formControlName="account" [matAutocomplete]="accountAuto" placeholder="Select account" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
+          <mat-icon class="field-icon">business</mat-icon>
+        </div>
         <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="displayAccount">
           <mat-option *ngFor="let account of accounts()" [value]="account">
             {{ account.name }}
           </mat-option>
         </mat-autocomplete>
-        <mat-icon class="field-icon">business</mat-icon>
       </div>
 
-      <div class="custom-field date-field">
+      <div class="filter-field date-field">
         <label>Start Date</label>
-        <input matInput [matDatepicker]="startPicker" formControlName="startDate" placeholder="Select date">
-        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <div class="input-wrapper">
+          <input matInput [matDatepicker]="startPicker" formControlName="startDate" placeholder="Select date">
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        </div>
         <mat-datepicker #startPicker></mat-datepicker>
       </div>
 
-      <div class="custom-field date-field">
+      <div class="filter-field date-field">
         <label>End Date</label>
-        <input matInput [matDatepicker]="endPicker" formControlName="endDate" placeholder="Select date">
-        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <div class="input-wrapper">
+          <input matInput [matDatepicker]="endPicker" formControlName="endDate" placeholder="Select date">
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        </div>
         <mat-datepicker #endPicker></mat-datepicker>
       </div>
 
