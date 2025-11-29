@@ -74,20 +74,23 @@
           @for (apt of filteredPendingAppointments(); track apt.appointmentId) {
           <mat-list-item role="listitem">
             <mat-icon matListItemIcon>event_available</mat-icon>
-            <div matListItemTitle>
-              {{ apt.carrierName }} - <strong>{{ apt.licensePlate }}</strong>
+            <div matListItemTitle class="appointment-title">
+              <span>{{ apt.carrierName }} - <strong>{{ apt.licensePlate }}</strong></span>
+              @if(apt.isCheckedIn) {
+                <span class="in-yard-badge">In Yard</span>
+              }
             </div>
 
             <div matListItemLine class="arrival-details-line">
               <span>
-                Appointment: {{ apt.appointmentTime | date : "shortTime" }} |
-                Dock: {{ apt.dockName }} | Status: {{ apt.status }}
+                {{ apt.appointmentTime | date : "shortTime" }} &bull; {{ apt.dockName }} &bull; {{ apt.status }}
               </span>
-              @if(apt.isCheckedIn) {
-              <span class="in-yard-status">(In Yard)</span>
-              }
             </div>
             <div matListItemMeta>
+              <button mat-stroked-button color="accent" (click)="openManifestDialog(apt)" style="margin-right: 8px;">
+                <mat-icon>description</mat-icon>
+                <span>Manifest</span>
+              </button>
               <button mat-flat-button color="primary" (click)="checkIn(apt)" [disabled]="apt.isCheckedIn">
                 <ng-container>
                   @if(apt.isCheckedIn) {

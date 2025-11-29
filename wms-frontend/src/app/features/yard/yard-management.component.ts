@@ -16,6 +16,7 @@ import {
   OccupiedYardSpotDto,
 } from './yard-api.service';
 import { SelectYardSpotDialogComponent } from './select-yard-spot-dialog/select-yard-spot-dialog.component';
+import { AddManifestDialogComponent } from './add-manifest-dialog/add-manifest-dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -203,5 +204,12 @@ export class YardManagementComponent implements OnInit {
         }
       });
     }
+  }
+
+  openManifestDialog(appointment: DisplayableYardAppointmentDto): void {
+    this.dialog.open(AddManifestDialogComponent, {
+      data: { appointmentId: appointment.appointmentId },
+      width: '600px'
+    });
   }
 }

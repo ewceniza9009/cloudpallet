@@ -19,6 +19,23 @@ export interface TruckCheckInCommand {
   yardSpotId: string;
 }
 
+export interface CargoManifestLineDto {
+  materialId: string;
+  materialName: string;
+  expectedQuantity: number;
+}
+
+export interface CargoManifestDto {
+  id: string;
+  appointmentId: string;
+  lines: CargoManifestLineDto[];
+}
+
+export interface CreateCargoManifestCommand {
+  appointmentId: string;
+  lines: CargoManifestLineDto[];
+}
+
 export interface OccupiedYardSpotDto {
   yardSpotId: string;
   spotNumber: string;
@@ -91,5 +108,15 @@ export class YardApiService {
   vacateYardSpot(yardSpotId: string): Observable<void> {
     const command = { yardSpotId };
     return this.http.post<void>(`${this.apiUrl}/vacate-spot`, command);
+  }
+
+  getManifest(appointmentId: string): Observable<CargoManifestDto> {
+    return this.http.get<CargoManifestDto>(
+      `${environment.apiUrl}/Manifests/by-appointment/${appointmentId}`
+    );
+  }
+
+  createManifest(command: CreateCargoManifestCommand): Observable<string> {
+    return this.http.post<string>(`${environment.apiUrl}/Manifests`, command);
   }
 }
