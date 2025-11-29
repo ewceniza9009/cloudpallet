@@ -3,8 +3,8 @@
 using MediatR;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Domain.Entities.Transaction;
-using WMS.Domain.Entities; // <-- ADDED
-using WMS.Domain.Enums; // <-- ADDED
+using WMS.Domain.Entities;
+using WMS.Domain.Enums;
 
 namespace WMS.Application.Features.Shipments.Commands;
 
@@ -17,7 +17,7 @@ public record CreatePickListCommand(
 public class CreatePickListCommandHandler(
     IMaterialInventoryRepository inventoryRepository,
     IPickTransactionRepository pickTransactionRepository,
-    IVASTransactionRepository vasRepository, // <-- ADDED
+    IVASTransactionRepository vasRepository,
     IUnitOfWork unitOfWork)
     : IRequestHandler<CreatePickListCommand, IEnumerable<Guid>>
 {
@@ -54,7 +54,8 @@ public class CreatePickListCommandHandler(
                 description);
 
             // Add a single line item representing 1 shipment/order
-            vasTransaction.AddInputLine(Guid.Empty, 1, 0); // 1 Shipment
+            // FIX: Pass null for MaterialId to avoid FK violation (Guid.Empty is not valid)
+            vasTransaction.AddInputLine(null, 1, 0); 
             vasTransaction.Complete();
 
             await vasRepository.AddAsync(vasTransaction, cancellationToken);
@@ -101,7 +102,7 @@ public class CreatePickListCommandHandler(
                     inventorySource.AccountId,
                     inventorySource.BatchNumber,
                     inventorySource.ExpiryDate,
-                    request.IsExpedited); // <-- PASS FLAG HERE
+                    request.IsExpedited);
 
                 createdPicks.Add(pick);
                 await pickTransactionRepository.AddAsync(pick, cancellationToken);
