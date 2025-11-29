@@ -1,0 +1,168 @@
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.calendar-container {
+  padding: 1.5rem;
+  background: var(--mat-sys-surface);
+  border-radius: 12px;
+  box-shadow: none;
+  border: 1px solid var(--mat-sys-outline-variant);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep {
+  .fc {
+    font-family: var(--mat-sys-body-large-font-family-name);
+    --fc-border-color: var(--mat-sys-outline-variant-low);
+    --fc-button-bg-color: var(--mat-sys-primary);
+    --fc-button-border-color: var(--mat-sys-primary);
+    --fc-button-hover-bg-color: var(--mat-sys-primary-container);
+    --fc-button-hover-border-color: var(--mat-sys-primary-container);
+    --fc-button-active-bg-color: var(--mat-sys-primary);
+    --fc-button-active-border-color: var(--mat-sys-primary);
+    --fc-today-bg-color: var(--mat-sys-surface-container-low);
+  }
+
+  // Toolbar
+  .fc-toolbar-title {
+    font-size: 1.25rem !important;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface);
+  }
+
+  .fc-button {
+    border-radius: 20px !important; // Pill shape like Material buttons
+    padding: 0 16px !important;
+    height: 36px !important;
+    font-weight: 500 !important;
+    text-transform: capitalize;
+    box-shadow: none !important;
+    
+    &:focus {
+      box-shadow: none !important;
+    }
+  }
+
+  .fc-button-primary {
+    background-color: transparent !important;
+    color: var(--mat-sys-primary) !important;
+    border: 1px solid var(--mat-sys-outline) !important;
+
+    &:hover {
+      background-color: var(--mat-sys-surface-container-high) !important;
+      border-color: var(--mat-sys-outline-variant) !important;
+    }
+
+    &:not(:disabled).fc-button-active {
+      background-color: var(--mat-sys-secondary-container) !important;
+      color: var(--mat-sys-on-secondary-container) !important;
+      border-color: transparent !important;
+    }
+  }
+
+  // Headers
+  .fc-col-header-cell-cushion {
+    color: var(--mat-sys-on-surface-variant);
+    font-weight: 500;
+    padding: 8px 0 !important;
+    text-decoration: none !important;
+  }
+
+  // Day Grid
+  .fc-daygrid-day-number {
+    color: var(--mat-sys-on-surface);
+    text-decoration: none !important;
+    font-weight: 400;
+    padding: 8px !important;
+  }
+
+  // Time Grid
+  .fc-timegrid-slot-label-cushion {
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.875rem;
+  }
+
+  // Events
+  .fc-event {
+    border-radius: 4px;
+    padding: 2px 4px;
+    border: 1px solid; // Use the border color set in JS
+    border-left-width: 4px; // Thicker left border
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+
+    &:hover {
+      transform: scale(1.01);
+      z-index: 5;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  }
+
+  .fc-event-main {
+    color: inherit;
+  }
+
+  .fc-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 2px;
+  }
+
+  .fc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .fc-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+  }
+
+  .fc-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 4px;
+    margin-top: auto; // Push to bottom if space allows
+  }
+
+  .fc-desc {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+  }
+
+  .fc-status {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 1px 4px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    
+    &.status-scheduled { background-color: rgba(63, 81, 181, 0.15); color: #1a237e; }
+    &.status-arrived { background-color: rgba(255, 152, 0, 0.15); color: #e65100; }
+    &.status-loading { background-color: rgba(76, 175, 80, 0.15); color: #1b5e20; }
+    &.status-completed { background-color: rgba(158, 158, 158, 0.15); color: #424242; }
+    &.status-cancelled { background-color: rgba(244, 67, 54, 0.15); color: #b71c1c; }
+    &.status-inprogress { background-color: rgba(33, 150, 243, 0.15); color: #0d47a1; }
+  }
+}

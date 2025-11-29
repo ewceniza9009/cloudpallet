@@ -73,6 +73,21 @@ export class DockApiService {
     );
   }
 
+  getAppointmentsForWarehouse(
+    warehouseId: string,
+    startDate: string,
+    endDate: string
+  ): Observable<DockAppointmentDto[]> {
+    const params = new HttpParams()
+      .set('warehouseId', warehouseId)
+      .set('startDate', startDate)
+      .set('endDate', endDate);
+    return this.http.get<DockAppointmentDto[]>(
+      `${this.apiUrl}/docks/appointments`,
+      { params }
+    );
+  }
+
   scheduleAppointment(command: ScheduleAppointmentCommand): Observable<string> {
     return this.http.post<string>(`${this.apiUrl}/DockAppointments`, command);
   }
@@ -82,6 +97,22 @@ export class DockApiService {
   ): Observable<AppointmentDetailsDto> {
     return this.http.get<AppointmentDetailsDto>(
       `${this.apiUrl}/DockAppointments/${appointmentId}`
+    );
+  }
+
+  rescheduleAppointment(
+    appointmentId: string,
+    newStart: Date,
+    newEnd: Date
+  ): Observable<void> {
+    const command = {
+      appointmentId,
+      newStartTime: newStart.toISOString(),
+      newEndTime: newEnd.toISOString(),
+    };
+    return this.http.put<void>(
+      `${this.apiUrl}/DockAppointments/appointments/${appointmentId}/reschedule`,
+      command
     );
   }
 }

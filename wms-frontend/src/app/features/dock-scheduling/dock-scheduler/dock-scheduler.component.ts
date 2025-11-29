@@ -41,6 +41,11 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { DockAppointmentDto } from '../../../core/models/dock-appointment.dto';
 import { DockApiService, DockDto, ScheduleAppointmentCommand } from '../dock-api.service';
+import { DockCalendarComponent } from '../dock-calendar/dock-calendar.component';
+import { WarehouseStateService } from '../../../core/services/warehouse-state.service';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { AppointmentDetailsDialogComponent } from '../appointment-details-dialog/appointment-details-dialog.component';
 
 type ValidSelectionForm = { dockId: string; selectedDate: Date };
 interface SupplierDto {
@@ -76,6 +81,9 @@ interface TruckDto {
     MatSnackBarModule,
     MatRadioModule,
     MatAutocompleteModule,
+    DockCalendarComponent,
+    MatButtonToggleModule,
+    MatDialogModule
   ],
   templateUrl: './dock-scheduler.component.html',
   styleUrls: ['./dock-scheduler.component.scss'],
@@ -86,6 +94,8 @@ export class DockSchedulerComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private snackBar = inject(MatSnackBar);
   private http = inject(HttpClient);
+  private warehouseState = inject(WarehouseStateService);
+  private dialog = inject(MatDialog);
   private destroy$ = new Subject<void>();
 
   docks = signal<DockDto[]>([]);
@@ -99,6 +109,9 @@ export class DockSchedulerComponent implements OnInit, OnDestroy {
   filteredSuppliers = signal<SupplierDto[]>([]);
   filteredAccounts = signal<AccountDto[]>([]);
   filteredTrucks = signal<TruckDto[]>([]);
+  
+  viewMode = signal<'list' | 'calendar'>('list');
+  calendarAppointments = signal<DockAppointmentDto[]>([]);
 
   searchControl = new FormControl('');
   selectionForm = this.fb.group({
@@ -415,5 +428,65 @@ export class DockSchedulerComponent implements OnInit, OnDestroy {
         this.isSubmitting.set(false);
       },
     });
+  }
+
+
+  currentViewStart = signal<Date>(new Date());
+  currentViewEnd = signal<Date>(new Date());
+
+  onViewModeChange(mode: 'list' | 'calendar') {
+    this.viewMode.set(mode);
+    if (mode === 'calendar') {
+      // Initial load will be triggered by the calendar component emitting date range
+    }
+  }
+
+  onCalendarDateRangeChanged(range: { start: Date, end: Date }) {
+    this.currentViewStart.set(range.start);
+    this.currentViewEnd.set(range.end);
+    this.loadCalendarEvents(range.start, range.end);
+  }
+
+  loadCalendarEvents(start: Date, end: Date) {
+    const warehouseId = this.warehouseState.selectedWarehouseId();
+    if (!warehouseId) return;
+
+    this.isLoading.set(true);
+    this.dockService.getAppointmentsForWarehouse(warehouseId, start.toISOString(), end.toISOString())
+      .subscribe({
+        next: (data) => {
+          this.calendarAppointments.set(data);
+          this.isLoading.set(false);
+        },
+        error: () => {
+          this.snackBar.open('Failed to load calendar events', 'Close', { duration: 3000 });
+          this.isLoading.set(false);
+        }
+      });
+  }
+
+  openAppointmentDetails(appointment: DockAppointmentDto) {
+    this.dialog.open(AppointmentDetailsDialogComponent, {
+      data: appointment,
+      width: '400px'
+    });
+  }
+
+  onAppointmentRescheduled(event: { appointment: DockAppointmentDto, newStart: Date, newEnd: Date }) {
+    this.isLoading.set(true);
+    this.dockService.rescheduleAppointment(event.appointment.id, event.newStart, event.newEnd)
+      .subscribe({
+        next: () => {
+          this.snackBar.open('Appointment rescheduled successfully', 'OK', { duration: 3000 });
+          // Reload events using the current view range to keep all events visible
+          this.loadCalendarEvents(this.currentViewStart(), this.currentViewEnd());
+        },
+        error: (err) => {
+          this.snackBar.open('Failed to reschedule appointment', 'Close', { duration: 5000 });
+          this.isLoading.set(false);
+          // Reload current view range to revert any optimistic UI changes if necessary
+          this.loadCalendarEvents(this.currentViewStart(), this.currentViewEnd());
+        }
+      });
   }
 }

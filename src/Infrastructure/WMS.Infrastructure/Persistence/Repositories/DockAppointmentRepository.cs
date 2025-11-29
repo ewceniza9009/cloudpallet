@@ -17,6 +17,12 @@ public class DockAppointmentRepository(WmsDbContext context) : IDockAppointmentR
         return await context.DockAppointments.FindAsync([id], cancellationToken: cancellationToken);
     }
 
+    public Task UpdateAsync(DockAppointment appointment, CancellationToken cancellationToken)
+    {
+        context.DockAppointments.Update(appointment);
+        return Task.CompletedTask;
+    }
+
     public async Task<bool> DoesAppointmentOverlapAsync(Guid dockId, DateTime start, DateTime end, CancellationToken cancellationToken)
     {
         var overlaps = await context.DockAppointments

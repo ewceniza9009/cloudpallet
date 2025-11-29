@@ -251,7 +251,7 @@
             <div class="empty-state" style="margin-left: 10px; color: #006a6a;">No new notifications</div>
             }
          </mat-menu>
-         <mat-menu #userMenu="matMenu">
+         <mat-menu #userMenu="matMenu" class="user-profile-menu">
             @if (currentUser(); as user) {
             <div class="menu-header user-info">
                <div class="user-email">{{ user.email }}</div>

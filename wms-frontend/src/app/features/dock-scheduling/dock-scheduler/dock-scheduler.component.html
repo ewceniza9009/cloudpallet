@@ -4,8 +4,28 @@
       <h1 class="mat-headline-6">Dock Scheduler</h1>
       <p class="mat-body-1">Schedule and view all dock appointments.</p>
     </div>
+    <mat-button-toggle-group [value]="viewMode()" (change)="onViewModeChange($event.value)" class="view-mode-toggle" appearance="legacy">
+      <mat-button-toggle value="list" aria-label="List View">
+        <mat-icon>format_list_bulleted</mat-icon>
+        <span>List</span>
+      </mat-button-toggle>
+      <mat-button-toggle value="calendar" aria-label="Calendar View">
+        <mat-icon>calendar_today</mat-icon>
+        <span>Calendar</span>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
 
+  @if (viewMode() === 'calendar') {
+    <div class="calendar-wrapper">
+      <app-dock-calendar 
+        [appointments]="calendarAppointments()"
+        (dateRangeChanged)="onCalendarDateRangeChanged($event)"
+        (eventClicked)="openAppointmentDetails($event)"
+        (appointmentRescheduled)="onAppointmentRescheduled($event)">
+      </app-dock-calendar>
+    </div>
+  } @else {
   <div class="scheduler-grid">
     <div class="main-content-col">
       <mat-card class="detail-card">
@@ -160,4 +180,5 @@
       </mat-card>
     </div>
   </div>
+  }
 </div>

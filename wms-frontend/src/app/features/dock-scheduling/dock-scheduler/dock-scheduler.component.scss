@@ -264,3 +264,60 @@
     position: static;
   }
 }
+
+// View Mode Toggle (Segmented Control Style)
+.view-mode-toggle {
+  background-color: var(--mat-sys-surface-container-high);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 8px;
+  padding: 4px;
+  display: inline-flex;
+  gap: 4px;
+  height: auto;
+  align-items: center;
+
+  ::ng-deep .mat-button-toggle {
+    background-color: transparent;
+    border: none;
+    border-radius: 6px;
+    color: var(--mat-sys-on-surface-variant);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    min-width: 100px; // Ensure consistent width
+
+    &.mat-button-toggle-checked {
+      background-color: var(--mat-sys-surface);
+      color: var(--mat-sys-primary);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      
+      .mat-icon {
+        color: var(--mat-sys-primary);
+      }
+    }
+
+    .mat-button-toggle-label-content {
+      line-height: 36px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      margin: 0;
+    }
+    
+    span {
+      font-size: 0.9rem;
+    }
+  }
+  
+  // Hide default borders if legacy appearance adds them
+  ::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+    border-left: none;
+  }
+}

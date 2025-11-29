@@ -55,4 +55,15 @@ public class DockAppointment : AggregateRoot<Guid>
         }
         Status = AppointmentStatus.Cancelled;
     }
+
+    public void Reschedule(DateTime newStart, DateTime newEnd)
+    {
+        if (newStart >= newEnd) throw new ArgumentException("Start time must be before end time.");
+        if (Status is AppointmentStatus.Completed or AppointmentStatus.Cancelled)
+        {
+            throw new InvalidOperationException("Cannot reschedule an appointment that is already completed or cancelled.");
+        }
+        StartDateTime = newStart;
+        EndDateTime = newEnd;
+    }
 }

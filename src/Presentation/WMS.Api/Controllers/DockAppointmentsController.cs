@@ -27,6 +27,15 @@ public class DockAppointmentsController : ApiControllerBase
         return Ok(result);
     }
 
+    [HttpGet("/api/docks/appointments")]
+    [ProducesResponseType(typeof(IEnumerable<DockAppointmentDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetForWarehouse([FromQuery] Guid warehouseId, [FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+    {
+        var query = new GetWarehouseAppointmentsQuery(warehouseId, startDate, endDate);
+        var result = await Mediator.Send(query);
+        return Ok(result);
+    }
+
     [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -62,6 +71,20 @@ public class DockAppointmentsController : ApiControllerBase
     public async Task<IActionResult> VacateDock(Guid dockId)
     {
         await Mediator.Send(new VacateDockCommand(dockId));
+        return NoContent();
+    }
+
+    [HttpPut("appointments/{id:guid}/reschedule")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Reschedule(Guid id, [FromBody] RescheduleAppointmentCommand command)
+    {
+        if (id != command.AppointmentId)
+        {
+            return BadRequest("ID mismatch");
+        }
+        await Mediator.Send(command);
         return NoContent();
     }
 }
