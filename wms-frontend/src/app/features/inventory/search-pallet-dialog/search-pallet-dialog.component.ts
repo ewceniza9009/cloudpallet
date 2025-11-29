@@ -124,6 +124,10 @@ export class SearchPalletDialogComponent implements OnInit {
         this.materials.set(materials || []);
         this.isLoadingLookups.set(false);
 
+        // Trigger filter re-evaluation now that data is loaded
+        this.accountControl.updateValueAndValidity({ emitEvent: true });
+        this.materialControl.updateValueAndValidity({ emitEvent: true });
+
         this.searchTrigger.next();
       }
     );

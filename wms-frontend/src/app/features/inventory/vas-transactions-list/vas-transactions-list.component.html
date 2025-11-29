@@ -10,7 +10,7 @@
     <form [formGroup]="filterForm" class="filter-grid">
       <div class="custom-field account-field">
         <label>Account</label>
-        <input type="text" matInput formControlName="account" [matAutocomplete]="accountAuto" placeholder="Select account">
+        <input type="text" matInput formControlName="account" [matAutocomplete]="accountAuto" placeholder="Select account" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
         <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="displayAccount">
           <mat-option *ngFor="let account of accounts()" [value]="account">
             {{ account.name }}

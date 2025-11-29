@@ -20,7 +20,7 @@
 
       <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
         <mat-label>Customer Account</mat-label>
-        <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Select Account">
+        <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Select Account" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
         <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName">
           @for(item of filteredAccounts$ | async; track item.id) {
           <mat-option [value]="item">{{item.name}}</mat-option>
@@ -31,7 +31,7 @@
 
       <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
         <mat-label>User</mat-label>
-        <input matInput [formControl]="userControl" [matAutocomplete]="userAuto" placeholder="Select User">
+        <input matInput [formControl]="userControl" [matAutocomplete]="userAuto" placeholder="Select User" #triggerUser="matAutocompleteTrigger" (click)="triggerUser.openPanel()">
         <mat-autocomplete #userAuto="matAutocomplete" [displayWith]="getDisplayName">
           @for(item of filteredUsers$ | async; track item.id) {
           <mat-option [value]="item">{{item.name}}</mat-option>
@@ -42,7 +42,7 @@
 
       <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
         <mat-label>Truck</mat-label>
-        <input matInput [formControl]="truckControl" [matAutocomplete]="truckAuto" placeholder="Select Truck">
+        <input matInput [formControl]="truckControl" [matAutocomplete]="truckAuto" placeholder="Select Truck" #triggerTruck="matAutocompleteTrigger" (click)="triggerTruck.openPanel()">
         <mat-autocomplete #truckAuto="matAutocomplete" [displayWith]="getDisplayName">
           @for(item of filteredTrucks$ | async; track item.id) {
           <mat-option [value]="item">{{item.name}}</mat-option>

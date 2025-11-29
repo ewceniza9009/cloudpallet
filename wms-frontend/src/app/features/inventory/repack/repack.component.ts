@@ -90,11 +90,15 @@ export class RepackComponent implements OnInit {
   loadInitialLookups(): void {
     this.http
       .get<AccountDto[]>(`${environment.apiUrl}/Lookups/accounts`)
-      .subscribe((data) => this.accounts.set(data));
+      .subscribe((data) => {
+        this.accounts.set(data);
+        this.repackForm.get('account')?.updateValueAndValidity({ emitEvent: true });
+      });
     this.http
       .get<MaterialDto[]>(`${environment.apiUrl}/Lookups/materials`)
       .subscribe((data) => {
         this.allMaterials.set(data.filter(m => m.materialType === 'Repack'));
+        this.repackForm.get('targetMaterial')?.updateValueAndValidity({ emitEvent: true });
       });
   }
 

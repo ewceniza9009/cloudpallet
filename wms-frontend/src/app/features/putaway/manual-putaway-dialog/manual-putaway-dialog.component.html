@@ -18,6 +18,8 @@
                matInput
                formControlName="locationSearch"
                [matAutocomplete]="autoLocation"
+               #triggerLocation="matAutocompleteTrigger"
+               (click)="triggerLocation.openPanel()"
                cdkFocusInitial>
         <mat-autocomplete #autoLocation="matAutocomplete"
                           panelClass="putaway-panel"

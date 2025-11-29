@@ -10,7 +10,7 @@
             <div class="form-grid-refined">
                <mat-form-field appearance="outline">
                   <mat-label>Supplier</mat-label>
-                  <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto"> <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getLookupName">
+                  <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto" #triggerSupplier="matAutocompleteTrigger" (click)="triggerSupplier.openPanel()"> <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getLookupName">
                     <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
                       @for(s of filteredSuppliers | async; track s.id){
                         <mat-option [value]="s">{{s.name}}</mat-option>
@@ -20,7 +20,7 @@
                </mat-form-field>
                <mat-form-field appearance="outline">
                   <mat-label>Customer Account</mat-label>
-                  <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto"> <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getLookupName">
+                  <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()"> <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getLookupName">
                     <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
                       @for(a of filteredAccounts | async; track a.id){
                         <mat-option [value]="a">{{a.name}}</mat-option>
@@ -160,7 +160,7 @@
             <div class="add-material-section-modern">
                <mat-form-field appearance="outline" class="material-select-field-modern">
                   <mat-label>Search and Select Material</mat-label>
-                  <input type="text" matInput [formControl]="materialSearchCtrl" [matAutocomplete]="auto" (focus)="onMaterialPanelOpen()"> <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayMaterialName" (optionSelected)="onMaterialSelected($event, pallet)">
+                  <input type="text" matInput [formControl]="materialSearchCtrl" [matAutocomplete]="auto" (click)="onMaterialPanelOpen()" (focus)="onMaterialPanelOpen()"> <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayMaterialName" (optionSelected)="onMaterialSelected($event, pallet)">
                   <mat-option *ngIf="isMaterialLoading()" class="loading-option" disabled>
                      <mat-spinner diameter="20"></mat-spinner>
                   </mat-option>

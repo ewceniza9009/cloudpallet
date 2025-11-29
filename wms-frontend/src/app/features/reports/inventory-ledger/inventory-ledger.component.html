@@ -18,7 +18,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="custom-field">
       <mat-label>Customer Account</mat-label>
-      <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Select Account" (focus)="accountAutoTrigger.openPanel()" #accountAutoTrigger="matAutocompleteTrigger">
+      <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Select Account" (click)="accountAutoTrigger.openPanel()" #accountAutoTrigger="matAutocompleteTrigger">
       <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName" (optionSelected)="onOptionSelected($event, filterForm.controls.accountId)">
         @for(item of filteredAccounts$ | async; track item.id) {
           <mat-option [value]="item">{{item.name}}</mat-option>
@@ -28,7 +28,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="custom-field">
       <mat-label>Material</mat-label>
-      <input matInput [formControl]="materialControl" [matAutocomplete]="materialAuto" placeholder="Select Material" (focus)="materialAutoTrigger.openPanel()" #materialAutoTrigger="matAutocompleteTrigger">
+      <input matInput [formControl]="materialControl" [matAutocomplete]="materialAuto" placeholder="Select Material" (click)="materialAutoTrigger.openPanel()" #materialAutoTrigger="matAutocompleteTrigger">
       <mat-autocomplete #materialAuto="matAutocomplete" [displayWith]="getDisplayName" (optionSelected)="onOptionSelected($event, filterForm.controls.materialId)">
         @for(item of filteredMaterials$ | async; track item.id) {
           <mat-option [value]="item">{{item.name}}</mat-option>
@@ -38,7 +38,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="custom-field">
       <mat-label>Supplier</mat-label>
-      <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto" placeholder="Select Supplier" (focus)="supplierAutoTrigger.openPanel()" #supplierAutoTrigger="matAutocompleteTrigger">
+      <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto" placeholder="Select Supplier" (click)="supplierAutoTrigger.openPanel()" #supplierAutoTrigger="matAutocompleteTrigger">
       <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getDisplayName" (optionSelected)="onOptionSelected($event, filterForm.controls.supplierId)">
         @for(item of filteredSuppliers$ | async; track item.id) {
           <mat-option [value]="item">{{item.name}}</mat-option>

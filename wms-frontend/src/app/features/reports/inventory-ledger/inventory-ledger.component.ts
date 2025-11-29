@@ -246,13 +246,22 @@ export class InventoryLedgerComponent implements OnInit, AfterViewInit {
   loadLookups(): void {
     this.http
       .get<LookupDto[]>(`${environment.apiUrl}/Lookups/accounts`)
-      .subscribe((res) => this.accounts.set(res));
+      .subscribe((res) => {
+        this.accounts.set(res);
+        this.accountControl.updateValueAndValidity({ emitEvent: true });
+      });
     this.http
       .get<LookupDto[]>(`${environment.apiUrl}/Lookups/materials`)
-      .subscribe((res) => this.materials.set(res));
+      .subscribe((res) => {
+        this.materials.set(res);
+        this.materialControl.updateValueAndValidity({ emitEvent: true });
+      });
     this.http
       .get<LookupDto[]>(`${environment.apiUrl}/Lookups/suppliers`)
-      .subscribe((res) => this.suppliers.set(res));
+      .subscribe((res) => {
+        this.suppliers.set(res);
+        this.supplierControl.updateValueAndValidity({ emitEvent: true });
+      });
   }
 
   getIconForEventType(type: string): string {

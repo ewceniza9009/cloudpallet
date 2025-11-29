@@ -28,7 +28,7 @@
         <mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
           <mat-label>Account</mat-label>
           <mat-icon matPrefix>business</mat-icon>
-          <input type="text" matInput [formControl]="accountControl" [matAutocomplete]="autoAccount" (input)="onFilterChange()">
+          <input type="text" matInput [formControl]="accountControl" [matAutocomplete]="autoAccount" (input)="onFilterChange()" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
           <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName" (optionSelected)="onFilterChange()">
             <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
               @for(account of filteredAccounts$ | async; track account.id) {
@@ -41,7 +41,7 @@
         <mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
           <mat-label>Material</mat-label>
           <mat-icon matPrefix>category</mat-icon>
-          <input type="text" matInput [formControl]="materialControl" [matAutocomplete]="autoMaterial" (input)="onFilterChange()">
+          <input type="text" matInput [formControl]="materialControl" [matAutocomplete]="autoMaterial" (input)="onFilterChange()" #triggerMaterial="matAutocompleteTrigger" (click)="triggerMaterial.openPanel()">
           <mat-autocomplete #autoMaterial="matAutocomplete" [displayWith]="displayMaterialName" (optionSelected)="onFilterChange()">
             <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
               @for(material of filteredMaterials$ | async; track material.id) {

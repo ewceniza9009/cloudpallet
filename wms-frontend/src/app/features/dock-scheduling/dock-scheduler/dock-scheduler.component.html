@@ -122,7 +122,7 @@
 
             <mat-form-field appearance="outline" class="custom-field">
               <mat-label>Truck License Plate</mat-label>
-              <input matInput [formControl]="truckControl" [matAutocomplete]="truckAuto" placeholder="Search or type license plate" (focus)="truckAutoTrigger.openPanel()" #truckAutoTrigger="matAutocompleteTrigger"/>
+              <input matInput [formControl]="truckControl" [matAutocomplete]="truckAuto" placeholder="Search or type license plate" (click)="truckAutoTrigger.openPanel()" (focus)="truckAutoTrigger.openPanel()" #truckAutoTrigger="matAutocompleteTrigger"/>
               <mat-autocomplete #truckAuto="matAutocomplete" [displayWith]="truckDisplayFn" (optionSelected)="onTruckSelected($event)">
                 @for(t of filteredTrucks(); track t.id) {
                 <mat-option [value]="t">{{ t.licensePlate }}</mat-option>
@@ -133,7 +133,7 @@
 
             <mat-form-field appearance="outline" class="custom-field">
               <mat-label>Supplier</mat-label>
-              <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto" placeholder="Search supplier" (focus)="supplierAutoTrigger.openPanel()" #supplierAutoTrigger="matAutocompleteTrigger"/>
+              <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto" placeholder="Search supplier" (click)="supplierAutoTrigger.openPanel()" (focus)="supplierAutoTrigger.openPanel()" #supplierAutoTrigger="matAutocompleteTrigger"/>
               <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getDisplayName" (optionSelected)="onSupplierSelected($event)">
                 @for(s of filteredSuppliers(); track s.id) {
                 <mat-option [value]="s">{{ s.name }}</mat-option>
@@ -144,7 +144,7 @@
 
             <mat-form-field appearance="outline" class="custom-field">
               <mat-label>Customer Account</mat-label>
-              <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Search customer account" (focus)="accountAutoTrigger.openPanel()" #accountAutoTrigger="matAutocompleteTrigger"/>
+              <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Search customer account" (click)="accountAutoTrigger.openPanel()" (focus)="accountAutoTrigger.openPanel()" #accountAutoTrigger="matAutocompleteTrigger"/>
               <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName" (optionSelected)="onAccountSelected($event)">
                 @for(a of filteredAccounts(); track a.id) {
                 <mat-option [value]="a">{{ a.name }}</mat-option>

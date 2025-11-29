@@ -168,13 +168,22 @@ export class DockSchedulerComponent implements OnInit, OnDestroy {
   loadLookups(): void {
     this.http
       .get<SupplierDto[]>(`${environment.apiUrl}/Lookups/suppliers`)
-      .subscribe(data => this.suppliers.set(data));
+      .subscribe(data => {
+        this.suppliers.set(data);
+        this.supplierControl.updateValueAndValidity({ emitEvent: true });
+      });
     this.http
       .get<AccountDto[]>(`${environment.apiUrl}/Lookups/accounts`)
-      .subscribe(data => this.accounts.set(data));
+      .subscribe(data => {
+        this.accounts.set(data);
+        this.accountControl.updateValueAndValidity({ emitEvent: true });
+      });
     this.http
       .get<TruckDto[]>(`${environment.apiUrl}/Lookups/trucks`)
-      .subscribe(data => this.trucks.set(data));
+      .subscribe(data => {
+        this.trucks.set(data);
+        this.truckControl.updateValueAndValidity({ emitEvent: true });
+      });
   }
 
   loadDocks(): void {

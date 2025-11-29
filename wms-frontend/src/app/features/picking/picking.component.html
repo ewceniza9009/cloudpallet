@@ -20,7 +20,7 @@
           <!-- Account Selector -->
           <mat-form-field appearance="outline" class="custom-field">
             <mat-label>Customer Account</mat-label>
-            <input matInput formControlName="accountSearch" [matAutocomplete]="autoAccount" placeholder="Select Account" (focus)="accountAutoTrigger.openPanel()" #accountAutoTrigger="matAutocompleteTrigger">
+            <input matInput formControlName="accountSearch" [matAutocomplete]="autoAccount" placeholder="Select Account" (click)="accountAutoTrigger.openPanel()" (focus)="accountAutoTrigger.openPanel()" #accountAutoTrigger="matAutocompleteTrigger">
             <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName.bind(this)" (optionSelected)="onAccountChange($event.option.value)">
               @for(acc of filteredAccounts(); track acc.id) {
                 <mat-option [value]="acc">{{ acc.name }}</mat-option>
@@ -52,7 +52,7 @@
               <div [formGroupName]="i" class="order-item-row">
                 <mat-form-field appearance="outline" class="custom-field material-select">
                   <mat-label>Material</mat-label>
-                  <input matInput formControlName="materialSearch" [matAutocomplete]="autoMaterial" placeholder="Select Material" (focus)="materialAutoTrigger.openPanel()" #materialAutoTrigger="matAutocompleteTrigger">
+                  <input matInput formControlName="materialSearch" [matAutocomplete]="autoMaterial" placeholder="Select Material" (click)="materialAutoTrigger.openPanel()" (focus)="materialAutoTrigger.openPanel()" #materialAutoTrigger="matAutocompleteTrigger">
                   <mat-autocomplete #autoMaterial="matAutocomplete" [displayWith]="displayMaterialName" (optionSelected)="onMaterialSelected($event.option.value, i)">
                     @for(mat of item.get('filteredMaterials')?.value; track mat.id) {
                       <mat-option [value]="mat">{{ mat.name }} ({{ mat.sku }})</mat-option>

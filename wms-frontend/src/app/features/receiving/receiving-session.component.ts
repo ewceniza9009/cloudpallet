@@ -234,6 +234,8 @@ export class ReceivingSessionComponent implements OnInit, OnDestroy {
 
           this.supplierControl.disable();
           this.accountControl.disable();
+          this.supplierControl.updateValueAndValidity({ emitEvent: true });
+          this.accountControl.updateValueAndValidity({ emitEvent: true });
         });
       });
     }
@@ -287,6 +289,8 @@ export class ReceivingSessionComponent implements OnInit, OnDestroy {
       this.suppliers.set(suppliers);
       this.accounts.set(accounts);
       this.appointments.set(appointments);
+      this.supplierControl.updateValueAndValidity({ emitEvent: true });
+      this.accountControl.updateValueAndValidity({ emitEvent: true });
     });
   }
 
@@ -400,6 +404,8 @@ export class ReceivingSessionComponent implements OnInit, OnDestroy {
 
           this.supplierControl.disable();
           this.accountControl.disable();
+          this.supplierControl.updateValueAndValidity({ emitEvent: true });
+          this.accountControl.updateValueAndValidity({ emitEvent: true });
         });
 
         const palletStates: PalletState[] = session.pallets.map(

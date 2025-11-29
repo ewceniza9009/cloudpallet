@@ -15,7 +15,8 @@
         <label class="form-label">Customer Account</label>
         <mat-form-field appearance="outline" class="custom-field">
           <mat-icon matPrefix>business</mat-icon>
-          <input type="text" matInput [formControl]="accountSearchCtrl" [matAutocomplete]="autoAccount" placeholder="Select Account">
+          <input type="text" matInput [formControl]="accountSearchCtrl" [matAutocomplete]="autoAccount" placeholder="Select Account"
+                 #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
           <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccount" (optionSelected)="onAccountSelected($event)">
             @for (account of filteredAccounts$(); track account.id) {
               <mat-option [value]="account">{{ account.name }}</mat-option>
@@ -54,7 +55,8 @@
             <mat-icon matPrefix>qr_code_scanner</mat-icon>
             <input type="text" matInput [formControl]="inventorySearchCtrl" [matAutocomplete]="autoInventory" 
                    placeholder="Scan Item, Pallet, or Location..." 
-                   [disabled]="!cycleCountForm.get('accountId')?.value">
+                   [disabled]="!cycleCountForm.get('accountId')?.value"
+                   #triggerInventory="matAutocompleteTrigger" (click)="triggerInventory.openPanel()">
             <mat-autocomplete #autoInventory="matAutocomplete" [displayWith]="displayInventory" (optionSelected)="addItemToCount($event)">
               @for (inv of filteredInventories$(); track inv.inventoryId) {
                 <mat-option [value]="inv" class="rich-option">

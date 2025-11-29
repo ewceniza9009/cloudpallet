@@ -20,7 +20,7 @@
             <label class="form-label">Customer Account</label>
             <mat-form-field appearance="outline" class="custom-field">
               <mat-icon matPrefix>business</mat-icon>
-              <input type="text" matInput formControlName="account" [matAutocomplete]="autoAccount" placeholder="Select Account">
+              <input type="text" matInput formControlName="account" [matAutocomplete]="autoAccount" placeholder="Select Account" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
               <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccount" (optionSelected)="onAccountSelected($event.option.value)">
                 @for (account of filteredAccounts$ | async; track account.id) {
                   <mat-option [value]="account">{{ account.name }}</mat-option>
@@ -34,7 +34,7 @@
             <label class="form-label">Target Material (Output)</label>
             <mat-form-field appearance="outline" class="custom-field">
               <mat-icon matPrefix>category</mat-icon>
-              <input type="text" matInput formControlName="targetMaterial" [matAutocomplete]="autoTarget" placeholder="Search Target SKU">
+              <input type="text" matInput formControlName="targetMaterial" [matAutocomplete]="autoTarget" placeholder="Search Target SKU" #triggerTarget="matAutocompleteTrigger" (click)="triggerTarget.openPanel()">
               <mat-autocomplete #autoTarget="matAutocomplete" [displayWith]="displayMaterial" (optionSelected)="onTargetMaterialSelected($event.option.value)">
                 @for (mat of filteredTargetMaterials$ | async; track mat.id) {
                   <mat-option [value]="mat">{{ mat.name }} ({{mat.sku}})</mat-option>
@@ -91,7 +91,7 @@
             <div class="search-box">
               <mat-form-field appearance="outline" class="custom-field search">
                 <mat-icon matPrefix>search</mat-icon>
-                <input type="text" matInput formControlName="sourceInventory" [matAutocomplete]="autoSource" placeholder="Search by material or pallet...">
+                <input type="text" matInput formControlName="sourceInventory" [matAutocomplete]="autoSource" placeholder="Search by material or pallet..." #triggerSource="matAutocompleteTrigger" (click)="triggerSource.openPanel()">
                 @if (isLoadingSources()) {
                   <mat-spinner matSuffix diameter="20"></mat-spinner>
                 }

@@ -20,7 +20,7 @@
             <label class="form-label">Customer Account</label>
             <mat-form-field appearance="outline" class="custom-field">
               <mat-icon matPrefix>business</mat-icon>
-              <input type="text" matInput [formControl]="accountSearchCtrl" [matAutocomplete]="autoAccount" placeholder="Select Account">
+              <input type="text" matInput [formControl]="accountSearchCtrl" [matAutocomplete]="autoAccount" placeholder="Select Account" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
               <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccount" (optionSelected)="onAccountSelected($event)">
                 @for (account of filteredAccounts(); track account.id) {
                   <mat-option [value]="account">{{ account.name }}</mat-option>
@@ -34,7 +34,7 @@
             <label class="form-label">Kit Recipe (SKU)</label>
             <mat-form-field appearance="outline" class="custom-field">
               <mat-icon matPrefix>category</mat-icon>
-              <input type="text" matInput [formControl]="kitMaterialSearchCtrl" [matAutocomplete]="autoKit" placeholder="Search Kit SKU">
+              <input type="text" matInput [formControl]="kitMaterialSearchCtrl" [matAutocomplete]="autoKit" placeholder="Search Kit SKU" #triggerKit="matAutocompleteTrigger" (click)="triggerKit.openPanel()">
               <mat-autocomplete #autoKit="matAutocomplete" [displayWith]="displayMaterial" (optionSelected)="onKitMaterialSelected($event)">
                 @for (kit of filteredKitMaterials(); track kit.id) {
                   <mat-option [value]="kit">{{ kit.name }} ({{kit.sku}})</mat-option>
@@ -121,7 +121,7 @@
                   <div class="source-selection">
                     <label class="form-label">Source Inventory</label>
                     <mat-form-field appearance="outline" class="custom-field dense">
-                      <input type="text" matInput formControlName="sourceSearchCtrl" [matAutocomplete]="autoSource" placeholder="Search Pallet...">
+                      <input type="text" matInput formControlName="sourceSearchCtrl" [matAutocomplete]="autoSource" placeholder="Search Pallet..." #triggerSource="matAutocompleteTrigger" (click)="triggerSource.openPanel()">
                       <mat-autocomplete #autoSource="matAutocomplete" [displayWith]="displaySource" (optionSelected)="onSourceSelected($event, i)">
                         @for (inv of componentSourceFilters[i] | async; track inv.inventoryId) {
                           <mat-option [value]="inv" [disabled]="inv.quantity < componentGroup.value.quantityToConsume">
