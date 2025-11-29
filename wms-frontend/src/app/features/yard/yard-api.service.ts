@@ -87,4 +87,9 @@ export class YardApiService {
     const command = { yardSpotId, appointmentId };
     return this.http.post<void>(`${this.apiUrl}/move-to-dock`, command);
   }
+
+  vacateYardSpot(yardSpotId: string): Observable<void> {
+    const command = { yardSpotId };
+    return this.http.post<void>(`${this.apiUrl}/vacate-spot`, command);
+  }
 }

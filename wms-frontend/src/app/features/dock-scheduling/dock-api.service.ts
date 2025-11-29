@@ -115,4 +115,8 @@ export class DockApiService {
       command
     );
   }
+
+  cancelAppointment(id: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/DockAppointments/${id}/cancel`, {});
+  }
 }

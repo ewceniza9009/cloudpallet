@@ -38,8 +38,8 @@ export class DockCalendarComponent implements OnInit, OnChanges {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
-    slotMinTime: '06:00:00',
-    slotMaxTime: '22:00:00',
+    slotMinTime: '00:00:00',
+    slotMaxTime: '24:00:00',
     height: 'auto',
     datesSet: (arg) => {
       this.dateRangeChanged.emit({ start: arg.start, end: arg.end });

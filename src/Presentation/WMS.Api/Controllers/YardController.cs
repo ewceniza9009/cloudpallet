@@ -40,4 +40,11 @@ public class YardController : ApiControllerBase
         await Mediator.Send(command);
         return NoContent();
     }
+
+    [HttpPost("vacate-spot")]
+    public async Task<IActionResult> VacateSpot([FromBody] VacateYardSpotCommand command)
+    {
+        await Mediator.Send(command);
+        return NoContent();
+    }
 }

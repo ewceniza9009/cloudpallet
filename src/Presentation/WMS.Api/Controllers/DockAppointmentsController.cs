@@ -87,4 +87,14 @@ public class DockAppointmentsController : ApiControllerBase
         await Mediator.Send(command);
         return NoContent();
     }
+
+    [HttpPost("{id:guid}/cancel")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Cancel(Guid id)
+    {
+        await Mediator.Send(new CancelAppointmentCommand(id));
+        return NoContent();
+    }
 }

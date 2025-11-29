@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { DockAppointmentDto } from '../../../core/models/dock-appointment.dto';
+import { DockApiService } from '../dock-api.service';
 
 @Component({
   selector: 'app-appointment-details-dialog',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatSnackBarModule],
   template: `
     <h2 mat-dialog-title>Appointment Details</h2>
     <mat-dialog-content>
@@ -39,6 +41,7 @@ import { DockAppointmentDto } from '../../../core/models/dock-appointment.dto';
       </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
+      <button mat-button color="warn" (click)="cancelAppointment()" *ngIf="data.status === 'Scheduled'">Cancel Appointment</button>
       <button mat-button mat-dialog-close>Close</button>
     </mat-dialog-actions>
   `,
@@ -84,8 +87,25 @@ import { DockAppointmentDto } from '../../../core/models/dock-appointment.dto';
   `]
 })
 export class AppointmentDetailsDialogComponent {
+  private dockService = inject(DockApiService);
+  private snackBar = inject(MatSnackBar);
+
   constructor(
     public dialogRef: MatDialogRef<AppointmentDetailsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DockAppointmentDto
   ) {}
+
+  cancelAppointment() {
+    if (confirm('Are you sure you want to cancel this appointment?')) {
+      this.dockService.cancelAppointment(this.data.id).subscribe({
+        next: () => {
+          this.snackBar.open('Appointment cancelled successfully', 'OK', { duration: 3000 });
+          this.dialogRef.close(true); // Return true to indicate change
+        },
+        error: () => {
+          this.snackBar.open('Failed to cancel appointment', 'Close', { duration: 3000 });
+        }
+      });
+    }
+  }
 }

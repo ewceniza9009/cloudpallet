@@ -191,4 +191,17 @@ export class YardManagementComponent implements OnInit {
           ),
       });
   }
+  vacateSpot(spot: OccupiedYardSpotDto): void {
+    if (confirm(`Are you sure you want to vacate spot ${spot.spotNumber}? This will remove the truck from the yard.`)) {
+      this.yardApi.vacateYardSpot(spot.yardSpotId).subscribe({
+        next: () => {
+          this.snackBar.open(`Spot ${spot.spotNumber} vacated successfully.`, 'OK', { duration: 5000 });
+          this.loadYardData();
+        },
+        error: (err: any) => {
+          this.snackBar.open(`Failed to vacate spot: ${err.error?.title || 'Unknown error'}`, 'Close', { duration: 7000 });
+        }
+      });
+    }
+  }
 }

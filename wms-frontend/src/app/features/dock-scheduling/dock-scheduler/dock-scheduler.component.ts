@@ -466,9 +466,15 @@ export class DockSchedulerComponent implements OnInit, OnDestroy {
   }
 
   openAppointmentDetails(appointment: DockAppointmentDto) {
-    this.dialog.open(AppointmentDetailsDialogComponent, {
+    const dialogRef = this.dialog.open(AppointmentDetailsDialogComponent, {
       data: appointment,
       width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadCalendarEvents(this.currentViewStart(), this.currentViewEnd());
+      }
     });
   }
 

@@ -41,6 +41,10 @@
                 <mat-icon>move_to_inbox</mat-icon>
                 <span>Move to Dock</span>
               </button>
+              <button mat-stroked-button color="warn" (click)="vacateSpot(spot)" style="margin-left: 8px;">
+                <mat-icon>delete_forever</mat-icon>
+                <span>Vacate</span>
+              </button>
             </div>
           </mat-list-item>
           } @empty {
