@@ -133,6 +133,7 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
             .Where(p => context.MaterialInventories.Any(mi =>
                 mi.PalletId == p.Id &&
                 stagingLocationIds.Contains(mi.LocationId)))
+            .Where(p => p.Receiving.Status == ReceivingStatus.Completed)
             .ToListAsync(cancellationToken);
 
         var completedPutawayPalletIds = await context.PutawayTransactions
