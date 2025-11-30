@@ -130,93 +130,200 @@ $card-bg: #ffffff;
 }
 
 .count-card {
-  padding: 1.5rem;
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr auto; // Name/SKU | Locs/Barcodes | Sys Qty | Count | Delete
   align-items: center;
-  gap: 2rem;
-  transition: all 0.2s ease;
+  gap: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: white;
+  border-bottom: 1px solid $border-color;
+  transition: background-color 0.2s ease;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border-color: #cbd5e1;
+  &:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  &:last-child {
+    border-bottom: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 
+  &:hover {
+    background-color: #f8fafc;
+  }
+
+  // 1. Identity Section
   .card-left {
-    flex: 1;
+    border: none;
+    padding: 0;
     
     .item-identity {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 0.75rem;
+      margin: 0;
       
-      .material-name { font-size: 1.1rem; font-weight: 600; color: $text-primary; }
-      .sku { font-size: 0.9rem; color: $text-secondary; font-family: 'Roboto Mono', monospace; }
+      .material-name { 
+        font-size: 1rem; 
+        font-weight: 600; 
+        color: $text-primary; 
+        margin-bottom: 0.25rem;
+      }
+      .sku { 
+        font-size: 0.8rem; 
+        color: $text-secondary; 
+        font-family: 'Roboto Mono', monospace; 
+        background: transparent;
+        padding: 0;
+      }
+    }
+    
+    // Hide location here, we'll move it or style it differently if structure allows, 
+    // but based on HTML structure, we might need to adjust flex behavior if we can't change HTML.
+    // Since we are only editing SCSS, let's adapt the grid to the existing HTML structure.
+  }
+
+  // RE-STRATEGY: The HTML structure is .card-left (Identity + Location), .card-center (Qty + Input), .card-right (Delete).
+  // Let's make it look like a table row using Flexbox on the parent and specific widths.
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border: 1px solid $border-color;
+  margin-bottom: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+
+  .card-left {
+    flex: 2; // Take up more space
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border: none;
+    padding: 0;
+
+    .item-identity {
+      margin: 0;
+      .material-name { font-size: 1rem; font-weight: 600; color: $text-primary; }
+      .sku { font-size: 0.8rem; color: $text-secondary; }
     }
 
     .item-location {
       display: flex;
-      gap: 1rem;
-      
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
       .loc-badge, .pallet-badge {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.85rem;
-        color: $text-primary;
+        display: inline-flex; // Use inline-flex for better flow
+        align-items: center; // Vertically center icon and text
+        justify-content: center;
+        font-size: 0.75rem;
+        height: 24px; // Fixed height for consistency
+        padding: 0 8px;
         background: #f1f5f9;
-        padding: 4px 10px;
-        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        color: $text-secondary;
+        box-shadow: none;
         font-weight: 500;
-        
-        mat-icon { font-size: 16px; width: 16px; height: 16px; color: $text-secondary; }
+        line-height: 1; // Reset line height
+
+        mat-icon { 
+          font-size: 16px; // Slightly larger for clarity
+          width: 16px; 
+          height: 16px; 
+          margin-right: 6px; 
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        &.material-barcode {
+          background-color: #e3f2fd;
+          color: #1565c0;
+          border-color: #bbdefb;
+          
+          mat-icon { color: #1565c0; }
+        }
       }
     }
   }
 
   .card-center {
+    flex: 2;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 2rem;
-    background: #f8fafc;
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    border: 1px solid $border-color;
+    background: transparent;
+    border: none;
+    padding: 0;
+    min-width: auto;
 
     .system-qty {
-      text-align: center;
-      .label { display: block; font-size: 0.75rem; color: $text-secondary; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
-      .value { font-size: 1.25rem; font-weight: 600; color: $text-primary; }
+      text-align: right;
+      padding: 0;
+      flex: none;
+      margin-right: 2rem; // Add significant spacing
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      .label { 
+        font-size: 0.7rem; 
+        margin-bottom: 4px; 
+        color: $text-secondary;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .value { 
+        font-size: 1.25rem; 
+        font-weight: 700;
+        color: $text-primary;
+      }
     }
 
     .divider {
-      width: 1px;
-      height: 40px;
-      background: $border-color;
+      display: none; 
     }
 
     .count-input-wrapper {
-      text-align: center;
-      .label { display: block; font-size: 0.75rem; color: $primary-color; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
-      
+      flex: none;
+      width: 140px; // Slightly wider
+      padding: 0;
+      background: transparent;
+      border: none;
+      text-align: right;
+
+      .label { display: none; } 
+
       .big-input {
-        width: 100px;
-        margin-bottom: 0;
-        
-        ::ng-deep .mat-mdc-input-element { 
-          font-size: 1.5rem !important; 
-          font-weight: 700 !important; 
-          text-align: center !important; 
-          color: $primary-color !important; 
+        ::ng-deep .mat-mdc-input-element {
+          font-size: 1.5rem !important; // Larger font for better visibility
+          text-align: center !important; // Center text in input
+          border: 1px solid $border-color;
+          border-radius: 8px;
+          padding: 8px 12px !important;
+          background: white;
+          transition: all 0.2s;
+          height: 48px !important;
+          
+          &:focus {
+            border-color: $primary-color;
+            box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+          }
         }
       }
     }
   }
 
   .card-right {
+    position: static; // Flow naturally
+    margin-left: 1rem;
+    
     button {
-      opacity: 0.4;
-      transition: opacity 0.2s;
+      opacity: 0.6;
       &:hover { opacity: 1; background: #fee2e2; color: #be123c; }
     }
   }

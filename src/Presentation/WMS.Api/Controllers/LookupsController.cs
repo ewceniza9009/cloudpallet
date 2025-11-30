@@ -30,7 +30,7 @@ public record YardSpotDto(Guid Id, string SpotNumber);
 public record TruckDto(Guid Id, string LicensePlate);
 public record LookupDto(Guid Id, string Name);
 public record PalletTypeDto(Guid Id, string Name, decimal TareWeight);
-public record RepackableInventoryDto(Guid InventoryId, Guid MaterialId, string MaterialName, string Sku, string Location, decimal Quantity, string PalletBarcode, string? BatchNumber);
+public record RepackableInventoryDto(Guid InventoryId, Guid MaterialId, string MaterialName, string Sku, string Location, decimal Quantity, string PalletBarcode, string? BatchNumber, string Barcode);
 
 [ApiController]
 [Route("api/[controller]")]
@@ -280,14 +280,20 @@ public class LookupsController(WmsDbContext context) : ControllerBase
         [FromQuery] Guid? materialId = null,
         [FromQuery] string? searchTerm = null,
         [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 20)
+        [FromQuery] int pageSize = 20,
+        [FromQuery] bool includeAllLocations = false)
     {
         var query = context.MaterialInventories
           .AsNoTracking()
           .Include(mi => mi.Material)
           .Include(mi => mi.Location)
           .Include(mi => mi.Pallet)
-          .Where(mi => mi.AccountId == accountId && mi.Quantity > 0 && mi.Location.ZoneType == LocationType.Storage);
+          .Where(mi => mi.AccountId == accountId && mi.Quantity > 0);
+
+        if (!includeAllLocations)
+        {
+            query = query.Where(mi => mi.Location.ZoneType == LocationType.Storage);
+        }
 
         if (materialId.HasValue)
         {
@@ -300,7 +306,8 @@ public class LookupsController(WmsDbContext context) : ControllerBase
             query = query.Where(mi => 
                 mi.Pallet.Barcode.ToLower().Contains(term) || 
                 mi.Material.Name.ToLower().Contains(term) || 
-                mi.Material.Sku.ToLower().Contains(term));
+                mi.Material.Sku.ToLower().Contains(term) ||
+                mi.Barcode.ToLower().Contains(term));
         }
 
         var totalCount = await query.CountAsync();
@@ -317,7 +324,8 @@ public class LookupsController(WmsDbContext context) : ControllerBase
             mi.Location.Barcode,
             mi.Quantity,
             mi.Pallet.Barcode,
-            mi.BatchNumber
+            mi.BatchNumber,
+            mi.Barcode
           ))
           .ToListAsync();
 
@@ -466,5 +474,38 @@ public class LookupsController(WmsDbContext context) : ControllerBase
         ";
 
         return Content(htmlContent, "text/html", Encoding.UTF8);
+    }
+
+    [HttpGet("diagnose-barcode")]
+    public async Task<IActionResult> DiagnoseBarcode([FromQuery] string barcode)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"Diagnosing Barcode: {barcode}");
+
+        // 1. Check PalletLines
+        var palletLines = await context.Set<WMS.Domain.Entities.Transaction.PalletLine>()
+            .Include(pl => pl.Pallet)
+            .Where(pl => pl.Barcode == barcode)
+            .ToListAsync();
+
+        sb.AppendLine($"Found {palletLines.Count} PalletLines.");
+        foreach (var pl in palletLines)
+        {
+            sb.AppendLine($" - PalletLineId: {pl.Id}, Status: {pl.Status}, PalletId: {pl.PalletId}, PalletStatus: {pl.Pallet.Status}, AccountId: {pl.AccountId}");
+        }
+
+        // 2. Check MaterialInventory
+        var inventory = await context.MaterialInventories
+            .Include(mi => mi.Location)
+            .Where(mi => mi.Barcode == barcode)
+            .ToListAsync();
+
+        sb.AppendLine($"Found {inventory.Count} MaterialInventory records.");
+        foreach (var inv in inventory)
+        {
+            sb.AppendLine($" - InventoryId: {inv.Id}, Qty: {inv.Quantity}, Location: {inv.Location.Barcode} (Zone: {inv.Location.ZoneType}), AccountId: {inv.AccountId}");
+        }
+
+        return Ok(sb.ToString());
     }
 }

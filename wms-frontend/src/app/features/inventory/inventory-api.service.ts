@@ -164,6 +164,7 @@ export interface RepackableInventoryDto {
   quantity: number;
   palletBarcode: string;
   batchNumber?: string;
+  barcode: string;
 }
 
 export interface RecordVasCommand {
@@ -327,12 +328,14 @@ export class InventoryApiService {
     materialId?: string,
     searchTerm?: string,
     page: number = 1,
-    pageSize: number = 20
+    pageSize: number = 20,
+    includeAllLocations: boolean = false
   ): Observable<PagedResult<RepackableInventoryDto>> {
     let params = new HttpParams()
       .set('accountId', accountId)
       .set('page', page.toString())
-      .set('pageSize', pageSize.toString());
+      .set('pageSize', pageSize.toString())
+      .set('includeAllLocations', includeAllLocations.toString());
 
     if (materialId) {
       params = params.set('materialId', materialId);

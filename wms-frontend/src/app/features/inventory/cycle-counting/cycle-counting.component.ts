@@ -181,6 +181,16 @@ export class CycleCountingComponent implements OnInit {
       return;
     }
 
+    // 4. Try Exact Item Barcode Match
+    const itemMatches = allInventory.filter(
+      (inv) => inv.barcode?.toLowerCase() === term
+    );
+
+    if (itemMatches.length > 0) {
+      this._addItems(itemMatches, `Added item ${itemMatches[0].materialName}`);
+      return;
+    }
+
     this.snackBar.open('No matching inventory found for scan.', 'Close', { duration: 2000 });
   }
 
@@ -285,7 +295,7 @@ export class CycleCountingComponent implements OnInit {
     this.isLoadingInventory.set(true);
     this.accountInventories.set([]);
     this.filteredInventories$.set([]);
-    this.inventoryApi.getRepackableInventory(accountId, undefined, undefined, 1, 1000).subscribe({
+    this.inventoryApi.getRepackableInventory(accountId, undefined, undefined, 1, 1000, true).subscribe({
       next: (data) => {
         this.accountInventories.set(data.items);
         this.filteredInventories$.set(data.items);
