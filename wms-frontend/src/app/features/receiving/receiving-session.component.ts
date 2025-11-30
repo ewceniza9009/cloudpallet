@@ -34,6 +34,7 @@ import {
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import {
   ScrollingModule,
   CdkVirtualScrollViewport,
@@ -130,6 +131,7 @@ interface AccountDto {
     DatePipe,
     MatDividerModule,
     MatTableModule,
+    MatTabsModule,
   ],
   templateUrl: './receiving-session.component.html',
   styleUrls: ['./receiving-session.component.scss'],

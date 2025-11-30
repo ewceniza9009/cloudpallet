@@ -26,7 +26,10 @@ public class DockAppointmentRepository(WmsDbContext context) : IDockAppointmentR
     public async Task<bool> DoesAppointmentOverlapAsync(Guid dockId, DateTime start, DateTime end, CancellationToken cancellationToken)
     {
         var overlaps = await context.DockAppointments
-            .AnyAsync(da => da.DockId == dockId && da.StartDateTime < end && da.EndDateTime > start, cancellationToken);
+            .AnyAsync(da => da.DockId == dockId 
+                         && da.StartDateTime < end 
+                         && da.EndDateTime > start
+                         && da.Status != WMS.Domain.Enums.AppointmentStatus.Cancelled, cancellationToken);
 
         return !overlaps;
     }
