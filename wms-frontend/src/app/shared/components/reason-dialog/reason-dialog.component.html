@@ -1,0 +1,30 @@
+<h2 mat-dialog-title class="dialog-header">
+  <mat-icon [class.warn-icon]="data.warn">{{ data.warn ? 'warning' : 'edit' }}</mat-icon>
+  <span>{{ data.title }}</span>
+</h2>
+
+<mat-dialog-content>
+  <p class="dialog-message">{{ data.message }}</p>
+  
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ data.label }}</mat-label>
+      <textarea matInput formControlName="reason" rows="3" cdkFocusInitial></textarea>
+      <mat-error *ngIf="form.get('reason')?.hasError('required')">
+        Reason is required
+      </mat-error>
+      <mat-error *ngIf="form.get('reason')?.hasError('minlength')">
+        Reason must be at least 3 characters
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button [color]="data.warn ? 'warn' : 'primary'" 
+          (click)="submit()" 
+          [disabled]="form.invalid">
+    {{ data.confirmText }}
+  </button>
+</mat-dialog-actions>

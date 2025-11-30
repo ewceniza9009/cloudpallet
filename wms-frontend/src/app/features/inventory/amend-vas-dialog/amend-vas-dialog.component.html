@@ -298,6 +298,9 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="dialog-actions-refined">
+  @if (transaction() && !transaction()!.isVoided) {
+    <button mat-button color="warn" (click)="voidTransaction()">Void Transaction</button>
+  }
   <button mat-stroked-button (click)="close()">Close</button>
   <button mat-flat-button color="primary" (click)="close('success')">Done</button>
 </mat-dialog-actions>

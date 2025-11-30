@@ -13,6 +13,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpErrorResponse } from '@angular/common/http';
 import { InventoryApiService, VasTransactionDetailDto, VasTransactionLineDto } from '../inventory-api.service';
 
+import { MatDialog } from '@angular/material/dialog';
+import { ReasonDialogComponent } from '../../../shared/components/reason-dialog/reason-dialog.component';
+
 @Component({
   selector: 'app-amend-vas-dialog',
   standalone: true,
@@ -36,6 +39,7 @@ export class AmendVasDialogComponent implements OnInit {
   private inventoryApi = inject(InventoryApiService);
   private snackBar = inject(MatSnackBar);
   private fb = inject(FormBuilder);
+  private dialog = inject(MatDialog);
 
   transaction = signal<VasTransactionDetailDto | null>(null);
   isLoading = signal(true);
@@ -101,6 +105,36 @@ export class AmendVasDialogComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         this.snackBar.open(`Error: ${err.error?.title || 'Failed to amend line'}`, 'Close');
+      }
+    });
+  }
+
+  voidTransaction(): void {
+    if (!this.transaction()) return;
+
+    const dialogRef = this.dialog.open(ReasonDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Void Transaction',
+        message: 'Are you sure you want to void this transaction? This action cannot be undone.',
+        label: 'Reason for Voiding',
+        confirmText: 'Void Transaction',
+        warn: true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(reason => {
+      if (reason) {
+        this.inventoryApi.voidVasTransaction(this.data.transactionId, reason)
+          .subscribe({
+            next: () => {
+              this.snackBar.open('Transaction voided successfully', 'OK', { duration: 3000 });
+              this.close('success');
+            },
+            error: (err: HttpErrorResponse) => {
+              this.snackBar.open(`Error: ${err.error?.title || 'Failed to void transaction'}`, 'Close');
+            }
+          });
       }
     });
   }

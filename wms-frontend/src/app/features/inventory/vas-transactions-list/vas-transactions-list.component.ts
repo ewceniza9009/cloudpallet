@@ -21,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { environment } from '../../../../environments/environment';
 import { InventoryApiService, VasTransactionDto } from '../inventory-api.service';
 import { AmendVasDialogComponent } from '../amend-vas-dialog/amend-vas-dialog.component';
+import { ReasonDialogComponent } from '../../../shared/components/reason-dialog/reason-dialog.component';
 
 interface AccountDto {
   id: string;
@@ -135,19 +136,31 @@ export class VasTransactionsListComponent implements OnInit {
       return;
     }
 
-    const reason = prompt('Enter reason for voiding this transaction:');
-    if (!reason) return;
+    const dialogRef = this.dialog.open(ReasonDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Void Transaction',
+        message: 'Are you sure you want to void this transaction? This action cannot be undone.',
+        label: 'Reason for Voiding',
+        confirmText: 'Void Transaction',
+        warn: true
+      }
+    });
 
-    this.inventoryApi.voidVasTransaction(transaction.id, reason)
-      .subscribe({
-        next: () => {
-          this.snackBar.open('Transaction voided successfully', 'OK', { duration: 3000 });
-          this.loadTransactions();
-        },
-        error: (err: HttpErrorResponse) => {
-          this.snackBar.open(`Error: ${err.error?.title || 'Failed to void transaction'}`, 'Close');
-        }
-      });
+    dialogRef.afterClosed().subscribe(reason => {
+      if (reason) {
+        this.inventoryApi.voidVasTransaction(transaction.id, reason)
+          .subscribe({
+            next: () => {
+              this.snackBar.open('Transaction voided successfully', 'OK', { duration: 3000 });
+              this.loadTransactions();
+            },
+            error: (err: HttpErrorResponse) => {
+              this.snackBar.open(`Error: ${err.error?.title || 'Failed to void transaction'}`, 'Close');
+            }
+          });
+      }
+    });
   }
 
   displayAccount(account: AccountDto): string {
