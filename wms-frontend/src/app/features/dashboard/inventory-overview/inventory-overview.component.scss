@@ -28,9 +28,14 @@
   color: var(--mat-sys-on-surface-variant);
 }
 
-.summary-card {
-    border-radius: 8px;
-    .table-container { overflow-x: auto; }
+.summary-panel {
+    border-radius: 8px !important;
+    border: 1px solid var(--mat-sys-outline-variant);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.05) !important;
+    
+    mat-panel-title { font-weight: 600; font-size: 1.25rem; }
+    
+    .table-container { overflow-x: auto; padding-top: 1rem; }
     table { width: 100%; }
 }
 .cell-warn { color: var(--mat-sys-error) !important; font-weight: 500; }
