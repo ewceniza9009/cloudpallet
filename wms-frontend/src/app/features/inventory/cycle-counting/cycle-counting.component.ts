@@ -121,25 +121,86 @@ export class CycleCountingComponent implements OnInit {
 
   addItemToCount(event: MatAutocompleteSelectedEvent): void {
     const selectedItem: RepackableInventoryDto = event.option.value;
+    this._addSingleItem(selectedItem);
+    event.option.deselect();
+  }
 
+  private _addSingleItem(item: RepackableInventoryDto): boolean {
     const existingIndex = this.countedItems.controls.findIndex(
       (control) =>
-        control.value.inventoryItem.inventoryId === selectedItem.inventoryId
+        control.value.inventoryItem.inventoryId === item.inventoryId
     );
 
-    if (existingIndex === -1 && selectedItem) {
-      this.countedItems.push(this.createCountedItemGroup(selectedItem));
-      this.inventorySearchCtrl.setValue('');
+    if (existingIndex === -1) {
+      this.countedItems.push(this.createCountedItemGroup(item));
+      return true;
+    }
+    return false;
+  }
 
-      this.filteredInventories$.set(this.accountInventories());
-    } else {
-      this.snackBar.open('Item already added to the count list.', 'Close', {
-        duration: 2000,
-      });
-      this.inventorySearchCtrl.setValue('');
+  onSearchEnter(event: Event): void {
+    event.preventDefault();
+    const searchValue = this.inventorySearchCtrl.value;
+
+    if (!searchValue || typeof searchValue !== 'string') {
+      return;
     }
 
-    event.option.deselect();
+    const term = searchValue.trim().toLowerCase();
+    if (!term) return;
+
+    const allInventory = this.accountInventories();
+    
+    // 1. Try Exact Pallet Match
+    const palletMatches = allInventory.filter(
+      (inv) => inv.palletBarcode.toLowerCase() === term
+    );
+
+    if (palletMatches.length > 0) {
+      this._addItems(palletMatches, `Added ${palletMatches.length} items from pallet ${palletMatches[0].palletBarcode}`);
+      return;
+    }
+
+    // 2. Try Exact Location Match
+    const locationMatches = allInventory.filter(
+      (inv) => inv.location.toLowerCase() === term
+    );
+
+    if (locationMatches.length > 0) {
+      this._addItems(locationMatches, `Added ${locationMatches.length} items from location ${locationMatches[0].location}`);
+      return;
+    }
+
+    // 3. Try Exact SKU/Material Name Match (assuming SKU is scanned often)
+    const skuMatches = allInventory.filter(
+      (inv) => inv.sku.toLowerCase() === term || inv.materialName.toLowerCase() === term
+    );
+
+    if (skuMatches.length > 0) {
+      this._addItems(skuMatches, `Added ${skuMatches.length} items for SKU ${skuMatches[0].sku}`);
+      return;
+    }
+
+    this.snackBar.open('No matching inventory found for scan.', 'Close', { duration: 2000 });
+  }
+
+  private _addItems(items: RepackableInventoryDto[], successMessage: string): void {
+    let addedCount = 0;
+    items.forEach(item => {
+      if (this._addSingleItem(item)) {
+        addedCount++;
+      }
+    });
+
+    if (addedCount > 0) {
+      this.snackBar.open(successMessage, 'Close', { duration: 3000 });
+      this.inventorySearchCtrl.setValue('');
+      // Reset filter to show all
+      this.filteredInventories$.set(this.accountInventories());
+    } else {
+      this.snackBar.open('All matching items are already in the list.', 'Close', { duration: 2000 });
+      this.inventorySearchCtrl.setValue('');
+    }
   }
 
   removeItem(index: number): void {
