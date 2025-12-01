@@ -53,7 +53,7 @@ export class EnergyDashboardComponent implements OnInit, OnDestroy {
     name: 'temperature',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#00bcd4', '#67e8f9', '#22d3ee', '#06b6d4', '#0891b2', '#0e7490'],
+    domain: ['#00897b', '#00acc1', '#039be5', '#1e88e5', '#3949ab', '#5e35b1'],
   };
   xAxis = true;
   yAxis = true;

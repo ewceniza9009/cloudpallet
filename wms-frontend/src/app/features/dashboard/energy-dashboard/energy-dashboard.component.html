@@ -30,41 +30,74 @@
           <p>Connecting to real-time temperature monitoring system...</p>
         </div>
       } @else if (roomTemperatures.length > 0) {
-        <div class="chart-container">
-          <ngx-charts-bar-vertical
-            [view]="view"
-            [results]="roomTemperatures"
-            [xAxis]="xAxis"
-            [yAxis]="yAxis"
-            [legend]="false"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="showYAxisLabel"
-            [showDataLabel]="showDataLabel"
-            [roundEdges]="false"
-            [gradient]="false"
-            xAxisLabel="Storage Room"
-            yAxisLabel="Temperature (°C)"
-            [scheme]="colorScheme"
-            [animations]="animations"
-            (select)="onSelect($event)">
-          </ngx-charts-bar-vertical>
-        </div>
-        <div class="data-stats">
-          <div class="stat-item average-temp">
-            <span class="stat-value">{{ calculateAverageTemp() | number:'1.1-1' }}°C</span>
-            <div class="stat-label">Average Temp</div>
+        <div class="dashboard-content">
+          <!-- KPI Section -->
+          <div class="kpi-grid">
+            <div class="kpi-card average-temp">
+              <div class="kpi-icon">
+                <mat-icon>thermostat</mat-icon>
+              </div>
+              <div class="kpi-data">
+                <span class="kpi-value">{{ calculateAverageTemp() | number:'1.1-1' }}°C</span>
+                <span class="kpi-label">Avg. Temperature</span>
+              </div>
+            </div>
+
+            <div class="kpi-card min-temp">
+              <div class="kpi-icon">
+                <mat-icon>ac_unit</mat-icon>
+              </div>
+              <div class="kpi-data">
+                <span class="kpi-value">{{ calculateMinTemp() | number:'1.1-1' }}°C</span>
+                <span class="kpi-label">Min. Temperature</span>
+              </div>
+            </div>
+
+            <div class="kpi-card max-temp">
+              <div class="kpi-icon">
+                <mat-icon>whatshot</mat-icon>
+              </div>
+              <div class="kpi-data">
+                <span class="kpi-value">{{ calculateMaxTemp() | number:'1.1-1' }}°C</span>
+                <span class="kpi-label">Max. Temperature</span>
+              </div>
+            </div>
+
+            <div class="kpi-card rooms-monitored">
+              <div class="kpi-icon">
+                <mat-icon>meeting_room</mat-icon>
+              </div>
+              <div class="kpi-data">
+                <span class="kpi-value">{{ roomTemperatures.length }}</span>
+                <span class="kpi-label">Rooms Monitored</span>
+              </div>
+            </div>
           </div>
-          <div class="stat-item min-temp">
-            <span class="stat-value">{{ calculateMinTemp() | number:'1.1-1' }}°C</span>
-            <div class="stat-label">Min Temp</div>
-          </div>
-          <div class="stat-item max-temp">
-            <span class="stat-value">{{ calculateMaxTemp() | number:'1.1-1' }}°C</span>
-            <div class="stat-label">Max Temp</div>
-          </div>
-          <div class="stat-item rooms-monitored">
-            <span class="stat-value">{{ roomTemperatures.length }}</span>
-            <div class="stat-label">Rooms Monitored</div>
+
+          <!-- Chart Section -->
+          <div class="chart-section">
+            <div class="chart-header">
+              <h3>Temperature Distribution</h3>
+            </div>
+            <div class="chart-container">
+              <ngx-charts-bar-vertical
+                [view]="view"
+                [results]="roomTemperatures"
+                [xAxis]="xAxis"
+                [yAxis]="yAxis"
+                [legend]="false"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [showDataLabel]="showDataLabel"
+                [roundEdges]="true"
+                [gradient]="true"
+                xAxisLabel="Storage Room"
+                yAxisLabel="Temperature (°C)"
+                [scheme]="colorScheme"
+                [animations]="animations"
+                (select)="onSelect($event)">
+              </ngx-charts-bar-vertical>
+            </div>
           </div>
         </div>
       } @else {

@@ -126,39 +126,104 @@
   }
 }
 
-.data-stats {
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--mat-sys-outline-variant);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
 
-  .stat-item {
-    padding: 1rem;
-    background-color: var(--mat-sys-surface-container-low);
+.kpi-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .kpi-icon {
+    width: 48px;
+    height: 48px;
     border-radius: 12px;
-    border: 1px solid var(--mat-sys-outline-variant);
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
 
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 500;
-      display: block;
-      margin-bottom: 0.25rem;
-      line-height: 1;
+  .kpi-data {
+    display: flex;
+    flex-direction: column;
+    
+    .kpi-value {
+      font-size: 1.75rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: #1e293b;
     }
 
-    .stat-label {
+    .kpi-label {
       font-size: 0.875rem;
       color: #64748b;
-      font-weight: 400;
+      font-weight: 500;
     }
-    // Color theming for stats
-    &.average-temp .stat-value { color: #0097a7; }
-    &.min-temp .stat-value { color: #3b82f6; }
-    &.max-temp .stat-value { color: #ef4444; }
-    &.rooms-monitored .stat-value { color: #10b981; }
+  }
+
+  // Theme Colors
+  &.average-temp {
+    .kpi-icon { background-color: #e0f2f1; color: #00897b; } // Teal
+    border-left: 4px solid #00897b;
+  }
+  
+  &.min-temp {
+    .kpi-icon { background-color: #e3f2fd; color: #1e88e5; } // Blue
+    border-left: 4px solid #1e88e5;
+  }
+  
+  &.max-temp {
+    .kpi-icon { background-color: #ffebee; color: #e53935; } // Red
+    border-left: 4px solid #e53935;
+  }
+  
+  &.rooms-monitored {
+    .kpi-icon { background-color: #f3e5f5; color: #8e24aa; } // Purple
+    border-left: 4px solid #8e24aa;
+  }
+}
+
+.chart-section {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+  .chart-header {
+    margin-bottom: 1.5rem;
+    h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+    }
   }
 }
 
