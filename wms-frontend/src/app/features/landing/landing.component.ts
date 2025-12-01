@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
+import { WarehouseAnimationComponent } from '../../shared/components/warehouse-animation/warehouse-animation.component';
+
 @Component({
   selector: 'app-landing',
   standalone: true,
@@ -14,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
+    WarehouseAnimationComponent
   ],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],

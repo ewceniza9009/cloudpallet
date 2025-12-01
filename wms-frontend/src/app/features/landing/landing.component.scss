@@ -2,11 +2,14 @@
 :host {
   display: block;
   overflow-x: hidden;
+  background-color: #001e26; // Global dark background
 }
 
-// SIMPLIFIED BUT ELEGANT HERO SECTION
+// -----------------------------------------------------------------------------
+// 1. HERO SECTION (Holographic Theme)
+// -----------------------------------------------------------------------------
 .landing-hero {
-  background: linear-gradient(135deg, #006064 0%, #0097a7 100%);
+  background: #001e26; // Deep Teal/Black to match holographic scene
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -14,74 +17,95 @@
   position: relative;
   overflow: hidden;
 
-  // Subtle animated background
-  &::before {
-    content: '';
+  .hero-background {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  // Overlay gradient to fade out bottom edge into next section
+  &::after {
+    content: '';
+    position: absolute;
     bottom: 0;
-    background:
-      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
-    animation: float 20s ease-in-out infinite;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to bottom, transparent, #001e26);
+    z-index: 1;
+    pointer-events: none;
   }
 
   .hero-content {
     position: relative;
     z-index: 2;
     text-align: center;
-    max-width: 800px;
+    max-width: 900px;
     padding: 0 2rem;
   }
 
   .hero-icon {
     margin-bottom: 2rem;
+
     .icon-wrapper {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(0, 229, 255, 0.1); // Cyan tint
       border-radius: 50%;
       padding: 1.5rem;
       display: inline-flex;
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(0, 229, 255, 0.3); // Cyan border
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.2); // Cyan glow
       animation: gentlePulse 4s ease-in-out infinite;
+
       mat-icon {
         font-size: 3.5rem;
         width: 3.5rem;
         height: 3.5rem;
-        color: white;
+        color: #00e5ff; // Bright Cyan
       }
     }
   }
 
   .hero-title {
-    font-size: 3.5rem;
-    font-weight: 300;
-    margin-bottom: 1.5rem;
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
     color: white;
     line-height: 1.1;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #ffffff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
     animation: slideUp 0.8s ease-out;
+
+    strong {
+      font-weight: 800;
+    }
   }
 
   .hero-title2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 300;
-    margin-bottom: .5rem;
-    color: white;
-    line-height: 1.1;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-    animation: slideUp 0.8s ease-out;
+    margin-bottom: 1.5rem;
+    color: #b2ebf2; // Light Cyan
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: slideUp 0.8s ease-out 0.1s both;
   }
 
   .hero-subtitle {
-    font-size: 1.3rem;
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.25rem;
+    color: #94a3b8; // Slate 400
     margin-bottom: 3rem;
     font-weight: 300;
     line-height: 1.6;
-    max-width: 600px;
+    max-width: 650px;
     margin-left: auto;
     margin-right: auto;
     animation: slideUp 0.8s ease-out 0.2s both;
@@ -89,64 +113,224 @@
 
   .hero-actions {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     justify-content: center;
     flex-wrap: wrap;
     animation: slideUp 0.8s ease-out 0.4s both;
 
     .cta-button {
       font-size: 1.1rem;
-      padding: 12px 32px;
-      border-radius: 50px;
+      padding: 14px 36px;
+      border-radius: 4px; // More technical/angular look
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      font-weight: 500;
-      letter-spacing: 0.5px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
 
       &.primary {
-        background-color: white;
-        color: #00838f;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        background: rgba(0, 229, 255, 0.1);
+        color: #00e5ff;
+        border: 1px solid #00e5ff;
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.1);
 
         &:hover {
+          background: #00e5ff;
+          color: #001e26;
+          box-shadow: 0 0 40px rgba(0, 229, 255, 0.4);
           transform: translateY(-2px);
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
         }
       }
 
       &.secondary {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(10px);
+        background: transparent;
+        color: #94a3b8;
+        border: 1px solid #334155;
 
         &:hover {
-          background: rgba(255, 255, 255, 0.2);
-          transform: translateY(-2px);
+          border-color: #cbd5e1;
+          color: white;
+          background: rgba(255, 255, 255, 0.05);
         }
       }
     }
   }
 }
 
-// COMPLETELY REDESIGNED VAS SECTION - NO UGLY TABS!
-.vas-section {
-  padding: 6rem 2rem;
-  background: #f8fafc;
+// -----------------------------------------------------------------------------
+// 2. FEATURES SECTION (Glassmorphism)
+// -----------------------------------------------------------------------------
+.features-section {
+  padding: 8rem 2rem;
+  background: #001e26; // Match global dark theme
+  position: relative;
+
+  // Grid background pattern
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
 
   .section-header {
     text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
 
     h2 {
-      font-size: 2.8rem;
+      font-size: 3rem;
       font-weight: 300;
       margin-bottom: 1rem;
-      color: #1e293b;
+      color: white;
+      letter-spacing: -1px;
+
+      span {
+        color: #00e5ff;
+        font-weight: 600;
+      }
     }
 
     .section-subtitle {
       font-size: 1.25rem;
-      color: #64748b;
+      color: #94a3b8;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .feature-card {
+    background: rgba(15, 23, 42, 0.6); // Dark semi-transparent
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    text-align: center;
+    padding: 3rem 2rem;
+    border-radius: 2px; // Technical corners
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    // Corner accents
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border-top: 2px solid #00e5ff;
+      border-left: 2px solid #00e5ff;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      border-bottom: 2px solid #00e5ff;
+      border-right: 2px solid #00e5ff;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      background: rgba(15, 23, 42, 0.8);
+      border-color: rgba(0, 229, 255, 0.3);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
+      &::before,
+      &::after {
+        opacity: 1;
+      }
+
+      .feature-icon .icon-circle {
+        background: rgba(0, 229, 255, 0.1);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+
+        mat-icon {
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    .feature-icon {
+      margin-bottom: 2rem;
+
+      .icon-circle {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: inline-flex;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+
+        mat-icon {
+          font-size: 2.5rem;
+          width: 2.5rem;
+          height: 2.5rem;
+          color: #00e5ff;
+          transition: transform 0.3s ease;
+        }
+      }
+    }
+
+    mat-card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+
+    mat-card-subtitle {
+      color: #00bcd4; // Cyan 500
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    mat-card-content {
+      color: #94a3b8;
+      font-size: 1rem;
+      line-height: 1.7;
+      padding: 0;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 3. VAS SECTION (Dark Glass)
+// -----------------------------------------------------------------------------
+.vas-section {
+  padding: 8rem 2rem;
+  background: #002630; // Slightly lighter teal for contrast
+  border-top: 1px solid rgba(0, 229, 255, 0.05);
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 5rem;
+
+    h2 {
+      font-size: 3rem;
+      font-weight: 300;
+      margin-bottom: 1rem;
+      color: white;
+    }
+
+    .section-subtitle {
+      font-size: 1.25rem;
+      color: #94a3b8;
       max-width: 600px;
       margin: 0 auto;
       line-height: 1.6;
@@ -157,234 +341,187 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
   }
 
   .vas-card {
-    background: white;
-    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
     padding: 2.5rem;
-    text-align: center;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
 
+    // Glowing left border on hover
     &::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #0097a7, #00bcd4);
-      transform: scaleX(0);
-      transition: transform 0.4s ease;
+      bottom: 0;
+      width: 2px;
+      background: #00e5ff;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     &:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      transform: translateX(5px);
+      background: rgba(0, 229, 255, 0.03);
+      border-color: rgba(0, 229, 255, 0.2);
 
       &::before {
-        transform: scaleX(1);
+        opacity: 1;
       }
 
       .vas-card-icon {
-        transform: scale(1.1) rotate(5deg);
-        background: linear-gradient(135deg, #0097a7, #00bcd4);
+        background: rgba(0, 229, 255, 0.1);
 
         mat-icon {
-          color: white;
+          color: #00e5ff;
         }
       }
     }
-  }
 
-  .vas-card-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
-    background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
-    mat-icon {
-      font-size: 2.5rem;
-      width: 2.5rem;
-      height: 2.5rem;
-      color: #0097a7;
-      transition: all 0.4s ease;
-    }
-  }
-
-  .vas-card-title {
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: #1e293b;
-    margin-bottom: 1rem;
-  }
-
-  .vas-card-description {
-    color: #64748b;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-  }
-
-  .billing-model {
-    background: #f1f5f9;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    color: #475569;
-    border-left: 4px solid #0097a7;
-
-    strong {
-      color: #1e293b;
-    }
-  }
-}
-
-// Keep existing features section (it's good)
-.features-section {
-  padding: 6rem 2rem;
-  background: white;
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 4rem;
-
-    h2 {
-      font-size: 2.8rem;
-      font-weight: 300;
-      margin-bottom: 1rem;
-      color: #1e293b;
-    }
-
-    .section-subtitle {
-      font-size: 1.25rem;
-      color: #64748b;
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-  }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .feature-card {
-    background: white;
-    border: 1px solid #e2e8f0;
-    text-align: center;
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .feature-icon {
+    .vas-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
       margin-bottom: 1.5rem;
-      .icon-circle {
-        background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
-        border-radius: 50%;
-        display: inline-flex;
-        padding: 1.2rem;
-        mat-icon {
-          font-size: 2.5rem;
-          width: 2.5rem;
-          height: 2.5rem;
-          color: #0097a7;
-        }
+    }
+
+    .vas-card-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+
+      mat-icon {
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+        color: #94a3b8;
+        transition: color 0.3s ease;
       }
     }
 
-    mat-card-title {
-      font-size: 1.3rem;
-      font-weight: 500;
-      color: #1e293b;
-      margin-bottom: 0.5rem;
+    .vas-card-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: white;
+      margin: 0;
     }
 
-    mat-card-subtitle {
-      color: #0097a7;
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
-
-    mat-card-content {
-      color: #475569;
-      font-size: 1rem;
+    .vas-card-description {
+      color: #94a3b8;
       line-height: 1.6;
-      padding: 0;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    .billing-model {
+      background: rgba(0, 229, 255, 0.05);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: #b2ebf2;
+      border: 1px solid rgba(0, 229, 255, 0.1);
+      display: inline-block;
+
+      strong {
+        color: #00e5ff;
+        margin-right: 0.5rem;
+      }
     }
   }
 }
 
-// Enhanced CTA Section
+// -----------------------------------------------------------------------------
+// 4. CTA SECTION (High Impact)
+// -----------------------------------------------------------------------------
 .cta-section {
-  padding: 6rem 2rem;
-  background: linear-gradient(135deg, #0097a7 0%, #00bcd4 100%);
+  padding: 8rem 2rem;
+  background: linear-gradient(to bottom, #001e26, #000);
   color: white;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  // Glow effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
 
   h2 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 300;
     margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
   }
 
   p {
-    font-size: 1.2rem;
-    margin-bottom: 2.5rem;
-    opacity: 0.95;
+    font-size: 1.25rem;
+    margin-bottom: 3rem;
+    color: #94a3b8;
     font-weight: 300;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
+    z-index: 2;
   }
 
   .cta-button {
-    font-size: 1.1rem;
-    padding: 12px 32px;
-    border-radius: 50px;
-    font-weight: 500;
-    background: white;
-    color: #00838f;
+    font-size: 1.2rem;
+    padding: 16px 48px;
+    border-radius: 4px;
+    font-weight: 600;
+    background: #00e5ff;
+    color: #001e26;
     border: none;
     transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0 50px rgba(0, 229, 255, 0.6);
+      background: white;
     }
   }
 }
 
 // Animations
-@keyframes float {
-  0%, 100% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-20px) scale(1.02); }
-}
-
 @keyframes gentlePulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.9; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
 }
 
 @keyframes slideUp {
@@ -392,6 +529,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -402,10 +540,14 @@
 @media (max-width: 768px) {
   .landing-hero {
     min-height: 90vh;
-    padding: 2rem 1rem;
+    padding: 6rem 1rem 2rem; // More top padding for mobile nav
 
     .hero-title {
       font-size: 2.5rem;
+    }
+
+    .hero-title2 {
+      font-size: 1.5rem;
     }
 
     .hero-subtitle {
@@ -417,7 +559,8 @@
       align-items: center;
 
       .cta-button {
-        width: 200px;
+        width: 100%;
+        max-width: 300px;
       }
     }
   }
@@ -428,8 +571,7 @@
     padding: 4rem 1rem;
   }
 
-  .vas-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .features-section .feature-card {
+    padding: 2rem;
   }
 }
