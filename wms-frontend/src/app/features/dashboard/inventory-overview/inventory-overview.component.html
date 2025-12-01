@@ -4,12 +4,53 @@
     <p class="mat-body-1">Live grid-based visualization of storage utilization.</p>
   </div>
 
+  <div class="filters-container">
+    <div class="filter-header">
+      <mat-icon>filter_list</mat-icon>
+      <span>Filters</span>
+      @if (hasActiveFilters()) {
+        <button mat-button color="warn" (click)="clearFilters()">Clear All</button>
+      }
+    </div>
+    <div class="filters-grid">
+      <!-- Room Filter -->
+      <mat-form-field appearance="outline" class="filter-item">
+        <mat-label>Room</mat-label>
+        <input matInput [ngModel]="filters().room" (ngModelChange)="updateFilter('room', $event)" placeholder="Filter Room">
+      </mat-form-field>
+
+      <!-- Bay Filter -->
+      <mat-form-field appearance="outline" class="filter-item">
+        <mat-label>Bay</mat-label>
+        <input matInput [ngModel]="filters().bay" (ngModelChange)="updateFilter('bay', $event)" placeholder="Filter Bay">
+      </mat-form-field>
+
+      <!-- Row Filter -->
+      <mat-form-field appearance="outline" class="filter-item small-filter">
+        <mat-label>Row</mat-label>
+        <input matInput [ngModel]="filters().row" (ngModelChange)="updateFilter('row', $event)" placeholder="R">
+      </mat-form-field>
+
+      <!-- Column Filter -->
+      <mat-form-field appearance="outline" class="filter-item small-filter">
+        <mat-label>Col</mat-label>
+        <input matInput [ngModel]="filters().column" (ngModelChange)="updateFilter('column', $event)" placeholder="C">
+      </mat-form-field>
+
+      <!-- Level Filter -->
+      <mat-form-field appearance="outline" class="filter-item small-filter">
+        <mat-label>Lvl</mat-label>
+        <input matInput [ngModel]="filters().level" (ngModelChange)="updateFilter('level', $event)" placeholder="L">
+      </mat-form-field>
+    </div>
+  </div>
+
   @if(isLoading()) {
     <div class="spinner-container">
       <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       <p>Loading Inventory Overview...</p>
     </div>
-  } @else if(overviewData(); as data) {
+  } @else if(filteredData(); as data) {
     <mat-expansion-panel class="summary-panel" [expanded]="false">
       <mat-expansion-panel-header>
         <mat-panel-title>High-Level Summary</mat-panel-title>
@@ -66,7 +107,7 @@
 
     <mat-accordion multi class="room-accordion">
       @for(room of data.rooms; track room.roomName) {
-        <mat-expansion-panel class="room-panel" [expanded]="true">
+        <mat-expansion-panel class="room-panel" [expanded]="hasActiveFilters()">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>view_module</mat-icon>
@@ -77,38 +118,42 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <mat-accordion multi class="bay-accordion">
-            @for(bay of room.bays; track bay.bayName) {
-              <mat-expansion-panel class="bay-panel" [expanded]="true">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    <mat-icon>view_week</mat-icon>
-                    Bay {{ bay.bayName }}
-                  </mat-panel-title>
-                  <mat-panel-description>
-                    {{ bay.locations.length }} Locations | Utilization: {{ bay.utilization | number:'1.0-1' }}%
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+            <mat-accordion multi class="bay-accordion">
+              @for(bay of room.bays; track bay.bayName) {
+                <mat-expansion-panel class="bay-panel" [expanded]="hasActiveFilters()">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <mat-icon>view_week</mat-icon>
+                      Bay {{ bay.bayName }}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      {{ bay.locations.length }} Locations | Utilization: {{ bay.utilization | number:'1.0-1' }}%
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
 
-                <div class="locations-grid">
-                  @for(loc of bay.locations; track (loc.row + '-' + loc.column + '-' + loc.level)) {
-                    <mat-card class="location-card" [ngClass]="getLocationStatusClass(loc.status, loc.utilization)" [matTooltip]="'Current: ' + (loc.currentWeight | number:'1.1-1') + ' / ' + (loc.capacityWeight | number:'1.1-1') + ' kg'" (click)="openLocationDialog(loc)">
-                      <mat-card-header>
-                        <mat-card-title>{{ 'R' + loc.row + 'C' + loc.column + 'L' + loc.level }}</mat-card-title>
-                      </mat-card-header>
-                      <mat-card-content>
-                      </mat-card-content>
-                      <mat-card-footer>
-                        <mat-progress-bar mode="determinate" [value]="loc.utilization"></mat-progress-bar>
-                        <span class="util-text">{{ loc.utilization | number:'1.0-0' }}%</span>
-                      </mat-card-footer>
-                    </mat-card>
-                  }
-                </div>
+                  <ng-template matExpansionPanelContent>
+                    <div class="locations-grid">
+                      @for(loc of bay.locations; track (loc.row + '-' + loc.column + '-' + loc.level)) {
+                        <mat-card class="location-card" [ngClass]="getLocationStatusClass(loc.status, loc.utilization)" [matTooltip]="'Current: ' + (loc.currentWeight | number:'1.1-1') + ' / ' + (loc.capacityWeight | number:'1.1-1') + ' kg'" (click)="openLocationDialog(loc)">
+                          <mat-card-header>
+                            <mat-card-title>{{ 'R' + loc.row + 'C' + loc.column + 'L' + loc.level }}</mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content>
+                          </mat-card-content>
+                          <mat-card-footer>
+                            <mat-progress-bar mode="determinate" [value]="loc.utilization"></mat-progress-bar>
+                            <span class="util-text">{{ loc.utilization | number:'1.0-0' }}%</span>
+                          </mat-card-footer>
+                        </mat-card>
+                      }
+                    </div>
+                  </ng-template>
 
-              </mat-expansion-panel>
-            }
-          </mat-accordion>
+                </mat-expansion-panel>
+              }
+            </mat-accordion>
+          </ng-template>
         </mat-expansion-panel>
       }
     </mat-accordion>
