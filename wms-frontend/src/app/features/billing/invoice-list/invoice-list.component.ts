@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ViewChild } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -14,7 +14,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
-import { switchMap, tap } from 'rxjs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ScrollingModule, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { switchMap, tap, startWith, map, Observable } from 'rxjs';
 
 import { BillingApiService, Invoice } from '../billing-api.service';
 import { environment } from '../../../../environments/environment';
@@ -43,23 +45,29 @@ interface AccountDto {
     MatTableModule,
     MatProgressSpinnerModule,
     MatIconModule,
+    MatAutocompleteModule,
+    ScrollingModule,
   ],
   templateUrl: './invoice-list.component.html',
   styleUrls: ['./invoice-list.component.scss'],
 })
 export class InvoiceListComponent implements OnInit {
+  @ViewChild(CdkVirtualScrollViewport)
+  virtualScrollViewport!: CdkVirtualScrollViewport;
+
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
   private billingApi = inject(BillingApiService);
   private snackBar = inject(MatSnackBar);
 
   accounts = signal<AccountDto[]>([]);
+  filteredAccounts!: Observable<AccountDto[]>;
   invoices = signal<Invoice[]>([]);
   isLoading = signal(false);
   isGenerating = signal(false);
 
   billingForm = this.fb.group({
-    accountId: ['', Validators.required],
+    accountId: [null as string | AccountDto | null, Validators.required],
     period: this.fb.group({
       start: [new Date(2025, 9, 1), Validators.required],
       end: [new Date(2025, 9, 31), Validators.required],
@@ -78,18 +86,45 @@ export class InvoiceListComponent implements OnInit {
   ngOnInit(): void {
     this.http
       .get<AccountDto[]>(`${environment.apiUrl}/Lookups/accounts`)
-      .subscribe((data) => this.accounts.set(data));
-
-    this.billingForm
-      .get('accountId')
-      ?.valueChanges.pipe(
-        tap(() => this.isLoading.set(true)),
-        switchMap((accountId) => this.billingApi.getInvoices(accountId!))
-      )
-      .subscribe((data: Invoice[]) => {
-        this.invoices.set(data);
-        this.isLoading.set(false);
+      .subscribe((data) => {
+        this.accounts.set(data);
+        
+        this.filteredAccounts = this.billingForm.get('accountId')!.valueChanges.pipe(
+          startWith(''),
+          map((value) => (typeof value === 'string' ? value : value?.name) || ''),
+          map((name) => (name ? this._filter(name) : this.accounts().slice()))
+        );
       });
+
+    this.billingForm.get('accountId')?.valueChanges.pipe(
+      tap(() => {
+        // Only trigger loading if it's a valid selection (object), not just typing
+        const val = this.billingForm.get('accountId')?.value;
+        if (val && typeof val !== 'string') {
+          this.isLoading.set(true);
+        }
+      }),
+      switchMap((val) => {
+        if (val && typeof val !== 'string') {
+           return this.billingApi.getInvoices((val as AccountDto).id);
+        }
+        return [];
+      })
+    ).subscribe((data: Invoice[]) => {
+      this.invoices.set(data);
+      this.isLoading.set(false);
+    });
+  }
+
+  private _filter(value: string): AccountDto[] {
+    const filterValue = value.toLowerCase();
+    return this.accounts().filter((option) =>
+      option.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayFn(account: AccountDto): string {
+    return account && account.name ? account.name : '';
   }
 
   generateInvoice(): void {
@@ -101,11 +136,17 @@ export class InvoiceListComponent implements OnInit {
       return;
     }
 
+    const accountVal = this.billingForm.get('accountId')?.value;
+    if (!accountVal || typeof accountVal === 'string') {
+        this.snackBar.open('Please select a valid account from the list.', 'Close');
+        return;
+    }
+
     this.isGenerating.set(true);
 
     const formValue = this.billingForm.getRawValue();
     const command = {
-      accountId: formValue.accountId!,
+      accountId: (accountVal as AccountDto).id,
       periodStart: formValue.period.start!.toISOString(),
       periodEnd: formValue.period.end!.toISOString(),
     };
@@ -126,8 +167,9 @@ export class InvoiceListComponent implements OnInit {
   }
 
   refreshInvoices(): void {
-    const accountId = this.billingForm.get('accountId')?.value;
-    if (accountId) {
+    const accountVal = this.billingForm.get('accountId')?.value;
+    if (accountVal && typeof accountVal !== 'string') {
+      const accountId = (accountVal as AccountDto).id;
       this.isLoading.set(true);
       this.billingApi.getInvoices(accountId).subscribe((data: Invoice[]) => {
         this.invoices.set(data);

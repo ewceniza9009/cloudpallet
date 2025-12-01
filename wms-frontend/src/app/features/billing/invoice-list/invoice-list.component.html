@@ -9,11 +9,18 @@
   <form [formGroup]="billingForm" class="filter-grid">
     <mat-form-field appearance="outline" class="custom-field">
       <mat-label>Customer Account</mat-label>
-      <mat-select formControlName="accountId" placeholder="Select Account">
-        @for (account of accounts(); track account.id) {
-          <mat-option [value]="account.id">{{ account.name }}</mat-option>
-        }
-      </mat-select>
+      <input type="text"
+             placeholder="Select Account"
+             matInput
+             formControlName="accountId"
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
+          <mat-option *cdkVirtualFor="let account of filteredAccounts | async" [value]="account">
+            {{ account.name }}
+          </mat-option>
+        </cdk-virtual-scroll-viewport>
+      </mat-autocomplete>
     </mat-form-field>
 
     <div formGroupName="period" class="filter-grid" style="gap: 1rem; margin: 0; padding: 0;">

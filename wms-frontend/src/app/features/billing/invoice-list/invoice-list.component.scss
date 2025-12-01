@@ -17,8 +17,16 @@
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
 
-  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
-  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
+  h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.75rem;
+  }
+
+  p {
+    color: var(--mat-sys-on-surface-variant);
+    margin-top: 4px;
+  }
 }
 
 .filter-grid {
@@ -31,7 +39,7 @@
   .custom-field {
     width: 300px; // User wanted wider, matching Receiving search width
     margin-bottom: -1.25em; // CRITICAL FIX: Match Receiving spacing
-    
+
     &.date-field {
       width: 240px; // Slightly wider than Receiving's 200px for range
     }
@@ -44,7 +52,7 @@
   gap: 0.5rem;
   margin-left: auto; // Restored to push to right
   margin-bottom: -1.25em; // Kept for vertical alignment
-  
+
   button {
     height: 42px; // Match input height
   }
@@ -52,7 +60,7 @@
 
 .invoice-list-card {
   border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .05), 0 2px 4px -2px rgba(0, 0, 0, .05);
   border-radius: 8px;
   padding: 0;
   overflow: hidden;
@@ -61,8 +69,9 @@
 
 table {
   width: 100%;
-  
-  td.mat-cell, th.mat-header-cell {
+
+  td.mat-cell,
+  th.mat-header-cell {
     padding: 0 1rem;
     border-bottom-color: var(--mat-sys-outline-variant);
   }
@@ -88,7 +97,9 @@ tr.mat-row:hover {
   background-color: var(--mat-sys-surface-container-high);
 }
 
-.align-right { text-align: right; }
+.align-right {
+  text-align: right;
+}
 
 .status-badge {
   display: inline-flex;
@@ -102,18 +113,22 @@ tr.mat-row:hover {
     background-color: #f1f5f9;
     color: #475569;
   }
+
   &.pending {
     background-color: #fff7ed;
     color: #c2410c;
   }
+
   &.paid {
     background-color: #dcfce7;
     color: #16a34a;
   }
+
   &.overdue {
     background-color: #fef2f2;
     color: #dc2626;
   }
+
   &.cancelled {
     background-color: #f1f5f9;
     color: #94a3b8;
@@ -143,6 +158,7 @@ tr.mat-row:hover {
     height: 3rem;
     color: var(--mat-sys-outline);
   }
+
   h3 {
     font-size: 1.25rem;
     font-weight: 500;
@@ -157,7 +173,7 @@ tr.mat-row:hover {
 ::ng-deep {
   .custom-field {
     width: 100%; // Reset to 100% so it fills the container width defined above
-    
+
     // 1. Reset the wrapper height and padding
     .mat-mdc-text-field-wrapper {
       height: 42px !important; // Fixed sleek height
@@ -197,11 +213,11 @@ tr.mat-row:hover {
       display: flex !important;
       align-items: center !important;
       height: 100% !important;
-      
-      .mat-icon { 
-        font-size: 18px; 
-        width: 18px; 
-        height: 18px; 
+
+      .mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
       }
     }
 
@@ -211,18 +227,19 @@ tr.mat-row:hover {
       display: flex !important;
       align-items: center !important;
       height: 100% !important;
-      
-      .mat-icon { 
-        font-size: 18px; 
-        width: 18px; 
-        height: 18px; 
+
+      .mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
       }
-      
+
       // Ensure datepicker toggle button is clickable and visible
       .mat-datepicker-toggle-default-icon {
         width: 18px;
         height: 18px;
       }
+
       button.mat-icon-button {
         width: 24px;
         height: 24px;
@@ -233,10 +250,17 @@ tr.mat-row:hover {
 
     // 6. Hide the subscript (error/hint) wrapper to remove bottom spacing
     .mat-mdc-form-field-subscript-wrapper {
-      display: none; 
+      display: none;
     }
-    
+
     // Remove underline
-    .mdc-line-ripple { display: none; }
+    .mdc-line-ripple {
+      display: none;
+    }
   }
+}
+
+.autocomplete-viewport {
+  height: 200px;
+  width: 100%;
 }
