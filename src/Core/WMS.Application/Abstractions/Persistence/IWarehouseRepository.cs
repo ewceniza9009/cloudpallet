@@ -25,4 +25,6 @@ public interface IWarehouseRepository
         Guid? materialId,
         string? barcodeQuery,
         CancellationToken cancellationToken);
+
+    Task<LocationDetailsDto?> GetLocationDetailsAsync(Guid locationId, CancellationToken cancellationToken);
 }

@@ -62,7 +62,7 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
                         inventoryWeights.TryGetValue(loc.Id, out var currentWeight);
                         var capacity = loc.CapacityWeight.Value;
                         var util = capacity > 0 ? Math.Round((double)currentWeight / (double)capacity * 100, 2) : 0;
-                        return new LocationDto(loc.Row, loc.Column, loc.Level, currentWeight, capacity, util, GetStatus(util));
+                        return new LocationDto(loc.Id, loc.Barcode, loc.Row, loc.Column, loc.Level, currentWeight, capacity, util, GetStatus(util));
                     }).ToList();
 
                     var bayCurrentWeight = locationDtos.Sum(l => l.CurrentWeight);
@@ -357,5 +357,87 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
                 Quantity = activeInventory.Sum(i => i.Quantity)
             };
         });
+    }
+    public async Task<LocationDetailsDto?> GetLocationDetailsAsync(Guid locationId, CancellationToken cancellationToken)
+    {
+        var location = await context.Locations
+            .AsNoTracking()
+            .FirstOrDefaultAsync(l => l.Id == locationId, cancellationToken);
+
+        if (location == null)
+        {
+            return null;
+        }
+
+        // Calculate utilization
+        var currentWeight = await context.MaterialInventories
+            .AsNoTracking()
+            .Where(mi => mi.LocationId == locationId)
+            .SumAsync(mi => mi.WeightActual.Value, cancellationToken);
+
+        var capacity = location.CapacityWeight.Value;
+        var utilization = capacity > 0 ? Math.Round((double)currentWeight / (double)capacity * 100, 2) : 0;
+        
+        string status = utilization switch
+        {
+            > 100 => "Over",
+            > 90 => "Full",
+            > 60 => "Approaching",
+            > 0 => "Partial",
+            _ => "Empty"
+        };
+
+        // Find pallet in this location
+        var palletId = await context.MaterialInventories
+            .AsNoTracking()
+            .Where(mi => mi.LocationId == locationId && mi.Quantity > 0)
+            .Select(mi => mi.PalletId)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        LocationDetailPalletDto? palletDto = null;
+
+        if (palletId != Guid.Empty)
+        {
+            var pallet = await context.Pallets
+                .AsNoTracking()
+                .Include(p => p.PalletType)
+                .Include(p => p.Inventory)
+                    .ThenInclude(i => i.Material)
+                .FirstOrDefaultAsync(p => p.Id == palletId, cancellationToken);
+
+            if (pallet != null)
+            {
+                var materials = pallet.Inventory
+                    .Where(i => i.LocationId == locationId && i.Quantity > 0)
+                    .Select(i => new LocationDetailMaterialDto(
+                        i.Material.Name,
+                        i.Material.Sku,
+                        i.Quantity,
+                        i.BatchNumber,
+                        i.ExpiryDate
+                    ))
+                    .ToList();
+
+                // Calculate total weight from the inventory items on the pallet
+                var palletWeight = pallet.Inventory.Sum(i => i.WeightActual.Value);
+
+                palletDto = new LocationDetailPalletDto(
+                    pallet.Id,
+                    pallet.Barcode,
+                    pallet.PalletType.Name,
+                    palletWeight,
+                    materials
+                );
+            }
+        }
+
+        return new LocationDetailsDto(
+            location.Id,
+            location.Barcode,
+            location.ZoneType.ToString(),
+            (decimal)utilization,
+            status,
+            palletDto
+        );
     }
 }

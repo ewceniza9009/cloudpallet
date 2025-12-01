@@ -200,6 +200,32 @@ export interface CompleteFumigationCommand {
   inventoryId: string;
   durationHours: number;
 }
+
+export interface LocationDetailMaterialDto {
+  materialName: string;
+  sku: string;
+  quantity: number;
+  batchNumber: string;
+  expiryDate?: string;
+}
+
+export interface LocationDetailPalletDto {
+  palletId: string;
+  barcode: string;
+  type: string;
+  weight: number;
+  materials: LocationDetailMaterialDto[];
+}
+
+export interface LocationDetailsDto {
+  locationId: string;
+  locationBarcode: string;
+  zoneType: string;
+  utilization: number;
+  status: string;
+  pallet?: LocationDetailPalletDto;
+}
+
 export interface RecordCycleCountCommand {
   countedItems: { inventoryId: string; countedQuantity: number }[];
   durationHours: number;
@@ -471,6 +497,12 @@ export class InventoryApiService {
   getPalletHistory(palletBarcode: string): Observable<PalletMovementDto[]> {
     return this.http.get<PalletMovementDto[]>(
       `${this.inventoryUrl}/pallet-history/${palletBarcode}`
+    );
+  }
+
+  getLocationDetails(locationId: string): Observable<LocationDetailsDto> {
+    return this.http.get<LocationDetailsDto>(
+      `${this.inventoryUrl}/location-details/${locationId}`
     );
   }
 

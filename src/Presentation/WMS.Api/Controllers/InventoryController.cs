@@ -11,6 +11,14 @@ namespace WMS.Api.Controllers;
 [Authorize(Policy = "OperatorPolicy")]
 public class InventoryController : ApiControllerBase
 {
+    [HttpGet("location-details/{locationId}")]
+    [ProducesResponseType(typeof(LocationDetailsDto), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetLocationDetails(Guid locationId)
+    {
+        var result = await Mediator.Send(new GetLocationDetailsQuery(locationId));
+        return Ok(result);
+    }
+
     [HttpGet("putaway-tasks")]
     [ProducesResponseType(typeof(IEnumerable<PutawayTaskDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetPutawayTasks([FromQuery] Guid warehouseId)

@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface LocationDto {
+  id: string;
+  barcode: string;
   row: number;
   column: number;
   level: number;

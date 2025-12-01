@@ -21,6 +21,9 @@ import {
   LocationOverviewDto,
   WarehouseApiService,
 } from '../../warehouse/warehouse-api.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LocationDetailDialogComponent } from '../../inventory/location-detail-dialog/location-detail-dialog.component';
+import { LocationDto } from '../../warehouse/warehouse-api.service';
 
 interface SummaryRow {
   room: string;
@@ -52,6 +55,7 @@ interface SummaryRow {
 export class InventoryOverviewComponent implements OnInit {
   private warehouseApi = inject(WarehouseApiService);
   private warehouseState = inject(WarehouseStateService);
+  private dialog = inject(MatDialog);
 
   isLoading = signal(true);
   overviewData = signal<LocationOverviewDto | null>(null);
@@ -111,5 +115,14 @@ export class InventoryOverviewComponent implements OnInit {
     if (utilization <= 60) return 'status-partial';
     if (utilization <= 90) return 'status-approaching';
     return 'status-full';
+  }
+
+  openLocationDialog(location: LocationDto) {
+    this.dialog.open(LocationDetailDialogComponent, {
+      data: location,
+      width: '600px',
+      maxWidth: '90vw',
+      panelClass: 'location-detail-dialog-container'
+    });
   }
 }
