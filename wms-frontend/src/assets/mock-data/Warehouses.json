@@ -1,1 +1,80 @@
-[{"Id":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","CompanyId":"A0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1E1","Name":"Cebu North Reclamation Facility","Address_Street":"Warehouse St, NRA","Address_City":"Cebu City","Address_State":"Cebu","Address_PostalCode":"6000","Address_Country":"Philippines","TotalCapacityWeight":500000.00,"TotalCapacityVolume":100000.00,"OperatingHours":"24\/7","ContactPhone":"555-9000","ContactEmail":"wh_cn@wms.com","IsActive":true,"CreatedOn":"2025-10-26T02:38:43.8833333","CreatedBy":"10000000-0000-0000-0000-000000000001","LastModifiedOn":"2025-11-01T03:19:41.5333929","LastModifiedBy":"10000000-0000-0000-0000-000000000001"},{"Id":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B2","CompanyId":"A0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1E1","Name":"Manila Logistics Hub","Address_Street":"10 South Express Way","Address_City":"Makati","Address_State":"NCR","Address_PostalCode":"1200","Address_Country":"Philippines","TotalCapacityWeight":800000.00,"TotalCapacityVolume":150000.00,"OperatingHours":"24\/7","ContactPhone":"555-9001","ContactEmail":"mnl@wms.com","IsActive":true,"CreatedOn":"2025-10-26T02:38:43.8833333","CreatedBy":"10000000-0000-0000-0000-000000000001","LastModifiedOn":"2025-10-26T02:38:43.8833333","LastModifiedBy":"10000000-0000-0000-0000-000000000001"},{"Id":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B3","CompanyId":"A0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1E1","Name":"Davao Regional Center","Address_Street":"40 Mindanao Ave","Address_City":"Davao City","Address_State":"Davao","Address_PostalCode":"8000","Address_Country":"Philippines","TotalCapacityWeight":300000.00,"TotalCapacityVolume":50000.00,"OperatingHours":"24\/7","ContactPhone":"555-9002","ContactEmail":"dvo@wms.com","IsActive":true,"CreatedOn":"2025-10-26T02:38:43.8833333","CreatedBy":"10000000-0000-0000-0000-000000000001","LastModifiedOn":"2025-10-26T02:38:43.8833333","LastModifiedBy":"10000000-0000-0000-0000-000000000001"}]
+[
+  {
+    "CompanyId": "a0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1e1",
+    "Name": "Cebu North Reclamation Facility",
+    "Address": {
+      "Street": "Warehouse St, NRA",
+      "City": "Cebu City",
+      "State": "Cebu",
+      "PostalCode": "6000",
+      "Country": "Philippines"
+    },
+    "TotalCapacityWeight": 500000.00,
+    "TotalCapacityVolume": 100000.00,
+    "OperatingHours": "24/7",
+    "ContactPhone": "555-9000",
+    "ContactEmail": "wh_cn@wms.com",
+    "IsActive": true,
+    "Rooms": [],
+    "Docks": [],
+    "YardSpots": [],
+    "DomainEvents": [],
+    "CreatedOn": "2025-10-26T02:38:43.8833333Z",
+    "CreatedBy": "10000000-0000-0000-0000-000000000001",
+    "LastModifiedOn": "2025-11-01T03:19:41.5333929Z",
+    "LastModifiedBy": "10000000-0000-0000-0000-000000000001",
+    "Id": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1"
+  },
+  {
+    "CompanyId": "a0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1e1",
+    "Name": "Manila Logistics Hub",
+    "Address": {
+      "Street": "10 South Express Way",
+      "City": "Makati",
+      "State": "NCR",
+      "PostalCode": "1200",
+      "Country": "Philippines"
+    },
+    "TotalCapacityWeight": 800000.00,
+    "TotalCapacityVolume": 150000.00,
+    "OperatingHours": "24/7",
+    "ContactPhone": "555-9001",
+    "ContactEmail": "mnl@wms.com",
+    "IsActive": true,
+    "Rooms": [],
+    "Docks": [],
+    "YardSpots": [],
+    "DomainEvents": [],
+    "CreatedOn": "2025-10-26T02:38:43.8833333Z",
+    "CreatedBy": "10000000-0000-0000-0000-000000000001",
+    "LastModifiedOn": "2025-10-26T02:38:43.8833333Z",
+    "LastModifiedBy": "10000000-0000-0000-0000-000000000001",
+    "Id": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2"
+  },
+  {
+    "CompanyId": "a0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1e1",
+    "Name": "Davao Regional Center",
+    "Address": {
+      "Street": "40 Mindanao Ave",
+      "City": "Davao City",
+      "State": "Davao",
+      "PostalCode": "8000",
+      "Country": "Philippines"
+    },
+    "TotalCapacityWeight": 300000.00,
+    "TotalCapacityVolume": 50000.00,
+    "OperatingHours": "24/7",
+    "ContactPhone": "555-9002",
+    "ContactEmail": "dvo@wms.com",
+    "IsActive": true,
+    "Rooms": [],
+    "Docks": [],
+    "YardSpots": [],
+    "DomainEvents": [],
+    "CreatedOn": "2025-10-26T02:38:43.8833333Z",
+    "CreatedBy": "10000000-0000-0000-0000-000000000001",
+    "LastModifiedOn": "2025-10-26T02:38:43.8833333Z",
+    "LastModifiedBy": "10000000-0000-0000-0000-000000000001",
+    "Id": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b3"
+  }
+]

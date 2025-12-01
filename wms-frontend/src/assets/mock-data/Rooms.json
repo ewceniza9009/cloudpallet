@@ -1,0 +1,119 @@
+[
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Frozen Storage - A (-20C)",
+    "TemperatureRange": {
+      "MinTemperature": -25.00,
+      "MaxTemperature": -18.00
+    },
+    "ServiceType": 5,
+    "CapacityPallets": 1000,
+    "IsActive": true,
+    "Locations": [],
+    "Id": "e0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1c1"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Chilled Storage - B (0C)",
+    "TemperatureRange": {
+      "MinTemperature": 0.00,
+      "MaxTemperature": 5.00
+    },
+    "ServiceType": 4,
+    "CapacityPallets": 800,
+    "IsActive": true,
+    "Locations": [],
+    "Id": "e0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1c2"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Receiving Staging (\u002B10C)",
+    "TemperatureRange": {
+      "MinTemperature": 8.00,
+      "MaxTemperature": 15.00
+    },
+    "ServiceType": 3,
+    "CapacityPallets": 50,
+    "IsActive": true,
+    "Locations": [],
+    "Id": "e0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1c3"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Blast Freezer (-40C)",
+    "TemperatureRange": {
+      "MinTemperature": -40.00,
+      "MaxTemperature": -30.00
+    },
+    "ServiceType": 9,
+    "CapacityPallets": 10,
+    "IsActive": true,
+    "Locations": [],
+    "Id": "e0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1c4"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2",
+    "Name": "Frozen Storage - C (-20C)",
+    "TemperatureRange": {
+      "MinTemperature": -25.00,
+      "MaxTemperature": -18.00
+    },
+    "ServiceType": 5,
+    "CapacityPallets": 1500,
+    "IsActive": true,
+    "Locations": [],
+    "Id": "e0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1c5"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2",
+    "Name": "Receiving Staging (\u002B10C)",
+    "TemperatureRange": {
+      "MinTemperature": 8.00,
+      "MaxTemperature": 15.00
+    },
+    "ServiceType": 3,
+    "CapacityPallets": 60,
+    "IsActive": true,
+    "Locations": [],
+    "Id": "e0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1c6"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Cool Storage (\u002B12C)",
+    "TemperatureRange": {
+      "MinTemperature": 10.00,
+      "MaxTemperature": 15.00
+    },
+    "ServiceType": 6,
+    "CapacityPallets": 200,
+    "IsActive": true,
+    "Locations": [],
+    "Id": "e0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1c7"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Deep Freeze (-30C)",
+    "TemperatureRange": {
+      "MinTemperature": -35.00,
+      "MaxTemperature": -25.00
+    },
+    "ServiceType": 7,
+    "CapacityPallets": 300,
+    "IsActive": true,
+    "Locations": [],
+    "Id": "e0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1c8"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "ULT Storage (-80C)",
+    "TemperatureRange": {
+      "MinTemperature": -86.00,
+      "MaxTemperature": -60.00
+    },
+    "ServiceType": 8,
+    "CapacityPallets": 100,
+    "IsActive": true,
+    "Locations": [],
+    "Id": "e0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1c9"
+  }
+]

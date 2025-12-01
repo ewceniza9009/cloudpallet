@@ -1,0 +1,47 @@
+Using project 'X:\wms\src\Infrastructure\WMS.Infrastructure\WMS.Infrastructure.csproj'.
+Using startup project 'X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj'.
+dotnet msbuild /target:GetEFProjectMetadata /property:EFProjectMetadataFile=C:\Users\EWCEN\AppData\Local\Temp\tmpy4hspc.tmp /verbosity:quiet /nologo X:\wms\src\Infrastructure\WMS.Infrastructure\WMS.Infrastructure.csproj
+dotnet msbuild /target:GetEFProjectMetadata /property:EFProjectMetadataFile=C:\Users\EWCEN\AppData\Local\Temp\tmpp0xdvu.tmp /verbosity:quiet /nologo X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj
+dotnet exec --depsfile X:\wms\src\Presentation\WMS.Api\bin\Debug\net9.0\WMS.Api.deps.json --additionalprobingpath C:\Users\EWCEN\.nuget\packages --additionalprobingpath "C:\Program Files\DevExpress 22.2\Components\Offline Packages" --additionalprobingpath "C:\Program Files\DevExpress 24.1\Components\Offline Packages" --additionalprobingpath "C:\Program Files\DevExpress 24.2\Components\Offline Packages" --additionalprobingpath "C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages" --additionalprobingpath "C:\Program Files (x86)\Progress\ToolboxNuGetPackages" --runtimeconfig X:\wms\src\Presentation\WMS.Api\bin\Debug\net9.0\WMS.Api.runtimeconfig.json C:\Users\EWCEN\.dotnet\tools\.store\dotnet-ef\9.0.0\dotnet-ef\9.0.0\tools\net8.0\any\tools\netcoreapp2.0\any\ef.dll migrations add InitialPostgres --output-dir Migrations/Postgres --assembly X:\wms\src\Presentation\WMS.Api\bin\Debug\net9.0\WMS.Infrastructure.dll --project X:\wms\src\Infrastructure\WMS.Infrastructure\WMS.Infrastructure.csproj --startup-assembly X:\wms\src\Presentation\WMS.Api\bin\Debug\net9.0\WMS.Api.dll --startup-project X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj --project-dir X:\wms\src\Infrastructure\WMS.Infrastructure\ --root-namespace WMS.Infrastructure --language C# --framework net9.0 --nullable --working-dir X:\wms --verbose
+Using assembly 'WMS.Infrastructure'.
+Using startup assembly 'WMS.Api'.
+Using application base 'X:\wms\src\Presentation\WMS.Api\bin\Debug\net9.0'.
+Using working directory 'X:\wms\src\Presentation\WMS.Api'.
+Using root namespace 'WMS.Infrastructure'.
+Using project directory 'X:\wms\src\Infrastructure\WMS.Infrastructure\'.
+Remaining arguments: .
+The Entity Framework tools version '9.0.0' is older than that of the runtime '9.0.9'. Update the tools for the latest features and bug fixes. See https://aka.ms/AAc1fbw for more information.
+Finding DbContext classes...
+Using environment 'Production'.
+Finding IDesignTimeDbContextFactory implementations...
+Finding DbContext classes in the project...
+Found DbContext 'WmsDbContext'.
+Finding application service provider in assembly 'WMS.Api'...
+Finding Microsoft.Extensions.Hosting service provider...
+Using application service provider from Microsoft.Extensions.Hosting.
+Using context 'WmsDbContext'.
+Finding design-time services referenced by assembly 'WMS.Api'...
+Finding design-time services referenced by assembly 'WMS.Infrastructure'...
+No referenced design-time services were found.
+Finding design-time services for provider 'Npgsql.EntityFrameworkCore.PostgreSQL'...
+Using design-time services from provider 'Npgsql.EntityFrameworkCore.PostgreSQL'.
+Finding IDesignTimeServices implementations in assembly 'WMS.Api'...
+No design-time services were found.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationsModelDiffer.Initialize(ColumnOperation columnOperation, IColumn column, RelationalTypeMapping typeMapping, Boolean isNullable, IEnumerable`1 migrationsAnnotations, Boolean inline)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationsModelDiffer.InitializeColumnHelper(ColumnOperation columnOperation, IColumn column, Boolean inline)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationsModelDiffer.Diff(IColumn source, IColumn target, DiffContext diffContext)+MoveNext()
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationsModelDiffer.DiffCollection[T](IEnumerable`1 sources, IEnumerable`1 targets, DiffContext diffContext, Func`4 diff, Func`3 add, Func`3 remove, Func`4[] predicates)+MoveNext()
+   at System.Linq.Enumerable.ConcatIterator`1.MoveNext()
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationsModelDiffer.Diff(ITable source, ITable target, DiffContext diffContext)+MoveNext()
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationsModelDiffer.DiffCollection[T](IEnumerable`1 sources, IEnumerable`1 targets, DiffContext diffContext, Func`4 diff, Func`3 add, Func`3 remove, Func`4[] predicates)+MoveNext()
+   at System.Linq.Enumerable.ConcatIterator`1.MoveNext()
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationsModelDiffer.Sort(IEnumerable`1 operations, DiffContext diffContext)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationsModelDiffer.GetDifferences(IRelationalModel source, IRelationalModel target)
+   at Microsoft.EntityFrameworkCore.Migrations.Design.MigrationsScaffolder.ScaffoldMigration(String migrationName, String rootNamespace, String subNamespace, String language, Boolean dryRun)
+   at Microsoft.EntityFrameworkCore.Design.Internal.MigrationsOperations.AddMigration(String name, String outputDir, String contextType, String namespace, Boolean dryRun)
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.AddMigrationImpl(String name, String outputDir, String contextType, String namespace, Boolean dryRun)
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.AddMigration.<>c__DisplayClass0_0.<.ctor>b__0()
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.OperationBase.<>c__DisplayClass3_0`1.<Execute>b__0()
+   at Microsoft.EntityFrameworkCore.Design.OperationExecutor.OperationBase.Execute(Action action)
+Object reference not set to an instance of an object.

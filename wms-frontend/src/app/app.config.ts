@@ -17,13 +17,11 @@ import localePH from '@angular/common/locales/en-PH';
 
 registerLocaleData(localePH);
 
-import { mockDataInterceptor } from './core/interceptors/mock-data.interceptor';
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor, mockDataInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideAnimationsAsync(),
     provideNativeDateAdapter(),
     provideServiceWorker('ngsw-worker.js', {

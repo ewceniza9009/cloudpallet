@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: wms-backend
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: UsePostgres
+        value: true
+      - key: ConnectionStrings__DefaultConnection
+        sync: false # User must provide this in Render Dashboard

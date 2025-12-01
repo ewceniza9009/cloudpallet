@@ -21,8 +21,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		  <ProjectReference Include="..\..\Core\WMS.Application\WMS.Application.csproj" />
-		  <ProjectReference Include="..\..\Infrastructure\WMS.Infrastructure\WMS.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Core\WMS.Application\WMS.Application.csproj" />
+		<ProjectReference Include="..\..\Infrastructure\WMS.Infrastructure\WMS.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -35,15 +35,9 @@
 	  <None Update="SeedData\seed.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="DatabaseScripts\sp_InsertInventoryLedgerEntry.sql">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="DatabaseScripts\sp_GetInventoryLedger.sql">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
+      <Content Update="appsettings.Production.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>

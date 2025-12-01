@@ -375,3 +375,7 @@ src/Presentation/WMS.Api/SeedData
 # wms-frontend/.vscode/
 # wms-frontend/
 
+
+# AppSettings
+**/appsettings.Development.json
+!**/appsettings.Production.json

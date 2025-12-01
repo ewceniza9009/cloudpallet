@@ -177,7 +177,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -185,13 +184,55 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    // Potentially seed data in development
-    // using (var scope = app.Services.CreateScope())
-    // {
-    //     var dbContext = scope.ServiceProvider.GetRequiredService<WmsDbContext>();
-    //     // await dbContext.Database.MigrateAsync(); // Apply migrations
-    //     // Seed data logic here...
-    // }
+}
+
+// Initialize Database (Schema & Seed)
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<WmsDbContext>();
+        var dataPath = Path.Combine(Directory.GetCurrentDirectory(), "wms-frontend", "src", "assets", "mock-data");
+
+        if (app.Environment.IsDevelopment())
+        {
+             // Export data from local SQL Server to JSON for seeding production
+             // Ensure we don't overwrite if we don't intend to, but for now we want to capture latest
+             // Note: Directory.GetCurrentDirectory() in dotnet run might be the project folder or the root.
+             // We need to be careful with the path.
+             // If running from x:\wms, then "wms-frontend" is a sibling of "src".
+             // If running from x:\wms\src\Presentation\WMS.Api, then we need to go up.
+             // Let's assume running from x:\wms as per previous commands.
+             
+             // We can use a relative path that works from the project root
+             if (!Directory.Exists(dataPath))
+             {
+                 // Try to find it relative to the execution directory
+                 var potentialPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../../wms-frontend/src/assets/mock-data"));
+                 if (Directory.Exists(Path.GetDirectoryName(potentialPath))) 
+                 {
+                    dataPath = potentialPath;
+                 }
+             }
+
+             await JsonDataSeeder.ExportDataAsync(context, dataPath);
+             Log.Information($"Data exported to {dataPath}");
+        }
+        
+        // In Production (Neon), we use EnsureCreated to bypass migration tool issues
+        if (app.Environment.IsProduction())
+        {
+            await context.Database.EnsureCreatedAsync();
+            await JsonDataSeeder.SeedAsync(context, dataPath);
+            
+            Log.Information("Database seeded from JSON data.");
+        }
+    }
+    catch (Exception ex)
+    {
+        Log.Error(ex, "An error occurred while initializing the database.");
+    }
 }
 
 app.UseExceptionHandler(); // Use custom and default exception handling

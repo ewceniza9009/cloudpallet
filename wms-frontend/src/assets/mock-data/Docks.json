@@ -1,1 +1,122 @@
-[{"Id":"3FA85F64-5717-4562-B3FC-2C963F66AFA6","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","Name":"Dock 01 (Cebu In)","Type":0,"EquipmentFlags":0,"CapacityTruckLength":18.00,"IsActive":true,"CurrentAppointmentId":"C0D225CC-FB5A-4251-B4F1-749048E43DF5"},{"Id":"F8A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B2","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","Name":"Dock 02 (Cebu Out)","Type":1,"EquipmentFlags":0,"CapacityTruckLength":18.00,"IsActive":true,"CurrentAppointmentId":"FEBCACC8-F4C1-46B4-9176-119A6E0205CC"},{"Id":"F8A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B3","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","Name":"Dock 03 (Cebu In)","Type":0,"EquipmentFlags":0,"CapacityTruckLength":18.00,"IsActive":true},{"Id":"F8A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B4","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","Name":"Dock 04 (Cebu Out)","Type":1,"EquipmentFlags":0,"CapacityTruckLength":18.00,"IsActive":true},{"Id":"F8A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B5","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","Name":"Dock 05 (Cebu In)","Type":0,"EquipmentFlags":0,"CapacityTruckLength":18.00,"IsActive":true},{"Id":"F8A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B6","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","Name":"Dock 06 (Cebu Both)","Type":2,"EquipmentFlags":0,"CapacityTruckLength":18.00,"IsActive":true},{"Id":"F8A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B7","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","Name":"Dock 07 (Cebu Both)","Type":2,"EquipmentFlags":0,"CapacityTruckLength":18.00,"IsActive":true},{"Id":"F8A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B8","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","Name":"Dock 08 (Cebu In)","Type":0,"EquipmentFlags":0,"CapacityTruckLength":18.00,"IsActive":true},{"Id":"F8A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B9","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","Name":"Dock 09 (Cebu Out)","Type":1,"EquipmentFlags":0,"CapacityTruckLength":18.00,"IsActive":true},{"Id":"F8A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1BA","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","Name":"Dock 10 (Cebu In)","Type":0,"EquipmentFlags":0,"CapacityTruckLength":18.00,"IsActive":true},{"Id":"F8A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1BB","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B2","Name":"Dock 01 (Manila Both)","Type":2,"EquipmentFlags":0,"CapacityTruckLength":20.00,"IsActive":true},{"Id":"F8A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1BC","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B2","Name":"Dock 02 (Manila In)","Type":0,"EquipmentFlags":0,"CapacityTruckLength":20.00,"IsActive":true}]
+[
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Dock 01 (Cebu In)",
+    "Type": 0,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "CurrentAppointmentId": "c0d225cc-fb5a-4251-b4f1-749048e43df5",
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Dock 02 (Cebu Out)",
+    "Type": 1,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "CurrentAppointmentId": "febcacc8-f4c1-46b4-9176-119a6e0205cc",
+    "Id": "f8a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Dock 03 (Cebu In)",
+    "Type": 0,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "CurrentAppointmentId": null,
+    "Id": "f8a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b3"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Dock 04 (Cebu Out)",
+    "Type": 1,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "CurrentAppointmentId": null,
+    "Id": "f8a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b4"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Dock 05 (Cebu In)",
+    "Type": 0,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "CurrentAppointmentId": null,
+    "Id": "f8a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b5"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Dock 06 (Cebu Both)",
+    "Type": 2,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "CurrentAppointmentId": null,
+    "Id": "f8a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b6"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Dock 07 (Cebu Both)",
+    "Type": 2,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "CurrentAppointmentId": null,
+    "Id": "f8a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b7"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Dock 08 (Cebu In)",
+    "Type": 0,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "CurrentAppointmentId": null,
+    "Id": "f8a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b8"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Dock 09 (Cebu Out)",
+    "Type": 1,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "CurrentAppointmentId": null,
+    "Id": "f8a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b9"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "Name": "Dock 10 (Cebu In)",
+    "Type": 0,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "CurrentAppointmentId": null,
+    "Id": "f8a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1ba"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2",
+    "Name": "Dock 01 (Manila Both)",
+    "Type": 2,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 20.00,
+    "IsActive": true,
+    "CurrentAppointmentId": null,
+    "Id": "f8a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1bb"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2",
+    "Name": "Dock 02 (Manila In)",
+    "Type": 0,
+    "EquipmentFlags": 0,
+    "CapacityTruckLength": 20.00,
+    "IsActive": true,
+    "CurrentAppointmentId": null,
+    "Id": "f8a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1bc"
+  }
+]

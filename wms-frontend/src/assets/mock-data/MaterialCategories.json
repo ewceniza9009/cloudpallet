@@ -1,1 +1,32 @@
-[{"Id":"20000000-0000-0000-0000-000000000001","Name":"Frozen Poultry"},{"Id":"20000000-0000-0000-0000-000000000002","Name":"Refrigerated Dairy"},{"Id":"20000000-0000-0000-0000-000000000003","Name":"Frozen Seafood"},{"Id":"20000000-0000-0000-0000-000000000004","Name":"Frozen Vegetables"},{"Id":"20000000-0000-0000-0000-000000000005","Name":"Chilled Beverages"},{"Id":"20000000-0000-0000-0000-000000000006","Name":"Pharmaceuticals"}]
+[
+  {
+    "Name": "Frozen Poultry",
+    "ParentId": null,
+    "Id": "20000000-0000-0000-0000-000000000001"
+  },
+  {
+    "Name": "Refrigerated Dairy",
+    "ParentId": null,
+    "Id": "20000000-0000-0000-0000-000000000002"
+  },
+  {
+    "Name": "Frozen Seafood",
+    "ParentId": null,
+    "Id": "20000000-0000-0000-0000-000000000003"
+  },
+  {
+    "Name": "Frozen Vegetables",
+    "ParentId": null,
+    "Id": "20000000-0000-0000-0000-000000000004"
+  },
+  {
+    "Name": "Chilled Beverages",
+    "ParentId": null,
+    "Id": "20000000-0000-0000-0000-000000000005"
+  },
+  {
+    "Name": "Pharmaceuticals",
+    "ParentId": null,
+    "Id": "20000000-0000-0000-0000-000000000006"
+  }
+]

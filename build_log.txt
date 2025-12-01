@@ -1,0 +1,48 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  WMS.Domain -> X:\wms\src\Core\WMS.Domain\bin\Debug\net9.0\WMS.Domain.dll
+  WMS.Application -> X:\wms\src\Core\WMS.Application\bin\Debug\net9.0\WMS.Application.dll
+  WMS.Infrastructure -> X:\wms\src\Infrastructure\WMS.Infrastructure\bin\Debug\net9.0\WMS.Infrastructure.dll
+X:\wms\src\Presentation\WMS.Api\Controllers\VASController.cs(58,13): warning CS8604: Possible null reference argument for parameter 'a' in 'bool Entity<Guid>.operator ==(Entity<Guid> a, Entity<Guid> b)'. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\VASController.cs(58,28): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Infrastructure\JsonDataSeeder.cs(48,26): error CS0246: The type or namespace name 'Warehouse' could not be found (are you missing a using directive or an assembly reference?) [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Infrastructure\JsonDataSeeder.cs(49,26): error CS0246: The type or namespace name 'Location' could not be found (are you missing a using directive or an assembly reference?) [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Infrastructure\JsonDataSeeder.cs(50,26): error CS0246: The type or namespace name 'Dock' could not be found (are you missing a using directive or an assembly reference?) [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Infrastructure\JsonDataSeeder.cs(51,26): error CS0246: The type or namespace name 'YardSpot' could not be found (are you missing a using directive or an assembly reference?) [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Infrastructure\JsonDataSeeder.cs(52,26): error CS0246: The type or namespace name 'Pallet' could not be found (are you missing a using directive or an assembly reference?) [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(80,43): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(81,45): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(82,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(169,14): warning CS8604: Possible null reference argument for parameter 'a' in 'bool Entity<Guid>.operator !=(Entity<Guid> a, Entity<Guid> b)'. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(169,25): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(269,13): warning CS8604: Possible null reference argument for parameter 'a' in 'bool Entity<Guid>.operator !=(Entity<Guid> a, Entity<Guid> b)'. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(269,24): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(356,17): warning CS8604: Possible null reference argument for parameter 'a' in 'bool Entity<Guid>.operator !=(Entity<Guid> a, Entity<Guid> b)'. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(356,34): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(365,17): warning CS8604: Possible null reference argument for parameter 'a' in 'bool Entity<Guid>.operator !=(Entity<Guid> a, Entity<Guid> b)'. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(365,27): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+
+Build FAILED.
+
+X:\wms\src\Presentation\WMS.Api\Controllers\VASController.cs(58,13): warning CS8604: Possible null reference argument for parameter 'a' in 'bool Entity<Guid>.operator ==(Entity<Guid> a, Entity<Guid> b)'. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\VASController.cs(58,28): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(80,43): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(81,45): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(82,42): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(169,14): warning CS8604: Possible null reference argument for parameter 'a' in 'bool Entity<Guid>.operator !=(Entity<Guid> a, Entity<Guid> b)'. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(169,25): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(269,13): warning CS8604: Possible null reference argument for parameter 'a' in 'bool Entity<Guid>.operator !=(Entity<Guid> a, Entity<Guid> b)'. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(269,24): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(356,17): warning CS8604: Possible null reference argument for parameter 'a' in 'bool Entity<Guid>.operator !=(Entity<Guid> a, Entity<Guid> b)'. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(356,34): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(365,17): warning CS8604: Possible null reference argument for parameter 'a' in 'bool Entity<Guid>.operator !=(Entity<Guid> a, Entity<Guid> b)'. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Controllers\LookupsController.cs(365,27): warning CS8625: Cannot convert null literal to non-nullable reference type. [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Infrastructure\JsonDataSeeder.cs(48,26): error CS0246: The type or namespace name 'Warehouse' could not be found (are you missing a using directive or an assembly reference?) [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Infrastructure\JsonDataSeeder.cs(49,26): error CS0246: The type or namespace name 'Location' could not be found (are you missing a using directive or an assembly reference?) [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Infrastructure\JsonDataSeeder.cs(50,26): error CS0246: The type or namespace name 'Dock' could not be found (are you missing a using directive or an assembly reference?) [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Infrastructure\JsonDataSeeder.cs(51,26): error CS0246: The type or namespace name 'YardSpot' could not be found (are you missing a using directive or an assembly reference?) [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+X:\wms\src\Presentation\WMS.Api\Infrastructure\JsonDataSeeder.cs(52,26): error CS0246: The type or namespace name 'Pallet' could not be found (are you missing a using directive or an assembly reference?) [X:\wms\src\Presentation\WMS.Api\WMS.Api.csproj]
+    13 Warning(s)
+    5 Error(s)
+
+Time Elapsed 00:00:06.82

@@ -1,10 +1,10 @@
 // ---- File: wms-frontend/src/environments/environment.prod.ts ----
 export const environment = {
   production: true,
-  apiUrl: 'https://api.wms.your-company.com/api',
+  apiUrl: 'https://demo-api.cloudpallet.com/api', // Placeholder for demo
   hubs: {
-    temperature: 'https://api.wms.your-company.com/hubs/temperature',
-    docks: 'https://api.wms.your-company.com/hubs/docks',
-    notifications: 'https://api.wms.your-company.com/hubs/notifications'
+    temperature: 'https://demo-api.cloudpallet.com/hubs/temperature',
+    docks: 'https://demo-api.cloudpallet.com/hubs/docks',
+    notifications: 'https://demo-api.cloudpallet.com/hubs/notifications'
   }
 };

@@ -27,8 +27,16 @@ public static class DependencyInjection
 
         services.AddDbContext<WmsDbContext>((sp, options) =>
         {
-            options.UseSqlServer(connectionString)
-                   .AddInterceptors(sp.GetRequiredService<AuditingInterceptor>());
+            if (configuration.GetValue<bool>("UsePostgres"))
+            {
+                options.UseNpgsql(connectionString)
+                       .AddInterceptors(sp.GetRequiredService<AuditingInterceptor>());
+            }
+            else
+            {
+                options.UseSqlServer(connectionString)
+                       .AddInterceptors(sp.GetRequiredService<AuditingInterceptor>());
+            }
         });
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<WmsDbContext>());

@@ -1,1 +1,122 @@
-[{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1D1","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","SpotNumber":"Y01","Status":"Available","CapacityTruckLength":18.00,"IsActive":true},{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1D2","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","SpotNumber":"Y02","Status":"Available","CapacityTruckLength":18.00,"IsActive":true},{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1D3","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","SpotNumber":"Y03","Status":"Occupied","CurrentTruckId":"9B1D3E1C-8F5D-4F9E-A0E2-5B0D7C0A3B01","OccupiedSince":"2025-12-01T03:31:09.2254143","CapacityTruckLength":18.00,"IsActive":true},{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1D4","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","SpotNumber":"Y04","Status":"Available","CapacityTruckLength":22.00,"IsActive":true},{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1D5","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","SpotNumber":"Y05","Status":"Available","CapacityTruckLength":22.00,"IsActive":true},{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1D6","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B2","SpotNumber":"Y06","Status":"Available","CapacityTruckLength":18.00,"IsActive":true},{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1D7","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B2","SpotNumber":"Y07","Status":"Available","CapacityTruckLength":18.00,"IsActive":true},{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1D8","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B2","SpotNumber":"Y08","Status":"Available","CapacityTruckLength":18.00,"IsActive":true},{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1D9","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B2","SpotNumber":"Y09","Status":"Available","CapacityTruckLength":22.00,"IsActive":true},{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1DA","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B2","SpotNumber":"Y10","Status":"Available","CapacityTruckLength":22.00,"IsActive":true},{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1DB","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B1","SpotNumber":"Y11","Status":"Available","CapacityTruckLength":18.00,"IsActive":true},{"Id":"F0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1DC","WarehouseId":"D0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1B2","SpotNumber":"Y12","Status":"Available","CapacityTruckLength":20.00,"IsActive":true}]
+[
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "SpotNumber": "Y01",
+    "Status": 0,
+    "CurrentTruckId": null,
+    "OccupiedSince": null,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1d1"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "SpotNumber": "Y02",
+    "Status": 0,
+    "CurrentTruckId": null,
+    "OccupiedSince": null,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1d2"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "SpotNumber": "Y03",
+    "Status": 1,
+    "CurrentTruckId": "9b1d3e1c-8f5d-4f9e-a0e2-5b0d7c0a3b01",
+    "OccupiedSince": "2025-12-01T03:31:09.2254143Z",
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1d3"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "SpotNumber": "Y04",
+    "Status": 0,
+    "CurrentTruckId": null,
+    "OccupiedSince": null,
+    "CapacityTruckLength": 22.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1d4"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "SpotNumber": "Y05",
+    "Status": 0,
+    "CurrentTruckId": null,
+    "OccupiedSince": null,
+    "CapacityTruckLength": 22.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1d5"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2",
+    "SpotNumber": "Y06",
+    "Status": 0,
+    "CurrentTruckId": null,
+    "OccupiedSince": null,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1d6"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2",
+    "SpotNumber": "Y07",
+    "Status": 0,
+    "CurrentTruckId": null,
+    "OccupiedSince": null,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1d7"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2",
+    "SpotNumber": "Y08",
+    "Status": 0,
+    "CurrentTruckId": null,
+    "OccupiedSince": null,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1d8"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2",
+    "SpotNumber": "Y09",
+    "Status": 0,
+    "CurrentTruckId": null,
+    "OccupiedSince": null,
+    "CapacityTruckLength": 22.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1d9"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2",
+    "SpotNumber": "Y10",
+    "Status": 0,
+    "CurrentTruckId": null,
+    "OccupiedSince": null,
+    "CapacityTruckLength": 22.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1da"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b1",
+    "SpotNumber": "Y11",
+    "Status": 0,
+    "CurrentTruckId": null,
+    "OccupiedSince": null,
+    "CapacityTruckLength": 18.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1db"
+  },
+  {
+    "WarehouseId": "d0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1b2",
+    "SpotNumber": "Y12",
+    "Status": 0,
+    "CurrentTruckId": null,
+    "OccupiedSince": null,
+    "CapacityTruckLength": 20.00,
+    "IsActive": true,
+    "Id": "f0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1dc"
+  }
+]

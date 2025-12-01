@@ -1,0 +1,24 @@
+[
+  {
+    "OutputMaterialId": "cc153b77-2603-48aa-a2fc-519ce4915869",
+    "OutputQuantity": 3.000000,
+    "Lines": [],
+    "DomainEvents": [],
+    "CreatedOn": "2025-10-28T10:08:29.7335178Z",
+    "CreatedBy": "10000000-0000-0000-0000-000000000001",
+    "LastModifiedOn": "2025-10-28T10:08:29.7335178Z",
+    "LastModifiedBy": "10000000-0000-0000-0000-000000000001",
+    "Id": "67d53f2b-4cb7-4018-8db9-cd64475d1537"
+  },
+  {
+    "OutputMaterialId": "5bacb07d-5b9b-4c7b-a018-9653dbda7e9b",
+    "OutputQuantity": 1.000000,
+    "Lines": [],
+    "DomainEvents": [],
+    "CreatedOn": "2025-10-26T08:57:13.1901658Z",
+    "CreatedBy": "10000000-0000-0000-0000-000000000001",
+    "LastModifiedOn": "2025-10-26T08:57:13.1901658Z",
+    "LastModifiedBy": "10000000-0000-0000-0000-000000000001",
+    "Id": "cc3b6bd3-a70d-4ede-bab7-f6cddf12679d"
+  }
+]

@@ -1,1 +1,27 @@
-[{"Id":"A0A8A2C4-8C7A-4DF3-9B0E-32B3B3E2A1E1","Name":"Cebu Cold Chain Solutions Inc.","TaxId":"PH-123-456-789","Address_Street":"123 Mango Avenue","Address_City":"Cebu City","Address_State":"Cebu","Address_PostalCode":"6000","Address_Country":"Philippines","PhoneNumber":"+63 32 234 5678","Email":"contact@cebucold.com","Website":"www.cebucold.com","Status":"Active","SubscriptionPlan":"Enterprise","CreatedOn":"2025-10-26T02:38:43.8766667","CreatedBy":"10000000-0000-0000-0000-000000000001","LastModifiedOn":"2025-11-27T11:31:02.1652248","LastModifiedBy":"10000000-0000-0000-0000-000000000001","DefaultBarcodeFormat":"SSCC-18","Gs1CompanyPrefix":"0012345","IsPickingWeightReadonly":false}]
+[
+  {
+    "Name": "Cebu Cold Chain Solutions Inc.",
+    "TaxId": "PH-123-456-789",
+    "Address": {
+      "Street": "123 Mango Avenue",
+      "City": "Cebu City",
+      "State": "Cebu",
+      "PostalCode": "6000",
+      "Country": "Philippines"
+    },
+    "PhoneNumber": "\u002B63 32 234 5678",
+    "Email": "contact@cebucold.com",
+    "Website": "www.cebucold.com",
+    "Status": 0,
+    "SubscriptionPlan": "Enterprise",
+    "Gs1CompanyPrefix": "0012345",
+    "DefaultBarcodeFormat": "SSCC-18",
+    "IsPickingWeightReadonly": false,
+    "DomainEvents": [],
+    "CreatedOn": "2025-10-26T02:38:43.8766667Z",
+    "CreatedBy": "10000000-0000-0000-0000-000000000001",
+    "LastModifiedOn": "2025-11-27T11:31:02.1652248Z",
+    "LastModifiedBy": "10000000-0000-0000-0000-000000000001",
+    "Id": "a0a8a2c4-8c7a-4df3-9b0e-32b3b3e2a1e1"
+  }
+]

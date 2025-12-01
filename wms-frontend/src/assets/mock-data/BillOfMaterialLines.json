@@ -1,0 +1,20 @@
+[
+  {
+    "BillOfMaterialId": "67d53f2b-4cb7-4018-8db9-cd64475d1537",
+    "InputMaterialId": "40000000-0000-0000-0000-00000000000f",
+    "InputQuantity": 1.000000,
+    "Id": "cd1ba31b-2102-41c4-9f07-64402f4eb960"
+  },
+  {
+    "BillOfMaterialId": "cc3b6bd3-a70d-4ede-bab7-f6cddf12679d",
+    "InputMaterialId": "40000000-0000-0000-0000-000000000002",
+    "InputQuantity": 2.000000,
+    "Id": "48fca74e-bf01-4ae8-b5ab-741b1050021e"
+  },
+  {
+    "BillOfMaterialId": "cc3b6bd3-a70d-4ede-bab7-f6cddf12679d",
+    "InputMaterialId": "40000000-0000-0000-0000-00000000000f",
+    "InputQuantity": 2.000000,
+    "Id": "a7171747-766f-4b1f-a5d4-82e82e937c66"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "Id": "e8d116f2-214a-4ef6-b851-3cccebb653c6",
+    "Name": "Finance",
+    "NormalizedName": "FINANCE",
+    "ConcurrencyStamp": "ROLE_STAMP_3"
+  },
+  {
+    "Id": "9b8c0fdb-9ec9-451d-9b11-3f3c5c295759",
+    "Name": "Operator",
+    "NormalizedName": "OPERATOR",
+    "ConcurrencyStamp": "ROLE_STAMP_2"
+  },
+  {
+    "Id": "1c91c09f-f25c-43f2-b7ea-f0a71c438ec4",
+    "Name": "Admin",
+    "NormalizedName": "ADMIN",
+    "ConcurrencyStamp": "ROLE_STAMP_1"
+  }
+]
