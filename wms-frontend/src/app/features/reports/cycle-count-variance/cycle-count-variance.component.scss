@@ -1,0 +1,128 @@
+.report-container {
+  padding: 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.header-section {
+  margin-bottom: 24px;
+  
+  h1 {
+    margin: 0;
+    color: #1a1f36;
+    font-weight: 500;
+  }
+  
+  p {
+    margin: 4px 0 0;
+    color: #697386;
+  }
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: start;
+
+  .date-field {
+    grid-column: span 2;
+  }
+
+  .filter-actions {
+    display: flex;
+    gap: 8px;
+    padding-top: 4px;
+    justify-content: flex-end;
+    grid-column: span 2; // Ensure actions take enough space
+  }
+}
+
+.main-content-card {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.table-wrapper {
+  position: relative;
+  min-height: 200px;
+  overflow-x: auto;
+}
+
+.spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+table {
+  width: 100%;
+  
+  th.mat-header-cell {
+    background-color: #f7fafc;
+    color: #4a5568;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 16px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  td.mat-cell {
+    padding: 16px;
+    color: #2d3748;
+    border-bottom: 1px solid #edf2f7;
+    font-size: 0.875rem;
+  }
+
+  tr.mat-row:hover {
+    background-color: #f8fafc;
+  }
+}
+
+.cell-content {
+  display: flex;
+  flex-direction: column;
+  
+  .primary-text {
+    font-weight: 500;
+    color: #2d3748;
+  }
+  
+  .secondary-text {
+    font-size: 0.75rem;
+    color: #718096;
+  }
+}
+
+.align-right {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.variance-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  
+  &.positive {
+    background-color: #e6fffa;
+    color: #2c7a7b; // Teal
+  }
+  
+  &.negative {
+    background-color: #fff5f5;
+    color: #c53030; // Red
+  }
+}

@@ -415,6 +415,14 @@ export const routes: Routes = [
           ).then((c) => c.CustomReportComponent),
       },
       {
+        path: 'reports/cycle-count-variance',
+        canActivate: [financeGuard],
+        loadComponent: () =>
+          import(
+            './features/reports/cycle-count-variance/cycle-count-variance.component'
+          ).then((c) => c.CycleCountVarianceComponent),
+      },
+      {
         path: 'reports/activity-log',
         canActivate: [adminGuard],
         loadComponent: () =>

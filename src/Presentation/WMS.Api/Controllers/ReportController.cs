@@ -53,4 +53,12 @@ public class ReportsController : ApiControllerBase
         var result = await Mediator.Send(query);
         return Ok(result);
     }
+
+    [HttpGet("cycle-count-variances")]
+    [ProducesResponseType(typeof(PagedResult<CycleCountVarianceDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetCycleCountVariances([FromQuery] GetCycleCountVariancesQuery query)
+    {
+        var result = await Mediator.Send(query);
+        return Ok(result);
+    }
 }

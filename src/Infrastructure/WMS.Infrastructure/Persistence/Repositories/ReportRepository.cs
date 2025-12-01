@@ -927,4 +927,72 @@ public class ReportRepository(WmsDbContext context, IClock clock) : IReportRepos
 
         return lines;
     }
+
+    public async Task<Application.Common.Models.PagedResult<CycleCountVarianceDto>> GetCycleCountVariancesAsync(GetCycleCountVariancesQuery filter, CancellationToken cancellationToken)
+    {
+        var query = context.Set<InventoryAdjustment>().AsNoTracking()
+            .Where(adj => adj.Reason == AdjustmentReason.Count);
+
+        if (filter.StartDate.HasValue)
+            query = query.Where(adj => adj.Timestamp >= filter.StartDate.Value);
+        
+        if (filter.EndDate.HasValue)
+        {
+            var endDateEndOfDay = filter.EndDate.Value.Date.AddDays(1).AddTicks(-1);
+            query = query.Where(adj => adj.Timestamp <= endDateEndOfDay);
+        }
+
+        if (filter.AccountId.HasValue)
+            query = query.Where(adj => adj.AccountId == filter.AccountId.Value);
+
+        if (filter.MaterialId.HasValue)
+            query = query.Where(adj => adj.Inventory.MaterialId == filter.MaterialId.Value);
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        // Sort
+        if (!string.IsNullOrWhiteSpace(filter.SortBy))
+        {
+            var sortColumn = filter.SortBy switch
+            {
+                "timestamp" => "Timestamp",
+                "materialName" => "Inventory.Material.Name",
+                "sku" => "Inventory.Material.Sku",
+                "locationName" => "Inventory.Location.Barcode",
+                "varianceQuantity" => "DeltaQuantity",
+                "userName" => "User.UserName",
+                _ => "Timestamp"
+            };
+            var sortDirection = filter.SortDirection?.ToLower() == "asc" ? "ascending" : "descending";
+            query = query.OrderBy($"{sortColumn} {sortDirection}");
+        }
+        else
+        {
+            query = query.OrderByDescending(adj => adj.Timestamp);
+        }
+
+        var items = await query
+            .Skip((filter.Page - 1) * filter.PageSize)
+            .Take(filter.PageSize)
+            .Select(adj => new CycleCountVarianceDto
+            {
+                AdjustmentId = adj.Id,
+                Timestamp = adj.Timestamp,
+                MaterialName = adj.Inventory.Material.Name,
+                Sku = adj.Inventory.Material.Sku,
+                LocationName = adj.Inventory.Location.Barcode,
+                PalletBarcode = adj.Inventory.Pallet.Barcode,
+                VarianceQuantity = adj.DeltaQuantity,
+                VarianceValue = 0, // Placeholder, logic for value calculation can be added if cost is available
+                UserName = adj.User.UserName,
+                AccountName = adj.Account.Name
+            })
+            .ToListAsync(cancellationToken);
+
+        return new Application.Common.Models.PagedResult<CycleCountVarianceDto>
+        {
+            Items = items,
+            TotalCount = totalCount
+        };
+    }
 }

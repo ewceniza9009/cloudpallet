@@ -1,7 +1,5 @@
 ﻿using WMS.Application.Common.Models;
 using WMS.Application.Features.Reports.Queries;    
-using WMS.Application.Common.Models;
-using WMS.Application.Features.Reports.Queries;    
 using WMS.Domain.Enums;    
 
 namespace WMS.Application.Abstractions.Persistence;
@@ -17,4 +15,5 @@ public interface IReportRepository
     Task<Dictionary<ServiceType, int>> GetDailyPalletCountByZoneAsync(Guid accountId, DateTime startDate, DateTime endDate, CancellationToken cancellationToken);
     Task<Dictionary<ServiceType, decimal>> GetDailyWeightByZoneAsync(Guid accountId, DateTime startDate, DateTime endDate, CancellationToken cancellationToken);
     Task<PagedResult<ActivityLogDto>> GetActivityLogAsync(GetActivityLogQuery filter, CancellationToken cancellationToken);
+    Task<PagedResult<CycleCountVarianceDto>> GetCycleCountVariancesAsync(GetCycleCountVariancesQuery filter, CancellationToken cancellationToken);
 }

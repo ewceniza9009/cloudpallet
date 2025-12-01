@@ -201,4 +201,46 @@ export class ReportsApiService {
       responseType: 'blob', // <-- Tell Angular to expect a file Blob
     });
   }
+
+  getCycleCountVariances(
+    filter: CycleCountVarianceFilter
+  ): Observable<PagedResult<CycleCountVarianceDto>> {
+    let params = new HttpParams();
+    for (const key in filter) {
+      if (filter[key as keyof CycleCountVarianceFilter]) {
+        params = params.set(
+          key,
+          filter[key as keyof CycleCountVarianceFilter]!.toString()
+        );
+      }
+    }
+    return this.http.get<PagedResult<CycleCountVarianceDto>>(
+      `${this.apiUrl}/cycle-count-variances`,
+      { params }
+    );
+  }
+}
+
+export interface CycleCountVarianceDto {
+  adjustmentId: string;
+  timestamp: string;
+  materialName: string;
+  sku: string;
+  locationName: string;
+  palletBarcode: string;
+  varianceQuantity: number;
+  varianceValue: number;
+  userName: string;
+  accountName: string;
+}
+
+export interface CycleCountVarianceFilter {
+  page: number;
+  pageSize: number;
+  sortBy?: string;
+  sortDirection?: 'asc' | 'desc';
+  startDate?: string;
+  endDate?: string;
+  accountId?: string;
+  materialId?: string;
 }

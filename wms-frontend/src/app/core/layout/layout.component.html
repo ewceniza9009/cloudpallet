@@ -88,6 +88,11 @@
         <mat-icon matListItemIcon>picture_as_pdf</mat-icon>
         <span mat-list-item-title>Custom Report</span>
       </a>
+      <a mat-list-item routerLink="/reports/cycle-count-variance" routerLinkActive="active-link"
+        matTooltip="Cycle Count Variance" [matTooltipDisabled]="isExpanded()">
+        <mat-icon matListItemIcon>difference</mat-icon>
+        <span mat-list-item-title>Cycle Count Variance</span>
+      </a>
       <a mat-list-item routerLink="/tracer" routerLinkActive="active-link" matTooltip="Pallet Tracer"
          [matTooltipDisabled]="isExpanded()">
          <mat-icon matListItemIcon>timeline</mat-icon>
