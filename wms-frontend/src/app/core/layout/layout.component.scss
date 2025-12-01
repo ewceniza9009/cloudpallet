@@ -58,7 +58,7 @@ $transition-speed: 0.3s;
     .sidebar-header {
       padding: 0;
       justify-content: center;
-      
+
       .brand-icon {
         margin: 0;
         width: 32px;
@@ -68,13 +68,13 @@ $transition-speed: 0.3s;
 
     mat-nav-list {
       padding: 16px 12px;
-      
+
       .mat-mdc-list-item {
         padding: 0;
         justify-content: center;
         width: 48px;
         margin: 4px auto;
-        
+
         .mat-icon {
           margin: 0;
           font-size: 24px;
@@ -95,7 +95,7 @@ $transition-speed: 0.3s;
   flex-shrink: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   background: #ffffff;
-  
+
   .brand-icon {
     width: 36px;
     height: 36px;
@@ -143,13 +143,18 @@ mat-nav-list {
   &::-webkit-scrollbar {
     width: 4px;
   }
+
   &::-webkit-scrollbar-track {
     background: transparent;
   }
+
   &::-webkit-scrollbar-thumb {
     background: #e2e8f0;
     border-radius: 4px;
-    &:hover { background: #cbd5e1; }
+
+    &:hover {
+      background: #cbd5e1;
+    }
   }
 
   .menu-heading {
@@ -160,8 +165,10 @@ mat-nav-list {
     letter-spacing: 0.08em;
     padding: 24px 12px 8px;
     margin-top: 8px;
-    
-    &:first-child { margin-top: 0; }
+
+    &:first-child {
+      margin-top: 0;
+    }
 
     &.clickable-heading {
       cursor: pointer;
@@ -260,7 +267,7 @@ mat-nav-list {
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  
+
   .header-section {
     display: flex;
     align-items: center;
@@ -270,7 +277,11 @@ mat-nav-list {
   // Menu Toggle
   .menu-toggle-button {
     color: $text-secondary;
-    &:hover { color: $text-primary; background: rgba(0,0,0,0.04); }
+
+    &:hover {
+      color: $text-primary;
+      background: rgba(0, 0, 0, 0.04);
+    }
   }
 
   // Header Buttons
@@ -291,7 +302,10 @@ mat-nav-list {
     &:hover {
       background-color: $bg-hover;
       color: $text-primary;
-      .mat-icon { color: $primary-color; }
+
+      .mat-icon {
+        color: $primary-color;
+      }
     }
   }
 
@@ -318,6 +332,7 @@ mat-nav-list {
   // User Profile
   .user-profile-button {
     border: 1px solid transparent;
+
     &:hover {
       background-color: $bg-hover;
       border-color: #e2e8f0;
@@ -340,18 +355,18 @@ mat-nav-list {
 .mat-mdc-menu-panel {
   border-radius: 12px !important;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1) !important;
-  border: 1px solid rgba(0,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 ::ng-deep .user-profile-menu {
   min-width: 240px !important;
-  
+
   .user-info {
     padding: 16px 20px;
     background-color: #f8fafc;
     border-bottom: 1px solid #e2e8f0;
     margin-bottom: 8px;
-    
+
     .user-email {
       font-weight: 600;
       color: $text-primary;
@@ -361,7 +376,7 @@ mat-nav-list {
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
+
     .user-role {
       font-size: 0.75rem;
       color: $text-secondary;
@@ -380,16 +395,16 @@ mat-nav-list {
     margin: 0 8px 8px;
     border-radius: 8px;
     width: calc(100% - 16px);
-    
+
     &:hover {
       background-color: #fee2e2;
       color: #b91c1c;
-      
+
       mat-icon {
         color: #b91c1c;
       }
     }
-    
+
     mat-icon {
       color: $text-secondary;
       margin-right: 12px;
@@ -403,9 +418,15 @@ mat-nav-list {
 @media (max-width: 992px) {
   .app-header {
     padding: 0 16px;
-    .header-nav-buttons span { display: none; }
+
+    .header-nav-buttons span {
+      display: none;
+    }
   }
-  .content { padding: 20px; }
+
+  .content {
+    padding: 20px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -413,286 +434,513 @@ mat-nav-list {
     position: fixed;
     z-index: 1000;
     height: 100%;
-    box-shadow: 0 0 40px rgba(0,0,0,0.1);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
   }
-  .content { padding: 16px; }
+
+  .content {
+    padding: 16px;
+  }
 }
 
 // ==========================================================================
 // # ANIMATIONS (Restored & Fixed)
 // ==========================================================================
+// ==========================================================================
+// # ANIMATIONS (Holographic / Professional Grade)
+// ==========================================================================
 .warehouse-animation {
   position: fixed;
-  bottom: 20px;
-  right: 0px;
-  width: 300px;
-  height: 180px;
+  bottom: 40px;
+  right: 40px;
+  width: 280px;
+  height: 160px;
   pointer-events: none;
   z-index: 1000;
-  opacity: 0.3;
+  opacity: 0.45;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // 3D Holographic Effect
+  transform: perspective(1000px) rotateY(-12deg) rotateX(5deg);
+  transform-style: preserve-3d;
+
+  background: rgba(0, 20, 26, 0.6); // Darker, more transparent
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  border-radius: 4px; // Sharper corners for tech look
+  box-shadow:
+    -10px 10px 30px rgba(0, 0, 0, 0.5), // Deep shadow
+    0 0 15px rgba(0, 229, 255, 0.1), // Outer glow
+    inset 0 0 20px rgba(0, 229, 255, 0.05); // Inner glow
+  overflow: hidden;
+
+  // "LIVE" Status Indicator
+  &::before {
+    content: 'LIVE FEED ●';
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    color: #00e5ff;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    text-shadow: 0 0 5px #00e5ff;
+    animation: textPulse 2s infinite;
+    z-index: 10;
+  }
+
+  // Grid background
+  background-image: linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+
+  // Dynamic Scanline
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        rgba(0, 229, 255, 0.1) 50%,
+        transparent 100%);
+    background-size: 100% 200%;
+    animation: scanline 3s linear infinite;
+    pointer-events: none;
+  }
 }
 
-/* Truck container */
+@keyframes scanline {
+  0% {
+    background-position: 0% -100%;
+  }
+
+  100% {
+    background-position: 0% 200%;
+  }
+}
+
+@keyframes textPulse {
+
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* Cold chain temperature indicator - Digital HUD Style */
+.temp-indicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #00e5ff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace; // Monospace for digital look
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: #00e5ff;
+    border-radius: 50%;
+    animation: blink 2s infinite;
+  }
+}
+
+/* Storage shelves - Wireframe Style */
+.storage-shelves {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 80px;
+  height: 90px;
+  perspective: 400px; // 3D perspective
+
+  .shelf-support {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background: rgba(0, 229, 255, 0.3);
+    left: 0;
+    bottom: 0;
+    box-shadow: 0 0 5px rgba(0, 229, 255, 0.2);
+  }
+
+  .shelf {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: rgba(0, 229, 255, 0.3);
+    left: 0;
+
+    &::after {
+      // Depth line
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 20px;
+      height: 1px;
+      background: rgba(0, 229, 255, 0.2);
+      transform: rotate(-45deg);
+      transform-origin: right top;
+    }
+
+    &:nth-child(2) {
+      bottom: 10px;
+    }
+
+    &:nth-child(3) {
+      bottom: 40px;
+    }
+
+    &:nth-child(4) {
+      bottom: 70px;
+    }
+  }
+}
+
+/* Pallets - Holographic Cubes */
+.pallet {
+  position: absolute;
+  width: 24px;
+  height: 18px;
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.6);
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.15);
+  border-radius: 1px;
+
+  // Internal structure lines
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(0, 229, 255, 0.3);
+  }
+}
+
+/* Stored Pallets */
+.stored-pallets {
+  position: absolute;
+  bottom: 22px;
+  right: 25px;
+  z-index: 1;
+
+  .pallet-stack {
+    position: absolute;
+
+    .pallet {
+      opacity: 0.8;
+    }
+
+    &:nth-child(1) {
+      bottom: 0;
+      right: 0;
+      animation: storePallet1 12s infinite;
+    }
+
+    &:nth-child(2) {
+      bottom: 0;
+      right: 30px;
+      animation: storePallet2 12s infinite;
+    }
+  }
+}
+
+/* Truck - Sci-Fi AGV Style */
 .warehouse-truck {
   position: absolute;
-  bottom: 10px;
+  bottom: 20px;
   right: -100px;
-  width: 120px;
-  height: 60px;
-  animation: truckEnter 15s linear infinite;
+  width: 100px;
+  height: 40px;
+  animation: truckEnter 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  z-index: 2;
 }
 
 .truck-body {
   position: absolute;
-  width: 80px;
-  height: 40px;
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-  border-radius: 8px 4px 4px 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  width: 70px;
+  height: 30px;
+  background: rgba(15, 23, 42, 0.9); // Dark body
+  border: 1px solid #00e5ff;
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
 
-  &::before {
-    content: '';
-    position: absolute;
-    left: -15px;
-    top: 10px;
-    width: 20px;
-    height: 20px;
-    background: #374151;
-    border-radius: 4px;
-  }
-
+  // Cab window
   &::after {
     content: '';
     position: absolute;
-    right: -10px;
+    right: 5px;
     top: 5px;
-    width: 25px;
-    height: 30px;
-    background: #0d9488;
-    border-radius: 4px;
-    clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+    width: 15px;
+    height: 20px;
+    background: rgba(0, 229, 255, 0.3);
+    border: 1px solid rgba(0, 229, 255, 0.5);
+    border-radius: 2px;
+  }
+
+  // Side detail
+  &::before {
+    content: 'AGV-01';
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    font-size: 6px;
+    color: #00e5ff;
+    font-family: monospace;
   }
 }
 
 .truck-wheels {
   position: absolute;
-  bottom: -8px;
+  bottom: 2px;
+  width: 100%;
 
   .wheel {
     position: absolute;
-    width: 12px;
-    height: 12px;
-    background: #1f2937;
+    width: 10px;
+    height: 10px;
+    background: #001e26;
+    border: 1px solid #00e5ff;
     border-radius: 50%;
-    border: 2px solid #4b5563;
+    bottom: -5px;
     animation: wheelRotate 1s linear infinite;
 
-    &:nth-child(1) { left: 5px; }
-    &:nth-child(2) { left: 25px; }
-    &:nth-child(3) { left: 65px; }
+    // Internal spoke
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #00e5ff;
+    }
+
+    &:nth-child(1) {
+      left: 10px;
+    }
+
+    &:nth-child(2) {
+      left: 30px;
+    }
+
+    &:nth-child(3) {
+      left: 55px;
+    }
   }
 }
 
-/* Pallets */
-.pallet {
-  position: absolute;
-  width: 30px;
-  height: 25px;
-  background: linear-gradient(135deg, #92400e 0%, #78350f 100%);
-  border: 2px solid #451a03;
-  border-radius: 3px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 8px;
-    left: 5px;
-    right: 5px;
-    height: 3px;
-    background: #451a03;
-    border-radius: 1px;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 16px;
-    left: 5px;
-    right: 5px;
-    height: 3px;
-    background: #451a03;
-    border-radius: 1px;
-  }
-}
-
-/* Moving pallets */
+/* Moving Pallet Group */
 .pallet-group {
   position: absolute;
-  bottom: 15px;
-  right: -150px;
-  animation: palletsMove 15s linear infinite;
+  bottom: 28px;
+  right: -100px;
+  z-index: 3;
+  animation: palletsMove 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 
   .pallet {
     position: absolute;
-    &:nth-child(1) { right: 0px; animation-delay: 0s; }
-    &:nth-child(2) { right: 35px; animation-delay: 1s; }
-    &:nth-child(3) { right: 70px; animation-delay: 2s; }
-  }
-}
+    background: rgba(0, 229, 255, 0.2); // Slightly brighter for moving item
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
 
-/* Storage shelves */
-.storage-shelves {
-  position: absolute;
-  bottom: 0;
-  right: 50px;
-  width: 80px;
-  height: 80px;
+    &:nth-child(1) {
+      right: 0px;
+      top: 0;
+    }
 
-  .shelf {
-    position: absolute;
-    width: 80px;
-    height: 20px;
-    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
-    border: 1px solid #4b5563;
-    border-radius: 2px;
-    &:nth-child(1) { bottom: 0; }
-    &:nth-child(2) { bottom: 25px; }
-    &:nth-child(3) { bottom: 50px; }
-  }
+    &:nth-child(2) {
+      right: 28px;
+      top: 0;
+    }
 
-  .shelf-support {
-    position: absolute;
-    width: 4px;
-    height: 80px;
-    background: #1f2937;
-    left: -4px;
-    bottom: 0;
-  }
-}
-
-/* Stacked pallets in storage */
-.stored-pallets {
-  position: absolute;
-  bottom: 5px;
-  right: 55px;
-
-  .pallet-stack {
-    position: absolute;
-    &:nth-child(1) { bottom: 0; right: 15px; animation: storePallet1 15s linear infinite; }
-    &:nth-child(2) { bottom: 0; right: 45px; animation: storePallet2 15s linear infinite; }
+    &:nth-child(3) {
+      right: 56px;
+      top: 0;
+    }
   }
 }
 
 /* Animations */
 @keyframes truckEnter {
   0% {
-    right: -100px;
+    right: -120px;
     opacity: 0;
   }
+
   10% {
-    right: 200px;
+    right: 180px;
     opacity: 1;
   }
-  30% {
-    right: 200px;
+
+  // Drive in
+  35% {
+    right: 180px;
   }
-  40% {
-    right: 150px;
+
+  // Wait
+  45% {
+    right: 130px;
   }
-  50% {
-    right: 150px;
+
+  // Back up
+  55% {
+    right: 130px;
   }
-  60% {
-    right: 200px;
+
+  // Load
+  65% {
+    right: 180px;
   }
-  80% {
-    right: 200px;
-  }
+
+  // Move forward
   90% {
-    right: -100px;
+    right: -120px;
     opacity: 1;
   }
+
+  // Drive out
   100% {
-    right: -100px;
+    right: -120px;
     opacity: 0;
   }
 }
 
 @keyframes palletsMove {
   0% {
-    right: -150px;
+    right: -120px;
     opacity: 0;
   }
+
   10% {
-    right: 220px;
+    right: 180px;
     opacity: 1;
   }
-  30% {
-    right: 220px;
+
+  // Follow truck
+  35% {
+    right: 180px;
   }
-  40% {
-    right: 170px;
-    transform: translateY(0);
-  }
+
+  // Wait
   45% {
-    right: 150px;
-    transform: translateY(-40px);
-  }
-  50% {
-    right: 150px;
-    transform: translateY(-40px);
-  }
-  55% {
-    right: 170px;
+    right: 130px;
     transform: translateY(0);
   }
-  60% {
-    right: 220px;
-  }
-  80% {
-    right: 220px;
-  }
-  90% {
-    right: -150px;
+
+  // Back up
+  50% {
+    right: 130px;
+    transform: translateY(-30px);
     opacity: 1;
   }
-  100% {
-    right: -150px;
+
+  // Lift (Loading)
+  54% {
+    right: 130px;
+    transform: translateY(-30px);
     opacity: 0;
+  }
+
+  // Disappear (Loaded)
+  55% {
+    right: 130px;
+    transform: translateY(0);
+    opacity: 0;
+  }
+
+  // Reset pos
+  100% {
+    right: -120px;
+    opacity: 0;
+  }
+}
+
+@keyframes storePallet1 {
+
+  0%,
+  50% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  // Empty
+  55% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  // Appear (Unloaded from truck logic)
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes storePallet2 {
+
+  0%,
+  52% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  57% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
 
 @keyframes wheelRotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-@keyframes storePallet1 {
-  0%, 45% { opacity: 0; transform: translateY(20px); }
-  50%, 100% { opacity: 1; transform: translateY(0); }
-}
+@keyframes blink {
 
-@keyframes storePallet2 {
-  0%, 65% { opacity: 0; transform: translateY(20px); }
-  70%, 100% { opacity: 1; transform: translateY(0); }
-}
+  0%,
+  100% {
+    opacity: 1;
+  }
 
-/* Cold chain temperature indicator */
-.temp-indicator {
-  position: absolute;
-  top: 70px;
-  right: 10px;
-  background: rgba(13, 148, 136, 0.9);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: bold;
-  animation: tempPulse 2s ease-in-out infinite;
-}
-
-@keyframes tempPulse {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
+  50% {
+    opacity: 0.5;
+  }
 }
