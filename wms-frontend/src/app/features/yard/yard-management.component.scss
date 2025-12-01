@@ -16,8 +16,15 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .header-section {
@@ -44,6 +51,210 @@
   }
 }
 
+.yard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); // Wider min-width for better spacing
+  gap: 1.5rem;
+  align-items: start;
+}
+
+// Standard Card Styles
+.list-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  height: 100%;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .mat-mdc-card-header {
+    border-bottom: 1px solid var(--mat-sys-outline-variant-low);
+    background-color: #fff;
+    min-height: 88px; // Fixed height for alignment
+    display: flex;
+    align-items: flex-start;
+
+    .mat-mdc-card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1e293b;
+      letter-spacing: -0.01em;
+    }
+
+    .mat-mdc-card-subtitle {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-top: 0.25rem;
+      font-weight: 400;
+    }
+  }
+
+  .mat-mdc-card-content {
+    padding: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+}
+
+.header-with-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 1rem;
+
+  .header-text {
+    flex: 1;
+  }
+
+  .header-controls {
+    .date-field {
+      width: 150px;
+
+      // Custom style for date picker
+      ::ng-deep .mat-mdc-text-field-wrapper {
+        background-color: #f1f5f9;
+        border-radius: 8px;
+        border: none;
+        padding: 0 12px;
+        height: 40px;
+      }
+
+      ::ng-deep .mat-mdc-form-field-underline {
+        display: none;
+      }
+
+      ::ng-deep .mat-mdc-form-field-flex {
+        height: 40px;
+        align-items: center;
+      }
+    }
+  }
+}
+
+// Search Bar
+.list-search-bar {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant-low);
+}
+
+.custom-field {
+  width: 100%;
+
+  // Clean, modern input style
+  --mat-form-field-container-height: 44px;
+  --mat-form-field-container-vertical-padding: 0px;
+
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 44px;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: #fff;
+    border: 1px solid var(--mat-sys-outline-variant);
+    border-radius: 8px;
+  }
+
+  ::ng-deep .mat-mdc-form-field-flex {
+    height: 100%;
+    align-items: center;
+    padding: 0 12px;
+  }
+
+  ::ng-deep .mat-mdc-input-element {
+    margin-top: -4px;
+  }
+
+  ::ng-deep .mat-mdc-form-field-icon-suffix {
+    display: flex;
+    align-items: center;
+    color: #94a3b8;
+  }
+
+  ::ng-deep .mat-mdc-form-field-underline {
+    display: none;
+  }
+}
+
+.empty-list-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  text-align: center;
+  gap: 1.5rem;
+  color: #64748b;
+  padding: 2rem;
+  background-color: #fcfcfc;
+
+  .mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: #cbd5e1;
+    opacity: 0.8;
+  }
+
+  p {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+.mat-mdc-list-item {
+  height: auto !important;
+  min-height: 72px; // Slightly taller for better spacing
+  padding: 1rem 1.5rem !important;
+  border-bottom: 1px solid var(--mat-sys-outline-variant-low);
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f8fafc;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.appointment-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.in-yard-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: #dcfce7; // Green-100
+  color: #166534; // Green-800
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  line-height: 1.2;
+  margin-left: 0.75rem;
+}
+
+.arrival-details-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+  white-space: normal !important;
+  overflow: visible !important;
+}
+
 .spinner-container-page {
   display: flex;
   flex-direction: column;
@@ -56,143 +267,12 @@
   flex-grow: 1;
 }
 
-.yard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-  gap: 1.5rem;
-  align-items: start;
-}
-
-// Standard Card Styles
-.list-card {
-  border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: none;
-  border-radius: 12px;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--mat-sys-surface);
-
-  .mat-mdc-card-header {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--mat-sys-outline-variant-low);
-    background-color: var(--mat-sys-surface-container-lowest);
-    
-    .mat-mdc-card-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-    
-    .mat-mdc-card-subtitle {
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
-    }
-  }
-
-  .mat-mdc-card-content {
-    padding: 0;
-    flex-grow: 1;
-    overflow-y: auto;
-  }
-}
-
-// Search Bar
-.list-search-bar {
-  padding: 1rem 1.5rem 0.5rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant-low);
-}
-
-.custom-field {
-  width: 100%;
-  
-  // Compact density settings
-  --mat-form-field-container-height: 42px;
-  --mat-form-field-container-vertical-padding: 0px;
-
-  ::ng-deep .mat-mdc-text-field-wrapper {
-    height: 42px;
-    padding-top: 0;
-    padding-bottom: 0;
-    background-color: var(--mat-sys-surface-container-low);
-  }
-
-  ::ng-deep .mat-mdc-form-field-flex {
-    height: 100%;
-    align-items: center;
-  }
-
-  ::ng-deep .mat-mdc-input-element {
-    margin-top: -4px;
-  }
-  
-  ::ng-deep .mat-mdc-form-field-icon-suffix {
-     display: flex;
-     align-items: center;
-  }
-}
-
-.empty-list-message {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  text-align: center;
-  gap: 1rem;
-  color: var(--mat-sys-on-surface-variant);
-  padding: 1.5rem;
-
-  .mat-icon {
-    font-size: 3rem;
-    width: 3rem;
-    height: 3rem;
-    color: var(--mat-sys-outline);
-    opacity: 0.5;
-  }
-}
-
-.mat-mdc-list-item {
-  height: auto !important;
-  min-height: 64px;
-  padding: 0.75rem 1rem !important;
-  border-bottom: 1px solid var(--mat-sys-outline-variant-low);
-  
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-.appointment-title {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.in-yard-badge {
-  font-size: 0.75rem;
-  font-weight: 600;
-  background-color: var(--mat-sys-primary-container);
-  color: var(--mat-sys-on-primary-container);
-  padding: 2px 8px;
-  border-radius: 4px;
-  white-space: nowrap;
-  line-height: 1.2;
-  margin-left: 0.75rem; // Explicit margin to ensure spacing
-}
-
-.arrival-details-line {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  font-size: 0.875rem;
-  color: var(--mat-sys-on-surface-variant);
-  margin-top: 0.25rem;
-  white-space: normal !important;
-  overflow: visible !important;
-}
-
 @media (max-width: 768px) {
-    .report-container {
-      padding: 1rem;
-    }
+  .report-container {
+    padding: 1rem;
+  }
+
+  .yard-grid {
+    grid-template-columns: 1fr;
+  }
 }

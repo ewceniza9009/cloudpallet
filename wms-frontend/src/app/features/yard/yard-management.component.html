@@ -59,8 +59,20 @@
 
     <mat-card class="list-card">
       <mat-card-header>
-        <mat-card-title>Today's Scheduled Arrivals</mat-card-title>
-        <mat-card-subtitle>Trucks with appointments pending check-in</mat-card-subtitle>
+        <div class="header-with-controls">
+          <div class="header-text">
+            <mat-card-title>Scheduled Arrivals</mat-card-title>
+            <mat-card-subtitle>Trucks with appointments pending check-in</mat-card-subtitle>
+          </div>
+          <div class="header-controls">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" class="date-field">
+              <mat-label>Date</mat-label>
+              <input matInput [matDatepicker]="picker" [value]="selectedDate()" (dateChange)="onDateChange($event)">
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
       </mat-card-header>
       <div class="list-search-bar">
         <mat-form-field appearance="outline" subscriptSizing="dynamic" class="custom-field">
