@@ -14,31 +14,31 @@
     </div>
     <div class="filters-grid">
       <!-- Room Filter -->
-      <mat-form-field appearance="outline" class="filter-item">
+      <mat-form-field appearance="outline" class="filter-item" subscriptSizing="dynamic">
         <mat-label>Room</mat-label>
         <input matInput [ngModel]="filters().room" (ngModelChange)="updateFilter('room', $event)" placeholder="Filter Room">
       </mat-form-field>
 
       <!-- Bay Filter -->
-      <mat-form-field appearance="outline" class="filter-item">
+      <mat-form-field appearance="outline" class="filter-item" subscriptSizing="dynamic">
         <mat-label>Bay</mat-label>
         <input matInput [ngModel]="filters().bay" (ngModelChange)="updateFilter('bay', $event)" placeholder="Filter Bay">
       </mat-form-field>
 
       <!-- Row Filter -->
-      <mat-form-field appearance="outline" class="filter-item small-filter">
+      <mat-form-field appearance="outline" class="filter-item small-filter" subscriptSizing="dynamic">
         <mat-label>Row</mat-label>
         <input matInput [ngModel]="filters().row" (ngModelChange)="updateFilter('row', $event)" placeholder="R">
       </mat-form-field>
 
       <!-- Column Filter -->
-      <mat-form-field appearance="outline" class="filter-item small-filter">
+      <mat-form-field appearance="outline" class="filter-item small-filter" subscriptSizing="dynamic">
         <mat-label>Col</mat-label>
         <input matInput [ngModel]="filters().column" (ngModelChange)="updateFilter('column', $event)" placeholder="C">
       </mat-form-field>
 
       <!-- Level Filter -->
-      <mat-form-field appearance="outline" class="filter-item small-filter">
+      <mat-form-field appearance="outline" class="filter-item small-filter" subscriptSizing="dynamic">
         <mat-label>Lvl</mat-label>
         <input matInput [ngModel]="filters().level" (ngModelChange)="updateFilter('level', $event)" placeholder="L">
       </mat-form-field>
