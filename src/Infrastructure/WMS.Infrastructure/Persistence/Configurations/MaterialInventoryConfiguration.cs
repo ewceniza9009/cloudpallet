@@ -45,7 +45,7 @@ public class MaterialInventoryConfiguration : IEntityTypeConfiguration<MaterialI
               .HasDefaultValue(InventoryStatus.Available);
 
         builder.Property(mi => mi.RowVersion)
-               .IsRowVersion();
+               .IsConcurrencyToken();
 
     }
 }
