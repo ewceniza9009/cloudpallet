@@ -23,7 +23,7 @@ public class GlobalExceptionHandler : IExceptionHandler
         {
             Status = StatusCodes.Status500InternalServerError,
             Title = "An error occurred while processing your request",
-            Detail = exception.Message // EXPOSING MESSAGE FOR DEBUGGING
+            Detail = GetFullExceptionMessage(exception)
         };
 
         switch (exception)
@@ -47,5 +47,17 @@ public class GlobalExceptionHandler : IExceptionHandler
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 
         return true;
+    }
+
+    private static string GetFullExceptionMessage(Exception exception)
+    {
+        var message = exception.Message;
+        var inner = exception.InnerException;
+        while (inner != null)
+        {
+            message += " | Inner: " + inner.Message;
+            inner = inner.InnerException;
+        }
+        return message;
     }
 }
