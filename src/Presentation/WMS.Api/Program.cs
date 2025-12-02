@@ -72,6 +72,7 @@ builder.Services.AddSingleton<IClock, SystemClock>(); // Register SystemClock fo
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddHostedService<TemperatureSimulationService>();
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>(); // Add custom validation exception handler
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>(); // Add global exception handler for other errors
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
