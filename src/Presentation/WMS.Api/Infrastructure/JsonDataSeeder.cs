@@ -112,40 +112,38 @@ public static class JsonDataSeeder
         await SeedEntity<IdentityUserRole<Guid>>(context, inputPath, "UserRoles.json");
         await context.SaveChangesAsync();
 
+        // Group 1: Parties & Core Definitions
         await SeedEntity<Account>(context, inputPath, "Accounts.json");
-        await context.SaveChangesAsync();
         await SeedEntity<Carrier>(context, inputPath, "Carriers.json");
-        await context.SaveChangesAsync();
         await SeedEntity<Supplier>(context, inputPath, "Suppliers.json");
-        await context.SaveChangesAsync();
         await SeedEntity<Truck>(context, inputPath, "Trucks.json");
-        await context.SaveChangesAsync();
         await SeedEntity<UnitOfMeasure>(context, inputPath, "UnitsOfMeasure.json");
-        await context.SaveChangesAsync();
         await SeedEntity<PalletType>(context, inputPath, "PalletTypes.json");
-        await context.SaveChangesAsync();
         await SeedEntity<Rate>(context, inputPath, "Rates.json");
         await context.SaveChangesAsync();
+        Console.WriteLine("Seeded Parties & Core Definitions.");
+
+        // Group 2: Warehouse Structure
         await SeedEntity<Warehouse>(context, inputPath, "Warehouses.json");
-        await context.SaveChangesAsync();
         await SeedEntity<Room>(context, inputPath, "Rooms.json");
-        await context.SaveChangesAsync();
         await SeedEntity<Location>(context, inputPath, "Locations.json");
-        await context.SaveChangesAsync();
         await SeedEntity<Dock>(context, inputPath, "Docks.json");
-        await context.SaveChangesAsync();
         await SeedEntity<YardSpot>(context, inputPath, "YardSpots.json");
         await context.SaveChangesAsync();
+        Console.WriteLine("Seeded Warehouse Structure.");
+
+        // Group 3: Material Master
         await SeedEntity<MaterialCategory>(context, inputPath, "MaterialCategories.json");
-        await context.SaveChangesAsync();
         await SeedEntity<Material>(context, inputPath, "Materials.json");
-        await context.SaveChangesAsync();
         await SeedEntity<BillOfMaterial>(context, inputPath, "BillOfMaterials.json");
-        await context.SaveChangesAsync();
         await SeedEntity<BillOfMaterialLine>(context, inputPath, "BillOfMaterialLines.json");
         await context.SaveChangesAsync();
+        Console.WriteLine("Seeded Material Master.");
+
+        // Group 4: Inventory
         await SeedEntity<Pallet>(context, inputPath, "Pallets.json");
         await context.SaveChangesAsync();
+        Console.WriteLine("Seeded Inventory.");
         Console.WriteLine("Database seeded successfully.");
     }
 
