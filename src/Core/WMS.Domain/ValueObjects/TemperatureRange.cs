@@ -5,9 +5,12 @@ namespace WMS.Domain.ValueObjects;
 
 public class TemperatureRange : ValueObject
 {
+    [JsonInclude]
     public decimal MinTemperature { get; private set; }
+    [JsonInclude]
     public decimal MaxTemperature { get; private set; }
 
+    [JsonConstructor]
     private TemperatureRange() { }
 
     private TemperatureRange(decimal minTemperature, decimal maxTemperature)

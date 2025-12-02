@@ -1,15 +1,22 @@
-﻿using WMS.Domain.Shared;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Shared;
 
 namespace WMS.Domain.ValueObjects;
 
 public class Address : ValueObject
 {
+    [JsonInclude]
     public string Street { get; private set; }
+    [JsonInclude]
     public string City { get; private set; }
+    [JsonInclude]
     public string State { get; private set; }
+    [JsonInclude]
     public string PostalCode { get; private set; }
+    [JsonInclude]
     public string Country { get; private set; }
 
+    [JsonConstructor]
     private Address()
     {
         Street = string.Empty;

@@ -1,12 +1,16 @@
-﻿using WMS.Domain.Shared;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Shared;
 
 namespace WMS.Domain.ValueObjects;
 
 public class Weight : ValueObject
 {
+    [JsonInclude]
     public decimal Value { get; private set; }
+    [JsonInclude]
     public string Unit { get; private set; }
 
+    [JsonConstructor]
     private Weight()
     {
         Value = 0;
