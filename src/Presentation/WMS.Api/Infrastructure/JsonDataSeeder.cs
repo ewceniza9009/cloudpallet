@@ -10,7 +10,7 @@ namespace WMS.Api.Infrastructure;
 
 public static class JsonDataSeeder
 {
-    private static readonly JsonSerializerOptions _options = new() { WriteIndented = true };
+    private static readonly JsonSerializerOptions _options = new() { WriteIndented = true, PropertyNameCaseInsensitive = true };
 
     public static async Task ExportDataAsync(WmsDbContext context, string outputPath)
     {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 using WMS.Domain.Enums;
 using WMS.Domain.Events;
 using WMS.Domain.Shared;
@@ -7,11 +8,17 @@ namespace WMS.Domain.Entities;
 
 public class User : IdentityUser<Guid>
 {
+    [JsonInclude]
     public Guid CompanyId { get; private set; }
+    [JsonInclude]
     public string FirstName { get; private set; }
+    [JsonInclude]
     public string LastName { get; private set; }
+    [JsonInclude]
     public UserRole Role { get; private set; }
+    [JsonInclude]
     public bool IsActive { get; private set; }
+    [JsonInclude]
     public DateTime? LastLogin { get; private set; }
 
     private readonly List<IDomainEvent> _domainEvents = new();
@@ -21,6 +28,7 @@ public class User : IdentityUser<Guid>
     public void ClearDomainEvents() => _domainEvents.Clear();
 
 
+    [JsonConstructor]
     private User()     
     {
         FirstName = null!;

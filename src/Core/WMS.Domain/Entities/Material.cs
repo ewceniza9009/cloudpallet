@@ -1,5 +1,6 @@
 ﻿// ---- File: src/Core/WMS.Domain/Entities/Material.cs ----
 
+using System.Text.Json.Serialization;
 using WMS.Domain.Enums;
 using WMS.Domain.Shared;
 
@@ -7,28 +8,51 @@ namespace WMS.Domain.Entities;
 
 public class Material : AggregateRoot<Guid>
 {
+    [JsonInclude]
     public string Name { get; private set; }
+    [JsonInclude]
     public string Sku { get; private set; }
+    [JsonInclude]
     public string Description { get; private set; }
+    [JsonInclude]
     public Guid CategoryId { get; private set; }
+    [JsonInclude]
     public Guid UomId { get; private set; }
+    [JsonInclude]
     public bool Perishable { get; private set; } // Already exists
+    [JsonInclude]
     public TempZone RequiredTempZone { get; private set; }
+    [JsonInclude]
     public BarcodeFormat DefaultBarcodeFormat { get; private set; }
+    [JsonInclude]
     public decimal BaseWeight { get; private set; }
+    [JsonInclude]
     public decimal DimensionsLength { get; private set; }
+    [JsonInclude]
     public decimal DimensionsWidth { get; private set; }
+    [JsonInclude]
     public decimal DimensionsHeight { get; private set; }
+    [JsonInclude]
     public decimal CostPerUnit { get; private set; }
+    [JsonInclude]
     public int MinStockLevel { get; private set; }
+    [JsonInclude]
     public int MaxStockLevel { get; private set; }
+    [JsonInclude]
     public int ShelfLifeDays { get; private set; } // Already exists
+    [JsonInclude]
     public bool IsHazardous { get; private set; } // Already exists
+    [JsonInclude]
     public string Gs1BarcodePrefix { get; private set; } // Already exists
+    [JsonInclude]
     public bool IsActive { get; private set; } // Already exists
+    [JsonInclude]
     public decimal PackageTareWeightPerUom { get; private set; }
 
+    [JsonInclude]
     public MaterialType MaterialType { get; private set; }
+    
+    [JsonConstructor]
     private Material() : base(Guid.Empty)
     {
         Name = null!;

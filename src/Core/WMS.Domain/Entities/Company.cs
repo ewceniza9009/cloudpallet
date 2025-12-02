@@ -1,4 +1,5 @@
-﻿using WMS.Domain.Enums;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Enums;
 using WMS.Domain.Shared;
 using WMS.Domain.ValueObjects;
 
@@ -6,17 +7,28 @@ namespace WMS.Domain.Entities;
 
 public class Company : AggregateRoot<Guid>
 {
+    [JsonInclude]
     public string Name { get; private set; }
+    [JsonInclude]
     public string TaxId { get; private set; }
+    [JsonInclude]
     public Address Address { get; private set; }
+    [JsonInclude]
     public string PhoneNumber { get; private set; }
+    [JsonInclude]
     public string Email { get; private set; }
+    [JsonInclude]
     public string Website { get; private set; }
+    [JsonInclude]
     public CompanyStatus Status { get; private set; }
+    [JsonInclude]
     public string SubscriptionPlan { get; private set; }
+    [JsonInclude]
     public string Gs1CompanyPrefix { get; private set; }
+    [JsonInclude]
     public string DefaultBarcodeFormat { get; private set; }
 
+    [JsonInclude]
     public bool IsPickingWeightReadonly { get; private set; }
 
     public Company() : base(Guid.Empty)

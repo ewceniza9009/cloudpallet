@@ -1,4 +1,5 @@
-﻿using WMS.Domain.Enums;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Enums;
 using WMS.Domain.Shared;
 using WMS.Domain.ValueObjects;
 
@@ -6,21 +7,36 @@ namespace WMS.Domain.Entities;
 
 public class Account : AggregateRoot<Guid>
 {
+    [JsonInclude]
     public string Name { get; private set; }
+    [JsonInclude]
     public AccountType TypeId { get; private set; }
+    [JsonInclude]
     public Guid? CategoryId { get; private set; }
+    [JsonInclude]
     public Address Address { get; private set; }
+    [JsonInclude]
     public string ContactName { get; private set; }
+    [JsonInclude]
     public string Phone { get; private set; }
+    [JsonInclude]
     public string Email { get; private set; }
+    [JsonInclude]
     public string TaxId { get; private set; }
+    [JsonInclude]
     public decimal CreditLimit { get; private set; }
+    [JsonInclude]
     public string PaymentTerms { get; private set; }
+    [JsonInclude]
     public string CurrencyCode { get; private set; }
+    [JsonInclude]
     public TempZone? PreferredTempZone { get; private set; }
+    [JsonInclude]
     public bool IsPreferred { get; private set; }
+    [JsonInclude]
     public bool IsActive { get; private set; }
 
+    [JsonConstructor]
     private Account() : base(Guid.Empty)
     {
         Name = null!;
