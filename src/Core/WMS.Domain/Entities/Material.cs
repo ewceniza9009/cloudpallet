@@ -29,7 +29,8 @@ public class Material : AggregateRoot<Guid>
     public decimal PackageTareWeightPerUom { get; set; }
 
     public MaterialType MaterialType { get; set; }
-    private Material() : base(Guid.Empty)
+    
+    public Material() : base(Guid.Empty)
     {
         Name = null!;
         Sku = null!;

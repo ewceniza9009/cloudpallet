@@ -21,7 +21,7 @@ public class User : IdentityUser<Guid>
     public void ClearDomainEvents() => _domainEvents.Clear();
 
 
-    private User()     
+    public User()     
     {
         FirstName = null!;
         LastName = null!;

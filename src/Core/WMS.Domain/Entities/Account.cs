@@ -21,7 +21,7 @@ public class Account : AggregateRoot<Guid>
     public bool IsPreferred { get; set; }
     public bool IsActive { get; set; }
 
-    private Account() : base(Guid.Empty)
+    public Account() : base(Guid.Empty)
     {
         Name = null!;
         Address = null!;
