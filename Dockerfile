@@ -23,4 +23,5 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 EXPOSE 8080
 COPY --from=build /app/publish .
+COPY --from=build /src/wms-frontend/src/assets/mock-data ./wms-frontend/src/assets/mock-data
 ENTRYPOINT ["dotnet", "WMS.Api.dll"]
