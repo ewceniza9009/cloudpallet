@@ -6,20 +6,20 @@ namespace WMS.Domain.Entities;
 
 public class Account : AggregateRoot<Guid>
 {
-    public string Name { get; private set; }
-    public AccountType TypeId { get; private set; }
-    public Guid? CategoryId { get; private set; }
-    public Address Address { get; private set; }
-    public string ContactName { get; private set; }
-    public string Phone { get; private set; }
-    public string Email { get; private set; }
-    public string TaxId { get; private set; }
-    public decimal CreditLimit { get; private set; }
-    public string PaymentTerms { get; private set; }
-    public string CurrencyCode { get; private set; }
-    public TempZone? PreferredTempZone { get; private set; }
-    public bool IsPreferred { get; private set; }
-    public bool IsActive { get; private set; }
+    public string Name { get; set; }
+    public AccountType TypeId { get; set; }
+    public Guid? CategoryId { get; set; }
+    public Address Address { get; set; }
+    public string ContactName { get; set; }
+    public string Phone { get; set; }
+    public string Email { get; set; }
+    public string TaxId { get; set; }
+    public decimal CreditLimit { get; set; }
+    public string PaymentTerms { get; set; }
+    public string CurrencyCode { get; set; }
+    public TempZone? PreferredTempZone { get; set; }
+    public bool IsPreferred { get; set; }
+    public bool IsActive { get; set; }
 
     private Account() : base(Guid.Empty)
     {

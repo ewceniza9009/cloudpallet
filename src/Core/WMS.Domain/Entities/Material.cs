@@ -7,28 +7,28 @@ namespace WMS.Domain.Entities;
 
 public class Material : AggregateRoot<Guid>
 {
-    public string Name { get; private set; }
-    public string Sku { get; private set; }
-    public string Description { get; private set; }
-    public Guid CategoryId { get; private set; }
-    public Guid UomId { get; private set; }
-    public bool Perishable { get; private set; } // Already exists
-    public TempZone RequiredTempZone { get; private set; }
-    public BarcodeFormat DefaultBarcodeFormat { get; private set; }
-    public decimal BaseWeight { get; private set; }
-    public decimal DimensionsLength { get; private set; }
-    public decimal DimensionsWidth { get; private set; }
-    public decimal DimensionsHeight { get; private set; }
-    public decimal CostPerUnit { get; private set; }
-    public int MinStockLevel { get; private set; }
-    public int MaxStockLevel { get; private set; }
-    public int ShelfLifeDays { get; private set; } // Already exists
-    public bool IsHazardous { get; private set; } // Already exists
-    public string Gs1BarcodePrefix { get; private set; } // Already exists
-    public bool IsActive { get; private set; } // Already exists
-    public decimal PackageTareWeightPerUom { get; private set; }
+    public string Name { get; set; }
+    public string Sku { get; set; }
+    public string Description { get; set; }
+    public Guid CategoryId { get; set; }
+    public Guid UomId { get; set; }
+    public bool Perishable { get; set; } // Already exists
+    public TempZone RequiredTempZone { get; set; }
+    public BarcodeFormat DefaultBarcodeFormat { get; set; }
+    public decimal BaseWeight { get; set; }
+    public decimal DimensionsLength { get; set; }
+    public decimal DimensionsWidth { get; set; }
+    public decimal DimensionsHeight { get; set; }
+    public decimal CostPerUnit { get; set; }
+    public int MinStockLevel { get; set; }
+    public int MaxStockLevel { get; set; }
+    public int ShelfLifeDays { get; set; } // Already exists
+    public bool IsHazardous { get; set; } // Already exists
+    public string Gs1BarcodePrefix { get; set; } // Already exists
+    public bool IsActive { get; set; } // Already exists
+    public decimal PackageTareWeightPerUom { get; set; }
 
-    public MaterialType MaterialType { get; private set; }
+    public MaterialType MaterialType { get; set; }
     private Material() : base(Guid.Empty)
     {
         Name = null!;
