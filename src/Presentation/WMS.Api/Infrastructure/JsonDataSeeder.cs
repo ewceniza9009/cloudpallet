@@ -64,8 +64,20 @@ public static class JsonDataSeeder
         await SeedEntity<Company>(context, inputPath, "Companies.json"); // Users depend on Company
         await context.SaveChangesAsync();
 
-        await SeedEntity<User>(context, inputPath, "Users.json");
-        await context.SaveChangesAsync();
+        try 
+        {
+            Console.WriteLine("Starting User seed...");
+            await SeedEntity<User>(context, inputPath, "Users.json");
+            Console.WriteLine($"Tracker has {context.ChangeTracker.Entries().Count(e => e.State == EntityState.Added)} added entities.");
+            await context.SaveChangesAsync();
+            Console.WriteLine("User seed saved successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR seeding Users: {ex}");
+            // Rethrow to ensure we know it failed
+            throw; 
+        }
 
         await SeedEntity<IdentityUserRole<Guid>>(context, inputPath, "UserRoles.json");
         await context.SaveChangesAsync();
