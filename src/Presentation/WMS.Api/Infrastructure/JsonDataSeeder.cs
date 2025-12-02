@@ -59,9 +59,16 @@ public static class JsonDataSeeder
 
         // Identity Tables
         await SeedEntity<IdentityRole<Guid>>(context, inputPath, "Roles.json");
+        await context.SaveChangesAsync();
+        
         await SeedEntity<Company>(context, inputPath, "Companies.json"); // Users depend on Company
+        await context.SaveChangesAsync();
+
         await SeedEntity<User>(context, inputPath, "Users.json");
+        await context.SaveChangesAsync();
+
         await SeedEntity<IdentityUserRole<Guid>>(context, inputPath, "UserRoles.json");
+        await context.SaveChangesAsync();
 
         await SeedEntity<Account>(context, inputPath, "Accounts.json");
         await SeedEntity<Carrier>(context, inputPath, "Carriers.json");
