@@ -6,18 +6,18 @@ namespace WMS.Domain.Entities;
 
 public class Company : AggregateRoot<Guid>
 {
-    public string Name { get; set; }
-    public string TaxId { get; set; }
-    public Address Address { get; set; }
-    public string PhoneNumber { get; set; }
-    public string Email { get; set; }
-    public string Website { get; set; }
-    public CompanyStatus Status { get; set; }
-    public string SubscriptionPlan { get; set; }
-    public string Gs1CompanyPrefix { get; set; }
-    public string DefaultBarcodeFormat { get; set; }
+    public string Name { get; private set; }
+    public string TaxId { get; private set; }
+    public Address Address { get; private set; }
+    public string PhoneNumber { get; private set; }
+    public string Email { get; private set; }
+    public string Website { get; private set; }
+    public CompanyStatus Status { get; private set; }
+    public string SubscriptionPlan { get; private set; }
+    public string Gs1CompanyPrefix { get; private set; }
+    public string DefaultBarcodeFormat { get; private set; }
 
-    public bool IsPickingWeightReadonly { get; set; }
+    public bool IsPickingWeightReadonly { get; private set; }
 
     public Company() : base(Guid.Empty)
     {

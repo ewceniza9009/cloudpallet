@@ -7,12 +7,12 @@ namespace WMS.Domain.Entities;
 
 public class User : IdentityUser<Guid>
 {
-    public Guid CompanyId { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public UserRole Role { get; set; }
-    public bool IsActive { get; set; }
-    public DateTime? LastLogin { get; set; }
+    public Guid CompanyId { get; private set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public UserRole Role { get; private set; }
+    public bool IsActive { get; private set; }
+    public DateTime? LastLogin { get; private set; }
 
     private readonly List<IDomainEvent> _domainEvents = new();
     public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
@@ -21,7 +21,7 @@ public class User : IdentityUser<Guid>
     public void ClearDomainEvents() => _domainEvents.Clear();
 
 
-    public User()     
+    private User()     
     {
         FirstName = null!;
         LastName = null!;
