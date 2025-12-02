@@ -226,7 +226,7 @@ using (var scope = app.Services.CreateScope())
         {
             // TEMPORARY: Reset DB to apply schema changes (RowVersion bytea -> uuid)
             // User requested to comment this out. WARNING: Schema mismatch may persist if DB is not reset.
-            await context.Database.EnsureDeletedAsync(); 
+            // await context.Database.EnsureDeletedAsync(); 
             await context.Database.EnsureCreatedAsync();
             await JsonDataSeeder.SeedAsync(context, dataPath);
             
