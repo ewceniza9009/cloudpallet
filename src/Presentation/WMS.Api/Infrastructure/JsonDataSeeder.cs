@@ -64,19 +64,49 @@ public static class JsonDataSeeder
         await SeedEntity<Company>(context, inputPath, "Companies.json"); // Users depend on Company
         await context.SaveChangesAsync();
 
-        try 
+        // Custom User Seeding to fix FK and ensure valid CompanyId
+        if (!await context.Users.AnyAsync())
         {
-            Console.WriteLine("Starting User seed...");
-            await SeedEntity<User>(context, inputPath, "Users.json");
-            Console.WriteLine($"Tracker has {context.ChangeTracker.Entries().Count(e => e.State == EntityState.Added)} added entities.");
-            await context.SaveChangesAsync();
-            Console.WriteLine("User seed saved successfully.");
+            try 
+            {
+                Console.WriteLine("Starting User seed...");
+                var userPath = Path.Combine(inputPath, "Users.json");
+                if (File.Exists(userPath))
+                {
+                    var json = await File.ReadAllTextAsync(userPath);
+                    var users = JsonSerializer.Deserialize<List<User>>(json, _options);
+                    
+                    if (users != null && users.Any())
+                    {
+                        // Fix FK: Get the actual Company ID from the DB
+                        var validCompanyId = await context.Companies.Select(c => c.Id).FirstOrDefaultAsync();
+                        if (validCompanyId != Guid.Empty)
+                        {
+                            var companyIdProp = typeof(User).GetProperty(nameof(User.CompanyId));
+                            foreach (var user in users)
+                            {
+                                // Use reflection to set private setter, ensuring it matches the DB's Company
+                                companyIdProp?.SetValue(user, validCompanyId);
+                            }
+                            Console.WriteLine($"Fixed CompanyId for {users.Count} users to {validCompanyId}");
+                        }
+                        
+                        await context.Users.AddRangeAsync(users);
+                        Console.WriteLine($"Tracker has {context.ChangeTracker.Entries().Count(e => e.State == EntityState.Added)} added entities.");
+                        await context.SaveChangesAsync();
+                        Console.WriteLine("User seed saved successfully.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR seeding Users: {ex}");
+                throw; 
+            }
         }
-        catch (Exception ex)
+        else
         {
-            Console.WriteLine($"ERROR seeding Users: {ex}");
-            // Rethrow to ensure we know it failed
-            throw; 
+             Console.WriteLine("Skipping User seed (already exists).");
         }
 
         await SeedEntity<IdentityUserRole<Guid>>(context, inputPath, "UserRoles.json");
