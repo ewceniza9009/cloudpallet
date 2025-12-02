@@ -75,13 +75,18 @@ public class ProcessPalletLineCommandHandler(
         await receivingRepository.UpdatePalletLineAsync(palletLine, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
+        if (receiving.AccountId is null)
+        {
+            throw new InvalidOperationException("Receiving session must have an associated Account to process inventory.");
+        }
+
         // 3. Publish event to ensure MaterialInventory is updated/created
         var materialReceivedEvent = new MaterialReceivedEvent(
       receiving.Id,
       pallet.Id,
       palletLine.Id,
       palletLine.MaterialId,
-      receiving.AccountId!.Value);
+      receiving.AccountId.Value);
         await publisher.Publish(materialReceivedEvent, cancellationToken);
 
         return itemLpn;
