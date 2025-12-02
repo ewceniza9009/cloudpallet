@@ -1,4 +1,5 @@
-﻿using WMS.Domain.Enums;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Enums;
 using WMS.Domain.Shared;
 using WMS.Domain.ValueObjects;
 
@@ -6,14 +7,23 @@ namespace WMS.Domain.Aggregates.Warehouse;
 
 public class Warehouse : AggregateRoot<Guid>
 {
+    [JsonInclude]
     public Guid CompanyId { get; private set; }
+    [JsonInclude]
     public string Name { get; private set; }
+    [JsonInclude]
     public Address Address { get; private set; }
+    [JsonInclude]
     public decimal TotalCapacityWeight { get; private set; }
+    [JsonInclude]
     public decimal TotalCapacityVolume { get; private set; }
+    [JsonInclude]
     public string OperatingHours { get; private set; }
+    [JsonInclude]
     public string ContactPhone { get; private set; }
+    [JsonInclude]
     public string ContactEmail { get; private set; }
+    [JsonInclude]
     public bool IsActive { get; private set; }
 
     private readonly List<Room> _rooms = new();
@@ -25,6 +35,7 @@ public class Warehouse : AggregateRoot<Guid>
     private readonly List<YardSpot> _yardSpots = new();
     public IReadOnlyCollection<YardSpot> YardSpots => _yardSpots.AsReadOnly();
 
+    [JsonConstructor]
     private Warehouse() : base(Guid.Empty)
     {
         Name = null!;

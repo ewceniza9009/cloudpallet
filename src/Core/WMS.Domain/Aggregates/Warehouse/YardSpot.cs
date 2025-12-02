@@ -1,18 +1,27 @@
-﻿using WMS.Domain.Enums;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Enums;
 using WMS.Domain.Shared;
 
 namespace WMS.Domain.Aggregates.Warehouse;
 
 public class YardSpot : Entity<Guid>
 {
+    [JsonInclude]
     public Guid WarehouseId { get; private set; }
+    [JsonInclude]
     public string SpotNumber { get; private set; }
+    [JsonInclude]
     public YardSpotStatus Status { get; private set; }
+    [JsonInclude]
     public Guid? CurrentTruckId { get; private set; }  
+    [JsonInclude]
     public DateTime? OccupiedSince { get; private set; }  
+    [JsonInclude]
     public decimal CapacityTruckLength { get; private set; }
+    [JsonInclude]
     public bool IsActive { get; private set; }
 
+    [JsonConstructor]
     private YardSpot() : base(Guid.Empty)
     {
         SpotNumber = null!;

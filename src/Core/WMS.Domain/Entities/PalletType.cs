@@ -1,16 +1,24 @@
-﻿using WMS.Domain.Shared;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Shared;
 
 namespace WMS.Domain.Entities;
 
 public class PalletType : AuditableEntity<Guid>    
 {
+    [JsonInclude]
     public string Name { get; private set; }
+    [JsonInclude]
     public decimal TareWeight { get; private set; }
+    [JsonInclude]
     public decimal Length { get; private set; }
+    [JsonInclude]
     public decimal Width { get; private set; }
+    [JsonInclude]
     public decimal Height { get; private set; }
+    [JsonInclude]
     public bool IsActive { get; private set; }
 
+    [JsonConstructor]
     private PalletType() : base(Guid.Empty)    
     {
         Name = null!;     

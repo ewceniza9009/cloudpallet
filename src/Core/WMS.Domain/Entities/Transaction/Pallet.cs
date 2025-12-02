@@ -1,4 +1,5 @@
-﻿using WMS.Domain.Enums;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Enums;
 using WMS.Domain.Shared;
 using WMS.Domain.Entities;
 using System.Collections.Generic;
@@ -7,14 +8,23 @@ namespace WMS.Domain.Entities.Transaction;
 
 public class Pallet : AuditableEntity<Guid>
 {
+    [JsonInclude]
     public Guid ReceivingId { get; private set; }
+    [JsonInclude]
     public Guid PalletTypeId { get; private set; }
+    [JsonInclude]
     public string PalletNumber { get; private set; }
+    [JsonInclude]
     public decimal TotalWeight { get; private set; }
+    [JsonInclude]
     public string Barcode { get; private set; }
+    [JsonInclude]
     public PalletStatus Status { get; private set; }
+    [JsonInclude]
     public Guid AccountId { get; private set; }
+    [JsonInclude]
     public decimal TareWeight { get; private set; }
+    [JsonInclude]
     public bool IsCrossDock { get; private set; }
     public Receiving Receiving { get; private set; } = null!;
     public PalletType PalletType { get; private set; } = null!;
@@ -26,6 +36,7 @@ public class Pallet : AuditableEntity<Guid>
     private readonly List<MaterialInventory> _inventory = new();
     public IReadOnlyCollection<MaterialInventory> Inventory => _inventory.AsReadOnly();
 
+    [JsonConstructor]
     private Pallet() : base(Guid.Empty)
     {
         PalletNumber = null!;

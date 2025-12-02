@@ -1,20 +1,31 @@
-﻿using WMS.Domain.Enums;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Enums;
 using WMS.Domain.Shared;
 
 namespace WMS.Domain.Entities;
 
 public class Rate : Entity<Guid>
 {
+    [JsonInclude]
     public Guid? AccountId { get; private set; }    
+    [JsonInclude]
     public ServiceType ServiceType { get; private set; }
+    [JsonInclude]
     public RateUom Uom { get; private set; }
+    [JsonInclude]
     public decimal Value { get; private set; }
+    [JsonInclude]
     public string Tier { get; private set; }
+    [JsonInclude]
     public DateTime EffectiveStartDate { get; private set; }
+    [JsonInclude]
     public DateTime? EffectiveEndDate { get; private set; }    
+    [JsonInclude]
     public decimal? MinQuantity { get; private set; }
+    [JsonInclude]
     public bool IsActive { get; private set; }
 
+    [JsonConstructor]
     private Rate() : base(Guid.Empty)
     {
         Tier = null!;

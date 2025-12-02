@@ -1,12 +1,16 @@
-﻿using WMS.Domain.Shared;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Shared;
 
 namespace WMS.Domain.Entities;
 
 public class UnitOfMeasure(Guid id, string name, string symbol) : Entity<Guid>(id)
 {
+    [JsonInclude]
     public string Name { get; private set; } = name;
+    [JsonInclude]
     public string Symbol { get; private set; } = symbol;
 
+    [JsonConstructor]
     private UnitOfMeasure() : this(Guid.Empty, string.Empty, string.Empty) { }
 
     public static UnitOfMeasure Create(string name, string symbol)

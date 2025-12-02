@@ -1,20 +1,32 @@
-﻿using WMS.Domain.Shared;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Shared;
 using WMS.Domain.ValueObjects;
 
 namespace WMS.Domain.Entities;
 
 public class Carrier : AggregateRoot<Guid>
 {
+    [JsonInclude]
     public string Name { get; private set; }
+    [JsonInclude]
     public string ScacCode { get; private set; }
+    [JsonInclude]
     public string? DotNumber { get; private set; }
+    [JsonInclude]
     public string? ContactName { get; private set; }
+    [JsonInclude]
     public string? ContactPhone { get; private set; }
+    [JsonInclude]
     public string? ContactEmail { get; private set; }
+    [JsonInclude]
     public Address? Address { get; private set; }
+    [JsonInclude]
     public bool CertificationColdChain { get; private set; }
+    [JsonInclude]
     public string? InsurancePolicyNumber { get; private set; }
+    [JsonInclude]
     public DateTime? InsuranceExpiryDate { get; private set; }
+    [JsonInclude]
     public bool IsActive { get; private set; }
 
     private readonly List<Truck> _trucks = new();
@@ -28,6 +40,7 @@ public class Carrier : AggregateRoot<Guid>
     }
 
 #pragma warning disable CS8618
+    [JsonConstructor]
     private Carrier() : base(Guid.Empty) { }
 #pragma warning restore CS8618
 

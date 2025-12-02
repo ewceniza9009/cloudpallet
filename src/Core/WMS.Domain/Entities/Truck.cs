@@ -1,18 +1,26 @@
-﻿using WMS.Domain.Shared;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Shared;
 
 namespace WMS.Domain.Entities;
 
 public class Truck : AggregateRoot<Guid>
 {
+    [JsonInclude]
     public Guid CarrierId { get; private set; }
+    [JsonInclude]
     public string LicensePlate { get; private set; }
+    [JsonInclude]
     public string Model { get; private set; }
+    [JsonInclude]
     public decimal CapacityWeight { get; private set; }
+    [JsonInclude]
     public decimal CapacityVolume { get; private set; }
+    [JsonInclude]
     public bool IsActive { get; private set; }
 
     public Carrier Carrier { get; private set; } = null!;
 
+    [JsonConstructor]
     private Truck() : base(Guid.Empty)
     {
         LicensePlate = null!;

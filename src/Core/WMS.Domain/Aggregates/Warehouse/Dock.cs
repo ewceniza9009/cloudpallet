@@ -1,18 +1,27 @@
-﻿using WMS.Domain.Enums;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Enums;
 using WMS.Domain.Shared;
 
 namespace WMS.Domain.Aggregates.Warehouse;
 
 public class Dock : Entity<Guid>
 {
+    [JsonInclude]
     public Guid WarehouseId { get; private set; }
+    [JsonInclude]
     public string Name { get; private set; }
+    [JsonInclude]
     public DockType Type { get; private set; }
+    [JsonInclude]
     public int EquipmentFlags { get; private set; }
+    [JsonInclude]
     public decimal CapacityTruckLength { get; private set; }
+    [JsonInclude]
     public bool IsActive { get; private set; }
+    [JsonInclude]
     public Guid? CurrentAppointmentId { get; private set; }
 
+    [JsonConstructor]
     private Dock() : base(Guid.Empty)
     {
         Name = null!;

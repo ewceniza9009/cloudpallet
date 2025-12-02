@@ -1,4 +1,5 @@
-﻿using WMS.Domain.Enums;
+﻿using System.Text.Json.Serialization;
+using WMS.Domain.Enums;
 using WMS.Domain.Shared;
 using WMS.Domain.ValueObjects;
 
@@ -6,16 +7,23 @@ namespace WMS.Domain.Aggregates.Warehouse;
 
 public class Room : Entity<Guid>
 {
+    [JsonInclude]
     public Guid WarehouseId { get; private set; }
+    [JsonInclude]
     public string Name { get; private set; }
+    [JsonInclude]
     public TemperatureRange TemperatureRange { get; private set; }
+    [JsonInclude]
     public ServiceType ServiceType { get; private set; }
+    [JsonInclude]
     public int CapacityPallets { get; private set; }
+    [JsonInclude]
     public bool IsActive { get; private set; }
 
     private readonly List<Location> _locations = new();
     public IReadOnlyCollection<Location> Locations => _locations.AsReadOnly();
 
+    [JsonConstructor]
     private Room() : base(Guid.Empty)
     {
         Name = null!;
