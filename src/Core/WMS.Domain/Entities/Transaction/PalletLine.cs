@@ -1,5 +1,6 @@
-﻿// ---- File: src/Core/WMS.Domain/Entities/Transaction/PalletLine.cs ----
+// ---- File: src/Core/WMS.Domain/Entities/Transaction/PalletLine.cs ----
 
+using System.Text.Json.Serialization;
 using WMS.Domain.Enums;
 using WMS.Domain.Shared;
 
@@ -7,20 +8,31 @@ namespace WMS.Domain.Entities.Transaction;
 
 public class PalletLine : AuditableEntity<Guid> // MODIFIED: Changed from Entity<Guid>
 {
+    [JsonInclude]
     public Guid PalletId { get; private set; }
+    [JsonInclude]
     public Guid MaterialId { get; private set; }
+    [JsonInclude]
     public decimal Quantity { get; private set; }
+    [JsonInclude]
     public decimal Weight { get; private set; }
+    [JsonInclude]
     public string BatchNumber { get; private set; }
+    [JsonInclude]
     public DateTime? ExpiryDate { get; private set; }
+    [JsonInclude]
     public Guid AccountId { get; private set; }
+    [JsonInclude]
     public DateTime DateOfManufacture { get; private set; }
+    [JsonInclude]
     public PalletLineStatus Status { get; private set; }
+    [JsonInclude]
     public string Barcode { get; private set; }
 
     public Material Material { get; private set; } = null!;
     public Pallet Pallet { get; private set; } = null!;
 
+    [JsonConstructor]
     private PalletLine() : base(Guid.Empty)
     {
         BatchNumber = null!;

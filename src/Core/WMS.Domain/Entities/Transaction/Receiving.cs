@@ -1,4 +1,5 @@
-﻿using WMS.Domain.Aggregates.DockAppointment;
+using System.Text.Json.Serialization;
+using WMS.Domain.Aggregates.DockAppointment;
 using WMS.Domain.Entities;
 using WMS.Domain.Enums;
 using WMS.Domain.Shared;
@@ -7,13 +8,21 @@ namespace WMS.Domain.Entities.Transaction;
 
 public class Receiving : AggregateRoot<Guid>
 {
+    [JsonInclude]
     public Guid SupplierId { get; private set; }
+    [JsonInclude]
     public Guid AppointmentId { get; private set; }
+    [JsonInclude]
     public decimal TotalWeight { get; private set; }
+    [JsonInclude]
     public DateTime Timestamp { get; private set; }
+    [JsonInclude]
     public ReceivingStatus Status { get; private set; }
+    [JsonInclude]
     public int TotalPallets { get; private set; }
+    [JsonInclude]
     public Guid? AccountId { get; private set; }
+    [JsonInclude]
     public string? Remarks { get; private set; }
 
     public Supplier Supplier { get; private set; } = null!;
@@ -24,6 +33,7 @@ public class Receiving : AggregateRoot<Guid>
     private readonly List<Pallet> _pallets = new();
     public IReadOnlyCollection<Pallet> Pallets => _pallets.AsReadOnly();
 
+    [JsonConstructor]
     private Receiving() : base(Guid.Empty) { }
 
     private Receiving(Guid id, Guid supplierId, Guid appointmentId, Guid? accountId, string? remarks) : base(id)

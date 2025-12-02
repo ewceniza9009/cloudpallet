@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using WMS.Domain.Shared;
 
 namespace WMS.Domain.ValueObjects;

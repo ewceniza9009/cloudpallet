@@ -1,4 +1,5 @@
-﻿using WMS.Domain.Aggregates.Warehouse;
+using System.Text.Json.Serialization;
+using WMS.Domain.Aggregates.Warehouse;
 using WMS.Domain.Enums;
 using WMS.Domain.Events;
 using WMS.Domain.Shared;
@@ -8,19 +9,29 @@ namespace WMS.Domain.Aggregates.DockAppointment;
 
 public class DockAppointment : AggregateRoot<Guid>
 {
+    [JsonInclude]
     public Guid DockId { get; private set; }
+    [JsonInclude]
     public Guid? TruckId { get; private set; }
+    [JsonInclude]
     public Guid SupplierId { get; private set; }  
+    [JsonInclude]
     public Guid AccountId { get; private set; }  
+    [JsonInclude]
     public DateTime StartDateTime { get; private set; }
+    [JsonInclude]
     public DateTime EndDateTime { get; private set; }
+    [JsonInclude]
     public AppointmentType Type { get; private set; }
+    [JsonInclude]
     public AppointmentStatus Status { get; private set; }
+    [JsonInclude]
     public Guid? CargoManifestId { get; private set; }
 
     public Truck? Truck { get; private set; }
     public Dock Dock { get; private set; } = null!;
 
+    [JsonConstructor]
     private DockAppointment() : base(Guid.Empty) { }
 
     private DockAppointment(Guid id, Guid dockId, Guid? truckId, Guid supplierId, Guid accountId, DateTime start, DateTime end, AppointmentType type) : base(id)

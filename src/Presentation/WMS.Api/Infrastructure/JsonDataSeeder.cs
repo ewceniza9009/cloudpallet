@@ -37,7 +37,6 @@ public static class JsonDataSeeder
         await ExportEntity(context.Materials, outputPath, "Materials.json");
         await ExportEntity(context.BillOfMaterials, outputPath, "BillOfMaterials.json");
         await ExportEntity(context.BillOfMaterialLines, outputPath, "BillOfMaterialLines.json");
-        await ExportEntity(context.Pallets, outputPath, "Pallets.json");
         // Add other entities as needed
     }
 
@@ -113,65 +112,32 @@ public static class JsonDataSeeder
         await context.SaveChangesAsync();
 
         // Group 1: Parties & Core Definitions
-        try
-        {
-            await SeedEntity<Account>(context, inputPath, "Accounts.json");
-            await SeedEntity<Carrier>(context, inputPath, "Carriers.json");
-            await SeedEntity<Supplier>(context, inputPath, "Suppliers.json");
-            await SeedEntity<Truck>(context, inputPath, "Trucks.json");
-            await SeedEntity<UnitOfMeasure>(context, inputPath, "UnitsOfMeasure.json");
-            await SeedEntity<PalletType>(context, inputPath, "PalletTypes.json");
-            await SeedEntity<Rate>(context, inputPath, "Rates.json");
-            await context.SaveChangesAsync();
-            Console.WriteLine("Seeded Parties & Core Definitions.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"ERROR seeding Parties & Core Definitions: {ex.Message}");
-        }
+        await SeedEntity<Account>(context, inputPath, "Accounts.json");
+        await SeedEntity<Carrier>(context, inputPath, "Carriers.json");
+        await SeedEntity<Supplier>(context, inputPath, "Suppliers.json");
+        await SeedEntity<Truck>(context, inputPath, "Trucks.json");
+        await SeedEntity<UnitOfMeasure>(context, inputPath, "UnitsOfMeasure.json");
+        await SeedEntity<PalletType>(context, inputPath, "PalletTypes.json");
+        await SeedEntity<Rate>(context, inputPath, "Rates.json");
+        await context.SaveChangesAsync();
+        Console.WriteLine("Seeded Parties & Core Definitions.");
 
         // Group 2: Warehouse Structure
-        try
-        {
-            await SeedEntity<Warehouse>(context, inputPath, "Warehouses.json");
-            await SeedEntity<Room>(context, inputPath, "Rooms.json");
-            await SeedEntity<Location>(context, inputPath, "Locations.json");
-            await SeedEntity<Dock>(context, inputPath, "Docks.json");
-            await SeedEntity<YardSpot>(context, inputPath, "YardSpots.json");
-            await context.SaveChangesAsync();
-            Console.WriteLine("Seeded Warehouse Structure.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"ERROR seeding Warehouse Structure: {ex.Message}");
-        }
+        await SeedEntity<Warehouse>(context, inputPath, "Warehouses.json");
+        await SeedEntity<Room>(context, inputPath, "Rooms.json");
+        await SeedEntity<Location>(context, inputPath, "Locations.json");
+        await SeedEntity<Dock>(context, inputPath, "Docks.json");
+        await SeedEntity<YardSpot>(context, inputPath, "YardSpots.json");
+        await context.SaveChangesAsync();
+        Console.WriteLine("Seeded Warehouse Structure.");
 
         // Group 3: Material Master
-        try
-        {
-            await SeedEntity<MaterialCategory>(context, inputPath, "MaterialCategories.json");
-            await SeedEntity<Material>(context, inputPath, "Materials.json");
-            await SeedEntity<BillOfMaterial>(context, inputPath, "BillOfMaterials.json");
-            await SeedEntity<BillOfMaterialLine>(context, inputPath, "BillOfMaterialLines.json");
-            await context.SaveChangesAsync();
-            Console.WriteLine("Seeded Material Master.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"ERROR seeding Material Master: {ex.Message}");
-        }
-
-        // Group 4: Inventory
-        try
-        {
-            await SeedEntity<Pallet>(context, inputPath, "Pallets.json");
-            await context.SaveChangesAsync();
-            Console.WriteLine("Seeded Inventory.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"ERROR seeding Inventory: {ex.Message}");
-        }
+        await SeedEntity<MaterialCategory>(context, inputPath, "MaterialCategories.json");
+        await SeedEntity<Material>(context, inputPath, "Materials.json");
+        await SeedEntity<BillOfMaterial>(context, inputPath, "BillOfMaterials.json");
+        await SeedEntity<BillOfMaterialLine>(context, inputPath, "BillOfMaterialLines.json");
+        await context.SaveChangesAsync();
+        Console.WriteLine("Seeded Material Master.");
 
         Console.WriteLine("Database seeded successfully.");
     }
