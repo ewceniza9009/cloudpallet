@@ -169,7 +169,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         // Restrict origins for production
-        var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? ["http://localhost:4200", "http://localhost:17283"];
+        var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? ["http://localhost:4200", "http://localhost:17283", "https://ewceniza9009.github.io"];
         policy.WithOrigins(allowedOrigins)
               .AllowAnyMethod()
               .AllowAnyHeader()
