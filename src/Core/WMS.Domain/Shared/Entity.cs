@@ -1,7 +1,10 @@
-﻿namespace WMS.Domain.Shared;
+﻿using System.Text.Json.Serialization;
+
+namespace WMS.Domain.Shared;
 
 public abstract class Entity<TId> where TId : notnull
 {
+    [JsonInclude]
     public TId Id { get; protected set; }
 
     protected Entity(TId id)
