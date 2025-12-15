@@ -1,0 +1,1 @@
+var t={production:!0,apiUrl:"https://cloudpallet.onrender.com/api",hubs:{temperature:"https://cloudpallet.onrender.com/hubs/temperature",docks:"https://cloudpallet.onrender.com/hubs/docks",notifications:"https://cloudpallet.onrender.com/hubs/notifications"}};export{t as a};
