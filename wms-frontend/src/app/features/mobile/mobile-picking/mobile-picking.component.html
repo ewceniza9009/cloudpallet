@@ -1,0 +1,56 @@
+<div class="picking-container">
+    <div class="header">
+        <h1>My Tasks</h1>
+        <button mat-icon-button (click)="loadPickList()" [disabled]="isLoading()">
+            <mat-icon>refresh</mat-icon>
+        </button>
+    </div>
+
+    <div *ngIf="isLoading()" class="loading-spinner">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+
+    <div *ngIf="!isLoading() && pickListGroups().length === 0" class="empty-state">
+        <mat-icon>assignment_turned_in</mat-icon>
+        <p>No active pick lists assigned to you.</p>
+    </div>
+
+    <div class="group-list" *ngFor="let group of pickListGroups()">
+        <div class="group-header" (click)="toggleGroup(group.accountId)">
+            <div class="group-info">
+                <span class="account">{{ group.accountName }}</span>
+            </div>
+            <div class="group-meta">
+                <mat-chip-set>
+                    <mat-chip>{{ group.items.length }} Items</mat-chip>
+                </mat-chip-set>
+                <mat-icon [class.rotated]="isGroupExpanded(group.accountId)">expand_more</mat-icon>
+            </div>
+        </div>
+
+        <div class="group-items" *ngIf="isGroupExpanded(group.accountId)">
+            <div class="pick-item-card" *ngFor="let item of group.items">
+                <div class="item-header">
+                    <span class="location">{{ item.location }}</span>
+                    <span class="status" [class.confirmed]="item.status === 'Confirmed'"
+                        [class.short]="item.status === 'Short'">{{ item.status }}</span>
+                </div>
+
+                <div class="item-details">
+                    <div class="material">{{ item.material }}</div>
+                    <div class="sku">{{ item.sku }}</div>
+                    <div class="qty">Qty: <strong>{{ item.quantity }}</strong> units</div>
+                </div>
+
+                <div class="item-actions" *ngIf="item.status === 'Planned'">
+                    <button mat-stroked-button color="primary" (click)="openScanDialog(item)">
+                        <mat-icon>qr_code_scanner</mat-icon> Scan
+                    </button>
+                    <button mat-icon-button color="warn" (click)="markAsShort(item)">
+                        <mat-icon>block</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

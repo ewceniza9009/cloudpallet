@@ -1,0 +1,23 @@
+<div class="mobile-container">
+  <mat-toolbar color="primary" class="mobile-header">
+    <span class="spacer">WMS Mobile</span>
+    <button mat-icon-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <main class="mobile-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <nav class="mobile-bottom-nav">
+    <a routerLink="/mobile/menu" routerLinkActive="active">
+      <mat-icon>grid_view</mat-icon>
+      <span>Menu</span>
+    </a>
+    <a routerLink="/mobile/picking" routerLinkActive="active">
+      <mat-icon>shopping_cart</mat-icon>
+      <span>Picking</span>
+    </a>
+  </nav>
+</div>

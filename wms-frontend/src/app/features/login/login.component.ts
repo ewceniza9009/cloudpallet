@@ -57,7 +57,14 @@ export class LoginComponent {
     }
     const { email, password } = this.loginForm.value;
     this.authService.login(email!, password!).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: () => {
+        const role = this.authService.currentUserRole();
+        if (role === 'Operator') {
+          this.router.navigate(['/mobile']);
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
+      },
       error: (err) => {
         this.snackBar.open('Login failed: Invalid credentials.', 'Close', {
           duration: 5000,

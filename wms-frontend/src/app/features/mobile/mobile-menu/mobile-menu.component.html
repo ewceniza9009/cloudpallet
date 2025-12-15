@@ -1,0 +1,14 @@
+<div class="menu-grid">
+    <div class="welcome-section">
+        <h2>Welcome, {{ authService.currentUser()?.['firstName'] || 'Operator' }}</h2>
+        <p>Select a task to begin</p>
+    </div>
+
+    <mat-card *ngFor="let item of menuItems" class="menu-card" [routerLink]="item.route"
+        [style.backgroundColor]="item.color">
+        <div class="card-content">
+            <mat-icon [style.color]="item.iconColor">{{ item.icon }}</mat-icon>
+            <span class="label">{{ item.label }}</span>
+        </div>
+    </mat-card>
+</div>
