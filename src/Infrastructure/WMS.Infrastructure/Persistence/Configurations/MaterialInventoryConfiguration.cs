@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WMS.Domain.Entities;
 using WMS.Domain.Enums;     
@@ -45,7 +45,7 @@ public class MaterialInventoryConfiguration : IEntityTypeConfiguration<MaterialI
               .HasDefaultValue(InventoryStatus.Available);
 
         builder.Property(mi => mi.RowVersion)
-               .IsConcurrencyToken();
+               .IsRowVersion();
 
     }
 }

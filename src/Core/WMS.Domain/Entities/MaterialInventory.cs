@@ -1,4 +1,4 @@
-﻿using WMS.Domain.Aggregates.Warehouse;
+using WMS.Domain.Aggregates.Warehouse;
 using WMS.Domain.Entities.Transaction;
 using WMS.Domain.Enums;
 using WMS.Domain.Shared;
@@ -22,7 +22,7 @@ public class MaterialInventory : Entity<Guid>
     public ComplianceLabelType ComplianceLabelStatus { get; private set; } // <-- NEW PROPERTY
     public DateTime? QuarantineStartDate { get; private set; } // <-- NEW PROPERTY
     public DateTime? QuarantineEndDate { get; private set; } // <-- NEW PROPERTY
-    public Guid RowVersion { get; private set; } // Optimistic Concurrency Token
+    public byte[] RowVersion { get; private set; } = null!; // Optimistic Concurrency Token
     public Material Material { get; private set; } = null!;
     public Location Location { get; private set; } = null!;
 
@@ -33,7 +33,6 @@ public class MaterialInventory : Entity<Guid>
         BatchNumber = null!;
         WeightActual = null!;
         Barcode = null!;
-        RowVersion = Guid.NewGuid();
     }
 
     public static MaterialInventory Create(Guid materialId, Guid locationId, Guid palletId, Guid palletLineId, decimal quantity, string batchNumber, Weight weight, DateTime? expiryDate, Guid accountId, string barcode)
@@ -57,7 +56,6 @@ public class MaterialInventory : Entity<Guid>
         Barcode = barcode;
         Status = InventoryStatus.Available;
         ComplianceLabelStatus = ComplianceLabelType.None; // Default value
-        RowVersion = Guid.NewGuid();
     }
 
     public void UpdateDetails(decimal quantity, Weight weight, string batchNumber, DateTime? expiryDate)
@@ -66,7 +64,6 @@ public class MaterialInventory : Entity<Guid>
         WeightActual = weight;
         BatchNumber = batchNumber;
         ExpiryDate = expiryDate;
-        RowVersion = Guid.NewGuid();
     }
 
     public void AdjustInventory(decimal quantityDelta, decimal weightDelta)
@@ -91,7 +88,6 @@ public class MaterialInventory : Entity<Guid>
 
         Quantity += quantityDelta;
         WeightActual = Weight.Create(Math.Max(0, WeightActual.Value + weightDelta), WeightActual.Unit);
-        RowVersion = Guid.NewGuid();
     }
 
     [Obsolete("Use AdjustInventory(quantityDelta, weightDelta) instead.")]
@@ -110,7 +106,6 @@ public class MaterialInventory : Entity<Guid>
     {
         if (newLocationId == Guid.Empty) throw new ArgumentException("New location ID cannot be empty.", nameof(newLocationId));
         LocationId = newLocationId;
-        RowVersion = Guid.NewGuid();
     }
 
     // --- NEW METHODS ---
@@ -122,7 +117,6 @@ public class MaterialInventory : Entity<Guid>
         {
             Status = InventoryStatus.Available;
         }
-        RowVersion = Guid.NewGuid();
     }
 
     public void StartQuarantine(string reason) // Reason might be logged elsewhere (AuditTrail)
@@ -131,7 +125,6 @@ public class MaterialInventory : Entity<Guid>
         Status = InventoryStatus.Quarantined;
         QuarantineStartDate = DateTime.UtcNow;
         QuarantineEndDate = null;
-        RowVersion = Guid.NewGuid();
     }
 
     public void ReleaseFromQuarantine()
@@ -139,6 +132,5 @@ public class MaterialInventory : Entity<Guid>
         if (Status != InventoryStatus.Quarantined) return;
         Status = InventoryStatus.Available;
         QuarantineEndDate = DateTime.UtcNow;
-        RowVersion = Guid.NewGuid();
     }
 }

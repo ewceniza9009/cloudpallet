@@ -14,7 +14,7 @@
     <!-- Filters -->
     <div class="filter-section">
       <div class="filter-grid">
-        <mat-form-field appearance="outline" class="search-field full-width" subscriptSizing="dynamic">
+        <mat-form-field appearance="outline" class="custom-field search-field full-width" subscriptSizing="dynamic">
           <mat-label>Search Barcode / LPN</mat-label>
           <mat-icon matPrefix>qr_code_scanner</mat-icon>
           <input matInput [formControl]="barcodeControl" (input)="onFilterChange()" placeholder="Scan or type barcode...">
@@ -25,7 +25,7 @@
           }
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
+        <mat-form-field appearance="outline" class="custom-field search-field" subscriptSizing="dynamic">
           <mat-label>Account</mat-label>
           <mat-icon matPrefix>business</mat-icon>
           <input type="text" matInput [formControl]="accountControl" [matAutocomplete]="autoAccount" (input)="onFilterChange()" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
@@ -38,7 +38,7 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
+        <mat-form-field appearance="outline" class="custom-field search-field" subscriptSizing="dynamic">
           <mat-label>Material</mat-label>
           <mat-icon matPrefix>category</mat-icon>
           <input type="text" matInput [formControl]="materialControl" [matAutocomplete]="autoMaterial" (input)="onFilterChange()" #triggerMaterial="matAutocompleteTrigger" (click)="triggerMaterial.openPanel()">
