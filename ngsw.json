@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1765783347207,
+  "timestamp": 1773668769725,
   "index": "/cloudpallet/index.html",
   "assetGroups": [
     {
@@ -261,7 +261,7 @@
     "/cloudpallet/chunk-ZLIWE6LC.js": "6eefc73698c88a9f570bc3bbbf47a889637f2589",
     "/cloudpallet/favicon.ico": "5e9be0d20a77f926d843c8da08e39445642bc7c2",
     "/cloudpallet/favicon.png": "4e6312068213d62f949cca49fa3a26f7c8019cb4",
-    "/cloudpallet/index.html": "613399121edbac04904321f63f1f6b86364d35f5",
+    "/cloudpallet/index.html": "3e5c1775bf4cabe3aedc8a0affb0cd922be711ee",
     "/cloudpallet/main-VCDEVOHT.js": "c09d382166d16c83152731ad7f86303cccaf3746",
     "/cloudpallet/manifest.webmanifest": "f992b8d74ded039290ac502ff7765e9e91803fa9",
     "/cloudpallet/polyfills-5CFQRCPP.js": "f2241e9a25858f895ce299d15f6f22e849e2fd72",
