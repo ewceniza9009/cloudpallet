@@ -14,7 +14,7 @@
   } @else {
   <div class="groups-grid">
     @for (group of groups(); track group.accountId) {
-    <mat-card class="group-card">
+    <mat-card class="main-content-card group-card">
       <div class="card-content-wrapper">
         <div class="info-section">
           <div class="account-row">
@@ -47,7 +47,7 @@
       </mat-card-actions>
     </mat-card>
     } @empty {
-    <div class="empty-list-message">
+    <div class="empty-state empty-list-message">
       <mat-icon>all_inbox</mat-icon>
       <h2>No Orders Ready</h2>
       <p>There are no fully picked orders awaiting shipment.</p>

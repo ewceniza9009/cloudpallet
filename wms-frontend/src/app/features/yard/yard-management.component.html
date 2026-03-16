@@ -1,19 +1,19 @@
 <div class="report-container">
   <div class="header-section">
-    <div>
+    <div class="header-content">
       <h1 class="mat-headline-6">Yard Management</h1>
       <p class="mat-body-1">Monitor trucks in the yard and check in new arrivals.</p>
     </div>
   </div>
 
   @if (isLoading()) {
-  <div class="spinner-container-page">
+  <div class="spinner-container">
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     <p>Loading Yard Data...</p>
   </div>
   } @else {
   <div class="yard-grid">
-    <mat-card class="list-card">
+    <mat-card class="main-content-card list-card">
       <mat-card-header>
         <mat-card-title>Trucks in Yard</mat-card-title>
         <mat-card-subtitle>Vehicles currently staged and awaiting a dock</mat-card-subtitle>
@@ -48,8 +48,8 @@
             </div>
           </mat-list-item>
           } @empty {
-          <div class="empty-list-message">
-            <mat-icon>grass</mat-icon>
+          <div class="empty-state empty-list-message">
+            <div class="empty-icon"><mat-icon>grass</mat-icon></div>
             <p>The yard is currently empty.</p>
           </div>
           }
@@ -57,7 +57,7 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="list-card">
+    <mat-card class="main-content-card list-card">
       <mat-card-header>
         <div class="header-with-controls">
           <div class="header-text">
@@ -117,8 +117,8 @@
             </div>
           </mat-list-item>
           } @empty {
-          <div class="empty-list-message">
-            <mat-icon>celebration</mat-icon>
+          <div class="empty-state empty-list-message">
+            <div class="empty-icon"><mat-icon>celebration</mat-icon></div>
             <p>No more pending arrivals for today.</p>
           </div>
           }

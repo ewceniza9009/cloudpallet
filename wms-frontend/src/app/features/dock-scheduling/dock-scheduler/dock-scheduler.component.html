@@ -1,6 +1,6 @@
 <div class="report-container">
   <div class="header-section">
-    <div>
+    <div class="header-content">
       <h1 class="mat-headline-6">Dock Scheduler</h1>
       <p class="mat-body-1">Schedule and view all dock appointments.</p>
     </div>
@@ -28,7 +28,7 @@
   } @else {
   <div class="scheduler-grid">
     <div class="main-content-col">
-      <mat-card class="detail-card">
+      <mat-card class="main-content-card detail-card">
         <mat-card-header>
           <mat-card-title>View Schedule</mat-card-title>
         </mat-card-header>
@@ -55,7 +55,7 @@
         </mat-card-content>
       </mat-card>
 
-      <mat-card class="list-card">
+      <mat-card class="main-content-card list-card">
         <mat-card-header>
           @if (searchControl.value) {
           <mat-card-title>Search Results for "{{ searchControl.value }}"</mat-card-title>
@@ -99,8 +99,9 @@
             }
           </mat-list>
           } @else {
-          <div class="empty-list-message">
-            <mat-icon>event_busy</mat-icon>
+          <div class="empty-state empty-list-message">
+            <div class="empty-icon"><mat-icon>event_busy</mat-icon></div>
+            <h3>No Appointments Found</h3>
             <p>No appointments found for the selected criteria.</p>
           </div>
           } }
@@ -109,7 +110,7 @@
     </div>
 
     <div class="sidebar-col">
-      <mat-card class="detail-card sticky-sidebar">
+      <mat-card class="main-content-card detail-card sticky-sidebar">
         <mat-card-header>
           <mat-card-title>Schedule New Appointment</mat-card-title>
         </mat-card-header>

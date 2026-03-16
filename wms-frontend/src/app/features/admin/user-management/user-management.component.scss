@@ -1,131 +1,9 @@
-// Standardized UI for User Management
+// Styles for User Management component
+// Layout patterns are now centralized in admin-layout.scss
+
 :host {
-  display: block;
-  height: 100%;
-}
-
-.report-container {
-  padding: 1.5rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  height: 100%;
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-  h1 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem 0;
-    color: var(--mat-sys-on-surface);
-    letter-spacing: -0.02em;
-  }
-
-  p {
-    margin: 0;
-    color: var(--mat-sys-on-surface-variant);
-    font-size: 1rem;
-    max-width: 600px;
-  }
-}
-
-.spinner-container-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  padding: 3rem;
-  min-height: 300px;
-  color: var(--mat-sys-on-surface-variant);
-  flex-grow: 1;
-}
-
-.empty-list-message {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 300px;
-  text-align: center;
-  gap: 1rem;
-  padding: 2rem;
-  color: var(--mat-sys-on-surface-variant);
-  border: 2px dashed var(--mat-sys-outline-variant-low);
-  border-radius: 12px;
-
-  .mat-icon {
-    font-size: 4rem;
-    width: 4rem;
-    height: 4rem;
-    color: var(--mat-sys-outline);
-    opacity: 0.5;
-  }
-
-  h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--mat-sys-on-surface);
-  }
-  
-  p {
-    margin: 0;
-    font-size: 1rem;
-    max-width: 400px;
-  }
-}
-
-.table-container {
-  border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--mat-sys-surface);
-}
-
-table {
-  width: 100%;
-  
-  th.mat-mdc-header-cell {
-    background-color: var(--mat-sys-surface-container-low);
-    color: var(--mat-sys-on-surface);
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-  }
-
-  td.mat-mdc-cell {
-    padding: 1rem 1.5rem;
-    color: var(--mat-sys-on-surface);
-    font-size: 0.95rem;
-    border-bottom: 1px solid var(--mat-sys-outline-variant-low);
-  }
-
-  tr.mat-mdc-row:last-child td {
-    border-bottom: none;
-  }
-
-  tr.mat-mdc-row:hover {
-    background-color: var(--mat-sys-surface-container-highest);
-  }
+    display: block;
+    height: 100%;
 }
 
 .username-text {
@@ -179,7 +57,6 @@ table {
   }
 }
 
-// Menu Styling
 .menu-item-content {
   display: flex;
   align-items: center;
@@ -213,18 +90,4 @@ table {
     width: 20px;
     height: 20px;
   }
-}
-
-@media (max-width: 768px) {
-    .report-container {
-      padding: 1rem;
-    }
-    
-    .table-container {
-      overflow-x: auto;
-    }
-    
-    table {
-      min-width: 600px;
-    }
 }

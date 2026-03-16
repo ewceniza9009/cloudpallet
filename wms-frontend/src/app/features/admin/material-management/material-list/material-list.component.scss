@@ -1,4 +1,5 @@
-/* ---- File: wms-frontend/src/app/features/admin/material-management/material-list/material-list.component.scss [Additions] ---- */
+// Styles for Material List component
+// Layout patterns are now centralized in admin-layout.scss
 
 :host {
   display: block;
@@ -9,140 +10,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-
-.list-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-  .header-content {
-    flex: 1;
-
-    .list-title {
-      margin: 0;
-      font-weight: 600;
-      font-size: 1.75rem;
-      color: var(--mat-sys-on-surface);
-    }
-
-    .list-subtitle {
-      margin: 0.25rem 0 0 0;
-      color: var(--mat-sys-on-surface-variant);
-      font-size: 0.9rem;
-    }
-  }
-
-  .create-button {
-    flex-shrink: 0;
-
-    mat-icon {
-      margin-right: 0.5rem;
-    }
-  }
-}
-
-.search-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 1.6rem;
-
-  .search-bar {
-    flex: 1;
-    min-width: 300px;
-  }
-}
-
-/* Removed separate .spinner-container as it's now an overlay */
-
-.table-container {
-  background: var(--mat-sys-surface);
-  border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: 8px;
-  overflow: hidden; // Keep overflow hidden for container
-  flex: 1; // Allow table container to grow
-  display: flex;
-  flex-direction: column;
-  position: relative; // Needed for spinner overlay positioning
-  min-height: 250px; // Ensure minimum height even when empty
-}
-
-/* --- Added Spinner Overlay Style --- */
-.spinner-overlay {
-  position: absolute;
-  inset: 0; // Cover entire container
-  background: rgba(var(--mat-sys-surface-rgb), 0.8); // Semi-transparent background
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  color: var(--mat-sys-on-surface-variant);
-  z-index: 10; // Ensure it's on top
-  border-radius: 8px; // Match container radius
-}
-/* --- End Added Spinner Overlay Style --- */
-
-
-.material-table {
-  width: 100%;
-  border-collapse: collapse;
-  overflow: auto; // Allow table itself to scroll horizontally if needed
-
-  .mat-header-cell {
-    background-color: var(--mat-sys-surface-container-low);
-    color: var(--mat-sys-on-surface-variant);
-    font-weight: 600;
-    font-size: 0.875rem;
-    padding: 1rem;
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-  }
-
-  .mat-cell {
-    padding: 1rem;
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-    vertical-align: middle;
-  }
-
-  .material-row {
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: var(--mat-sys-surface-container-hover);
-    }
-
-    &:last-child .mat-cell {
-      border-bottom: none;
-    }
-  }
-}
-
-// ... (other cell styles: name-cell, type-badge, temp-cell, number-column, flags-container, actions-column) ...
-
-.name-cell {
-  .name-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-
-    .material-name {
-      font-weight: 500;
-      color: var(--mat-sys-on-surface);
-    }
-
-    .material-sku {
-      font-size: 0.8rem;
-      color: var(--mat-sys-on-surface-variant);
-      font-family: monospace;
-    }
-  }
 }
 
 .type-badge {
@@ -160,13 +27,13 @@
     color: var(--mat-sys-on-surface-variant);
   }
   &.kit {
-    background-color: #e0f2fe; // Light blue
-    color: #0369a1; // Darker blue
+    background-color: #e0f2fe; 
+    color: #0369a1; 
     border: 1px solid #bae6fd;
   }
   &.repack {
-    background-color: #f0fdf4; // Light green
-    color: #166534; // Darker green
+    background-color: #f0fdf4; 
+    color: #166534; 
     border: 1px solid #bbf7d0;
   }
 }
@@ -181,8 +48,8 @@
     width: 1.25rem;
     height: 1.25rem;
 
-    &.frozenstorage, &.deepfrozenstorage, &.ultstorage { color: #0369a1; } // Blues
-    &.chilling, &.coolstorage { color: #166534; } // Greens
+    &.frozenstorage, &.deepfrozenstorage, &.ultstorage { color: #0369a1; }
+    &.chilling, &.coolstorage { color: #166534; }
   }
 }
 
@@ -200,9 +67,9 @@
     width: 1.25rem;
     height: 1.25rem;
 
-    &.perishable { color: #0369a1; } // Blue
-    &.hazardous { color: #dc2626; } // Red
-    &.inactive { color: var(--mat-sys-on-surface-variant); } // Grey
+    &.perishable { color: #0369a1; }
+    &.hazardous { color: #dc2626; }
+    &.inactive { color: var(--mat-sys-on-surface-variant); }
   }
 }
 
@@ -216,7 +83,6 @@
   }
 }
 
-/* --- Added Inline Empty State Style --- */
 .empty-state-inline {
     display: flex;
     justify-content: center;
@@ -238,41 +104,4 @@
       margin-left: 1rem;
       mat-icon { margin-right: 0.5rem; }
     }
-}
-/* --- End Added Inline Empty State Style --- */
-
-/* Removed full-page .empty-state as it's handled inline now */
-
-mat-paginator {
-  border-top: 1px solid var(--mat-sys-outline-variant);
-  flex-shrink: 0; // Prevent paginator from shrinking
-}
-
-// Responsive adjustments
-@media (max-width: 768px) {
-  .list-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-
-    .create-button {
-      align-self: flex-end;
-    }
-  }
-
-  .search-section {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-
-    .search-bar {
-      min-width: unset;
-    }
-  }
-
-  .table-container {
-    .material-table {
-      min-width: 800px;
-    }
-  }
 }

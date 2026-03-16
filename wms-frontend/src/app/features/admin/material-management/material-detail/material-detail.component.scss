@@ -1,127 +1,15 @@
-// ---- File: wms-frontend/src/app/features/admin/material-management/material-detail/material-detail.component.scss ----
-// STYLING COPIED FROM company-management.component.scss
+// Styles for Material Detail component
+// Layout patterns are now centralized in admin-layout.scss
 
 :host {
   display: block;
-  height: 100%; // Make host fill its container
-}
-
-.spinner-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  padding: 3rem;
-  min-height: 300px;
-  color: var(--mat-sys-on-surface-variant);
+  height: 100%;
 }
 
 .detail-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  // No padding/max-width here, handled by parent's .management-container
-}
-
-.detail-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-  margin-bottom: 0.5rem;
-}
-
-.header-main {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-grow: 1;
-  min-width: 0;
-}
-
-.title-group {
-  min-width: 0;
-  h2 {
-    margin: 0;
-    font-weight: 600;
-    font-size: 1.75rem;
-  }
-  .subtitle {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--mat-sys-on-surface-variant);
-    font-family: monospace;
-  }
-}
-
-.header-actions {
-  display: flex;
-  gap: 0.75rem;
-  flex-shrink: 0;
-}
-
-.detail-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-// New Grid Layout
-.layout-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; // Two equal columns
-  gap: 1.5rem;
-  align-items: start; // Align items to the top
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.detail-card {
-  border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-  border-radius: 8px;
-
-  .mat-mdc-card-header {
-    padding: 0.75rem 1.25rem 0.5rem; // Reduced padding
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-    background-color: var(--mat-sys-surface-container-lowest);
-    display: flex;
-    flex-direction: column;
-  }
-  .mat-mdc-card-title {
-    font-size: 1.1rem; // Slightly smaller
-    font-weight: 500;
-  }
-  .mat-mdc-card-content {
-    padding: 1.25rem; // Reduced padding
-  }
-  mat-card-actions {
-       border-top: 1px solid var(--mat-sys-outline-variant);
-       background-color: var(--mat-sys-surface-container-lowest);
-       border-radius: 10px;;
-   }
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); // Smaller min-width
-  gap: 1rem; // Tighter gap
-
-  &.four-columns {
-     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-}
-
-.full-width {
-  grid-column: 1 / -1;
 }
 
 .toggle-group {
@@ -132,27 +20,16 @@
     margin-bottom: 0.5rem;
 }
 
-button mat-icon + span, button span + mat-icon, button mat-progress-spinner + span {
-    margin-left: 8px;
-}
-
-// Responsive
-@media (max-width: 1024px) {
-  .layout-grid {
-    grid-template-columns: 1fr; // Stack on smaller screens
-  }
-}
-
-// --- BOM SECTION REFINEMENTS ---
+// --- BOM SECTION REFINEMENTS (Specific to Material Management) ---
 .output-section {
   padding: 0.5rem 0 1rem;
-   mat-form-field { max-width: 250px; } // Limit width of output qty field
+   mat-form-field { max-width: 250px; }
 }
 
 .lines-section {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; // Increased gap between lines
+  gap: 1.25rem;
   margin-top: 1rem;
 }
 
@@ -181,15 +58,14 @@ button mat-icon + span, button span + mat-icon, button mat-progress-spinner + sp
 
 .bom-line-row {
   display: grid;
-  // Adjust columns for better alignment
   grid-template-columns: minmax(200px, 1fr) 130px auto;
   gap: 1rem;
-  align-items: start; // Align tops of fields
-  padding-bottom: 1rem; // Space below each line
-  border-bottom: 1px dashed var(--mat-sys-outline-variant); // Separator
+  align-items: start;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--mat-sys-outline-variant);
 
   &:last-child {
-    border-bottom: none; // No border on last item
+    border-bottom: none;
     padding-bottom: 0;
   }
 }
@@ -199,30 +75,22 @@ button mat-icon + span, button span + mat-icon, button mat-progress-spinner + sp
 }
 
 .remove-button {
-    margin-top: 8px; // Align button better with form fields
+    margin-top: 8px;
 }
 
-.bom-actions { // Style BOM save action separately if needed
+.bom-actions {
    margin-top: 1rem;
 }
 
-// General button adjustments
-button mat-icon + span, button span + mat-icon { margin-left: 8px; }
-button mat-progress-spinner + span { margin-left: 8px; }
-
-// Responsive Adjustments
 @media (max-width: 768px) {
     .detail-container { padding: 1rem; }
-    .form-grid.four-columns {
-         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // Allow slightly narrower fields on smaller screens
-    }
      .bom-line-row {
-        grid-template-columns: 1fr auto; // Stack quantity below material on small screens
+        grid-template-columns: 1fr auto;
         grid-template-areas:
             "material remove"
             "quantity remove";
         .line-material { grid-area: material; }
-        .line-quantity { grid-area: quantity; width: auto; } // Allow quantity to take full width
-        .remove-button { grid-area: remove; align-self: center; } // Center remove button vertically
+        .line-quantity { grid-area: quantity; width: auto; }
+        .remove-button { grid-area: remove; align-self: center; }
      }
 }

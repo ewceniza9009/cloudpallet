@@ -1,139 +1,25 @@
 /* src/app/features/billing/invoice-detail/invoice-detail.component.scss */
+// Standard Layout patterns are centralized in admin-layout.scss
 
-// ==========================================================================
-// # LAYOUT VARIABLES
-// ==========================================================================
-$container-max-width: 1200px;
-$card-border-radius: 8px; // Reduced radius for sharper look
-$spacing-unit: 0.5rem; // Reduced spacing
-
-// ==========================================================================
-// # LOADING STATES
-// ==========================================================================
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
-  padding: 2rem;
+:host {
+  display: block;
 }
 
-// ==========================================================================
-// # MAIN CONTAINER
-// ==========================================================================
-.invoice-container {
-  max-width: $container-max-width;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; // Reduced gap
-  padding: 1rem; // Reduced padding
-}
-
-// ==========================================================================
-// # HEADER SECTION - COMPACT
-// ==========================================================================
-.detail-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center; // Align center
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 0; // Removed padding
-
-  .header-main {
-    display: flex;
-    align-items: center; // Horizontal alignment
-    gap: 1rem;
-    flex: 1;
-    min-width: min-content;
-  }
-
-  .back-button {
-    border-radius: 6px;
-    height: 32px; // Compact button
-    line-height: 32px;
-    padding: 0 12px;
-    font-size: 0.85rem;
-    
-    mat-icon {
-        font-size: 1.1rem;
-        width: 1.1rem;
-        height: 1.1rem;
-        margin-right: 4px;
-    }
-  }
-
-  .header-title-section {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem; // Very tight gap
-
-    .title-group {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .invoice-title {
-      margin: 0;
-      font-size: 1.35rem; // Reduced font size
-      font-weight: 600;
-      line-height: 1.2;
-      color: var(--mat-sys-on-surface);
-    }
-
-    .invoice-subtitle {
-      margin: 0;
-      font-size: 0.75rem; // Small subtitle
-      color: var(--mat-sys-on-surface-variant);
-    }
-  }
-
-  .header-actions {
-    display: flex;
-    gap: 0.5rem; // Tight gap
-
-    .action-button {
-      border-radius: 6px;
-      height: 36px; // Compact height
-      font-size: 0.85rem;
-      padding: 0 12px;
-
-      .mat-icon {
-        margin-right: 0.4rem;
-        font-size: 1.1rem;
-        width: 1.1rem;
-        height: 1.1rem;
-      }
-    }
-  }
-}
-
-// ==========================================================================
-// # SUMMARY CARD - COMPACT
-// ==========================================================================
+// Custom Invoice Summary Styling
 .summary-card {
-  border-radius: $card-border-radius;
-  box-shadow: none !important; // Flat look
-  border: 1px solid var(--mat-sys-outline-variant);
-
-  .mat-mdc-card-content {
-    padding: 1rem; // Reduced padding
-  }
 
   .summary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // Smaller columns
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
 
     .summary-item {
       display: flex;
       flex-direction: column;
-      gap: 0.15rem; // Tight gap
+      gap: 0.15rem;
 
       .summary-label {
-        font-size: 0.7rem; // Small label
+        font-size: 0.7rem;
         font-weight: 600;
         color: var(--mat-sys-on-surface-variant);
         text-transform: uppercase;
@@ -141,7 +27,7 @@ $spacing-unit: 0.5rem; // Reduced spacing
       }
 
       .summary-value {
-        font-size: 0.9rem; // Standard value
+        font-size: 0.9rem;
         font-weight: 500;
         color: var(--mat-sys-on-surface);
       }
@@ -149,77 +35,30 @@ $spacing-unit: 0.5rem; // Reduced spacing
   }
 }
 
-// ==========================================================================
-// # LINE ITEMS CARD - COMPACT
-// ==========================================================================
+// Custom Line Items Table (Specific compactness for Invoices)
 .line-items-card {
-  border-radius: $card-border-radius;
-  box-shadow: none !important;
-  border: 1px solid var(--mat-sys-outline-variant);
-  overflow: hidden;
-
-  .mat-mdc-card-header {
-    padding: 0.75rem 1rem; // Compact header
-    background-color: var(--mat-sys-surface-container-low); // Subtle background
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-    .mat-mdc-card-title {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0;
-    }
-
-    .mat-mdc-card-subtitle {
-      display: none; // Hide subtitle for compactness
-    }
-  }
-
-  .card-content {
-    padding: 0;
-  }
-
-  .table-container {
-    overflow-x: auto;
-  }
 
   .line-items-table {
     width: 100%;
     border-collapse: collapse;
 
-    // Header Styles
-    .table-header-row {
-      height: 36px; // Very compact header
-
-      th {
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--mat-sys-on-surface-variant);
-        border-bottom: 1px solid var(--mat-sys-outline-variant);
-        padding: 0 1rem;
-        text-transform: uppercase;
-
-        &.number-header {
-          text-align: right;
-        }
-
-        &.description-header {
-          text-align: left;
-        }
-      }
+    .table-header-row th {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--mat-sys-on-surface-variant);
+      border-bottom: 1px solid var(--mat-sys-outline-variant);
+      height: 36px;
+      padding: 0 1rem;
+      text-transform: uppercase;
     }
 
-    // Cell Styles
     .table-row {
-      height: 40px; // Compact row height
-      transition: background-color 0.1s ease;
-
-      &:hover {
-        background-color: var(--mat-sys-surface-container-high);
-      }
+      height: 40px;
+      &:hover { background-color: var(--mat-sys-surface-container-high); }
 
       td {
         border-bottom: 1px solid var(--mat-sys-outline-variant);
-        padding: 0.25rem 1rem; // Minimal padding
+        padding: 0.25rem 1rem;
         font-size: 0.85rem;
 
         &.number-cell {
@@ -227,27 +66,13 @@ $spacing-unit: 0.5rem; // Reduced spacing
           font-variant-numeric: tabular-nums;
         }
 
-        &.description-cell {
-          .line-description {
-            line-height: 1.2;
-          }
-        }
-
-        &.amount-cell {
-          font-weight: 600;
-        }
-      }
-
-      &:last-child td {
-        border-bottom: none;
+        &.amount-cell { font-weight: 600; }
       }
     }
   }
 }
 
-// ==========================================================================
-// # TOTALS SECTION - COMPACT
-// ==========================================================================
+// Custom Invoice Totals Section
 .invoice-totals {
   padding: 0.75rem 1rem;
   background-color: var(--mat-sys-surface-container-lowest);
@@ -257,58 +82,35 @@ $spacing-unit: 0.5rem; // Reduced spacing
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.25rem; // Tight gap
+    gap: 0.25rem;
 
     .total-row {
       display: flex;
       justify-content: space-between;
       width: 100%;
-      max-width: 250px; // Narrower
+      max-width: 250px;
       padding: 0.15rem 0;
       align-items: center;
 
-      .total-label {
-        font-size: 0.8rem;
-        color: var(--mat-sys-on-surface-variant);
-      }
-
-      .total-value {
-        font-size: 0.9rem;
-        font-weight: 500;
-        font-variant-numeric: tabular-nums;
-      }
+      .total-label { font-size: 0.8rem; color: var(--mat-sys-on-surface-variant); }
+      .total-value { font-size: 0.9rem; font-weight: 500; font-variant-numeric: tabular-nums; }
 
       &.grand-total {
         border-top: 1px solid var(--mat-sys-outline-variant);
         margin-top: 0.25rem;
         padding-top: 0.5rem;
-
-        .total-label {
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: var(--mat-sys-on-surface);
-        }
-
-        .total-value {
-          font-size: 1rem;
-          font-weight: 700;
-          color: var(--mat-sys-primary);
-        }
+        .total-label { font-size: 0.9rem; font-weight: 700; color: var(--mat-sys-on-surface); }
+        .total-value { font-size: 1rem; font-weight: 700; color: var(--mat-sys-primary); }
       }
     }
   }
 }
 
-// ==========================================================================
-// # ERROR STATE
-// ==========================================================================
+// Special Error Card
 .error-card {
-  border-radius: $card-border-radius;
   text-align: center;
   max-width: 400px;
   margin: 2rem auto;
-  box-shadow: none !important;
-  border: 1px solid var(--mat-sys-outline-variant);
 
   .error-content {
     padding: 2rem;
@@ -325,60 +127,9 @@ $spacing-unit: 0.5rem; // Reduced spacing
     color: var(--mat-sys-error);
     opacity: 0.8;
   }
-
-  .error-text {
-    .error-title {
-      margin: 0;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .error-description {
-      margin: 0.5rem 0 0;
-      font-size: 0.9rem;
-      color: var(--mat-sys-on-surface-variant);
-    }
-  }
 }
 
-// ==========================================================================
-// # STATUS BADGES
-// ==========================================================================
-.status-badge {
-  padding: 2px 8px; // Smaller badge
-  border-radius: 4px; // Square corners
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  border: 1px solid;
-  line-height: 1;
-  text-transform: uppercase;
-
-  &.draft, &.issued, &.paid, &.overdue {
-    color: var(--color);
-    background-color: var(--bg);
-    border-color: var(--border);
-  }
-  &.draft { --bg: #f1f5f9; --color: #475569; --border: #cbd5e1; }
-  &.issued { --bg: #e0f7fa; --color: #00838f; --border: #4dd0e1; }
-  &.paid { --bg: #e8f5e9; --color: #2e7d32; --border: #81c784; }
-  &.overdue { --bg: #ffebee; --color: #c62828; --border: #ef9a9a; }
-}
-
-// ==========================================================================
-// # RESPONSIVE BREAKPOINTS
-// ==========================================================================
 @media (max-width: 768px) {
-  .detail-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-
-    .header-main {
-      flex-wrap: wrap;
-    }
-  }
-
   .summary-card .summary-grid {
     grid-template-columns: 1fr 1fr;
   }

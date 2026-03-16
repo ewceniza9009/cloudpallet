@@ -1,4 +1,4 @@
-<div class="receiving-list-container">
+<div class="report-container">
   <div class="header-section">
     <div>
       <h1 class="mat-headline-6">Goods Receiving</h1>
@@ -29,7 +29,7 @@
     <button mat-stroked-button (click)="clearSearch()">Clear</button>
   </div>
 
-  <mat-card class="table-card">
+  <mat-card class="main-content-card">
     <mat-card-content>
       @if (isLoading()) {
       <div class="spinner-container">
@@ -127,7 +127,7 @@
         </mat-paginator>
 
         } @else {
-        <div class="empty-sessions-state">
+        <div class="empty-state empty-sessions-state">
           <mat-icon>inventory_2</mat-icon>
           <h3>No Receiving Sessions Found</h3>
           <p>Get started by creating your first receiving session.</p>

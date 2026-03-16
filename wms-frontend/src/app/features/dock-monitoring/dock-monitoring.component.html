@@ -1,6 +1,6 @@
 <div class="report-container">
   <div class="header-section">
-    <div>
+    <div class="header-content">
       <h1 class="mat-headline-6">Live Dock Monitoring</h1>
       <p class="mat-body-1">Real-time view of dock occupancy and availability.</p>
     </div>
@@ -13,7 +13,7 @@
   </div>
 
   @if (isLoading()) {
-  <div class="spinner-container-page">
+  <div class="spinner-container">
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     <p>Loading Dock Status...</p>
   </div>
@@ -51,15 +51,15 @@
     </div>
 
     @if (filteredDocks().length === 0) {
-    <div class="empty-list-message">
-      <mat-icon>filter_list_off</mat-icon>
-      <h2>No Docks Found</h2>
+    <div class="empty-state empty-list-message">
+      <div class="empty-icon"><mat-icon>filter_list_off</mat-icon></div>
+      <h3>No Docks Found</h3>
       <p>No docks match the current filter or configuration.</p>
     </div>
     } @else {
     <div class="dock-grid">
       @for (dock of filteredDocks(); track dock.id) {
-      <div class="dock-card" [ngClass]="dock.isAvailable ? 'status-available' : 'status-occupied'">
+      <div class="main-content-card dock-card" [ngClass]="dock.isAvailable ? 'status-available' : 'status-occupied'">
         <div class="dock-header">
           <div class="dock-title" [matTooltip]="dock.name">
             <div class="dock-icon">

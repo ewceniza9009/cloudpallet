@@ -1,8 +1,8 @@
-<div class="inventory-manager-container">
+<div class="report-container">
   
   <!-- Header & Search -->
-  <header class="page-header">
-    <div class="header-title">
+  <header class="page-header header-section">
+    <div class="header-title header-content">
       <h1>Inventory Manager</h1>
       <p>Operations Command Center</p>
     </div>
@@ -27,7 +27,7 @@
 
   <!-- Loading State -->
   @if (isLoading()) {
-    <div class="loading-state">
+    <div class="empty-state loading-state">
       <mat-spinner diameter="40"></mat-spinner>
       <span>Fetching inventory data...</span>
     </div>
@@ -128,7 +128,7 @@
       </div>
     </div>
   } @else if (searchControl.value && searchControl.value.length > 5 && !isLoading()) {
-    <div class="not-found">
+    <div class="empty-state not-found">
       <mat-icon>search_off</mat-icon>
       <h3>No Pallet Found</h3>
       <p>Could not locate pallet "<strong>{{ searchControl.value }}</strong>"</p>

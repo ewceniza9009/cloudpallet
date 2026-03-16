@@ -1,73 +1,15 @@
+// Styles for Receiving component
+// Core patterns are centralized in the shared layout system (admin-layout.scss)
+
 :host {
   display: block;
-}
-
-.receiving-list-container {
-  padding: 1.5rem 2.5rem;
-  max-width: 1600px;
-  margin: 0 auto;
-  display: grid;
-  gap: 2rem;
-}
-
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
-  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
-}
-
-.search-section {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex-wrap: wrap;
-
-  .search-field {
-    width: 300px;
-    margin-bottom: -1.25em; // Fix for mat-form-field spacing
-  }
-
-  .date-field {
-    width: 200px;
-    margin-bottom: -1.25em;
-  }
-}
-
-.table-card {
-  border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
-  border-radius: 8px;
-  padding: 0;
-}
-
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  padding: 4rem;
-}
-
-.sessions-table-container {
-  overflow-x: auto;
 }
 
 .sessions-table {
   width: 100%;
 }
 
-th.mat-header-cell {
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--mat-sys-on-surface-variant);
-}
-
-tr.session-row:hover {
+.session-row:hover {
   background-color: var(--mat-sys-surface-container-high);
 }
 
@@ -85,151 +27,13 @@ tr.session-row:hover {
   font-weight: 500;
 }
 
-.status-badge {
-  display: inline-flex;
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-
-  &.status-inprogress {
-    background-color: #e0f2fe;
-    color: #0284c7;
-  }
-  &.status-completed {
-    background-color: #dcfce7;
-    color: #16a34a;
-  }
-  &.status-pending {
-    background-color: #f1f5f9;
-    color: #475569;
-  }
-}
-
 .timestamp {
-  .date {
-    font-weight: 500;
-  }
-  .time {
-    font-size: 0.875rem;
-    color: var(--mat-sys-on-surface-variant);
-  }
+  .date { font-weight: 500; }
+  .time { font-size: 0.875rem; color: var(--mat-sys-on-surface-variant); }
 }
 
 .actions-cell {
   text-align: right;
-  
-  // Ensure buttons are aligned
-  a, button {
-    vertical-align: middle;
-  }
-  
-  // Button group alignment
-  > * {
-    margin-left: 0.5rem;
-    
-    &:first-child {
-      margin-left: 0;
-    }
-  }
-}
-
-.empty-sessions-state {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 48px 24px;
-  text-align: center;
-  color: var(--mat-sys-on-surface-variant);
-  gap: 1rem;
-
-  mat-icon {
-    font-size: 3rem;
-    width: 3rem;
-    height: 3rem;
-    color: var(--mat-sys-outline);
-  }
-  h3 {
-    font-size: 1.25rem;
-    font-weight: 500;
-    margin: 0;
-    color: var(--mat-sys-on-surface);
-  }
-}
-
-// ==========================================================================
-// EXACT COPY FROM KITTING - DO NOT MODIFY
-// ==========================================================================
-::ng-deep {
-  .custom-field {
-    width: 100%;
-    
-    // 1. Reset the wrapper height and padding
-    .mat-mdc-text-field-wrapper {
-      height: 42px !important; // Fixed sleek height
-      padding: 0 12px !important;
-      background-color: white !important;
-    }
-
-    // 2. Center content vertically
-    .mat-mdc-form-field-flex {
-      height: 100% !important;
-      align-items: center !important;
-      padding: 0 !important;
-    }
-
-    // 3. Remove default infix padding/spacing
-    .mat-mdc-form-field-infix {
-      padding: 0 !important;
-      min-height: unset !important;
-      border-top: 0 !important;
-      width: auto !important; // Allow flex to handle width
-    }
-
-    // 4. Style the input element
-    .mat-mdc-input-element {
-      padding: 0 !important;
-      margin: 0 !important;
-      top: 0 !important;
-      position: relative !important;
-      font-size: 0.9rem !important;
-      line-height: 42px !important; // Match wrapper height for vertical centering
-      height: 100% !important;
-    }
-
-    // 5. Style the icon prefix
-    .mat-mdc-form-field-icon-prefix {
-      padding: 0 8px 0 0 !important;
-      display: flex !important;
-      align-items: center !important;
-      height: 100% !important;
-      
-      .mat-icon { 
-        font-size: 18px; 
-        width: 18px; 
-        height: 18px; 
-      }
-    }
-
-    //  Style the icon suffix
-    .mat-mdc-form-field-icon-suffix {
-      padding: 0 0 0 8px !important;
-      display: flex !important;
-      align-items: center !important;
-      height: 100% !important;
-      
-      .mat-icon { 
-        font-size: 18px; 
-        width: 18px; 
-        height: 18px; 
-      }
-    }
-
-    // 6. Hide the subscript (error/hint) wrapper to remove bottom spacing
-    .mat-mdc-form-field-subscript-wrapper {
-      display: none; 
-    }
-  }
+  a, button { vertical-align: middle; }
+  > * { margin-left: 0.5rem; &:first-child { margin-left: 0; } }
 }

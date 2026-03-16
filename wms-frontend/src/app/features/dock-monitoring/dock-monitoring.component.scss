@@ -1,66 +1,16 @@
-// Standardized UI for Dock Monitoring
+// Styles for Dock Monitoring component
+// Core patterns are centralized in the shared layout system (admin-layout.scss)
+
 :host {
   display: block;
-  height: 100%;
 }
 
-.report-container {
-  padding: 1.5rem 2rem;
-  max-width: 1600px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  height: 100%;
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center; // Align items vertically
-  margin-bottom: 0.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-  h1 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem 0;
-    color: var(--mat-sys-on-surface);
-    letter-spacing: -0.02em;
-  }
-
-  p {
-    margin: 0;
-    color: var(--mat-sys-on-surface-variant);
-    font-size: 1rem;
-    max-width: 600px;
-  }
-
-  .header-filter {
-    // Optional: Add specific styles for the filter in the header if needed
-  }
-}
-
-// Summary Section
+// Summary Section - Custom Dashboard Look
 .summary-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
-  margin-bottom: 1.5rem; // Increased margin for better separation
+  margin-bottom: 1.5rem;
 
   .summary-card {
     background: var(--mat-sys-surface);
@@ -79,107 +29,20 @@
       display: flex;
       align-items: center;
       justify-content: center;
-
-      mat-icon {
-        font-size: 24px;
-        width: 24px;
-        height: 24px;
-      }
+      mat-icon { font-size: 24px; width: 24px; height: 24px; }
     }
 
     .content {
       display: flex;
       flex-direction: column;
-
-      .label {
-        font-size: 0.85rem;
-        color: var(--mat-sys-on-surface-variant);
-        font-weight: 500;
-      }
-
-      .value {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--mat-sys-on-surface);
-        line-height: 1.2;
-      }
+      .label { font-size: 0.85rem; color: var(--mat-sys-on-surface-variant); font-weight: 500; }
+      .value { font-size: 1.5rem; font-weight: 700; color: var(--mat-sys-on-surface); line-height: 1.2; }
     }
 
-    // Card Variants
-    &.total {
-      .icon-wrapper {
-        background: rgba(var(--mat-sys-primary-rgb), 0.1);
-        color: var(--mat-sys-primary);
-      }
-    }
-
-    &.available {
-      .icon-wrapper {
-        background: rgba(16, 185, 129, 0.1);
-        color: #059669;
-      }
-    }
-
-    &.occupied {
-      .icon-wrapper {
-        background: rgba(245, 158, 11, 0.1);
-        color: #d97706;
-      }
-    }
-
-    &.utilization {
-      .icon-wrapper {
-        background: rgba(59, 130, 246, 0.1);
-        color: #2563eb;
-      }
-    }
-  }
-}
-
-.spinner-container-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  padding: 3rem;
-  min-height: 300px;
-  color: var(--mat-sys-on-surface-variant);
-  flex-grow: 1;
-}
-
-.empty-list-message {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 300px;
-  text-align: center;
-  gap: 1rem;
-  padding: 2rem;
-  color: var(--mat-sys-on-surface-variant);
-  border: 2px dashed var(--mat-sys-outline-variant-low);
-  border-radius: 12px;
-
-  .mat-icon {
-    font-size: 4rem;
-    width: 4rem;
-    height: 4rem;
-    color: var(--mat-sys-outline);
-    opacity: 0.5;
-  }
-
-  h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--mat-sys-on-surface);
-  }
-
-  p {
-    margin: 0;
-    font-size: 1rem;
-    max-width: 400px;
+    &.total .icon-wrapper { background: rgba(var(--mat-sys-primary-rgb), 0.1); color: var(--mat-sys-primary); }
+    &.available .icon-wrapper { background: rgba(16, 185, 129, 0.1); color: #059669; }
+    &.occupied .icon-wrapper { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+    &.utilization .icon-wrapper { background: rgba(59, 130, 246, 0.1); color: #2563eb; }
   }
 }
 
@@ -187,57 +50,32 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
-  align-items: stretch; // Ensure all items in a row have the same height
+  align-items: stretch;
 }
 
 .dock-card {
-  background: var(--mat-sys-surface);
-  border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: 12px;
-  overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
-  height: 100%; // Fill the grid cell height
+  height: 100%;
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
-  // Status Styles
-  &.status-available {
-    .dock-header {
-      background: linear-gradient(to right, rgba(16, 185, 129, 0.05), transparent);
-      border-bottom: 1px solid rgba(16, 185, 129, 0.1);
-
-      .status-badge {
-        background: #ecfdf5;
-        color: #059669;
-        border: 1px solid rgba(16, 185, 129, 0.2);
-      }
-
-      .dock-icon {
-        color: #059669;
-      }
-    }
+  &.status-available .dock-header {
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.05), transparent);
+    border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+    .status-badge { background: #ecfdf5; color: #059669; border: 1px solid rgba(16, 185, 129, 0.2); }
+    .dock-icon { color: #059669; }
   }
 
-  &.status-occupied {
-    .dock-header {
-      background: linear-gradient(to right, rgba(245, 158, 11, 0.05), transparent);
-      border-bottom: 1px solid rgba(245, 158, 11, 0.1);
-
-      .status-badge {
-        background: #fffbeb;
-        color: #d97706;
-        border: 1px solid rgba(245, 158, 11, 0.2);
-      }
-
-      .dock-icon {
-        color: #d97706;
-      }
-    }
+  &.status-occupied .dock-header {
+    background: linear-gradient(to right, rgba(245, 158, 11, 0.05), transparent);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.1);
+    .status-badge { background: #fffbeb; color: #d97706; border: 1px solid rgba(245, 158, 11, 0.2); }
+    .dock-icon { color: #d97706; }
   }
 }
 
@@ -252,33 +90,10 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    min-width: 0; // Required for flex child truncation
+    min-width: 0;
     flex: 1;
-
-    .dock-icon {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent; // Transparent background
-
-      mat-icon {
-        font-size: 24px;
-        width: 24px;
-        height: 24px;
-      }
-    }
-
-    .dock-name {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--mat-sys-on-surface);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
-    }
+    .dock-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; mat-icon { font-size: 24px; width: 24px; height: 24px; } }
+    .dock-name { font-size: 1.1rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   }
 
   .status-badge {
@@ -288,7 +103,6 @@
     border-radius: 99px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    flex-shrink: 0; // Prevent badge from shrinking
   }
 }
 
@@ -304,21 +118,8 @@
 .available-state {
   text-align: center;
   color: var(--mat-sys-on-surface-variant);
-
-  mat-icon {
-    font-size: 40px;
-    width: 40px;
-    height: 40px;
-    color: var(--mat-sys-outline);
-    margin-bottom: 0.5rem;
-    opacity: 0.5;
-  }
-
-  p {
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin: 0;
-  }
+  mat-icon { font-size: 40px; width: 40px; height: 40px; color: var(--mat-sys-outline); margin-bottom: 0.5rem; opacity: 0.5; }
+  p { font-size: 0.9rem; font-weight: 500; }
 }
 
 .occupied-details {
@@ -333,45 +134,19 @@
     padding-bottom: 0.5rem;
     border-bottom: 1px dashed var(--mat-sys-outline-variant-low);
 
-    &:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
+    &:last-child { border-bottom: none; }
 
     &.highlight {
       background: rgba(var(--mat-sys-primary-rgb), 0.05);
       margin: 0 -0.5rem;
       padding: 0.5rem;
       border-radius: 4px;
-      border-bottom: none;
-
-      .label {
-        color: var(--mat-sys-primary);
-      }
-
-      .value {
-        color: var(--mat-sys-primary);
-        font-weight: 700;
-      }
+      .label { color: var(--mat-sys-primary); }
+      .value { color: var(--mat-sys-primary); font-weight: 700; }
     }
 
-    .label {
-      font-size: 0.75rem;
-      color: var(--mat-sys-on-surface-variant);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-    }
-
-    .value {
-      font-size: 0.95rem;
-      color: var(--mat-sys-on-surface);
-      font-weight: 500;
-
-      &.mono {
-        font-family: 'Roboto Mono', monospace;
-      }
-    }
+    .label { font-size: 0.75rem; color: var(--mat-sys-on-surface-variant); font-weight: 600; text-transform: uppercase; }
+    .value { font-size: 0.95rem; font-weight: 500; &.mono { font-family: 'Roboto Mono', monospace; } }
   }
 }
 
@@ -381,33 +156,15 @@
   border-top: 1px solid var(--mat-sys-outline-variant-low);
   display: flex;
   gap: 0.75rem;
-  margin-top: auto; // Push to bottom
+  margin-top: auto;
+  button { flex: 1; }
+  .no-actions { width: 100%; text-align: center; font-size: 0.85rem; color: var(--mat-sys-on-surface-variant); font-style: italic; opacity: 0.7; }
+}
 
-  button {
-    flex: 1;
-
-    ::ng-deep .mat-mdc-button-touch-target {
-      height: 40px;
-    }
-  }
-
-  .no-actions {
-    width: 100%;
-    text-align: center;
-    font-size: 0.85rem;
-    color: var(--mat-sys-on-surface-variant);
-    font-style: italic;
-    padding: 0.5rem 0;
-    opacity: 0.7;
-  }
+.empty-list-message {
+  grid-column: 1 / -1;
 }
 
 @media (max-width: 768px) {
-  .report-container {
-    padding: 1rem;
-  }
-
-  .dock-grid {
-    grid-template-columns: 1fr;
-  }
+  .dock-grid { grid-template-columns: 1fr; }
 }

@@ -1,6 +1,6 @@
 <div class="report-container">
   <div class="header-section">
-    <div>
+    <div class="header-content">
       <h1 class="mat-headline-6">Pallet Movement Tracer</h1>
       <p class="mat-body-1">Track the complete journey of a pallet with detailed movement history.</p>
     </div>
@@ -21,16 +21,16 @@
   </div>
 
   @if (isLoading()) {
-  <div class="spinner-container-page">
+  <div class="spinner-container">
     <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
     <p>Tracking pallet movements...</p>
   </div>
   } @else {
   @if (searched() && palletHistory().length === 0) {
-  <div class="empty-list-message">
-    <mat-icon>search_off</mat-icon>
-    <h2>No Movement History Found</h2>
-    <p>No tracking records were found for pallet "{{searchControl.value}}". Please verify the barcode and try again.</p>
+  <div class="empty-state empty-list-message">
+    <div class="empty-icon"><mat-icon>search_off</mat-icon></div>
+    <h3>No Movement History Found</h3>
+    <p>No tracking records were found for pallet "<strong>{{searchControl.value}}</strong>". Please verify the barcode and try again.</p>
   </div>
   }
 
@@ -52,7 +52,7 @@
         </div>
         
         <div class="timeline-content">
-          <mat-card class="timeline-card">
+          <mat-card class="main-content-card timeline-card">
             <div class="card-content-wrapper">
               <div class="event-info">
                 <span class="event-type" [ngClass]="getColorClassForEventType(item.eventType)">{{ item.eventType | titlecase }}</span>

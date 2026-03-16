@@ -1,59 +1,19 @@
 // Standardized UI for Shipping
+// Core patterns are centralized in the shared layout system (admin-layout.scss)
+
 :host {
   display: block;
   height: 100%;
 }
 
 .report-container {
-  padding: 1.5rem 2rem;
-  max-width: 1600px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  height: 100%;
-  animation: fadeIn 0.3s ease-out;
+   // Kept for consistency if HTML uses it specifically
+   animation: fadeIn 0.3s ease-out;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-  h1 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem 0;
-    color: var(--mat-sys-on-surface);
-    letter-spacing: -0.02em;
-  }
-
-  p {
-    margin: 0;
-    color: var(--mat-sys-on-surface-variant);
-    font-size: 1rem;
-    max-width: 600px;
-  }
-}
-
-.spinner-container-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  padding: 3rem;
-  min-height: 300px;
-  color: var(--mat-sys-on-surface-variant);
-  flex-grow: 1;
 }
 
 .groups-grid {
@@ -64,15 +24,7 @@
 }
 
 .group-card {
-  border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: none;
-  border-radius: 12px;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--mat-sys-surface);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
@@ -100,21 +52,8 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  
-  .account-icon {
-    color: var(--mat-sys-primary);
-    font-size: 1.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
-    flex-shrink: 0;
-  }
-
-  .account-name {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--mat-sys-on-surface);
-    line-height: 1.3;
-  }
+  .account-icon { color: var(--mat-sys-primary); font-size: 1.5rem; width: 1.5rem; height: 1.5rem; flex-shrink: 0; }
+  .account-name { font-size: 1.25rem; font-weight: 600; line-height: 1.3; }
 }
 
 .status-row {
@@ -140,28 +79,10 @@
     flex-direction: column;
     align-items: center;
     gap: 0.25rem;
-
-    .label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      color: var(--mat-sys-on-surface-variant);
-      font-weight: 600;
-      letter-spacing: 0.05em;
-    }
-
-    .value {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--mat-sys-primary);
-      line-height: 1;
-    }
+    .label { font-size: 0.7rem; text-transform: uppercase; color: var(--mat-sys-on-surface-variant); font-weight: 600; letter-spacing: 0.05em; }
+    .value { font-size: 1.25rem; font-weight: 700; color: var(--mat-sys-primary); line-height: 1; }
   }
-
-  .divider {
-    width: 1px;
-    height: 24px;
-    background-color: var(--mat-sys-outline-variant);
-  }
+  .divider { width: 1px; height: 24px; background-color: var(--mat-sys-outline-variant); }
 }
 
 .compact-actions {
@@ -169,63 +90,13 @@
   background-color: var(--mat-sys-surface-container-lowest);
   border-top: 1px solid var(--mat-sys-outline-variant-low);
   gap: 0.75rem;
-  
-  button {
-    ::ng-deep .mat-mdc-button-touch-target {
-      height: 40px;
-    }
-  }
 }
 
 .empty-list-message {
   grid-column: 1 / -1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 300px;
-  text-align: center;
-  gap: 1rem;
-  padding: 2rem;
-  color: var(--mat-sys-on-surface-variant);
-  border: 2px dashed var(--mat-sys-outline-variant-low);
-  border-radius: 12px;
-
-  .mat-icon {
-    font-size: 4rem;
-    width: 4rem;
-    height: 4rem;
-    color: var(--mat-sys-outline);
-    opacity: 0.5;
-  }
-
-  h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--mat-sys-on-surface);
-  }
-  
-  p {
-    margin: 0;
-    font-size: 1rem;
-  }
 }
 
 @media (max-width: 768px) {
-    .report-container {
-      padding: 1rem;
-    }
-    
-    .card-content-wrapper {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 1.5rem;
-    }
-    
-    .stats-section {
-      justify-content: space-around;
-      width: 100%;
-      box-sizing: border-box;
-    }
+    .card-content-wrapper { flex-direction: column; align-items: stretch; gap: 1.5rem; }
+    .stats-section { justify-content: space-around; width: 100%; box-sizing: border-box; }
 }

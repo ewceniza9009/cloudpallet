@@ -1,13 +1,15 @@
-<div class="overview-container">
+<div class="report-container overview-report">
   <div class="header-section">
-    <h1 class="mat-headline-6">Inventory Overview</h1>
-    <p class="mat-body-1">Live grid-based visualization of storage utilization.</p>
+    <div class="header-content">
+      <h1 class="mat-headline-6">Inventory Overview</h1>
+      <p class="mat-body-1">Live grid-based visualization of storage utilization.</p>
+    </div>
   </div>
 
-  <div class="filters-container">
+  <div class="main-content-card filters-container">
     <div class="filter-header">
       <mat-icon>filter_list</mat-icon>
-      <span>Filters</span>
+      <span>Operational Filters</span>
       @if (hasActiveFilters()) {
         <button mat-button color="warn" (click)="clearFilters()">Clear All</button>
       }
@@ -46,10 +48,10 @@
   </div>
 
   @if(isLoading()) {
-    <div class="spinner-container">
-      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-      <p>Loading Inventory Overview...</p>
-    </div>
+  <div class="spinner-container">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>Calibrating location grid...</p>
+  </div>
   } @else if(filteredData(); as data) {
     <mat-expansion-panel class="summary-panel" [expanded]="false">
       <mat-expansion-panel-header>
@@ -135,7 +137,7 @@
                   <ng-template matExpansionPanelContent>
                     <div class="locations-grid">
                       @for(loc of bay.locations; track (loc.row + '-' + loc.column + '-' + loc.level)) {
-                        <mat-card class="location-card" [ngClass]="getLocationStatusClass(loc.status, loc.utilization)" [matTooltip]="'Current: ' + (loc.currentWeight | number:'1.1-1') + ' / ' + (loc.capacityWeight | number:'1.1-1') + ' kg'" (click)="openLocationDialog(loc)">
+                        <mat-card class="main-content-card location-card" [ngClass]="getLocationStatusClass(loc.status, loc.utilization)" [matTooltip]="'Current: ' + (loc.currentWeight | number:'1.1-1') + ' / ' + (loc.capacityWeight | number:'1.1-1') + ' kg'" (click)="openLocationDialog(loc)">
                           <mat-card-header>
                             <mat-card-title>{{ 'R' + loc.row + 'C' + loc.column + 'L' + loc.level }}</mat-card-title>
                           </mat-card-header>
@@ -159,10 +161,12 @@
     </mat-accordion>
 
   } @else {
-    <mat-card class="error-card">
-      <mat-icon>error_outline</mat-icon>
-      <h2>No Data Available</h2>
-      <p>Could not load inventory overview. Please ensure a warehouse is selected and data is available.</p>
+    <mat-card class="main-content-card error-card">
+      <mat-card-content class="error-zone">
+        <mat-icon>error_outline</mat-icon>
+        <h2>No Data Available</h2>
+        <p>Could not load inventory overview. Please ensure a warehouse is selected and data is available.</p>
+      </mat-card-content>
     </mat-card>
   }
 </div>

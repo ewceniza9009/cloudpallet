@@ -1,63 +1,8 @@
+// Styles for Inventory Ledger component
+// Standard patterns are centralized in admin-layout.scss
+
 :host {
   display: block;
-}
-
-.report-container {
-  padding: 1.5rem 2.5rem;
-  max-width: 1600px;
-  margin: 0 auto;
-  display: grid; // Match Receiving
-  gap: 2rem;
-}
-
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
-  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
-}
-
-.filter-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  align-items: start;
-
-  .custom-field {
-    width: 100%;
-    margin-bottom: 0;
-    
-    &.date-field {
-      width: 100%;
-    }
-  }
-}
-
-.filter-actions {
-  grid-column: 4; // Place in the last column
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 0.5rem;
-  height: 42px;
-  margin-top: 4px;
-  
-  button {
-    height: 100%;
-  }
-}
-
-.main-content-card {
-  border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
-  border-radius: 8px;
-  padding: 0;
-  overflow: hidden;
-  background: var(--mat-sys-surface);
 }
 
 .table-wrapper {
@@ -65,135 +10,12 @@
   overflow: auto;
 }
 
-table {
-  width: 100%;
-  
-  td.mat-cell, th.mat-header-cell {
-    padding: 0 1rem;
-    border-bottom-color: var(--mat-sys-outline-variant);
-  }
-
-  th.mat-header-cell {
-    font-weight: 600;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--mat-sys-on-surface-variant);
-    height: 48px;
-    background-color: var(--mat-sys-surface-container-lowest);
-  }
-
-  td.mat-cell {
-    font-size: 0.875rem;
-    height: 48px;
-    color: var(--mat-sys-on-surface);
-  }
-}
-
-tr.group-header-row {
-  cursor: pointer;
-  transition: background-color 0.1s;
-  &:hover {
-    background-color: var(--mat-sys-surface-container-high);
-  }
-}
-
 .align-right { text-align: right; }
 .in-value { color: #059669; font-weight: 500; }
 .out-value { color: #dc2626; font-weight: 500; }
 .balance-value { color: var(--mat-sys-primary); font-weight: 600; }
 
-// ==========================================================================
-// EXACT COPY FROM RECEIVING/KITTING - DO NOT MODIFY
-// ==========================================================================
-::ng-deep {
-  .custom-field {
-    width: 100%; // Reset to 100% so it fills the container width defined above
-    
-    // 1. Reset the wrapper height and padding
-    .mat-mdc-text-field-wrapper {
-      height: 42px !important; // Fixed sleek height
-      padding: 0 12px !important;
-      background-color: white !important;
-    }
-
-    // 2. Center content vertically
-    .mat-mdc-form-field-flex {
-      height: 100% !important;
-      align-items: center !important;
-      padding: 0 !important;
-    }
-
-    // 3. Remove default infix padding/spacing
-    .mat-mdc-form-field-infix {
-      padding: 0 !important;
-      min-height: unset !important;
-      border-top: 0 !important;
-      width: auto !important; // Allow flex to handle width
-    }
-
-    // 4. Style the input element
-    .mat-mdc-input-element {
-      padding: 0 !important;
-      margin: 0 !important;
-      top: 0 !important;
-      position: relative !important;
-      font-size: 0.9rem !important;
-      line-height: 42px !important; // Match wrapper height for vertical centering
-      height: 100% !important;
-    }
-
-    // 5. Style the icon prefix
-    .mat-mdc-form-field-icon-prefix {
-      padding: 0 8px 0 0 !important;
-      display: flex !important;
-      align-items: center !important;
-      height: 100% !important;
-      
-      .mat-icon { 
-        font-size: 18px; 
-        width: 18px; 
-        height: 18px; 
-      }
-    }
-
-    //  Style the icon suffix
-    .mat-mdc-form-field-icon-suffix {
-      padding: 0 0 0 8px !important;
-      display: flex !important;
-      align-items: center !important;
-      height: 100% !important;
-      
-      .mat-icon { 
-        font-size: 18px; 
-        width: 18px; 
-        height: 18px; 
-      }
-      
-      // Ensure datepicker toggle button is clickable and visible
-      .mat-datepicker-toggle-default-icon {
-        width: 18px;
-        height: 18px;
-      }
-      button.mat-icon-button {
-        width: 24px;
-        height: 24px;
-        line-height: 24px;
-        padding: 0;
-      }
-    }
-
-    // 6. Hide the subscript (error/hint) wrapper to remove bottom spacing
-    .mat-mdc-form-field-subscript-wrapper {
-      display: none; 
-    }
-    
-    // Remove underline
-    .mdc-line-ripple { display: none; }
-  }
-}
-
-// Expanded Detail Row & Timeline
+// Custom Timeline Styling for Expanded Rows
 .detail-row-container {
   overflow: hidden;
   padding: 0;
@@ -220,7 +42,7 @@ tr.group-header-row {
   &::before {
     content: '';
     position: absolute;
-    left: 43px; // Align with icon center
+    left: 43px; 
     top: 1rem;
     bottom: 1rem;
     width: 1px;
@@ -249,30 +71,15 @@ tr.group-header-row {
     justify-content: center;
     color: #fff;
     
-    mat-icon {
-      width: 18px;
-      height: 18px;
-      font-size: 18px;
-    }
-
+    mat-icon { width: 18px; height: 18px; font-size: 18px; }
     &.event-inbound { background-color: #059669; }
     &.event-outbound { background-color: #dc2626; }
     &.event-internal { background-color: #2563eb; }
   }
 }
 
-.timeline-content {
-  flex-grow: 1;
-  padding-top: 4px;
-}
-
-.event-header {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
-}
+.timeline-content { flex-grow: 1; padding-top: 4px; }
+.event-header { display: flex; justify-content: flex-start; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
 
 .type-badge {
   padding: 0.25rem 0.5rem;
@@ -287,10 +94,7 @@ tr.group-header-row {
   &.picking { background-color: #dc2626; }
 }
 
-.event-timestamp {
-  font-size: 0.8rem;
-  color: var(--mat-sys-on-surface-variant);
-}
+.event-timestamp { font-size: 0.8rem; color: var(--mat-sys-on-surface-variant); }
 
 .event-details {
   border: 1px solid var(--mat-sys-outline-variant);
@@ -311,37 +115,10 @@ tr.group-header-row {
 
 .detail-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); // Micro grid
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
   gap: 0.125rem 0.5rem;
 }
 
-.detail-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.detail-label {
-  font-size: 0.55rem;
-  text-transform: uppercase;
-  color: var(--mat-sys-on-surface-variant);
-  margin-bottom: 0;
-}
-
-.detail-value {
-  font-size: 0.7rem;
-  font-weight: 500;
-}
-
-// Spinner and No Data Row
-.spinner-overlay, .mat-row[matNoDataRow] td {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 5;
-  font-style: italic;
-  color: var(--mat-sys-on-surface-variant);
-  padding: 0.5rem;
-}
+.detail-item { display: flex; flex-direction: column; }
+.detail-label { font-size: 0.55rem; text-transform: uppercase; color: var(--mat-sys-on-surface-variant); margin-bottom: 0; }
+.detail-value { font-size: 0.7rem; font-weight: 500; }

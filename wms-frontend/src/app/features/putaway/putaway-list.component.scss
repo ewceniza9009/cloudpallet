@@ -1,230 +1,148 @@
-// Standardized UI for Putaway Task List
+// Premium Elevated UI for Putaway Tasks
+// Using a clean, data-first approach to maximize operational clarity
+
 :host {
   display: block;
-  height: 100%;
-}
-
-.report-container {
-  padding: 1.5rem 2rem;
-  max-width: 1600px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  height: 100%;
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-  h1 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem 0;
-    color: var(--mat-sys-on-surface);
-    letter-spacing: -0.02em;
-  }
-
-  p {
-    margin: 0;
-    color: var(--mat-sys-on-surface-variant);
-    font-size: 1rem;
-    max-width: 600px;
-  }
-}
-
-.spinner-container-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  padding: 3rem;
-  min-height: 300px;
-  color: var(--mat-sys-on-surface-variant);
-  flex-grow: 1;
 }
 
 .tasks-grid {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-  align-items: start;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 }
 
 .task-card {
   border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: none;
-  border-radius: 12px;
-  padding: 0;
+  border-radius: 16px;
+  background: white;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-  background-color: var(--mat-sys-surface);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: var(--mat-sys-primary);
   }
 }
 
-.card-content-wrapper {
-  padding: 1.5rem;
+// Top Status/Identification Bar
+.card-header {
+  padding: 1.25rem 1.5rem;
+  background: var(--mat-sys-surface-container-lowest);
+  border-bottom: 1px solid var(--mat-sys-outline-variant-low);
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 1.5rem;
-  flex-wrap: wrap; // Allow wrapping on very small screens
-}
+  align-items: center;
 
-.info-section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  flex: 1;
-  min-width: 200px; // Ensure minimum width
-}
-
-.barcode-row {
-  display: flex;
-  align-items: flex-start; // Align to top in case of wrapping
-  gap: 0.75rem;
-  
-  .qr-icon {
-    color: var(--mat-sys-primary);
-    font-size: 1.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-top: 2px; // Visual alignment with text
-    flex-shrink: 0;
+  .id-badge {
+    display: flex;
+    flex-direction: column;
+    .label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--mat-sys-on-surface-variant); letter-spacing: 0.05em; }
+    .value { font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--mat-sys-primary); }
   }
 
-  .barcode {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 600;
-    font-size: 1.25rem;
-    color: var(--mat-sys-on-surface);
-    word-break: break-all; // Allow breaking long barcodes if absolutely necessary
-    line-height: 1.4;
-  }
-}
-
-.contents-row {
-  font-size: 1rem;
-  color: var(--mat-sys-on-surface-variant);
-  padding-left: 2.25rem;
-  line-height: 1.5;
-}
-
-.location-section {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5rem;
-  flex-shrink: 0; // Don't shrink the location section
-  max-width: 50%; // Allow it to take up to 50% width
-
-  .label {
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 0.75rem;
-    text-transform: uppercase;
-    color: var(--mat-sys-on-surface-variant);
     font-weight: 600;
-    letter-spacing: 0.05em;
-  }
-
-  .location-badge {
-    background-color: var(--mat-sys-primary-container);
-    color: var(--mat-sys-on-primary-container);
-    padding: 0.35rem 1rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-align: right;
-    white-space: normal; // Allow text to wrap
-    word-break: break-word; // Break words if they are too long
-    line-height: 1.4;
-    height: auto; // Allow height to grow
+    color: #059669;
+    background: #ecfdf5;
+    padding: 4px 12px;
+    border-radius: 99px;
   }
 }
 
-.compact-actions {
-  padding: 0.75rem 1.5rem;
-  background-color: var(--mat-sys-surface-container-lowest);
+// Body Content
+.card-body {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.material-preview {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+
+  .icon-box {
+    width: 44px;
+    height: 44px;
+    background: var(--mat-sys-surface-container-high);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mat-sys-on-surface-variant);
+    mat-icon { font-size: 24px; width: 24px; height: 24px; }
+  }
+
+  .text-info {
+    flex: 1;
+    h3 { margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--mat-sys-on-surface); line-height: 1.3; }
+    p { margin: 4px 0 0; font-size: 0.85rem; color: var(--mat-sys-on-surface-variant); }
+  }
+}
+
+// Destination Target Area - VERY BOLD
+.target-location {
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+
+  .loc-label {
+    display: flex;
+    flex-direction: column;
+    .sub { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; opacity: 0.7; }
+    .main { font-size: 0.9rem; font-weight: 600; }
+  }
+
+  .loc-value {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+}
+
+// Actions
+.card-footer {
+  padding: 1rem 1.5rem;
+  background: var(--mat-sys-surface-container-low);
   border-top: 1px solid var(--mat-sys-outline-variant-low);
+  display: flex;
   gap: 0.75rem;
-  flex-wrap: wrap; // Allow buttons to wrap
-  
+  justify-content: flex-end;
+
   button {
-    ::ng-deep .mat-mdc-button-touch-target {
-      height: 40px;
+    height: 40px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    
+    &.primary-action {
+      padding: 0 1.5rem;
+      box-shadow: 0 4px 10px rgba(var(--mat-sys-primary-rgb), 0.2);
     }
   }
 }
 
 .empty-list-message {
   grid-column: 1 / -1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 300px;
-  text-align: center;
-  gap: 1rem;
-  padding: 2rem;
-  color: var(--mat-sys-on-surface-variant);
-  border: 2px dashed var(--mat-sys-outline-variant-low);
-  border-radius: 12px;
-
-  .mat-icon {
-    font-size: 4rem;
-    width: 4rem;
-    height: 4rem;
-    color: var(--mat-sys-outline);
-    opacity: 0.5;
-  }
-
-  h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--mat-sys-on-surface);
-  }
-  
-  p {
-    margin: 0;
-    font-size: 1rem;
-  }
 }
 
-@media (max-width: 768px) {
-    .report-container {
-      padding: 1rem;
-    }
-    
-    .card-content-wrapper {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 1.5rem;
-    }
-    
-    .location-section {
-      align-items: flex-start;
-      max-width: 100%;
-      padding-left: 2.25rem;
-      
-      .location-badge {
-        text-align: left;
-      }
-    }
+@media (max-width: 480px) {
+  .tasks-grid { grid-template-columns: 1fr; }
+  .target-location { flex-direction: column; align-items: flex-start; gap: 0.5rem; .loc-value { width: 100%; text-align: right; } }
 }

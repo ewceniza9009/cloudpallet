@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <mat-card class="create-order-card">
+  <mat-card class="main-content-card create-order-card">
     <mat-card-header (click)="isFormCollapsed.set(!isFormCollapsed())" class="collapsible-header">
       <mat-card-title>Create New Pick List</mat-card-title>
       <button mat-icon-button class="collapse-toggle-button" matTooltip="Toggle Form">
@@ -84,7 +84,7 @@
     } @else {
       <div class="pick-groups-grid">
         @for (group of pickListGroups(); track group.accountId) {
-          <mat-card class="pick-group-card">
+          <mat-card class="main-content-card pick-group-card">
             <mat-card-header>
               <div mat-card-avatar class="account-avatar">
                 <mat-icon>business</mat-icon>
@@ -140,9 +140,9 @@
             </mat-card-content>
           </mat-card>
         } @empty {
-          <mat-card class="empty-card">
+          <mat-card class="main-content-card empty-card">
             <mat-card-content>
-              <div class="empty-list-message">
+              <div class="empty-state empty-list-message">
                 <mat-icon>checklist</mat-icon>
                 <h3>No pending picks.</h3>
                 <p>Create a new pick list to get started.</p>

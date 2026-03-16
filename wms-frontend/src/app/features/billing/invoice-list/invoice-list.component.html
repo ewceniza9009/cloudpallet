@@ -1,4 +1,4 @@
-<div class="billing-container">
+<div class="report-container">
   <div class="header-section">
     <div>
       <h1 class="mat-headline-6">Run Billing Cycle</h1>
@@ -103,7 +103,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
         } @else {
-           <div class="empty-message">
+           <div class="empty-state empty-message">
               <mat-icon>receipt_long</mat-icon>
               <h3>No Invoices Found</h3>
               <p>Select an account to view its invoice history or generate a new one.</p>

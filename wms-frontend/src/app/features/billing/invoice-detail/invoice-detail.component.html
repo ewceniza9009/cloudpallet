@@ -3,7 +3,7 @@
   <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 </div>
 } @else if (invoice(); as inv) {
-<div class="invoice-container">
+<div class="report-container">
   <div class="detail-header">
     <div class="header-main">
       <a mat-stroked-button routerLink="/billing" class="back-button">
@@ -56,7 +56,7 @@
     </div>
   </div>
 
-  <mat-card class="summary-card">
+  <mat-card class="main-content-card summary-card">
     <mat-card-content>
       <div class="summary-grid">
         <div class="summary-item">
@@ -86,7 +86,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="line-items-card">
+  <mat-card class="main-content-card line-items-card">
     <mat-card-header>
       <mat-card-title>Invoice Line Items</mat-card-title>
       <mat-card-subtitle>Detailed breakdown of charges</mat-card-subtitle>
@@ -173,8 +173,8 @@
   </mat-card>
 </div>
 } @else {
-<div class="invoice-container">
-  <mat-card class="error-card">
+<div class="report-container">
+  <mat-card class="main-content-card error-card">
     <mat-card-content class="error-content">
       <mat-icon class="error-icon">error_outline</mat-icon>
       <div class="error-text">

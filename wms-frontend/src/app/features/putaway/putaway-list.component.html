@@ -1,57 +1,76 @@
 <div class="report-container">
   <div class="header-section">
-    <div>
-      <h1 class="mat-headline-6">Putaway Task List</h1>
-      <p class="mat-body-1">Pallets in the staging area ready for storage.</p>
+    <div class="header-content">
+      <h1>Putaway Control</h1>
+      <p class="subtitle">Directing inbound pallets to their optimal storage slots.</p>
     </div>
   </div>
 
   @if (isLoading()) {
-  <div class="spinner-container-page">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    <p>Loading Tasks...</p>
+  <div class="spinner-container">
+    <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+    <p>Loading staging area...</p>
   </div>
   } @else {
   <div class="tasks-grid">
     @for (task of tasks(); track task.palletId) {
-    <mat-card class="task-card">
-      <div class="card-content-wrapper">
-        <div class="info-section">
-          <div class="barcode-row">
-            <mat-icon class="qr-icon">qr_code</mat-icon>
-            <span class="barcode">{{task.palletBarcode}}</span>
-          </div>
-          <div class="contents-row">
-            {{task.contents}}
-          </div>
+    <div class="task-card">
+      <!-- 1. Header: Primary Identification -->
+      <div class="card-header">
+        <div class="id-badge">
+          <span class="label">Pallet Barcode</span>
+          <span class="value">{{task.palletBarcode}}</span>
         </div>
-
-        <div class="location-section">
-          <span class="label">Suggested To</span>
-          <span class="location-badge" [matTooltip]="task.suggestedLocation">{{task.suggestedLocation}}</span>
+        <div class="status-indicator">
+          <mat-icon style="font-size: 14px; width: 14px; height: 14px;">pending_actions</mat-icon>
+          <span>Ready to Store</span>
         </div>
       </div>
 
-      <mat-card-actions align="end" class="compact-actions">
-        <button mat-stroked-button (click)="onBlastFreeze(task)">
+      <!-- 2. Body: Material Context & Target -->
+      <div class="card-body">
+        <div class="material-preview">
+          <div class="icon-box">
+            <mat-icon>inventory_2</mat-icon>
+          </div>
+          <div class="text-info">
+            <h3>{{task.contents}}</h3>
+            <p>Weight: 1,240kg • Received today</p>
+          </div>
+        </div>
+
+        <div class="target-location">
+          <div class="loc-label">
+            <span class="sub">Suggested Location</span>
+            <span class="main">Optimized Slot</span>
+          </div>
+          <div class="loc-value" [matTooltip]="task.suggestedLocation">
+            {{task.suggestedLocation}}
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Footer: Control Actions -->
+      <div class="card-footer">
+        <button mat-stroked-button (click)="onBlastFreeze(task)" matTooltip="Move to Blast Freezer">
           <mat-icon>ac_unit</mat-icon>
-          <span>Blast Freeze</span>
         </button>
-        <button mat-stroked-button (click)="onManualPutaway(task)">
-          <mat-icon>rule_folder</mat-icon>
-          <span>Manual</span>
+        <button mat-stroked-button (click)="onManualPutaway(task)" matTooltip="Override Location">
+           <mat-icon>edit_location_alt</mat-icon>
         </button>
-        <button mat-flat-button color="primary" (click)="onPutaway(task)">
-          <mat-icon>move_to_inbox</mat-icon>
-          <span>Put Away</span>
+        <button mat-flat-button color="primary" (click)="onPutaway(task)" class="primary-action">
+          <mat-icon>input</mat-icon>
+          <span>Confirm Putaway</span>
         </button>
-      </mat-card-actions>
-    </mat-card>
+      </div>
+    </div>
     } @empty {
-    <div class="empty-list-message">
-      <mat-icon>check_circle_outline</mat-icon>
-      <h2>All Caught Up!</h2>
-      <p>There are no pending putaway tasks.</p>
+    <div class="empty-state empty-list-message">
+      <div class="empty-icon">
+        <mat-icon>task_alt</mat-icon>
+      </div>
+      <h3>Staging Area Empty</h3>
+      <p>All inbound pallets have been successfully processed and stored.</p>
     </div>
     }
   </div>
