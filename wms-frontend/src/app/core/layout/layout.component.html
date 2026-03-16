@@ -7,98 +7,150 @@
          <div class="brand-subtext">WMS Cold Chain</div>
       </div>
    </div>
-   <mat-nav-list>
-      @if (authService.hasRole('Operator')) {
-      <div class="menu-heading clickable-heading" (click)="toggleOperationsMenu()">
-         <span>Operations</span>
-         @if (isExpanded()) {
-         <mat-icon class="heading-icon">
-            {{ isOperationsExpanded() ? 'expand_less' : 'expand_more' }}
-         </mat-icon>
-         }
+    <mat-nav-list>
+      <!-- Dashboards Section -->
+      <div class="menu-heading clickable-heading" (click)="toggleDashboardsMenu()">
+        <span>Intelligence</span>
+        @if (isExpanded()) {
+        <mat-icon class="heading-icon">
+          {{ isDashboardsExpanded() ? 'expand_less' : 'expand_more' }}
+        </mat-icon>
+        }
       </div>
-      @if (isOperationsExpanded() || !isExpanded()) {
-      <a mat-list-item routerLink="/yard" routerLinkActive="active-link" matTooltip="Yard Management" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>local_parking</mat-icon>
-         <span mat-list-item-title>Yard Management</span>
-      </a>
-      <a mat-list-item routerLink="/docks" routerLinkActive="active-link" matTooltip="Dock Scheduler" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>schedule</mat-icon>
-         <span mat-list-item-title>Dock Scheduler</span>
-      </a>
-      <a mat-list-item routerLink="/dock-monitoring" routerLinkActive="active-link" matTooltip="Dock Monitoring" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>view_kanban</mat-icon>
-         <span mat-list-item-title>Dock Monitoring</span>
-      </a>
-      <a mat-list-item routerLink="/receiving" routerLinkActive="active-link" matTooltip="Goods Receiving" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>inventory_2</mat-icon>
-         <span mat-list-item-title>Goods Receiving</span>
-      </a>
-      <a mat-list-item routerLink="/putaway" routerLinkActive="active-link" matTooltip="Putaway Tasks" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>move_to_inbox</mat-icon>
-         <span mat-list-item-title>Putaway Tasks</span>
-      </a>
-      <a mat-list-item routerLink="/inventory-manager" routerLinkActive="active-link" matTooltip="Inventory Manager" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>dynamic_feed</mat-icon>
-         <span mat-list-item-title>Inventory Manager</span>
-      </a>
-      <a mat-list-item routerLink="/kitting" routerLinkActive="active-link" matTooltip="Kitting" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>all_inbox</mat-icon>
-         <span mat-list-item-title>Kitting</span>
-      </a>
-      <a mat-list-item routerLink="/repacking" routerLinkActive="active-link" matTooltip="Repacking" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>transform</mat-icon>
-         <span mat-list-item-title>Repacking</span>
-      </a>
-      <a mat-list-item routerLink="/cycle-counting" routerLinkActive="active-link" matTooltip="Cycle Counting" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>checklist_rtl</mat-icon>
-         <span mat-list-item-title>Cycle Counting</span>
-      </a>
-      <a mat-list-item routerLink="/picking" routerLinkActive="active-link" matTooltip="Order Picking" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>checklist</mat-icon>
-         <span mat-list-item-title>Order Picking</span>
-      </a>
-      <a mat-list-item routerLink="/shipping" routerLinkActive="active-link" matTooltip="Shipping" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>local_shipping</mat-icon>
-         <span mat-list-item-title>Shipping</span>
-      </a>
+      @if (isDashboardsExpanded() || !isExpanded()) {
+        <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link" matTooltip="Energy" [matTooltipDisabled]="isExpanded()">
+          <mat-icon matListItemIcon>thermostat</mat-icon>
+          <span mat-list-item-title>Energy Analytics</span>
+        </a>
+        <a mat-list-item routerLink="/inventory-overview" routerLinkActive="active-link" matTooltip="Inventory" [matTooltipDisabled]="isExpanded()">
+          <mat-icon matListItemIcon>analytics</mat-icon>
+          <span mat-list-item-title>Inventory Overview</span>
+        </a>
+        <a mat-list-item routerLink="/dock-monitoring" routerLinkActive="active-link" matTooltip="Docks" [matTooltipDisabled]="isExpanded()">
+          <mat-icon matListItemIcon>monitor_heart</mat-icon>
+          <span mat-list-item-title>Live Dock Status</span>
+        </a>
       }
+
+      <!-- Operations Section -->
+      @if (authService.hasRole('Operator')) {
+        <div class="menu-heading clickable-heading" (click)="toggleOperationsMenu()">
+          <span>Warehouse Ops</span>
+          @if (isExpanded()) {
+          <mat-icon class="heading-icon">
+            {{ isOperationsExpanded() ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
+          }
+        </div>
+        @if (isOperationsExpanded() || !isExpanded()) {
+          <a mat-list-item routerLink="/receiving" routerLinkActive="active-link" matTooltip="Receiving" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>call_received</mat-icon>
+            <span mat-list-item-title>Goods Receiving</span>
+          </a>
+          <a mat-list-item routerLink="/putaway" routerLinkActive="active-link" matTooltip="Putaway" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>drive_file_move</mat-icon>
+            <span mat-list-item-title>Putaway Tasks</span>
+          </a>
+          <a mat-list-item routerLink="/inventory-manager" routerLinkActive="active-link" matTooltip="Inventory" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>inventory_2</mat-icon>
+            <span mat-list-item-title>Inventory Manager</span>
+          </a>
+          <a mat-list-item routerLink="/cycle-counting" routerLinkActive="active-link" matTooltip="Counting" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>fact_check</mat-icon>
+            <span mat-list-item-title>Cycle Counting</span>
+          </a>
+          <a mat-list-item routerLink="/shipping" routerLinkActive="active-link" matTooltip="Shipping" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>local_shipping</mat-icon>
+            <span mat-list-item-title>Shipping</span>
+          </a>
+        }
       }
+
+      <!-- Master Data Section -->
       @if (authService.hasRole('Admin') || authService.hasRole('Finance')) {
-      <div class="menu-heading">Finance</div>
-      <a mat-list-item routerLink="/billing" routerLinkActive="active-link" matTooltip="Billing & Invoicing"
-         [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>receipt_long</mat-icon>
-         <span mat-list-item-title>Billing & Invoicing</span>
-      </a>
+        <div class="menu-heading clickable-heading" (click)="toggleSetupMenu()">
+          <span>Master Files</span>
+          @if (isExpanded()) {
+          <mat-icon class="heading-icon">
+            {{ isSetupExpanded() ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
+          }
+        </div>
+        @if (isSetupExpanded() || !isExpanded()) {
+          <a mat-list-item routerLink="/admin/materials" routerLinkActive="active-link" matTooltip="Materials" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>category</mat-icon>
+            <span mat-list-item-title>Materials</span>
+          </a>
+          <a mat-list-item routerLink="/setup/accounts" routerLinkActive="active-link" matTooltip="Partners" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>handshake</mat-icon>
+            <span mat-list-item-title>Customers</span>
+          </a>
+          <a mat-list-item routerLink="/setup/warehouses" routerLinkActive="active-link" matTooltip="Facility" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>domain</mat-icon>
+            <span mat-list-item-title>Warehouse Layout</span>
+          </a>
+          <a mat-list-item routerLink="/setup/pallet-types" routerLinkActive="active-link" matTooltip="Pallets" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>pallet</mat-icon>
+            <span mat-list-item-title>Pallet Types</span>
+          </a>
+          <a mat-list-item routerLink="/admin/company" routerLinkActive="active-link" matTooltip="Company" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>apartment</mat-icon>
+            <span mat-list-item-title>Company Profile</span>
+          </a>
+        }
+
+        <div class="menu-heading clickable-heading" (click)="toggleAdminMenu()">
+          <span>Administration</span>
+          @if (isExpanded()) {
+          <mat-icon class="heading-icon">
+            {{ isAdminExpanded() ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
+          }
+        </div>
+        @if (isAdminExpanded() || !isExpanded()) {
+          <a mat-list-item routerLink="/admin/users" routerLinkActive="active-link" matTooltip="Access" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
+            <span mat-list-item-title>User & Roles</span>
+          </a>
+          <a mat-list-item routerLink="/billing" routerLinkActive="active-link" matTooltip="Billing" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>payments</mat-icon>
+            <span mat-list-item-title>Billing & Invoicing</span>
+          </a>
+          <a mat-list-item routerLink="/vas-transactions" routerLinkActive="active-link" matTooltip="VAS" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>edit_note</mat-icon>
+            <span mat-list-item-title>VAS Transactions</span>
+          </a>
+        }
       }
-      <div class="menu-heading">Reports & Auditing</div>
-      <a mat-list-item routerLink="/reports/inventory-ledger" routerLinkActive="active-link"
-         matTooltip="Inventory Ledger" [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>summarize</mat-icon>
-         <span mat-list-item-title>Inventory Ledger</span>
-      </a>
-      <a mat-list-item routerLink="/reports/stock-on-hand" routerLinkActive="active-link"
-       matTooltip="Stock on Hand" [matTooltipDisabled]="isExpanded()">
-       <mat-icon matListItemIcon>view_list</mat-icon>
-       <span mat-list-item-title>Stock on Hand</span>
-     </a>
-      <a mat-list-item routerLink="/reports/custom" routerLinkActive="active-link"
-        matTooltip="Custom Report" [matTooltipDisabled]="isExpanded()">
-        <mat-icon matListItemIcon>picture_as_pdf</mat-icon>
-        <span mat-list-item-title>Custom Report</span>
-      </a>
-      <a mat-list-item routerLink="/reports/cycle-count-variance" routerLinkActive="active-link"
-        matTooltip="Cycle Count Variance" [matTooltipDisabled]="isExpanded()">
-        <mat-icon matListItemIcon>difference</mat-icon>
-        <span mat-list-item-title>Cycle Count Variance</span>
-      </a>
-      <a mat-list-item routerLink="/tracer" routerLinkActive="active-link" matTooltip="Pallet Tracer"
-         [matTooltipDisabled]="isExpanded()">
-         <mat-icon matListItemIcon>timeline</mat-icon>
-         <span mat-list-item-title>Pallet Tracer</span>
-      </a>
-   </mat-nav-list>
+
+      <!-- Reports Section -->
+      <div class="menu-heading clickable-heading" (click)="toggleReportsMenu()">
+        <span>Auditing</span>
+        @if (isExpanded()) {
+        <mat-icon class="heading-icon">
+          {{ isReportsExpanded() ? 'expand_less' : 'expand_more' }}
+        </mat-icon>
+        }
+      </div>
+      @if (isReportsExpanded() || !isExpanded()) {
+        <a mat-list-item routerLink="/reports/inventory-ledger" routerLinkActive="active-link" matTooltip="Ledger" [matTooltipDisabled]="isExpanded()">
+          <mat-icon matListItemIcon>chrome_reader_mode</mat-icon>
+          <span mat-list-item-title>Inventory Ledger</span>
+        </a>
+        <a mat-list-item routerLink="/reports/stock-on-hand" routerLinkActive="active-link" matTooltip="Stock" [matTooltipDisabled]="isExpanded()">
+          <mat-icon matListItemIcon>view_in_ar</mat-icon>
+          <span mat-list-item-title>Stock on Hand</span>
+        </a>
+        <a mat-list-item routerLink="/reports/activity-log" routerLinkActive="active-link" matTooltip="Logs" [matTooltipDisabled]="isExpanded()">
+          <mat-icon matListItemIcon>history</mat-icon>
+          <span mat-list-item-title>Activity Logs</span>
+        </a>
+        <a mat-list-item routerLink="/tracer" routerLinkActive="active-link" matTooltip="Tracer" [matTooltipDisabled]="isExpanded()">
+          <mat-icon matListItemIcon>gps_fixed</mat-icon>
+          <span mat-list-item-title>Pallet Tracer</span>
+        </a>
+      }
+    </mat-nav-list>
    </mat-sidenav>
    <mat-sidenav-content>
       <mat-toolbar class="app-header">
@@ -106,106 +158,11 @@
             <button mat-icon-button (click)="toggleSidenav()" class="menu-toggle-button">
                <mat-icon>{{ isExpanded() ? 'menu_open' : 'menu' }}</mat-icon>
             </button>
-            <div class="header-nav-buttons">
-               @if (authService.hasRole('Admin') || authService.hasRole('Finance')) {
-               <button mat-button routerLink="/admin/company" class="header-button">
-                  <mat-icon>apartment</mat-icon>
-                  <span>Company</span>
-               </button>
-               <button mat-button [matMenuTriggerFor]="setupMenu" class="header-button">
-                  <mat-icon>settings</mat-icon>
-                  <span>Setup</span>
-                  <mat-icon class="expand-icon">expand_more</mat-icon>
-               </button>
-               <mat-menu #setupMenu="matMenu">
-                  <div class="menu-heading" style="margin-left: 10px; color: #006a6a;">Warehouse & Layout</div>
-                  <a mat-menu-item routerLink="/setup/warehouses">
-                     <mat-icon>location_city</mat-icon>
-                     <span>Warehouse</span>
-                  </a>
-                  <a mat-menu-item routerLink="/setup/rooms">
-                     <mat-icon>thermostat</mat-icon>
-                     <span>Rooms & Zones</span>
-                  </a>
-                  <a mat-menu-item routerLink="/setup/dock-yard">
-                    <mat-icon>dock</mat-icon>
-                    <span>Docks & Yards</span>
-                  </a>
-                  <div class="menu-heading" style="margin-left: 10px; color: #006a6a;">Logistics & Partners</div>
-                  <a mat-menu-item routerLink="/setup/carriers">
-                     <mat-icon>group</mat-icon>
-                     <span>Carriers</span>
-                  </a>
-                  <a mat-menu-item routerLink="/setup/suppliers">
-                     <mat-icon>inventory</mat-icon>
-                     <span>Suppliers</span>
-                  </a>
-                  <a mat-menu-item routerLink="/setup/accounts">
-                     <mat-icon>account_balance</mat-icon>
-                     <span>Customers</span>
-                  </a>
-                  <div class="menu-heading" style="margin-left: 10px; color: #006a6a;">Materials & UOMs</div>
-                  <a mat-menu-item routerLink="/admin/materials">
-                     <mat-icon>category</mat-icon>
-                     <span>Material</span>
-                  </a>
-                  <a mat-menu-item routerLink="/setup/units-of-measure">
-                     <mat-icon>straighten</mat-icon>
-                     <span>Units of Measure</span>
-                  </a>
-                  <a mat-menu-item routerLink="/setup/pallet-types">
-                     <mat-icon>pallet</mat-icon>
-                     <span>Pallet Types</span>
-                  </a>
-                  <a mat-menu-item routerLink="/admin/rates">
-                     <mat-icon>price_change</mat-icon>
-                     <span>Rate</span>
-                  </a>
-               </mat-menu>
-               }
-               @if (authService.hasRole('Admin') || authService.hasRole('Finance')) {
-               <button mat-button [matMenuTriggerFor]="adminMenu" class="header-button">
-                  <mat-icon>admin_panel_settings</mat-icon>
-                  <span>Administration</span>
-                  <mat-icon class="expand-icon">expand_more</mat-icon>
-               </button>
-               <mat-menu #adminMenu="matMenu">
-                  @if (authService.hasRole('Admin')) {
-                  <a mat-menu-item routerLink="/admin/users">
-                     <mat-icon>manage_accounts</mat-icon>
-                     <span>User & Role</span>
-                  </a>
-                  <a mat-menu-item routerLink="/vas-transactions">
-                     <mat-icon>history_edu</mat-icon>
-                     <span>VAS Transactions</span>
-                  </a>
-                  }
-                  <a mat-menu-item routerLink="/reports/activity-log">
-                     <mat-icon>history</mat-icon>
-                     <span>Full Activity Log</span>
-                  </a>
-               </mat-menu>
-               }
-               <button mat-button [matMenuTriggerFor]="dashboardsMenu" class="header-button">
-                  <mat-icon>dashboard</mat-icon>
-                  <span>Dashboards</span>
-                  <mat-icon class="expand-icon">expand_more</mat-icon>
-               </button>
-               <mat-menu #dashboardsMenu="matMenu">
-                  <a mat-menu-item routerLink="/dashboard">
-                     <mat-icon>thermostat</mat-icon>
-                     <span>Energy Dashboard</span>
-                  </a>
-                  <a mat-menu-item routerLink="/inventory-overview">
-                     <mat-icon>table_chart</mat-icon>
-                     <span>Inventory Overview</span>
-                  </a>
-               </mat-menu>
-            </div>
+            <h2 style="margin: 0; font-size: 1rem; font-weight: 600; color: #1e293b; opacity: 0.8;">Unified Management Portal</h2>
          </div>
          <div class="header-section">
             <button mat-button [matMenuTriggerFor]="warehouseMenu" class="warehouse-menu-button">
-               <mat-icon>business</mat-icon>
+               <mat-icon>location_on</mat-icon>
                <span class="warehouse-text">
                @if (warehouseState.selectedWarehouseId(); as selectedId) {
                {{ getWarehouseName(selectedId) }}

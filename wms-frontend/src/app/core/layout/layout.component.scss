@@ -1,84 +1,69 @@
-/* src/app/core/layout/layout.component.scss */
+// ==========================================================================
+// # LAYOUT VARIABLES - ELITE REDESIGN
+// ==========================================================================
+$sidebar-width: 260px;
+$sidebar-collapsed-width: 68px;
+$header-height: 64px;
+$primary-color: #0d9488; // Professional Teal
+$sidebar-bg: #0f172a; // Deep Obsidian
+$sidebar-item-hover: rgba(255, 255, 255, 0.05);
+$sidebar-item-active: rgba(13, 148, 136, 0.15);
+$text-dim: #94a3b8;
+$text-bright: #f8fafc;
+$transition-speed: 0.25s;
 
-// ==========================================================================
-// # LAYOUT VARIABLES
-// ==========================================================================
-$sidebar-width: 280px;
-$sidebar-collapsed-width: 80px;
-$header-height: 70px;
-$content-padding: 24px;
-$primary-color: #0f766e; // Teal-700
-$primary-light: #ccfbf1; // Teal-100
-$text-primary: #1e293b; // Slate-800
-$text-secondary: #64748b; // Slate-500
-$bg-hover: #f1f5f9; // Slate-100
-$transition-speed: 0.3s;
-
-// ==========================================================================
-// # BASE & CONTAINER STYLES
-// ==========================================================================
 :host {
   display: block;
   height: 100vh;
-  --mat-sidenav-container-background-color: #f8fafc;
+  --mat-sidenav-container-background-color: #f1f5f9;
 }
 
 .sidenav-container {
   height: 100vh;
-  background-color: #f8fafc;
+  background-color: #f1f5f9;
 }
 
 // ==========================================================================
-// # SIDE NAVIGATION - PREMIUM DESIGN
+// # SIDE NAVIGATION - OBSIDIAN THEME
 // ==========================================================================
 .sidenav {
   width: $sidebar-width;
-  background-color: #ffffff;
-  border-right: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.02);
+  background: $sidebar-bg;
+  border-right: none;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  transition: width $transition-speed cubic-bezier(0.2, 0, 0, 1);
+  transition: width $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
 
-  // --- Collapsed State ---
   &.collapsed {
     width: $sidebar-collapsed-width;
 
-    .brand-text,
-    .menu-heading,
-    .mat-list-item-title,
-    .brand-subtext {
-      opacity: 0;
-      visibility: hidden;
-      width: 0;
-      transition: opacity 0.1s ease;
+    .brand-text, 
+    .menu-heading, 
+    .brand-subtext, 
+    .heading-icon,
+    ::ng-deep .mdc-list-item__primary-text,
+    ::ng-deep .mat-mdc-list-item-title,
+    ::ng-deep .mdc-list-item__content,
+    ::ng-deep span {
+      display: none !important;
     }
 
     .sidebar-header {
       padding: 0;
       justify-content: center;
-
-      .brand-icon {
-        margin: 0;
-        width: 32px;
-        height: 32px;
-      }
+      .brand-icon { margin: 0; width: 32px; height: 32px; }
     }
 
     mat-nav-list {
-      padding: 16px 12px;
-
+      padding: 12px 10px;
       .mat-mdc-list-item {
-        padding: 0;
         justify-content: center;
         width: 48px;
         margin: 4px auto;
-
-        .mat-icon {
-          margin: 0;
-          font-size: 24px;
-        }
+        padding-left: 0 !important;
+        .mat-icon { margin: 0; }
       }
     }
   }
@@ -91,41 +76,35 @@ $transition-speed: 0.3s;
   height: $header-height;
   display: flex;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 20px;
   flex-shrink: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
   .brand-icon {
-    width: 36px;
-    height: 36px;
-    margin-right: 16px;
-    filter: drop-shadow(0 4px 6px rgba(15, 118, 110, 0.2));
-    transition: all $transition-speed ease;
+    width: 32px;
+    height: 32px;
+    margin-right: 12px;
+    filter: drop-shadow(0 0 8px rgba(13, 148, 136, 0.4));
   }
 
   .brand-text {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     white-space: nowrap;
-    overflow: hidden;
-    transition: opacity $transition-speed ease;
-
+    
     .app-brand {
-      font-family: 'Inter', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: $text-primary;
-      letter-spacing: -0.02em;
-    }
-
-    .brand-subtext {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: $text-secondary;
-      letter-spacing: 0.02em;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: $text-bright;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
+    }
+    .brand-subtext {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: $primary-color;
+      letter-spacing: 0.05em;
     }
   }
 }
@@ -134,298 +113,156 @@ $transition-speed: 0.3s;
 // # NAVIGATION LIST
 // ==========================================================================
 mat-nav-list {
-  padding: 24px 16px;
+  padding: 16px 12px;
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
-
-  // Custom Scrollbar
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #e2e8f0;
-    border-radius: 4px;
-
-    &:hover {
-      background: #cbd5e1;
-    }
-  }
+  
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
 
   .menu-heading {
-    color: #94a3b8;
-    font-size: 0.7rem;
-    font-weight: 700;
+    color: #cbd5e1; // Much brighter slate for heading visibility
+    font-size: 0.65rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     padding: 24px 12px 8px;
-    margin-top: 8px;
-
-    &:first-child {
-      margin-top: 0;
-    }
-
+    
     &.clickable-heading {
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: color 0.2s ease;
-
-      &:hover {
-        color: $primary-color;
-      }
-
-      .heading-icon {
-        font-size: 18px;
-        width: 18px;
-        height: 18px;
-      }
+      transition: color 0.2s;
+      &:hover { color: $text-bright; }
+      .heading-icon { font-size: 16px; width: 16px; height: 16px; opacity: 0.8; }
     }
   }
 
-  // --- List Item Styling ---
   .mat-mdc-list-item {
-    height: 48px;
-    border-radius: 12px;
+    height: 42px;
+    border-radius: 8px;
     margin-bottom: 4px;
-    color: $text-secondary;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
+    transition: all 0.2s;
+    overflow: visible;
 
-    // Icon Styling
-    .mat-icon {
-      color: #94a3b8;
-      margin-right: 16px;
-      font-size: 22px;
-      transition: all 0.2s ease;
+    // NUCLEAR VISIBILITY FIX: Target every possible text container
+    ::ng-deep {
+      .mdc-list-item__primary-text,
+      .mat-mdc-list-item-title,
+      .mdc-list-item__content,
+      span {
+        color: #ffffff !important; // Absolute white for guaranteed visibility
+        opacity: 1 !important;
+        visibility: visible !important;
+        font-weight: 500 !important;
+        font-size: 0.9rem !important;
+      }
+
+      .mat-mdc-list-item-icon, 
+      .mat-icon {
+        color: #94a3b8 !important;
+        opacity: 1 !important;
+      }
     }
 
-    // Text Styling
-    .mat-list-item-title {
-      font-weight: 500;
-      font-size: 0.95rem;
-      letter-spacing: -0.01em;
-    }
-
-    // Hover State
     &:hover {
-      background-color: $bg-hover;
-      color: $text-primary;
-      transform: translateX(4px);
-
-      .mat-icon {
-        color: $primary-color;
-        transform: scale(1.1);
-      }
+      background-color: rgba(255, 255, 255, 0.08);
+      ::ng-deep span { color: #5eead4 !important; }
     }
 
-    // Active State
     &.active-link {
-      background-color: $primary-light;
-      color: $primary-color;
-      font-weight: 600;
-
-      .mat-icon {
-        color: $primary-color;
+      background-color: rgba(13, 148, 136, 0.2);
+      
+      ::ng-deep {
+         span, .mat-mdc-list-item-title, .mdc-list-item__primary-text {
+          color: #5eead4 !important; // Radiant teal
+          font-weight: 700 !important;
+        }
+        .mat-icon { color: #5eead4 !important; }
       }
-
-      // Active Indicator Bar
-      &::before {
+      
+      &::after {
         content: '';
         position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        height: 20px;
+        right: 0;
+        top: 20%;
+        height: 60%;
         width: 3px;
-        background-color: $primary-color;
-        border-radius: 0 4px 4px 0;
+        background: #5eead4;
+        border-radius: 4px 0 0 4px;
+        box-shadow: -2px 0 8px rgba(94, 234, 212, 0.4);
       }
     }
   }
 }
 
 // ==========================================================================
-// # TOP HEADER BAR
+// # TOP HEADER BAR - GLASSMORPHISM
 // ==========================================================================
 .app-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   height: $header-height;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
+  padding: 0 24px;
 
   .header-section {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
   }
 
-  // Menu Toggle
   .menu-toggle-button {
-    color: $text-secondary;
-
-    &:hover {
-      color: $text-primary;
-      background: rgba(0, 0, 0, 0.04);
-    }
+    color: #475569;
+    &:hover { background: rgba(0, 0, 0, 0.04); }
   }
 
-  // Header Buttons
-  .header-button {
-    color: $text-secondary;
-    font-weight: 500;
-    font-size: 0.9rem;
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-
-    .mat-icon {
-      font-size: 20px;
-      margin-right: 8px;
-      color: #94a3b8;
-    }
-
-    &:hover {
-      background-color: $bg-hover;
-      color: $text-primary;
-
-      .mat-icon {
-        color: $primary-color;
-      }
-    }
-  }
-
-  // Warehouse Selector
   .warehouse-menu-button {
-    background-color: #f8fafc;
+    background: #ffffff;
     border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 6px 16px;
-    height: 42px;
-    transition: all 0.2s ease;
-
-    .mat-icon:first-child {
-      color: $primary-color;
-    }
-
-    &:hover {
-      background-color: #ffffff;
-      border-color: $primary-color;
-      box-shadow: 0 2px 8px rgba(15, 118, 110, 0.08);
-    }
-  }
-
-  // User Profile
-  .user-profile-button {
-    border: 1px solid transparent;
-
-    &:hover {
-      background-color: $bg-hover;
-      border-color: #e2e8f0;
-    }
-  }
-}
-
-// ==========================================================================
-// # MAIN CONTENT
-// ==========================================================================
-.content {
-  padding: 12px 16px; 
-  min-height: calc(100vh - #{$header-height});
-  background-color: #f8fafc;
-}
-
-// ==========================================================================
-// # MENUS & DROPDOWNS
-// ==========================================================================
-.mat-mdc-menu-panel {
-  border-radius: 12px !important;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1) !important;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-::ng-deep .user-profile-menu {
-  min-width: 240px !important;
-
-  .user-info {
-    padding: 16px 20px;
-    background-color: #f8fafc;
-    border-bottom: 1px solid #e2e8f0;
-    margin-bottom: 8px;
-
-    .user-email {
-      font-weight: 600;
-      color: $text-primary;
-      font-size: 0.95rem;
-      margin-bottom: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .user-role {
-      font-size: 0.75rem;
-      color: $text-secondary;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-weight: 600;
-      background: rgba(15, 118, 110, 0.1);
-      color: $primary-color;
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-  }
-
-  button[mat-menu-item] {
-    margin: 0 8px 8px;
     border-radius: 8px;
-    width: calc(100% - 16px);
+    height: 38px;
+    padding: 0 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #475569;
+    transition: all 0.2s;
 
-    &:hover {
-      background-color: #fee2e2;
-      color: #b91c1c;
+    .mat-icon { font-size: 18px; width: 18px; height: 18px; color: $primary-color; margin-right: 8px; }
+    &:hover { border-color: $primary-color; background: #f0f9f9; }
+  }
 
-      mat-icon {
-        color: #b91c1c;
-      }
-    }
-
-    mat-icon {
-      color: $text-secondary;
-      margin-right: 12px;
-    }
+  .user-profile-button {
+    height: 38px;
+    border-radius: 8px;
+    color: #475569;
+    font-size: 0.85rem;
+    
+    .mat-icon { margin-right: 8px; font-size: 20px; color: #94a3b8; }
+    &:hover { background: #f1f5f9; }
   }
 }
 
+.content {
+  padding: 16px;
+  min-height: calc(100vh - #{$header-height});
+  background-color: #f1f5f9;
+}
+
 // ==========================================================================
-// # RESPONSIVE
+// # RESPONSIVE FIXES
 // ==========================================================================
 @media (max-width: 992px) {
   .app-header {
     padding: 0 16px;
-
-    .header-nav-buttons span {
-      display: none;
-    }
-  }
-
-  .content {
-    padding: 20px;
+    .warehouse-text { display: none; }
   }
 }
 

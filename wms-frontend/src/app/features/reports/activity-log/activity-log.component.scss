@@ -19,6 +19,21 @@
 
 // Layout logic is centralized in admin-layout.scss
 // Local overrides only for specific timeline styling
+.date-field {
+  flex: 1 1 350px !important;
+  max-width: 400px !important;
+
+  ::ng-deep {
+    .mat-mdc-date-range-input {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    .mat-mdc-form-field-infix {
+      width: auto !important;
+    }
+  }
+}
 
 .content-wrapper {
   display: flex;

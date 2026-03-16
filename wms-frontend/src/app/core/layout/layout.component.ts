@@ -46,8 +46,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
   warehouses = signal<WarehouseDto[]>([]);
   currentUser = this.authService.currentUser;
 
-
+  // Sidebar Section Expansion States
   isOperationsExpanded = signal(true);
+  isSetupExpanded = signal(false);
+  isAdminExpanded = signal(false);
+  isDashboardsExpanded = signal(false);
+  isReportsExpanded = signal(true);
 
   ngOnInit(): void {
     this.loadWarehouses();
@@ -87,6 +91,22 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   toggleOperationsMenu(): void {
     this.isOperationsExpanded.update(expanded => !expanded);
+  }
+
+  toggleSetupMenu(): void {
+    this.isSetupExpanded.update(expanded => !expanded);
+  }
+
+  toggleAdminMenu(): void {
+    this.isAdminExpanded.update(expanded => !expanded);
+  }
+
+  toggleDashboardsMenu(): void {
+    this.isDashboardsExpanded.update(expanded => !expanded);
+  }
+
+  toggleReportsMenu(): void {
+    this.isReportsExpanded.update(expanded => !expanded);
   }
 
   logout(): void {
