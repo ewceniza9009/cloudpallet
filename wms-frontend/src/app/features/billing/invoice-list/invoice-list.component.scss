@@ -5,22 +5,7 @@
   display: block;
 }
 
-.filter-grid {
-  // Overrides for specific field widths
-  .custom-field {
-    width: 300px;
-    margin-bottom: -1.25em; 
-
-    &.date-field {
-      width: 240px;
-    }
-  }
-}
-
 .filter-actions {
-  // Push actions down to align with inputs if needed
-  margin-bottom: -1.25em;
-
   button {
     height: 42px;
   }

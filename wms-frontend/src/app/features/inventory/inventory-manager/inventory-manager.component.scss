@@ -1,109 +1,16 @@
-// ---- File: wms-frontend/src/app/features/inventory/inventory-manager/inventory-manager.component.scss ----
-// Shared layout patterns are centralized in admin-layout.scss
+// Styles for Inventory Manager component
+// Layout patterns are now centralized in admin-layout.scss
 
 :host {
   display: block;
-  min-height: 100vh;
+  height: 100%;
 }
 
-// Custom Search Bar (Specific to Inventory Manager Command Center)
-.page-header {
-  margin-bottom: 2.5rem;
-
-  .header-title {
-    h1 { font-size: 1.75rem; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
-    p { color: var(--mat-sys-on-surface-variant); font-size: 1rem; margin: 0; }
-  }
-}
-
-.search-bar-wrapper {
-  flex: 1;
-  max-width: 500px;
-  background: white;
-  border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: 10px;
-  padding: 0.5rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
-
-  &:focus-within {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border-color: var(--mat-sys-primary);
-  }
-
-  .search-icon { color: var(--mat-sys-on-surface-variant); }
-
-  .custom-search-input {
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    color: var(--mat-sys-on-surface);
-    flex: 1;
-    background: transparent;
-  }
-
-  .search-actions {
-    border-left: 1px solid var(--mat-sys-outline-variant);
-    padding-left: 0.75rem;
-  }
-}
-
-.dashboard-grid {
+.context-actions {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-}
-
-// Pallet Context Card (Standardizing to shared .main-content-card guts if needed)
-.pallet-context-card {
-  padding: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-
-  .context-header {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-
-    .id-group {
-      .label { display: block; font-size: 0.75rem; text-transform: uppercase; color: var(--mat-sys-on-surface-variant); font-weight: 600; margin-bottom: 0.25rem; }
-      .value { font-size: 1.5rem; font-weight: 700; color: var(--mat-sys-on-surface); font-family: 'Roboto Mono', monospace; }
-    }
-
-    .location-badge {
-      background: var(--mat-sys-surface-container-low);
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      border: 1px solid var(--mat-sys-outline-variant);
-    }
-  }
-
-  .context-actions {
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-  }
-}
-
-// Contents List Header
-.inventory-list-section .section-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  h3 { font-size: 1.1rem; font-weight: 600; margin: 0; }
-  .badge { background: var(--mat-sys-outline-variant); color: var(--mat-sys-on-surface-variant); font-size: 0.75rem; padding: 2px 8px; border-radius: 99px; }
+  gap: 0.75rem;
+  padding: 1.25rem;
 }
 
 .inventory-cards {
@@ -113,40 +20,76 @@
 }
 
 .inventory-item-card {
-  background: white;
   border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
-  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  background: var(--mat-sys-surface);
+  transition: transform 0.2s;
 
-  &:hover { border-color: var(--mat-sys-primary); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
-  &.quarantined { border-left: 4px solid #f59e0b; }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: var(--mat-sys-primary);
+  }
+
+  &.quarantined {
+    border-left: 4px solid var(--mat-sys-error);
+  }
 
   .card-main {
-    padding: 1.25rem;
+    padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    .item-meta { display: flex; flex-direction: column; gap: 0.25rem; .material-name { font-weight: 600; } }
-    .item-qty { text-align: right; .qty-val { display: block; font-size: 1.25rem; font-weight: 700; } }
+
+    .item-meta {
+      display: flex;
+      flex-direction: column;
+      .material-name { font-weight: 600; font-size: 0.95rem; line-height: 1.2; margin-bottom: 2px; }
+      .lpn { font-family: 'Roboto Mono', monospace; font-size: 0.75rem; color: var(--mat-sys-on-surface-variant); }
+    }
+
+    .item-qty {
+      text-align: right;
+      .qty-val { display: block; font-size: 1.25rem; font-weight: 700; color: var(--mat-sys-primary); }
+      .qty-unit { font-size: 0.7rem; text-transform: uppercase; color: var(--mat-sys-on-surface-variant); }
+    }
   }
 
   .card-footer {
+    padding: 0.5rem 1rem;
     background: var(--mat-sys-surface-container-low);
-    padding: 0.75rem 1.25rem;
-    border-top: 1px solid var(--mat-sys-outline-variant);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-top: 1px solid var(--mat-sys-outline-variant);
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      .dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        &.active { background: #4caf50; }
+        &.warn { background: #f44336; }
+      }
+    }
   }
 }
 
-
-
-@media (max-width: 768px) {
-  .pallet-context-card {
+.empty-state {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    .context-actions { width: 100%; justify-content: stretch; button { flex: 1; } }
-  }
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    color: var(--mat-sys-on-surface-variant);
+    mat-icon { font-size: 4rem; width: 4rem; height: 4rem; margin-bottom: 1rem; opacity: 0.3; }
+    h3 { margin: 0; font-size: 1.25rem; font-weight: 600; }
+    p { margin: 0.5rem 0 0; font-size: 0.9rem; }
 }

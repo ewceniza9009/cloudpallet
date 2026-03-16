@@ -2,70 +2,25 @@
   display: block;
 }
 
-.management-container {
-  padding: 1.5rem 2.5rem;
-  max-width: 1600px;
-  margin: 0 auto;
-  display: grid; // Match Receiving
-  gap: 2rem;
-}
-
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
-
-  h1 { margin: 0; font-weight: 600; font-size: 1.75rem; }
-  p { color: var(--mat-sys-on-surface-variant); margin-top: 4px; }
-}
-
+// Local overrides for specific alignment if needed
 .filter-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  align-items: start; // Align to top to handle potential height diffs
-
-  .custom-field {
-    width: 100%; // Fill the grid cell
-    margin-bottom: 0; // Remove negative margin hack
-    
-    &.date-field {
-      width: 100%;
-    }
-  }
-}
-
-.filter-actions {
-  grid-column: 4; // Force button to the last column
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: 42px; // Match input height
-  margin-top: 4px; // Slight adjustment for visual alignment with inputs
-  
-  button {
-    width: auto; // Fix: Don't stretch full width
-    min-width: 160px; // Ensure decent click area
-    height: 100%;
-  }
+  // Let admin-layout.scss handle the flex row
 }
 
 .detail-card {
   border: 1px solid var(--mat-sys-outline-variant);
   box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -2px rgba(0,0,0,.05);
   border-radius: 8px;
-  padding: 0;
   overflow: hidden;
   background: var(--mat-sys-surface);
+  margin-top: 1rem;
 }
 
 // Preview Specific Styles
 .preview-content {
   padding: 0;
-  height: 800px; // Fixed height for preview
-  background-color: #525659; // PDF viewer background color
+  height: 800px;
+  background-color: #525659;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,92 +52,4 @@
   }
 }
 
-// ==========================================================================
-// EXACT COPY FROM RECEIVING/KITTING - DO NOT MODIFY
-// ==========================================================================
-::ng-deep {
-  .custom-field {
-    width: 100%; // Reset to 100% so it fills the container width defined above
-    
-    // 1. Reset the wrapper height and padding
-    .mat-mdc-text-field-wrapper {
-      height: 42px !important; // Fixed sleek height
-      padding: 0 12px !important;
-      background-color: white !important;
-    }
-
-    // 2. Center content vertically
-    .mat-mdc-form-field-flex {
-      height: 100% !important;
-      align-items: center !important;
-      padding: 0 !important;
-    }
-
-    // 3. Remove default infix padding/spacing
-    .mat-mdc-form-field-infix {
-      padding: 0 !important;
-      min-height: unset !important;
-      border-top: 0 !important;
-      width: auto !important; // Allow flex to handle width
-    }
-
-    // 4. Style the input element
-    .mat-mdc-input-element {
-      padding: 0 !important;
-      margin: 0 !important;
-      top: 0 !important;
-      position: relative !important;
-      font-size: 0.9rem !important;
-      line-height: 42px !important; // Match wrapper height for vertical centering
-      height: 100% !important;
-    }
-
-    // 5. Style the icon prefix
-    .mat-mdc-form-field-icon-prefix {
-      padding: 0 8px 0 0 !important;
-      display: flex !important;
-      align-items: center !important;
-      height: 100% !important;
-      
-      .mat-icon { 
-        font-size: 18px; 
-        width: 18px; 
-        height: 18px; 
-      }
-    }
-
-    //  Style the icon suffix
-    .mat-mdc-form-field-icon-suffix {
-      padding: 0 0 0 8px !important;
-      display: flex !important;
-      align-items: center !important;
-      height: 100% !important;
-      
-      .mat-icon { 
-        font-size: 18px; 
-        width: 18px; 
-        height: 18px; 
-      }
-      
-      // Ensure datepicker toggle button is clickable and visible
-      .mat-datepicker-toggle-default-icon {
-        width: 18px;
-        height: 18px;
-      }
-      button.mat-icon-button {
-        width: 24px;
-        height: 24px;
-        line-height: 24px;
-        padding: 0;
-      }
-    }
-
-    // 6. Hide the subscript (error/hint) wrapper to remove bottom spacing
-    .mat-mdc-form-field-subscript-wrapper {
-      display: none; 
-    }
-    
-    // Remove underline
-    .mdc-line-ripple { display: none; }
-  }
-}
+// Density and layout logic is centralized in admin-layout.scss

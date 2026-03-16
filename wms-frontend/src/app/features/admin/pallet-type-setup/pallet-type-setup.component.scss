@@ -2,40 +2,18 @@
 // Layout patterns are now centralized in admin-layout.scss
 
 :host {
-    display: block;
-    height: 100%;
-    padding: 1.5rem 2.5rem;
+  display: block;
 }
 
 .name-cell {
-  .uom-name {
-    font-weight: 500;
-    color: var(--mat-sys-on-surface);
-  }
+  .uom-name { font-weight: 600; font-size: 0.95rem; }
 }
 
-.number-column {
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-}
+.number-column { text-align: right; font-variant-numeric: tabular-nums; }
+.actions-column { text-align: right; width: 100px; }
 
 .dimensions-cell {
-    font-size: 0.875rem;
-    color: var(--mat-sys-on-surface-variant);
-}
-
-.actions-column {
-  white-space: nowrap;
-  width: 120px;
-  text-align: right;
-
-  button {
-    margin: 0 0.25rem;
-  }
-}
-
-@media (max-width: 768px) {
-  :host {
-    padding: 1rem;
-  }
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--mat-sys-on-surface-variant);
 }

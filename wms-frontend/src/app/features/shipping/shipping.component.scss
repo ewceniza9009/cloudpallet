@@ -6,10 +6,7 @@
   height: 100%;
 }
 
-.report-container {
-   // Kept for consistency if HTML uses it specifically
-   animation: fadeIn 0.3s ease-out;
-}
+
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

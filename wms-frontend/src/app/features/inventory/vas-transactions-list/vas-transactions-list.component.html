@@ -6,50 +6,42 @@
     </div>
   </div>
 
-  <div class="filter-section">
-    <form [formGroup]="filterForm" class="filter-grid">
-      <div class="filter-field account-field">
-        <label>Account</label>
-        <div class="input-wrapper">
-          <input type="text" matInput formControlName="account" [matAutocomplete]="accountAuto" placeholder="Select account" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
-          <mat-icon class="field-icon">business</mat-icon>
-        </div>
-        <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="displayAccount">
-          <mat-option *ngFor="let account of accounts()" [value]="account">
-            {{ account.name }}
-          </mat-option>
-        </mat-autocomplete>
-      </div>
+  <div class="filter-grid" [formGroup]="filterForm">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
+      <mat-label>Account</mat-label>
+      <input type="text" matInput formControlName="account" [matAutocomplete]="accountAuto" placeholder="Select account" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
+      <mat-icon matSuffix>business</mat-icon>
+      <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="displayAccount">
+        <mat-option *ngFor="let account of accounts()" [value]="account">
+          {{ account.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
 
-      <div class="filter-field date-field">
-        <label>Start Date</label>
-        <div class="input-wrapper">
-          <input matInput [matDatepicker]="startPicker" formControlName="startDate" placeholder="Select date">
-          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-        </div>
-        <mat-datepicker #startPicker></mat-datepicker>
-      </div>
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="startPicker" formControlName="startDate" placeholder="Select date">
+      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+    </mat-form-field>
 
-      <div class="filter-field date-field">
-        <label>End Date</label>
-        <div class="input-wrapper">
-          <input matInput [matDatepicker]="endPicker" formControlName="endDate" placeholder="Select date">
-          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-        </div>
-        <mat-datepicker #endPicker></mat-datepicker>
-      </div>
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
+      <mat-label>End Date</mat-label>
+      <input matInput [matDatepicker]="endPicker" formControlName="endDate" placeholder="Select date">
+      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+    </mat-form-field>
 
-      <div class="filter-actions">
-        <mat-checkbox formControlName="includeVoided" class="compact-checkbox">
-          Include Voided
-        </mat-checkbox>
+    <div class="filter-actions">
+      <mat-checkbox formControlName="includeVoided" class="compact-checkbox">
+        Include Voided
+      </mat-checkbox>
 
-        <button mat-flat-button color="primary" (click)="loadTransactions()" [disabled]="isLoading()">
-          <mat-icon>search</mat-icon>
-          <span>Load</span>
-        </button>
-      </div>
-    </form>
+      <button mat-flat-button color="primary" (click)="loadTransactions()" [disabled]="isLoading()">
+        <mat-icon>search</mat-icon>
+        <span>Load</span>
+      </button>
+    </div>
   </div>
 
   @if (transactions().length === 0 && !isLoading()) {

@@ -1,23 +1,25 @@
-<div class="list-container">
-  <div class="list-header">
+<div class="report-container">
+  <div class="header-section">
     <div class="header-content">
-      <h2 class="list-title">Rooms & Zones</h2>
-      <p class="list-subtitle">Manage storage rooms, temperature zones, and their locations</p>
+      <h1 class="mat-headline-6">Rooms & Zones</h1>
+      <p class="mat-body-1">Manage storage rooms, temperature zones, and their locations</p>
     </div>
-    <button mat-flat-button color="primary" (click)="createNew()" class="create-button">
+    <button mat-flat-button color="primary" (click)="createNew()">
       <mat-icon>add</mat-icon>
       <span>New Room</span>
     </button>
   </div>
 
-  <div class="search-section">
-    <mat-form-field appearance="outline" class="search-bar">
+  <div class="filter-grid">
+    <mat-form-field appearance="outline" class="custom-field">
       <mat-label>Search rooms...</mat-label>
-      <input matInput [formControl]="searchControl" placeholder="Search by name, service type, or temperature">
+      <input matInput [formControl]="searchControl" placeholder="Search by name or zone">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <div class="results-count">
-      {{ filteredRooms().length }} of {{ rooms().length }} rooms
+    <div class="filter-actions">
+      <span style="font-size: 0.85rem; color: var(--mat-sys-on-surface-variant);">
+        {{ filteredRooms().length }} of {{ rooms().length }} rooms
+      </span>
     </div>
   </div>
 
@@ -27,10 +29,10 @@
       <span>Loading rooms...</span>
     </div>
   } @else {
-    <div class="room-grid">
+    <div class="setup-grid">
       @for(room of filteredRooms(); track room.id) {
         <mat-card
-          class="room-card"
+          class="main-content-card room-card"
           [routerLink]="['/setup/rooms/detail', room.id]"
           tabindex="0">
 

@@ -1,32 +1,38 @@
-<div class="list-container">
-  <div class="list-header">
+<div class="report-container">
+  <div class="header-section">
     <div class="header-content">
-      <h2 class="list-title">Materials</h2>
-      <p class="list-subtitle">Manage your inventory materials, SKUs, and product information</p>
+      <h1 class="mat-headline-6">Materials</h1>
+      <p class="mat-body-1">Manage your inventory materials, SKUs, and product information</p>
     </div>
-    <button mat-flat-button color="primary" (click)="createNew()" class="create-button">
+    <button mat-flat-button color="primary" (click)="createNew()">
       <mat-icon>add</mat-icon>
       <span>New Material</span>
     </button>
   </div>
 
-  <div class="search-section">
-    <mat-form-field appearance="outline" class="search-bar">
+  <div class="filter-grid">
+    <mat-form-field appearance="outline" class="custom-field">
       <mat-label>Search materials...</mat-label>
       <input matInput [formControl]="searchControl" placeholder="Search by name or SKU">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
+    <div class="filter-actions">
+      <span style="font-size: 0.85rem; color: var(--mat-sys-on-surface-variant);">
+        {{ resultsLength() }} materials
+      </span>
     </div>
+  </div>
 
-  <div class="table-container">
-    @if(isLoading()) {
-      <div class="spinner-overlay">
-        <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
-        <span>Loading materials...</span>
-      </div>
-    }
+  <mat-card class="main-content-card">
+    <mat-card-content style="padding: 0;">
+      @if(isLoading()) {
+        <div class="spinner-overlay">
+          <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+          <span>Loading materials...</span>
+        </div>
+      }
 
-    <table mat-table [dataSource]="dataSource" class="material-table" matSort (matSortChange)="refreshTrigger.next()">
+      <table mat-table [dataSource]="dataSource" class="material-table" matSort (matSortChange)="refreshTrigger.next()">
 
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header="name">Material Name (SKU)</th>
@@ -111,7 +117,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/admin/materials/detail', row.id]" class="material-row"></tr>
 
-       <tr class="mat-row" *matNoDataRow [hidden]="isLoading()">
+      <tr class="mat-row" *matNoDataRow [hidden]="isLoading()">
         <td class="mat-cell" [attr.colspan]="displayedColumns.length">
             @if(searchControl.value) {
               <span>No data matching the filter "{{searchControl.value}}"</span>
@@ -127,11 +133,13 @@
         </td>
       </tr>
     </table>
-  </div> <mat-paginator
+    <mat-paginator
       [length]="resultsLength()"
       [pageSize]="10"
       [pageSizeOptions]="[5, 10, 25, 100]"
       showFirstLastButtons
       aria-label="Select page of materials">
     </mat-paginator>
+    </mat-card-content>
+  </mat-card>
 </div>

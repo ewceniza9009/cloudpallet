@@ -40,6 +40,7 @@ export class WarehouseDetailComponent implements OnInit {
   isEditMode = signal(false);
   isLoading = signal(true);
   isSaving = signal(false);
+  isUpdatingStatus = signal(false);
   isDeleting = signal(false);
 
   constructor() {
@@ -165,8 +166,45 @@ export class WarehouseDetailComponent implements OnInit {
     });
   }
 
-  back(): void {
+  goBack(): void {
     this.router.navigate(['/setup/warehouses']);
+  }
+
+  onSave(): void {
+    this.save();
+  }
+
+  onUpdateStatus(): void {
+    const isCurrentlyActive = this.warehouseForm.get('isActive')?.value;
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: isCurrentlyActive ? 'Deactivate Warehouse' : 'Activate Warehouse',
+        message: `Are you sure you want to ${isCurrentlyActive ? 'deactivate' : 'activate'} "${this.warehouseForm.get('name')?.value}"?`
+      }
+    });
+
+    dialogRef.afterClosed().pipe(filter(result => result === true)).subscribe(() => {
+      this.isUpdatingStatus.set(true);
+      const newStatus = !isCurrentlyActive;
+      this.adminSetupApi.updateWarehouse(this.warehouseId()!, { 
+        ...this.warehouseForm.getRawValue(),
+        isActive: newStatus 
+      }).subscribe({
+        next: () => {
+          this.warehouseForm.get('isActive')?.setValue(newStatus);
+          this.snackBar.open(`Warehouse ${newStatus ? 'activated' : 'deactivated'} successfully.`, 'OK', { duration: 3000 });
+          this.isUpdatingStatus.set(false);
+        },
+        error: (err: any) => {
+          this.snackBar.open(`Error: ${err.error?.title || 'Failed to update status.'}`, 'Close');
+          this.isUpdatingStatus.set(false);
+        }
+      });
+    });
+  }
+
+  warehouse(): any {
+    return this.warehouseForm.getRawValue();
   }
 
   // Helper to access nested address group

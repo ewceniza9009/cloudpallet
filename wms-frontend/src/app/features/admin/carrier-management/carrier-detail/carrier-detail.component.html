@@ -4,23 +4,15 @@
   <span>Loading carrier...</span>
 </div>
 } @else {
-<div class="detail-container">
-  <div class="detail-header">
+<div class="report-container">
+  <div class="header-section">
     <div class="header-main">
-      <a mat-icon-button (click)="back()" matTooltip="Back to List">
+      <button mat-icon-button (click)="back()" matTooltip="Back to List">
         <mat-icon>arrow_back</mat-icon>
-      </a>
-      <div class="title-group">
-        <h2>
-          {{ carrierId() ? carrierForm.get("name")?.value : "New Carrier" }}
-        </h2>
-        <p class="subtitle">
-          {{
-            carrierId()
-              ? "Edit details for this carrier."
-              : "Create a new carrier."
-          }}
-        </p>
+      </button>
+      <div class="header-content">
+        <h1 class="mat-headline-6">{{ carrierId() ? carrierForm.get("name")?.value : "New Carrier" }}</h1>
+        <p class="mat-body-1">{{ carrierId() ? "Edit details for this carrier." : "Create a new carrier." }}</p>
       </div>
     </div>
     <div class="header-actions">
@@ -96,15 +88,16 @@
     </div>
   </div>
 
-  <form [formGroup]="carrierForm" class="detail-form">
+  <form [formGroup]="carrierForm" class="detail-form-container">
     <div class="layout-grid">
       <!-- Left Column -->
-      <div class="column left-column">
+      <div class="column">
         <mat-card class="detail-card">
           <mat-card-header>
             <mat-card-title>Basic Information</mat-card-title>
           </mat-card-header>
-          <mat-card-content class="form-grid">
+          <mat-card-content class="tab-content-wrapper">
+            <div class="form-grid">
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>Carrier Name</mat-label>
               <input matInput formControlName="name" required />
@@ -115,14 +108,16 @@
               <input matInput formControlName="scacCode" required />
               <mat-error>SCAC Code is required</mat-error>
             </mat-form-field>
-          </mat-card-content>
+          </div>
+        </mat-card-content>
         </mat-card>
 
         <mat-card class="detail-card" formGroupName="address">
           <mat-card-header>
             <mat-card-title>Address</mat-card-title>
           </mat-card-header>
-          <mat-card-content class="form-grid">
+          <mat-card-content class="tab-content-wrapper">
+            <div class="form-grid">
             <mat-form-field appearance="outline" class="full-width" subscriptSizing="dynamic">
               <mat-label>Street Address</mat-label>
               <input matInput formControlName="street" required />
@@ -143,17 +138,19 @@
               <mat-label>Country</mat-label>
               <input matInput formControlName="country" required />
             </mat-form-field>
-          </mat-card-content>
+          </div>
+        </mat-card-content>
         </mat-card>
       </div>
 
       <!-- Right Column -->
-      <div class="column right-column">
+      <div class="column">
         <mat-card class="detail-card">
           <mat-card-header>
             <mat-card-title>Contact & Insurance</mat-card-title>
           </mat-card-header>
-          <mat-card-content class="form-grid">
+          <mat-card-content class="tab-content-wrapper">
+            <div class="form-grid">
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>Contact Name</mat-label>
               <input matInput formControlName="contactName" />
@@ -180,7 +177,8 @@
               <mat-checkbox formControlName="certificationColdChain" color="primary">Cold Chain Certified</mat-checkbox>
               <mat-slide-toggle formControlName="isActive" color="primary">Is Active</mat-slide-toggle>
             </div>
-          </mat-card-content>
+          </div>
+        </mat-card-content>
         </mat-card>
       </div>
     </div>
@@ -200,13 +198,13 @@
         <span>Add Truck</span>
       </button>
     </mat-card-header>
-    <mat-card-content class="location-table-content">
-      <div class="table-container">
+    <mat-card-content style="padding: 0;">
+      <div class="table-wrapper">
         <div class="spinner-overlay" *ngIf="isLoadingTrucks()">
-          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+          <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
         </div>
-
-        <table mat-table [dataSource]="truckDataSource" matSort>
+ 
+        <table mat-table [dataSource]="truckDataSource" matSort class="standard-table">
           <ng-container matColumnDef="licensePlate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               License Plate

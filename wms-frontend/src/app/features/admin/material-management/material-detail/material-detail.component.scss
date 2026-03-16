@@ -6,91 +6,35 @@
   height: 100%;
 }
 
-.detail-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .toggle-group {
     display: flex;
     flex-wrap: wrap;
     gap: 1.5rem;
     align-items: center;
-    margin-bottom: 0.5rem;
-}
-
-// --- BOM SECTION REFINEMENTS (Specific to Material Management) ---
-.output-section {
-  padding: 0.5rem 0 1rem;
-   mat-form-field { max-width: 250px; }
-}
-
-.lines-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  margin-top: 1rem;
-}
-
-.lines-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-
-  h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--mat-sys-on-surface-variant);
-  }
-}
-
-.empty-bom-message {
-    text-align: center;
-    font-style: italic;
-    color: var(--mat-sys-on-surface-variant);
-    padding: 1rem;
-    background-color: var(--mat-sys-surface-container-lowest);
-    border-radius: 4px;
+    padding: 0.5rem 0;
 }
 
 .bom-line-row {
   display: grid;
-  grid-template-columns: minmax(200px, 1fr) 130px auto;
+  grid-template-columns: 1fr 150px 40px;
   gap: 1rem;
   align-items: start;
-  padding-bottom: 1rem;
-  border-bottom: 1px dashed var(--mat-sys-outline-variant);
-
-  &:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
+  margin-bottom: 0.5rem;
 }
 
-.line-material {
-  flex-grow: 1;
+.empty-bom-message {
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--mat-sys-on-surface-variant);
+    font-style: italic;
+    background: var(--mat-sys-surface-container-low);
+    border-radius: 4px;
 }
 
-.remove-button {
-    margin-top: 8px;
-}
-
-.bom-actions {
-   margin-top: 1rem;
-}
-
-@media (max-width: 768px) {
-    .detail-container { padding: 1rem; }
-     .bom-line-row {
-        grid-template-columns: 1fr auto;
-        grid-template-areas:
-            "material remove"
-            "quantity remove";
-        .line-material { grid-area: material; }
-        .line-quantity { grid-area: quantity; width: auto; }
-        .remove-button { grid-area: remove; align-self: center; }
-     }
+.lines-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    h3 { margin: 0; font-size: 1rem; font-weight: 600; }
 }

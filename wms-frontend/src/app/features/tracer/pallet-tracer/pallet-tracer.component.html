@@ -6,19 +6,17 @@
     </div>
   </div>
 
-  <div class="search-section">
-    <form (submit)="onSearch($event)" class="search-form">
-      <mat-form-field appearance="outline" class="custom-field search-field" subscriptSizing="dynamic">
-        <mat-label>Enter Pallet Barcode (LPN)</mat-label>
-        <input matInput [formControl]="searchControl" placeholder="Scan or type pallet identifier...">
-        <mat-icon matSuffix>qr_code_scanner</mat-icon>
-      </mat-form-field>
-      <button mat-flat-button color="primary" type="submit" [disabled]="!searchControl.value || isLoading()" class="action-button">
-        <mat-icon>search</mat-icon>
-        <span>Trace</span>
-      </button>
-    </form>
-  </div>
+  <form (submit)="onSearch($event)" class="search-section" style="margin-bottom: 2.5rem;">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic" style="width: 450px;">
+      <mat-label>Enter Pallet Barcode (LPN)</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Scan or type pallet identifier...">
+      <mat-icon matSuffix>qr_code_scanner</mat-icon>
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="submit" [disabled]="!searchControl.value || isLoading()">
+      <mat-icon>search</mat-icon>
+      <span>Trace</span>
+    </button>
+  </form>
 
   @if (isLoading()) {
   <div class="spinner-container">

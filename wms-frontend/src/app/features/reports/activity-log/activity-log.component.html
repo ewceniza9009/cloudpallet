@@ -6,58 +6,45 @@
     </div>
   </div>
 
-  <div class="filters-section">
-    <div [formGroup]="filterForm" class="filter-grid">
-      <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
-        <mat-label>Date Range</mat-label>
-        <mat-date-range-input [formGroup]="filterForm">
-          <input matStartDate formControlName="startDate" placeholder="Start date">
-          <input matEndDate formControlName="endDate" placeholder="End date">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-      </mat-form-field>
+  <div class="filter-grid" [formGroup]="filterForm">
+    <mat-form-field appearance="outline" class="date-field" subscriptSizing="dynamic">
+      <mat-label>Date Range</mat-label>
+      <mat-date-range-input [formGroup]="filterForm">
+        <input matStartDate formControlName="startDate" placeholder="Start date">
+        <input matEndDate formControlName="endDate" placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
 
-      <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
-        <mat-label>Customer Account</mat-label>
-        <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Select Account" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
-        <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName">
-          @for(item of filteredAccounts$ | async; track item.id) {
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
+      <mat-label>Account</mat-label>
+      <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Select Account">
+      <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName">
+        @for(item of filteredAccounts$ | async; track item.id) {
           <mat-option [value]="item">{{item.name}}</mat-option>
-          }
-        </mat-autocomplete>
-        <mat-icon matSuffix>business</mat-icon>
-      </mat-form-field>
+        }
+      </mat-autocomplete>
+      <mat-icon matSuffix>business</mat-icon>
+    </mat-form-field>
 
-      <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
-        <mat-label>User</mat-label>
-        <input matInput [formControl]="userControl" [matAutocomplete]="userAuto" placeholder="Select User" #triggerUser="matAutocompleteTrigger" (click)="triggerUser.openPanel()">
-        <mat-autocomplete #userAuto="matAutocomplete" [displayWith]="getDisplayName">
-          @for(item of filteredUsers$ | async; track item.id) {
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
+      <mat-label>User</mat-label>
+      <input matInput [formControl]="userControl" [matAutocomplete]="userAuto" placeholder="Select User">
+      <mat-autocomplete #userAuto="matAutocomplete" [displayWith]="getDisplayName">
+        @for(item of filteredUsers$ | async; track item.id) {
           <mat-option [value]="item">{{item.name}}</mat-option>
-          }
-        </mat-autocomplete>
-        <mat-icon matSuffix>person</mat-icon>
-      </mat-form-field>
+        }
+      </mat-autocomplete>
+      <mat-icon matSuffix>person</mat-icon>
+    </mat-form-field>
 
-      <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
-        <mat-label>Truck</mat-label>
-        <input matInput [formControl]="truckControl" [matAutocomplete]="truckAuto" placeholder="Select Truck" #triggerTruck="matAutocompleteTrigger" (click)="triggerTruck.openPanel()">
-        <mat-autocomplete #truckAuto="matAutocomplete" [displayWith]="getDisplayName">
-          @for(item of filteredTrucks$ | async; track item.id) {
-          <mat-option [value]="item">{{item.name}}</mat-option>
-          }
-        </mat-autocomplete>
-        <mat-icon matSuffix>local_shipping</mat-icon>
-      </mat-form-field>
-
-      <div class="filter-actions">
-        <button mat-stroked-button (click)="resetFilters()">Clear</button>
-        <button mat-flat-button color="primary" (click)="applyFilters()">
-          <mat-icon>filter_list</mat-icon>
-          <span>Apply</span>
-        </button>
-      </div>
+    <div class="filter-actions">
+      <button mat-stroked-button (click)="resetFilters()">Clear</button>
+      <button mat-flat-button color="primary" (click)="applyFilters()">
+        <mat-icon>filter_list</mat-icon>
+        <span>Apply</span>
+      </button>
     </div>
   </div>
 

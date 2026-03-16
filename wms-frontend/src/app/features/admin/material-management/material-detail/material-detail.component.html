@@ -4,17 +4,15 @@
   <span>Loading material...</span>
 </div>
 } @else {
-<div class="detail-container">
-  <div class="detail-header">
+<div class="report-container">
+  <div class="header-section">
     <div class="header-main">
-      <a mat-icon-button (click)="back()" matTooltip="Back to List">
+      <button mat-icon-button (click)="back()" matTooltip="Back to List">
         <mat-icon>arrow_back</mat-icon>
-      </a>
-      <div class="title-group">
-        <h2>
-          {{ materialId() ? materialForm.get("name")?.value : "New Material" }}
-        </h2>
-        <p class="subtitle">SKU: {{ materialForm.get("sku")?.value || "Not yet assigned" }}</p>
+      </button>
+      <div class="header-content">
+        <h1 class="mat-headline-6">{{ materialId() ? materialForm.get("name")?.value : "New Material" }}</h1>
+        <p class="mat-body-1">SKU: {{ materialForm.get("sku")?.value || "Not yet assigned" }}</p>
       </div>
     </div>
     <div class="header-actions">
@@ -66,15 +64,16 @@
     </div>
   </div>
 
-  <form [formGroup]="materialForm" class="detail-form">
+  <form [formGroup]="materialForm" class="detail-form-container">
     <div class="layout-grid">
       <!-- Left Column -->
-      <div class="column left-column">
+      <div class="column">
         <mat-card class="detail-card">
           <mat-card-header>
             <mat-card-title>Basic Information</mat-card-title>
           </mat-card-header>
-          <mat-card-content class="form-grid">
+          <mat-card-content class="tab-content-wrapper">
+            <div class="form-grid">
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>Material Name</mat-label>
               <input matInput formControlName="name" required />
@@ -93,6 +92,7 @@
               <mat-label>Description</mat-label>
               <textarea matInput formControlName="description" rows="3"></textarea>
             </mat-form-field>
+            </div>
           </mat-card-content>
         </mat-card>
 
@@ -100,7 +100,8 @@
           <mat-card-header>
             <mat-card-title>Classification & Logistics</mat-card-title>
           </mat-card-header>
-          <mat-card-content class="form-grid">
+          <mat-card-content class="tab-content-wrapper">
+            <div class="form-grid">
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>Category</mat-label>
               <mat-select formControlName="categoryId" required>
@@ -160,17 +161,19 @@
               <mat-hint align="start">Weight of the packaging itself.</mat-hint>
               <mat-error *ngIf="materialForm.get('packageTareWeightPerUom')?.hasError('min')">Must be >= 0</mat-error>
             </mat-form-field>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>
 
       <!-- Right Column -->
-      <div class="column right-column">
+      <div class="column">
         <mat-card class="detail-card">
           <mat-card-header>
             <mat-card-title>Handling & Storage Rules</mat-card-title>
           </mat-card-header>
-          <mat-card-content class="form-grid">
+          <mat-card-content class="tab-content-wrapper">
+            <div class="form-grid">
             <div class="toggle-group full-width">
               <mat-slide-toggle formControlName="perishable" color="primary">Perishable</mat-slide-toggle>
               <mat-slide-toggle formControlName="isHazardous" color="warn">Hazardous</mat-slide-toggle>
@@ -198,6 +201,7 @@
               <input matInput type="number" formControlName="maxStockLevel" min="0">
               <mat-error *ngIf="materialForm.get('maxStockLevel')?.hasError('min')">Must be >= 0</mat-error>
             </mat-form-field>
+            </div>
           </mat-card-content>
         </mat-card>
 
@@ -205,7 +209,8 @@
           <mat-card-header>
             <mat-card-title>Dimensions & Barcoding</mat-card-title>
           </mat-card-header>
-          <mat-card-content class="form-grid">
+          <mat-card-content class="tab-content-wrapper">
+            <div class="form-grid">
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>Length (cm)</mat-label>
               <input matInput type="number" formControlName="dimensionsLength" min="0">
@@ -240,6 +245,7 @@
               <mat-error *ngIf="materialForm.get('defaultBarcodeFormat')?.hasError('required')">Format is
                 required</mat-error>
             </mat-form-field>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>

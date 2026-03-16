@@ -7,7 +7,7 @@
   </div>
 
   <div class="filter-grid">
-    <mat-form-field appearance="outline" class="custom-field date-field">
+    <mat-form-field appearance="outline" class="custom-field date-field" subscriptSizing="dynamic">
       <mat-label>Date Range</mat-label>
       <mat-date-range-input [formGroup]="filterForm">
         <input matStartDate formControlName="startDate" placeholder="Start date">
@@ -16,7 +16,7 @@
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
-    <mat-form-field appearance="outline" class="custom-field">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
       <mat-label>Customer Account</mat-label>
       <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Select Account" (click)="accountAutoTrigger.openPanel()" #accountAutoTrigger="matAutocompleteTrigger">
       <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName" (optionSelected)="onOptionSelected($event, filterForm.controls.accountId)">
@@ -26,7 +26,7 @@
       </mat-autocomplete>
       <input type="hidden" formControlName="accountId">
     </mat-form-field>
-    <mat-form-field appearance="outline" class="custom-field">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
       <mat-label>Material</mat-label>
       <input matInput [formControl]="materialControl" [matAutocomplete]="materialAuto" placeholder="Select Material" (click)="materialAutoTrigger.openPanel()" #materialAutoTrigger="matAutocompleteTrigger">
       <mat-autocomplete #materialAuto="matAutocomplete" [displayWith]="getDisplayName" (optionSelected)="onOptionSelected($event, filterForm.controls.materialId)">
@@ -36,7 +36,7 @@
       </mat-autocomplete>
       <input type="hidden" formControlName="materialId">
     </mat-form-field>
-    <mat-form-field appearance="outline" class="custom-field">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
       <mat-label>Supplier</mat-label>
       <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto" placeholder="Select Supplier" (click)="supplierAutoTrigger.openPanel()" #supplierAutoTrigger="matAutocompleteTrigger">
       <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getDisplayName" (optionSelected)="onOptionSelected($event, filterForm.controls.supplierId)">

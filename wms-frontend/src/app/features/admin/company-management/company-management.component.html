@@ -1,18 +1,15 @@
-<div class="management-container"> @if (isLoading()) {
+<div class="report-container"> @if (isLoading()) {
   <div class="spinner-container">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
     <span>Loading Company Information...</span>
   </div>
-  } @else {
-  <div class="company-detail-wrapper">
-    <div class="detail-header">
-      <div class="header-main">
-        <div class="title-group">
-          <h2>Company Information</h2>
-          <p class="subtitle">Manage your organization's details.</p>
-        </div>
-      </div>
-      <div class="header-actions">
+} @else {
+  <div class="header-section">
+    <div class="header-content">
+      <h1 class="mat-headline-6">Company Information</h1>
+      <p class="mat-body-1">Manage your organization's core details and system settings</p>
+    </div>
+    <div class="header-actions">
         @if(isEditMode()) {
         <button mat-stroked-button (click)="toggleEditMode(false)">
           <mat-icon>cancel</mat-icon>
@@ -37,16 +34,15 @@
         }
       </div>
     </div>
-
-    <form [formGroup]="companyForm" class="detail-form">
-      <div class="layout-grid">
-        <!-- Left Column -->
-        <div class="column left-column">
+  <form [formGroup]="companyForm" class="detail-form-container">
+    <div class="layout-grid">
+        <div class="column">
           <mat-card class="detail-card">
             <mat-card-header>
               <mat-card-title>Company Profile</mat-card-title>
             </mat-card-header>
-            <mat-card-content class="form-grid">
+            <mat-card-content class="tab-content-wrapper">
+              <div class="form-grid">
               <mat-form-field appearance="outline" subscriptSizing="dynamic">
                 <mat-label>Company Name</mat-label>
                 <input matInput formControlName="name" required />
@@ -58,6 +54,7 @@
                 <input matInput formControlName="taxId" required />
                 <mat-error *ngIf="companyForm.get('taxId')?.hasError('required')">Tax ID is required</mat-error>
               </mat-form-field>
+              </div>
             </mat-card-content>
           </mat-card>
 
@@ -65,7 +62,8 @@
             <mat-card-header>
               <mat-card-title>Contact Information</mat-card-title>
             </mat-card-header>
-            <mat-card-content class="form-grid">
+            <mat-card-content class="tab-content-wrapper">
+              <div class="form-grid">
               <mat-form-field appearance="outline" subscriptSizing="dynamic">
                 <mat-label>Phone Number</mat-label>
                 <input matInput formControlName="phoneNumber" required>
@@ -83,17 +81,19 @@
                 <mat-label>Website (Optional)</mat-label>
                 <input matInput formControlName="website">
               </mat-form-field>
+              </div>
             </mat-card-content>
           </mat-card>
         </div>
 
         <!-- Right Column -->
-        <div class="column right-column">
+        <div class="column">
           <mat-card class="detail-card" formGroupName="address">
             <mat-card-header>
               <mat-card-title>Location Address</mat-card-title>
             </mat-card-header>
-            <mat-card-content class="form-grid">
+            <mat-card-content class="tab-content-wrapper">
+              <div class="form-grid">
               <mat-form-field appearance="outline" class="full-width" subscriptSizing="dynamic">
                 <mat-label>Street Address</mat-label>
                 <input matInput formControlName="street" required>
@@ -125,6 +125,7 @@
                 <input matInput formControlName="country" required>
                 <mat-error *ngIf="addressFormGroup.get('country')?.hasError('required')">Country is required</mat-error>
               </mat-form-field>
+              </div>
             </mat-card-content>
           </mat-card>
 
@@ -132,7 +133,8 @@
             <mat-card-header>
               <mat-card-title>Settings & System</mat-card-title>
             </mat-card-header>
-            <mat-card-content class="form-grid">
+            <mat-card-content class="tab-content-wrapper">
+              <div class="form-grid">
               <div class="full-width settings-row">
                 <mat-form-field appearance="outline">
                   <mat-label>GS1 Company Prefix</mat-label>
@@ -172,11 +174,11 @@
                    </div>
                 </div>
               }
+              </div>
             </mat-card-content>
           </mat-card>
         </div>
       </div>
     </form>
-  </div>
   }
 </div>

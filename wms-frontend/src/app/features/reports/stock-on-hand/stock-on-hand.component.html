@@ -7,7 +7,7 @@
   </div>
 
   <div [formGroup]="filterForm" class="filter-grid">
-    <mat-form-field appearance="outline" class="custom-field">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
       <mat-label>Customer Account</mat-label>
       <input matInput [formControl]="accountControl" [matAutocomplete]="accountAuto" placeholder="Select Account" (click)="accountAutoTrigger.openPanel()" #accountAutoTrigger="matAutocompleteTrigger">
       <mat-autocomplete #accountAuto="matAutocomplete" [displayWith]="getDisplayName">
@@ -16,7 +16,7 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <mat-form-field appearance="outline" class="custom-field">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
       <mat-label>Material</mat-label>
       <input matInput [formControl]="materialControl" [matAutocomplete]="materialAuto" placeholder="Select Material" (click)="materialAutoTrigger.openPanel()" #materialAutoTrigger="matAutocompleteTrigger">
       <mat-autocomplete #materialAuto="matAutocomplete" [displayWith]="getMaterialDisplayName">
@@ -25,7 +25,7 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <mat-form-field appearance="outline" class="custom-field">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
       <mat-label>Supplier</mat-label>
       <input matInput [formControl]="supplierControl" [matAutocomplete]="supplierAuto" placeholder="Select Supplier" (click)="supplierAutoTrigger.openPanel()" #supplierAutoTrigger="matAutocompleteTrigger">
       <mat-autocomplete #supplierAuto="matAutocomplete" [displayWith]="getDisplayName">
@@ -34,11 +34,11 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <mat-form-field appearance="outline" class="custom-field">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
       <mat-label>Batch Number</mat-label>
       <input matInput formControlName="batchNumber" placeholder="Enter Batch #">
     </mat-form-field>
-    <mat-form-field appearance="outline" class="custom-field">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
         <mat-label>Pallet or LPN Barcode</mat-label>
         <input matInput formControlName="barcode" placeholder="Scan Barcode">
       </mat-form-field>

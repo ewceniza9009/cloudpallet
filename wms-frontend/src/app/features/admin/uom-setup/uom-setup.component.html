@@ -1,23 +1,25 @@
-<div class="setup-container">
+<div class="report-container">
   <div class="header-section">
     <div class="header-content">
-      <h2 class="list-title">Units of Measure</h2>
-      <p class="list-subtitle">Manage measurement units used across your inventory system</p>
+      <h1 class="mat-headline-6">Units of Measure</h1>
+      <p class="mat-body-1">Manage measurement units used across your inventory system</p>
     </div>
-    <button mat-flat-button color="primary" (click)="openDialog()" class="create-button">
+    <button mat-flat-button color="primary" (click)="openDialog()">
       <mat-icon>add</mat-icon>
       <span>New UoM</span>
     </button>
   </div>
 
-  <div class="search-section">
-    <mat-form-field appearance="outline" class="search-bar" style="margin-top: 1.5rem;">
+  <div class="filter-grid">
+    <mat-form-field appearance="outline" class="custom-field">
       <mat-label>Search UoMs...</mat-label>
       <input matInput [formControl]="searchControl" placeholder="Search by name or symbol">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <div class="results-count">
-      {{ dataSource.data.length }} of {{ resultsLength() }} units
+    <div class="filter-actions">
+      <span style="font-size: 0.85rem; color: var(--mat-sys-on-surface-variant);">
+        {{ dataSource.data.length }} of {{ resultsLength() }} units
+      </span>
     </div>
   </div>
 
@@ -27,8 +29,9 @@
       <span>Loading units of measure...</span>
     </div>
   } @else {
-    <div class="table-container">
-      <table mat-table [dataSource]="dataSource" class="uom-table" matSort>
+  <mat-card class="main-content-card">
+    <mat-card-content style="padding: 0;">
+      <table mat-table [dataSource]="dataSource" class="standard-table" matSort>
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Name</th>
@@ -86,7 +89,7 @@
           </button>
         </div>
       }
-    </div>
+    </mat-card-content>
 
     <mat-paginator
       [length]="resultsLength()"
@@ -94,5 +97,6 @@
       [pageSizeOptions]="[5, 10, 25]"
       showFirstLastButtons>
     </mat-paginator>
+  </mat-card>
   }
 </div>

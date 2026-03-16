@@ -4,109 +4,54 @@
   <span>Loading warehouse...</span>
 </div>
 } @else {
-<div class="detail-container">
-  <div class="detail-header">
+<div class="report-container">
+  <div class="header-section">
     <div class="header-main">
-      <a mat-icon-button (click)="back()" matTooltip="Back to List">
+      <button mat-icon-button (click)="goBack()" title="Back to list">
         <mat-icon>arrow_back</mat-icon>
-      </a>
-      <div class="title-group">
-        <h2>
-          {{
-            warehouseId() ? warehouseForm.get("name")?.value : "New Warehouse"
-          }}
-        </h2>
-        <p class="subtitle">
-          {{
-            warehouseId()
-              ? "Update the details for this warehouse."
-              : "Create a new warehouse facility."
-          }}
-        </p>
+      </button>
+      <div class="header-content">
+        <h1 class="mat-headline-6">{{ warehouseId() === 'new' ? 'Create Warehouse' : (warehouse()?.name || 'Warehouse Detail') }}</h1>
+        <p class="mat-body-1">{{ warehouseId() === 'new' ? 'Define a new warehouse facility' : 'Edit facility details and preferences' }}</p>
       </div>
     </div>
+    
     <div class="header-actions">
-      @if(warehouseId()) { @if(isEditMode()) {
-      <button mat-stroked-button (click)="toggleEditMode(false)">
-        <mat-icon>cancel</mat-icon>
-        <span>Cancel</span>
-      </button>
-      <button
-        mat-flat-button
-        color="primary"
-        (click)="save()"
-        [disabled]="isSaving()"
-      >
-        @if(isSaving()) {
-        <mat-progress-spinner
-          diameter="20"
-          mode="indeterminate"
-        ></mat-progress-spinner>
-        <span>Saving...</span>
-        } @else {
+      <button mat-stroked-button color="warn" (click)="onUpdateStatus()" [disabled]="warehouseId() === 'new' || isUpdatingStatus()">
         <ng-container>
-          <mat-icon>save</mat-icon>
-          <span>Save Changes</span>
+          @if (isUpdatingStatus()) {
+            <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+          } @else {
+            <mat-icon>{{ warehouse()?.isActive ? 'block' : 'check_circle' }}</mat-icon>
+            <span>{{ warehouse()?.isActive ? 'Deactivate' : 'Activate' }}</span>
+          }
         </ng-container>
-        }
       </button>
-      } @else {
-      <button
-        mat-stroked-button
-        color="warn"
-        (click)="delete()"
-        [disabled]="isDeleting()"
-      >
-        @if(isDeleting()) {
-        <mat-progress-spinner
-          diameter="20"
-          mode="indeterminate"
-        ></mat-progress-spinner>
-        <span>Deleting...</span>
-        } @else {
+      <button mat-flat-button color="primary" (click)="onSave()" [disabled]="warehouseForm.invalid || isSaving()">
         <ng-container>
-          <mat-icon>delete</mat-icon>
-          <span>Delete</span>
+          @if (isSaving()) {
+            <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+            <span>Saving...</span>
+          } @else {
+            <mat-icon>save</mat-icon>
+            <span>Save</span>
+          }
         </ng-container>
-        }
       </button>
-      <button mat-stroked-button color="primary" (click)="toggleEditMode(true)">
-        <mat-icon>edit</mat-icon>
-        <span>Edit</span>
-      </button>
-      } } @else {
-      <button
-        mat-flat-button
-        color="primary"
-        (click)="save()"
-        [disabled]="isSaving()"
-      >
-        @if(isSaving()) {
-        <mat-progress-spinner
-          diameter="20"
-          mode="indeterminate"
-        ></mat-progress-spinner>
-        <span>Saving...</span>
-        } @else {
-        <ng-container>
-          <mat-icon>save</mat-icon>
-          <span>Save Warehouse</span>
-        </ng-container>
-        }
-      </button>
-      }
     </div>
   </div>
 
-  <form [formGroup]="warehouseForm" class="detail-form">
+  <form [formGroup]="warehouseForm" class="detail-form-container">
     <div class="layout-grid">
       <!-- Left Column -->
       <div class="column left-column">
+        <!-- 1. General Info Card -->
         <mat-card class="detail-card">
           <mat-card-header>
-            <mat-card-title>Warehouse Details</mat-card-title>
+            <mat-card-title>General Information</mat-card-title>
           </mat-card-header>
-          <mat-card-content class="form-grid">
+          <mat-card-content class="tab-content-wrapper">
+             <div class="form-grid">
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>Warehouse Name</mat-label>
               <input matInput formControlName="name" required />
@@ -133,6 +78,7 @@
 
             <div class="toggle-group full-width">
               <mat-slide-toggle formControlName="isActive" color="primary">Is Active</mat-slide-toggle>
+            </div>
             </div>
           </mat-card-content>
         </mat-card>

@@ -1,23 +1,25 @@
-<div class="list-container">
-  <div class="list-header">
+<div class="report-container">
+  <div class="header-section">
     <div class="header-content">
-      <h2 class="list-title">Warehouses</h2>
-      <p class="list-subtitle">Manage your warehouse facilities and locations</p>
+      <h1 class="mat-headline-6">Warehouses</h1>
+      <p class="mat-body-1">Manage your warehouse facilities and locations</p>
     </div>
-    <button mat-flat-button color="primary" (click)="createNew()" class="create-button">
+    <button mat-flat-button color="primary" (click)="createNew()">
       <mat-icon>add</mat-icon>
       <span>New Warehouse</span>
     </button>
   </div>
 
-  <div class="search-section">
-    <mat-form-field appearance="outline" class="search-bar">
+  <div class="filter-grid">
+    <mat-form-field appearance="outline" class="custom-field">
       <mat-label>Search warehouses...</mat-label>
       <input matInput [formControl]="searchControl" placeholder="Search by name, city, or state">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <div class="results-count">
-      {{ filteredWarehouses().length }} of {{ warehouses().length }} warehouses
+    <div class="filter-actions">
+      <span style="font-size: 0.85rem; color: var(--mat-sys-on-surface-variant);">
+        {{ filteredWarehouses().length }} of {{ warehouses().length }} warehouses
+      </span>
     </div>
   </div>
 
@@ -27,10 +29,10 @@
       <span>Loading warehouses...</span>
     </div>
   } @else {
-    <div class="warehouse-grid">
+    <div class="setup-grid">
       @for(warehouse of filteredWarehouses(); track warehouse.id) {
         <mat-card
-          class="warehouse-card"
+          class="main-content-card warehouse-card"
           [class.inactive]="!warehouse.isActive"
           [routerLink]="['/setup/warehouses/detail', warehouse.id]"
           tabindex="0">

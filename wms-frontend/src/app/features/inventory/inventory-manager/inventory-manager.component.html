@@ -1,29 +1,32 @@
 <div class="report-container">
   
   <!-- Header & Search -->
-  <header class="page-header header-section">
-    <div class="header-title header-content">
-      <h1>Inventory Manager</h1>
-      <p>Operations Command Center</p>
+  <!-- Header -->
+  <div class="header-section" style="margin-bottom: 0.75rem;">
+    <div class="header-content">
+      <h1 class="mat-headline-6">Inventory Manager</h1>
+      <p class="mat-body-1">Warehouse Operations Command Center</p>
     </div>
-    
-    <div class="search-bar-wrapper">
-      <mat-icon class="search-icon">search</mat-icon>
-      <input type="text" 
-             [formControl]="searchControl" 
-             placeholder="Scan SSCC or Pallet ID..." 
-             class="custom-search-input"
-             cdkFocusInitial>
+  </div>
+
+  <!-- Search Bar Row -->
+  <div class="search-section" style="margin-bottom: 2rem;">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic" style="width: 450px;">
+      <mat-label>Scan SSCC or Pallet ID...</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Scan Barcode" cdkFocusInitial>
+      <mat-icon matPrefix>qr_code_scanner</mat-icon>
       @if (searchControl.value) {
-        <button class="clear-btn" (click)="searchControl.setValue('')">
+        <button mat-icon-button matSuffix (click)="searchControl.setValue('')">
           <mat-icon>close</mat-icon>
         </button>
       }
-      <div class="search-actions">
-        <button mat-stroked-button (click)="openSearchDialog()">Advanced Find</button>
-      </div>
-    </div>
-  </header>
+    </mat-form-field>
+    
+    <button mat-flat-button color="primary" style="height: 42px; border-radius: 6px;" (click)="openSearchDialog()">
+      <mat-icon>search</mat-icon>
+      Advanced Find
+    </button>
+  </div>
 
   <!-- Loading State -->
   @if (isLoading()) {
@@ -35,20 +38,15 @@
 
   <!-- Main Content -->
   @if (foundPallet(); as pallet) {
-    <div class="dashboard-grid">
+    <div class="master-detail-layout" style="gap: 1.5rem;">
       
-      <!-- Pallet Context Card -->
-      <div class="pallet-context-card">
-        <div class="context-header">
-          <div class="id-group">
-            <span class="label">Active Pallet</span>
-            <div class="value">{{ pallet.palletBarcode }}</div>
+      <!-- Pallet Context Card (Left/Top) -->
+      <div class="list-view" style="flex: 0 0 350px; background: transparent; border: none;">
+        <mat-card class="main-content-card">
+          <div class="list-header" style="background: var(--mat-sys-primary); color: white;">
+             <h3 class="list-title" style="color: white;">Active Pallet</h3>
+             <mat-icon style="opacity: 0.8;">inventory_2</mat-icon>
           </div>
-          <div class="location-badge">
-            <mat-icon>location_on</mat-icon>
-            {{ pallet.currentLocationBarcode }}
-          </div>
-        </div>
         
         <div class="context-actions">
           <button mat-flat-button color="primary" (click)="onMove(pallet)">
@@ -69,62 +67,69 @@
             </button>
           </mat-menu>
         </div>
-      </div>
+      </mat-card>
+    </div>
 
-      <!-- Inventory List -->
-      <div class="inventory-list-section">
-        <div class="section-header">
-          <h3>Contents</h3>
-          <span class="badge">{{ pallet.lines.length }} Items</span>
-        </div>
-
-        @if (pallet.lines.length === 0) {
-          <div class="empty-state">
-            <mat-icon>inbox</mat-icon>
-            <p>This pallet is currently empty.</p>
+      <!-- Inventory List (Right/Bottom) -->
+      <div class="detail-view" style="background: transparent; border: none; padding: 0;">
+        <mat-card class="main-content-card">
+          <div class="list-header">
+            <h3 class="list-title">Pallet Contents</h3>
+            <span class="badge" style="background: var(--mat-sys-primary-container); color: var(--mat-sys-on-primary-container); padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
+              {{ pallet.lines.length }} Items
+            </span>
           </div>
-        } @else {
-          <div class="inventory-cards">
-            @for (line of pallet.lines; track line.barcode) {
-              <div class="inventory-item-card" [class.quarantined]="getItemStatus(line.inventoryId) === 'Quarantined'">
-                <div class="card-main">
-                  <div class="item-meta">
-                    <span class="material-name">{{ line.materialName }}</span>
-                    <span class="lpn">LPN: {{ line.barcode }}</span>
+
+          <mat-card-content style="padding: 1.25rem;">
+            @if (pallet.lines.length === 0) {
+              <div class="empty-state">
+                <mat-icon>inbox</mat-icon>
+                <p>This pallet is currently empty.</p>
+              </div>
+            } @else {
+              <div class="inventory-cards">
+                @for (line of pallet.lines; track line.barcode) {
+                  <div class="inventory-item-card" [class.quarantined]="getItemStatus(line.inventoryId) === 'Quarantined'">
+                    <div class="card-main">
+                      <div class="item-meta">
+                        <span class="material-name">{{ line.materialName }}</span>
+                        <span class="lpn">{{ line.barcode }}</span>
+                      </div>
+                      <div class="item-qty">
+                        <span class="qty-val">{{ line.quantity | number }}</span>
+                        <span class="qty-unit">Units</span>
+                      </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                      <div class="status-indicator">
+                        <span class="dot" [class.active]="getItemStatus(line.inventoryId) === 'Available'" 
+                              [class.warn]="getItemStatus(line.inventoryId) === 'Quarantined'"></span>
+                        {{ getItemStatus(line.inventoryId) }}
+                      </div>
+                      
+                      <div class="item-actions">
+                        <button mat-icon-button (click)="onLabelItem(line)" matTooltip="Print Label">
+                          <mat-icon>print</mat-icon>
+                        </button>
+                        @if (getItemStatus(line.inventoryId) === 'Available') {
+                          <button mat-icon-button color="warn" (click)="onStartQuarantine(line)" matTooltip="Quarantine">
+                            <mat-icon>gpp_bad</mat-icon>
+                          </button>
+                        }
+                        @if (getItemStatus(line.inventoryId) === 'Quarantined') {
+                          <button mat-icon-button color="primary" (click)="onCompleteFumigation(line)" matTooltip="Release">
+                            <mat-icon>verified</mat-icon>
+                          </button>
+                        }
+                      </div>
+                    </div>
                   </div>
-                  <div class="item-qty">
-                    <span class="qty-val">{{ line.quantity | number }}</span>
-                    <span class="qty-unit">Units</span>
-                  </div>
-                </div>
-                
-                <div class="card-footer">
-                  <div class="status-indicator">
-                    <span class="dot" [class.active]="getItemStatus(line.inventoryId) === 'Available'" 
-                          [class.warn]="getItemStatus(line.inventoryId) === 'Quarantined'"></span>
-                    {{ getItemStatus(line.inventoryId) }}
-                  </div>
-                  
-                  <div class="item-actions">
-                    <button mat-icon-button (click)="onLabelItem(line)" matTooltip="Print Label">
-                      <mat-icon>print</mat-icon>
-                    </button>
-                    @if (getItemStatus(line.inventoryId) === 'Available') {
-                      <button mat-icon-button color="warn" (click)="onStartQuarantine(line)" matTooltip="Quarantine">
-                        <mat-icon>gpp_bad</mat-icon>
-                      </button>
-                    }
-                    @if (getItemStatus(line.inventoryId) === 'Quarantined') {
-                      <button mat-icon-button color="primary" (click)="onCompleteFumigation(line)" matTooltip="Release">
-                        <mat-icon>verified</mat-icon>
-                      </button>
-                    }
-                  </div>
-                </div>
+                }
               </div>
             }
-          </div>
-        }
+          </mat-card-content>
+        </mat-card>
       </div>
     </div>
   } @else if (searchControl.value && searchControl.value.length > 5 && !isLoading()) {

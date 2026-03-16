@@ -1,23 +1,25 @@
-<div class="list-container">
-  <div class="list-header">
+<div class="report-container">
+  <div class="header-section">
     <div class="header-content">
-      <h2 class="list-title">Carriers</h2>
-      <p class="list-subtitle">Manage transportation carriers and their truck fleets</p>
+      <h1 class="mat-headline-6">Carriers</h1>
+      <p class="mat-body-1">Manage transportation carriers and their truck fleets</p>
     </div>
-    <button mat-flat-button color="primary" (click)="createNew()" class="create-button">
+    <button mat-flat-button color="primary" (click)="createNew()">
       <mat-icon>add</mat-icon>
       <span>New Carrier</span>
     </button>
   </div>
 
-  <div class="search-section">
-    <mat-form-field appearance="outline" class="search-bar">
+  <div class="filter-grid">
+    <mat-form-field appearance="outline" class="custom-field">
       <mat-label>Search carriers...</mat-label>
-      <input matInput [formControl]="searchControl" placeholder="Search by name or SCAC code">
+      <input matInput [formControl]="searchControl" placeholder="Search by name or SCAC">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <div class="results-count">
-      {{ filteredCarriers().length }} of {{ carriers().length }} carriers
+    <div class="filter-actions">
+      <span style="font-size: 0.85rem; color: var(--mat-sys-on-surface-variant);">
+        {{ filteredCarriers().length }} of {{ carriers().length }} carriers
+      </span>
     </div>
   </div>
 
@@ -27,10 +29,10 @@
       <span>Loading carriers...</span>
     </div>
   } @else {
-    <div class="carrier-grid">
+    <div class="setup-grid">
       @for(carrier of filteredCarriers(); track carrier.id) {
         <mat-card
-          class="carrier-card"
+          class="main-content-card carrier-card"
           [class.inactive]="!carrier.isActive"
           [routerLink]="['/setup/carriers/detail', carrier.id]"
           tabindex="0">

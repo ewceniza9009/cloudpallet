@@ -1,22 +1,22 @@
-<div class="setup-container">
+<div class="report-container">
   <div class="header-section">
     <div class="header-content">
-      <h2 class="list-title">Pallet Types</h2>
-      <p class="list-subtitle">Manage different types of pallets used in the warehouse</p>
+      <h1 class="mat-headline-6">Pallet Types</h1>
+      <p class="mat-body-1">Manage different types of pallets used in the warehouse</p>
     </div>
-    <button mat-flat-button color="primary" (click)="openDialog()" class="create-button">
+    <button mat-flat-button color="primary" (click)="openDialog()">
       <mat-icon>add</mat-icon>
       <span>New Pallet Type</span>
     </button>
   </div>
 
   <div class="search-section">
-    <mat-form-field appearance="outline" class="search-bar" style="margin-top: 1.5rem;">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic" style="width: 400px;">
       <mat-label>Search Pallet Types...</mat-label>
       <input matInput [formControl]="searchControl" placeholder="Search by name">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <div class="results-count">
+    <div style="margin-left: auto; color: var(--mat-sys-on-surface-variant); font-size: 0.85rem; font-weight: 500; opacity: 0.7;">
       {{ dataSource.data.length }} of {{ resultsLength() }} types
     </div>
   </div>
@@ -27,8 +27,9 @@
       <span>Loading pallet types...</span>
     </div>
   } @else {
-    <div class="table-container">
-      <table mat-table [dataSource]="dataSource" class="uom-table" matSort>
+  <mat-card class="main-content-card">
+    <mat-card-content style="padding: 0;">
+      <table mat-table [dataSource]="dataSource" class="standard-table" matSort>
 
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
@@ -52,23 +53,25 @@
         </ng-container>
 
         <ng-container matColumnDef="isActive">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 120px;">Status</th>
           <td mat-cell *matCellDef="let pt">
-             <mat-icon [color]="pt.isActive ? 'primary' : 'disabled'" [matTooltip]="pt.isActive ? 'Active' : 'Inactive'">
-               {{ pt.isActive ? 'toggle_on' : 'toggle_off' }}
-             </mat-icon>
+             <div class="status-badge" [class.active]="pt.isActive">
+               {{ pt.isActive ? 'Active' : 'Inactive' }}
+             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef class="actions-column">Actions</th>
           <td mat-cell *matCellDef="let pt" class="actions-column">
-            <button mat-icon-button color="primary" (click)="openDialog(pt)" matTooltip="Edit Pallet Type">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="onDelete(pt)" matTooltip="Delete Pallet Type">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <div style="display: flex; justify-content: flex-end; gap: 0.25rem;">
+              <button mat-icon-button color="primary" (click)="openDialog(pt)" matTooltip="Edit Pallet Type">
+                <mat-icon style="font-size: 20px;">edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="onDelete(pt)" matTooltip="Delete Pallet Type">
+                <mat-icon style="font-size: 20px;">delete</mat-icon>
+              </button>
+            </div>
           </td>
         </ng-container>
 
@@ -90,7 +93,7 @@
           </button>
         </div>
       }
-    </div>
+    </mat-card-content>
 
     <mat-paginator
       [length]="resultsLength()"
@@ -98,5 +101,6 @@
       [pageSizeOptions]="[5, 10, 25]"
       showFirstLastButtons>
     </mat-paginator>
-  }
+  </mat-card>
+}
 </div>

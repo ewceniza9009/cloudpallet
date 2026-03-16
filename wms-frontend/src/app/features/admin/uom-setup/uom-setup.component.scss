@@ -1,42 +1,24 @@
-// Styles for UOM Setup component
-// Layout patterns are now centralized in admin-layout.scss
+// Styles for UoM Setup component
+// Standard layout patterns are centralized in admin-layout.scss
 
 :host {
-    display: block;
-    height: 100%;
-    padding: 1.5rem 2.5rem;
+  display: block;
 }
 
 .name-cell {
   .name-content {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-
-    .uom-name {
-      font-weight: 500;
-      color: var(--mat-sys-on-surface);
-    }
-
-    .uom-symbol {
-      font-size: 0.8rem;
-      color: var(--mat-sys-on-surface-variant);
-      font-family: monospace;
-    }
+    .uom-name { font-weight: 600; font-size: 0.95rem; }
+    .uom-symbol { font-size: 0.8rem; color: var(--mat-sys-on-surface-variant); }
   }
 }
 
-.actions-column {
-  white-space: nowrap;
-  width: 120px;
-
-  button {
-    margin: 0 0.25rem;
-  }
-}
-
-@media (max-width: 768px) {
-  :host {
-    padding: 1rem;
-  }
+code {
+  background: var(--mat-sys-surface-container-high);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: 600;
 }

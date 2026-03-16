@@ -606,8 +606,8 @@ mat-autocomplete .autocomplete-viewport {
 // CUSTOM COMPACT FIELDS - FIXED FOR LABEL/PLACEHOLDER OVERLAP
 // ==========================================================================
 .custom-field {
-  width: 100%;
-  margin-bottom: 0 !important; // CRITICAL: Remove the huge bottom margin
+  width: auto; // Allow grid/flex to control width
+  margin-bottom: 0 !important; 
   
   // 1. Force wrapper height
   .mat-mdc-text-field-wrapper {

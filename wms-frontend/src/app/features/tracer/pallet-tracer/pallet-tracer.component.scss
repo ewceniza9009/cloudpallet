@@ -5,19 +5,9 @@
   display: block;
 }
 
-.report-container {
-  max-width: 1000px; // Preferred narrow width for timeline readability
-}
 
-.search-form {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  width: 100%;
 
-  .search-field { flex: 1; min-width: 0; }
-  .action-button { height: 56px; padding: 0 2rem; border-radius: 8px; flex-shrink: 0; }
-}
+// Search layout is now handled by .search-section in admin-layout.scss
 
 .results-header {
   display: flex;

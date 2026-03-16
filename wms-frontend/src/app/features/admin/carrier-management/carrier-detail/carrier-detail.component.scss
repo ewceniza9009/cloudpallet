@@ -6,10 +6,10 @@
   height: 100%;
 }
 
-.detail-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+.barcode-cell {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+  color: var(--mat-sys-primary);
 }
 
 .toggle-group {
@@ -17,18 +17,5 @@
     flex-wrap: wrap;
     gap: 1.5rem;
     align-items: center;
-}
-
-// --- Truck Table Styles (Specific to this component) ---
-.location-table-content {
-    padding: 1.5rem 0.5rem !important;
-}
-
-.barcode-cell {
-    font-family: monospace;
-    font-weight: 500;
-}
-
-@media (max-width: 768px) {
-    .detail-container { padding: 1rem; }
+    padding: 0.5rem 0;
 }

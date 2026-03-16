@@ -1,8 +1,8 @@
 <div class="report-container">
   <div class="header-section">
     <div class="header-content">
-      <h1>Dock & Yard Setup</h1>
-      <p class="subtitle">Manage docks and yard spots for the selected warehouse</p>
+      <h1 class="mat-headline-6">Dock & Yard Setup</h1>
+      <p class="mat-body-1">Manage docks and yard spots for the selected warehouse</p>
     </div>
   </div>
 
@@ -11,12 +11,12 @@
       <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
     </div>
   } @else {
-    <div class="two-column-layout">
+    <div class="setup-grid">
       
       <!-- Docks Section -->
-      <div class="section-container">
-        <div class="section-header">
-          <h3 class="section-title">Docks ({{ filteredDocks().length }})</h3>
+      <div class="list-view">
+        <div class="list-header">
+          <h3 class="list-title">Docks ({{ filteredDocks().length }})</h3>
           <button mat-flat-button color="primary" (click)="onAddDock()">
             <mat-icon>add</mat-icon>
             <span>Add Dock</span>
@@ -24,7 +24,7 @@
         </div>
 
         <div class="search-section">
-          <mat-form-field appearance="outline" class="search-bar compact-search">
+          <mat-form-field appearance="outline" class="custom-field compact-search">
             <mat-label>Search docks</mat-label>
             <input matInput [formControl]="dockSearchControl" />
             <mat-icon matSuffix>search</mat-icon>
@@ -67,9 +67,9 @@
       </div>
 
       <!-- Yard Spots Section -->
-      <div class="section-container">
-        <div class="section-header">
-          <h3 class="section-title">Yard Spots ({{ filteredYardSpots().length }})</h3>
+      <div class="list-view">
+        <div class="list-header">
+          <h3 class="list-title">Yard Spots ({{ filteredYardSpots().length }})</h3>
           <button mat-flat-button color="primary" (click)="onAddYardSpot()">
             <mat-icon>add</mat-icon>
             <span>Add Spot</span>
@@ -77,7 +77,7 @@
         </div>
 
         <div class="search-section">
-          <mat-form-field appearance="outline" class="search-bar compact-search">
+          <mat-form-field appearance="outline" class="custom-field compact-search">
             <mat-label>Search yard spots</mat-label>
             <input matInput [formControl]="yardSearchControl" />
             <mat-icon matSuffix>search</mat-icon>
