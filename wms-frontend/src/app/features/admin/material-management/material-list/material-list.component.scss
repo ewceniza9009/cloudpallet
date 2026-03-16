@@ -51,7 +51,11 @@
 }
 
 .number-column { text-align: right; font-variant-numeric: tabular-nums; }
-.actions-column { text-align: right; width: 90px; }
+.actions-column { 
+  text-align: right; 
+  width: 150px; /* Widened from 120px */
+  padding-right: 1rem !important;
+}
 
 .empty-state-inline {
     display: flex;

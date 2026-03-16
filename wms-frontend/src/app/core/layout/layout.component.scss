@@ -20,6 +20,8 @@ $transition-speed: 0.25s;
 
 .sidenav-container {
   height: 100vh;
+  width: 100%;
+  overflow-x: hidden !important;
   background-color: #f1f5f9;
 }
 
@@ -41,6 +43,7 @@ $transition-speed: 0.25s;
 
     .brand-text, 
     .menu-heading, 
+    .sub-heading,
     .brand-subtext, 
     .heading-icon,
     ::ng-deep .mdc-list-item__primary-text,
@@ -137,6 +140,15 @@ mat-nav-list {
       &:hover { color: $text-bright; }
       .heading-icon { font-size: 16px; width: 16px; height: 16px; opacity: 0.8; }
     }
+  }
+
+  .sub-heading {
+    color: #2dd4bf; // Teal color
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 16px 12px 6px;
+    display: block;
+    letter-spacing: 0.02em;
   }
 
   .mat-mdc-list-item {
@@ -252,6 +264,8 @@ mat-nav-list {
 
 .content {
   padding: 16px;
+  width: 100%;
+  overflow-x: hidden !important;
   min-height: calc(100vh - #{$header-height});
   background-color: #f1f5f9;
 }

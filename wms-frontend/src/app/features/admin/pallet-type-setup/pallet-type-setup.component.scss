@@ -10,7 +10,11 @@
 }
 
 .number-column { text-align: right; font-variant-numeric: tabular-nums; }
-.actions-column { text-align: right; width: 100px; }
+.actions-column { 
+  text-align: right; 
+  width: 120px; 
+  padding-right: 1rem !important;
+}
 
 .dimensions-cell {
   font-family: 'Roboto Mono', monospace;

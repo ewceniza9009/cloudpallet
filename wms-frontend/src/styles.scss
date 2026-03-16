@@ -1,10 +1,14 @@
-/* ---- File: styles.scss [CORRECTED] ---- */
 @use "@angular/material" as mat;
 @use "./app/shared/styles/admin-layout.scss";
 @include mat.core();
 
-// Elegant teal-based theme with sophisticated color palette
+* {
+  box-sizing: border-box !important;
+}
+
 html {
+  overflow-x: hidden;
+  width: 100%;
   // Apply the theme
   @include mat.theme(
     (
@@ -81,6 +85,8 @@ body {
 html,
 body {
   height: 100%;
+  width: 100%;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 

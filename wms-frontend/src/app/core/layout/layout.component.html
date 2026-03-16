@@ -59,6 +59,14 @@
             <mat-icon matListItemIcon>fact_check</mat-icon>
             <span mat-list-item-title>Cycle Counting</span>
           </a>
+          <a mat-list-item routerLink="/kitting" routerLinkActive="active-link" matTooltip="Kitting" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>build</mat-icon>
+            <span mat-list-item-title>Kitting</span>
+          </a>
+          <a mat-list-item routerLink="/repacking" routerLinkActive="active-link" matTooltip="Repacking" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>auto_fix_high</mat-icon>
+            <span mat-list-item-title>Repacking</span>
+          </a>
           <a mat-list-item routerLink="/shipping" routerLinkActive="active-link" matTooltip="Shipping" [matTooltipDisabled]="isExpanded()">
             <mat-icon matListItemIcon>local_shipping</mat-icon>
             <span mat-list-item-title>Shipping</span>
@@ -77,26 +85,55 @@
           }
         </div>
         @if (isSetupExpanded() || !isExpanded()) {
-          <a mat-list-item routerLink="/admin/materials" routerLinkActive="active-link" matTooltip="Materials" [matTooltipDisabled]="isExpanded()">
-            <mat-icon matListItemIcon>category</mat-icon>
-            <span mat-list-item-title>Materials</span>
+          <!-- Warehouse & Layout -->
+          <div class="sub-heading">Warehouse & Layout</div>
+          <a mat-list-item routerLink="/setup/warehouses" routerLinkActive="active-link" matTooltip="Facility" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>domain</mat-icon>
+            <span mat-list-item-title>Warehouse</span>
+          </a>
+          <a mat-list-item routerLink="/setup/rooms" routerLinkActive="active-link" matTooltip="Rooms" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>ac_unit</mat-icon>
+            <span mat-list-item-title>Rooms & Zones</span>
+          </a>
+          <a mat-list-item routerLink="/setup/dock-yard" routerLinkActive="active-link" matTooltip="Docks" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>dock</mat-icon>
+            <span mat-list-item-title>Docks & Yards</span>
+          </a>
+
+          <!-- Logistics & Partners -->
+          <div class="sub-heading">Logistics & Partners</div>
+          <a mat-list-item routerLink="/setup/carriers" routerLinkActive="active-link" matTooltip="Carriers" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>local_shipping</mat-icon>
+            <span mat-list-item-title>Carriers</span>
+          </a>
+          <a mat-list-item routerLink="/setup/suppliers" routerLinkActive="active-link" matTooltip="Suppliers" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>inventory</mat-icon>
+            <span mat-list-item-title>Suppliers</span>
           </a>
           <a mat-list-item routerLink="/setup/accounts" routerLinkActive="active-link" matTooltip="Partners" [matTooltipDisabled]="isExpanded()">
             <mat-icon matListItemIcon>handshake</mat-icon>
             <span mat-list-item-title>Customers</span>
           </a>
-          <a mat-list-item routerLink="/setup/warehouses" routerLinkActive="active-link" matTooltip="Facility" [matTooltipDisabled]="isExpanded()">
-            <mat-icon matListItemIcon>domain</mat-icon>
-            <span mat-list-item-title>Warehouse Layout</span>
+
+          <!-- Materials & UOMs -->
+          <div class="sub-heading">Materials & UOMs</div>
+          <a mat-list-item routerLink="/admin/materials" routerLinkActive="active-link" matTooltip="Materials" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>category</mat-icon>
+            <span mat-list-item-title>Material</span>
+          </a>
+          <a mat-list-item routerLink="/setup/units-of-measure" routerLinkActive="active-link" matTooltip="UOMs" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>straighten</mat-icon>
+            <span mat-list-item-title>Units of Measure</span>
           </a>
           <a mat-list-item routerLink="/setup/pallet-types" routerLinkActive="active-link" matTooltip="Pallets" [matTooltipDisabled]="isExpanded()">
             <mat-icon matListItemIcon>pallet</mat-icon>
             <span mat-list-item-title>Pallet Types</span>
           </a>
-          <a mat-list-item routerLink="/admin/company" routerLinkActive="active-link" matTooltip="Company" [matTooltipDisabled]="isExpanded()">
-            <mat-icon matListItemIcon>apartment</mat-icon>
-            <span mat-list-item-title>Company Profile</span>
+          <a mat-list-item routerLink="/admin/rates" routerLinkActive="active-link" matTooltip="Rates" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>payments</mat-icon>
+            <span mat-list-item-title>Rate</span>
           </a>
+
         }
 
         <div class="menu-heading clickable-heading" (click)="toggleAdminMenu()">
@@ -108,10 +145,18 @@
           }
         </div>
         @if (isAdminExpanded() || !isExpanded()) {
+          <div class="sub-heading">Corporate Setup</div>
+          <a mat-list-item routerLink="/admin/company" routerLinkActive="active-link" matTooltip="Company" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>apartment</mat-icon>
+            <span mat-list-item-title>Company Profile</span>
+          </a>
+
+          <div class="sub-heading">System Admin</div>
           <a mat-list-item routerLink="/admin/users" routerLinkActive="active-link" matTooltip="Access" [matTooltipDisabled]="isExpanded()">
             <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
             <span mat-list-item-title>User & Roles</span>
           </a>
+          <div class="sub-heading">Financial Admin</div>
           <a mat-list-item routerLink="/billing" routerLinkActive="active-link" matTooltip="Billing" [matTooltipDisabled]="isExpanded()">
             <mat-icon matListItemIcon>payments</mat-icon>
             <span mat-list-item-title>Billing & Invoicing</span>
