@@ -1,4 +1,4 @@
-﻿// ---- File: src/Infrastructure/WMS.Infrastructure/Persistence/Repositories/WarehouseRepository.cs ----
+// ---- File: src/Infrastructure/WMS.Infrastructure/Persistence/Repositories/WarehouseRepository.cs ----
 using Microsoft.EntityFrameworkCore;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Application.Features.Inventory.Queries;
@@ -42,11 +42,15 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
             .AsNoTracking()
             .Where(i => locationIds.Contains(i.LocationId))
             .GroupBy(i => i.LocationId)
-            .Select(g => new { LocationId = g.Key, CurrentWeight = g.Sum(i => i.WeightActual.Value) })
+            .Select(g => new 
+            { 
+                LocationId = g.Key, 
+                // Using (decimal?) and ?? 0m to safely handle cases where WeightActual or its Value might be NULL in DB
+                CurrentWeight = g.Sum(i => (decimal?)i.WeightActual.Value) ?? 0m 
+            })
             .ToDictionaryAsync(x => x.LocationId, x => x.CurrentWeight, cancellationToken);
 
         // STEP 4: Build the final DTO structure entirely in memory from the clean, correct data.
-        // This avoids any complex LINQ translation bugs.
         var roomDtos = new List<RoomDto>();
         foreach (var room in rooms)
         {
@@ -60,8 +64,11 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
                     var locationDtos = bayGroup.Select(loc =>
                     {
                         inventoryWeights.TryGetValue(loc.Id, out var currentWeight);
-                        var capacity = loc.CapacityWeight.Value;
+                        
+                        // DEFENSIVE: Handle potential null for CapacityWeight owned entity
+                        var capacity = loc.CapacityWeight?.Value ?? 1000m; // Default to 1000 if null
                         var util = capacity > 0 ? Math.Round((double)currentWeight / (double)capacity * 100, 2) : 0;
+                        
                         return new LocationDto(loc.Id, loc.Barcode, loc.Row, loc.Column, loc.Level, currentWeight, capacity, util, GetStatus(util));
                     }).ToList();
 
