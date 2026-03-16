@@ -23,8 +23,8 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <div formGroupName="period" style="display: flex; gap: 0.75rem; align-items: flex-end;">
-      <mat-form-field appearance="outline" class="custom-field date-field">
+    <ng-container formGroupName="period">
+      <mat-form-field appearance="outline" class="custom-field date-field" subscriptSizing="dynamic">
         <mat-label>Billing Period</mat-label>
         <mat-date-range-input [rangePicker]="picker">
           <input matStartDate formControlName="start" placeholder="Start date">
@@ -33,7 +33,7 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
-    </div>
+    </ng-container>
 
     <div class="filter-actions">
       <button mat-stroked-button color="primary" type="button" (click)="refreshInvoices()" [disabled]="!billingForm.get('accountId')?.value">

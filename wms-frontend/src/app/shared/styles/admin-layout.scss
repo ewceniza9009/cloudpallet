@@ -713,6 +713,18 @@
   }
 }
 
+// Global layout styles
+.date-field {
+  flex: 1 1 350px !important;
+  max-width: 400px !important;
+
+  ::ng-deep .mat-mdc-date-range-input {
+    height: 100%;
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
 // 14. ANIMATIONS
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
