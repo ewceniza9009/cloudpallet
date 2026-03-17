@@ -1045,5 +1045,26 @@ mat-autocomplete .autocomplete-viewport {
   padding: 0 !important;
 }
 
+// ===== GLOBAL DIALOG SCROLLBAR EXTRACTION =====
+.cdk-overlay-pane {
+  max-width: 95vw !important;
+}
+
+.mat-mdc-dialog-panel {
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.mat-mdc-dialog-container {
+  padding: 0 !important;
+  overflow: hidden !important;
+  max-width: 100% !important;
+  
+  .mdc-dialog__surface {
+    overflow: hidden !important;
+    border-radius: 16px !important; // MATCH ELITE RADIUS
+  }
+}
+
 // End of Styles
 // End of Styles
