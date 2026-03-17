@@ -13,10 +13,11 @@
 $primary-teal: #1c8375;
 $primary-teal-glow: rgba(28, 131, 117, 0.15);
 $surface-obsidian: #0f172a;
-$surface-clinical: #ffffff;
-$text-master: #1e293b;
-$text-secondary: #64748b;
-$border-matrix: rgba(203, 213, 225, 0.5);
+$surface-obsidian: #0f172a;
+$surface-clinical: var(--mat-sys-surface-container);
+$text-master: var(--mat-sys-on-surface);
+$text-secondary: var(--mat-sys-on-surface-variant);
+$border-matrix: var(--mat-sys-outline-variant);
 $status-active: #10b981;
 
 .dialog-container {
@@ -165,16 +166,16 @@ $status-active: #10b981;
   width: 100% !important;
   
   .mat-mdc-text-field-wrapper {
-    background: #ffffff !important; // LOCKED AXIS
+    background: var(--mat-sys-surface-container-highest) !important; // THEME-AWARE INPUT AXIS
     border: 1px solid $border-matrix !important;
     border-radius: 8px !important;
     height: 44px !important; 
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     
-    &::before, &::after { display: none !important; } // NUKE SHADOW NODES
+    &::before, &::after { display: none !important; } 
 
     &:hover, &.mdc-text-field--focused, &.mdc-text-field--hovered {
-      background: #ffffff !important;
+      background: var(--mat-sys-surface-container-highest) !important;
       border-color: $primary-teal !important;
       box-shadow: 0 4px 12px rgba(28, 131, 117, 0.1);
     }
@@ -254,10 +255,10 @@ $status-active: #10b981;
 // 3. TELEMETRY RESULTS (The List)
 .telemetry-section {
   flex: 1;
-  padding: 1rem; // COMPRESSED FOR OPERATIONAL CLARITY
+  padding: 1rem; 
   overflow-y: auto;
-  overflow-x: visible !important; // CRITICAL: DON'T CLIP RIGHT ALIGNED TELEMETRY
-  background: #f8fafc;
+  overflow-x: visible !important; 
+  background: var(--mat-sys-surface); // THEME-AWARE BACKGROUND
   width: 100%;
   box-sizing: border-box;
 
@@ -312,13 +313,13 @@ $status-active: #10b981;
 }
 
 .pallet-node-card {
-  background: #ffffff;
+  background: var(--mat-sys-surface-container-low); // THEME-AWARE CARD
   border: 1px solid $border-matrix;
   border-radius: 12px;
-  padding: 1rem 1.25rem; // RECALIBRATED GUTTERS
+  padding: 1rem 1.25rem; 
   display: flex;
   align-items: center;
-  justify-content: space-between !important; // FORCE QUANTITY TO RIGHT WALL
+  justify-content: space-between !important; 
   gap: 1.5rem;
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -327,27 +328,21 @@ $status-active: #10b981;
   width: 100% !important;
   box-sizing: border-box;
 
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 0;
-    background: $primary-teal;
-    transition: width 0.2s;
-  }
-
   &:hover {
     transform: translateX(8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
     border-color: $primary-teal;
+    background: var(--mat-sys-surface-container-high);
   }
 
   &.selected {
-    background: #f0f9f8;
+    background: var(--mat-sys-primary-container);
     border-color: $primary-teal;
-    box-shadow: 0 8px 32px rgba(28, 131, 117, 0.12);
+    box-shadow: 0 8px 32px rgba(28, 131, 117, 0.15);
+    
+    .node-id, .account-name, .material-summary {
+      color: var(--mat-sys-on-primary-container) !important;
+    }
     
     &::before { width: 6px; }
   }
@@ -470,8 +465,8 @@ $status-active: #10b981;
 
 // 4. ACTION BAR
 .dialog-actions {
-  padding: 0.75rem 1.5rem; // COMPACT ACTION MATRIX
-  background: #ffffff;
+  padding: 0.75rem 1.5rem; 
+  background: var(--mat-sys-surface-container); // THEME-AWARE FOOTER
   border-top: 1px solid $border-matrix;
   display: flex;
   justify-content: flex-end;
