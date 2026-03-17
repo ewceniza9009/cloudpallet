@@ -373,8 +373,8 @@ mat-nav-list {
     display: flex;
     align-items: center;
     gap: 16px;
-    background: rgba(2, 6, 23, 0.6);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--mat-sys-surface-container-low) !important; // THEME AWARE DEPTH
+    border-bottom: 1px solid var(--mat-sys-outline-variant) !important;
 
     .avatar-container {
       width: 44px;
@@ -432,16 +432,16 @@ mat-nav-list {
     background: transparent;
 
     button {
-      color: #f1f5f9 !important;
+      color: var(--mat-sys-on-surface) !important; // RELIABLE THEME CONTRAST
       &:hover {
-        background: rgba(255, 255, 255, 0.05) !important;
+        background: var(--mat-sys-surface-container-high) !important;
       }
     }
 
     .logout-button {
       border-radius: 8px !important;
       font-weight: 600 !important;
-      color: #fb7185 !important;
+      color: var(--mat-sys-tertiary) !important; // RED FOR DANGER
 
       &:hover {
         background: rgba(244, 63, 94, 0.1) !important;
