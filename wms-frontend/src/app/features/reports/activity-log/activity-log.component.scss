@@ -26,17 +26,6 @@
   gap: 1.5rem;
 }
 
-.spinner-container-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  padding: 3rem;
-  min-height: 300px;
-  color: var(--mat-sys-on-surface-variant);
-  flex-grow: 1;
-}
 
 .empty-list-message {
   display: flex;

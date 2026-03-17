@@ -37,18 +37,17 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
 
         var locationIds = allLocations.Select(l => l.Id).ToList();
 
-        // STEP 3: Fetch all inventory weights in a single, efficient database trip.
-        var inventoryWeights = await context.MaterialInventories
+        // STEP 3: Fetch all inventory weights. We fetch raw data and group in-memory 
+        // to avoid potential EF Translation issues with owned entities in GroupBy (which can vary by DB provider).
+        var inventoryWeightData = await context.MaterialInventories
             .AsNoTracking()
             .Where(i => locationIds.Contains(i.LocationId))
+            .Select(i => new { i.LocationId, WeightValue = i.WeightActual.Value })
+            .ToListAsync(cancellationToken);
+
+        var inventoryWeights = inventoryWeightData
             .GroupBy(i => i.LocationId)
-            .Select(g => new 
-            { 
-                LocationId = g.Key, 
-                // Using (decimal?) and ?? 0m to safely handle cases where WeightActual or its Value might be NULL in DB
-                CurrentWeight = g.Sum(i => (decimal?)i.WeightActual.Value) ?? 0m 
-            })
-            .ToDictionaryAsync(x => x.LocationId, x => x.CurrentWeight, cancellationToken);
+            .ToDictionary(g => g.Key, g => g.Sum(i => i.WeightValue));
 
         // STEP 4: Build the final DTO structure entirely in memory from the clean, correct data.
         var roomDtos = new List<RoomDto>();
@@ -377,12 +376,14 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
         }
 
         // Calculate utilization
-        var currentWeight = await context.MaterialInventories
+        var currentWeight = (await context.MaterialInventories
             .AsNoTracking()
             .Where(mi => mi.LocationId == locationId)
-            .SumAsync(mi => mi.WeightActual.Value, cancellationToken);
+            .Select(mi => (decimal?)mi.WeightActual.Value)
+            .ToListAsync(cancellationToken))
+            .Sum() ?? 0m;
 
-        var capacity = location.CapacityWeight.Value;
+        var capacity = location.CapacityWeight?.Value ?? 1000m;
         var utilization = capacity > 0 ? Math.Round((double)currentWeight / (double)capacity * 100, 2) : 0;
         
         string status = utilization switch
@@ -426,7 +427,7 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
                     .ToList();
 
                 // Calculate total weight from the inventory items on the pallet
-                var palletWeight = pallet.Inventory.Sum(i => i.WeightActual.Value);
+                var palletWeight = pallet.Inventory.Sum(i => i.WeightActual?.Value ?? 0m);
 
                 palletDto = new LocationDetailPalletDto(
                     pallet.Id,

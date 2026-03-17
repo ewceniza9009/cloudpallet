@@ -633,6 +633,34 @@
   color: var(--mat-sys-on-surface-variant);
 }
 
+// 12. Full Page Centered Spinner
+.spinner-container-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 4rem 2rem;
+  color: var(--mat-sys-on-surface-variant);
+  flex-grow: 1;
+  min-height: 400px;
+  width: 100%;
+  animation: fadeIn 0.4s ease-out;
+
+  mat-progress-spinner {
+    filter: drop-shadow(0 0 12px rgba(13, 148, 136, 0.2));
+  }
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    color: var(--mat-sys-on-surface-variant);
+    opacity: 0.8;
+  }
+}
+
 // 12. Standard status badges for various contexts
 .status-badge {
   display: inline-flex;

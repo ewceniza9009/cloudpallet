@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WMS.Application.Common.Models;
 using WMS.Application.Features.Admin.Commands;
@@ -136,6 +136,6 @@ public class AdminController : ApiControllerBase
     public async Task<IActionResult> GetBomByOutputMaterialId(Guid outputMaterialId)
     {
         var bom = await Mediator.Send(new GetBomByOutputMaterialIdQuery(outputMaterialId));
-        return bom is not null ? Ok(bom) : NotFound();
+        return Ok(bom);
     }
 }

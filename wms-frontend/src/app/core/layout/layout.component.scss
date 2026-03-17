@@ -252,13 +252,118 @@ mat-nav-list {
   }
 
   .user-profile-button {
-    height: 38px;
-    border-radius: 8px;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 10px;
     color: #475569;
     font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
     
-    .mat-icon { margin-right: 8px; font-size: 20px; color: #94a3b8; }
-    &:hover { background: #f1f5f9; }
+    .mat-icon { 
+      margin-right: 8px; 
+      font-size: 24px; 
+      width: 24px;
+      height: 24px;
+      color: #94a3b8; 
+      transition: color 0.2s;
+    }
+
+    .expand-icon {
+      margin-left: 4px;
+      margin-right: 0;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      opacity: 0.5;
+    }
+
+    &:hover { 
+      background: rgba(13, 148, 136, 0.05); 
+      color: $primary-color;
+      .mat-icon { color: $primary-color; }
+    }
+  }
+}
+
+// ==========================================================================
+// # HEADER MENUS (Warehouse, Notifications, User)
+// ==========================================================================
+::ng-deep .user-profile-menu {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  min-width: 240px !important;
+  margin-top: 8px !important;
+
+  .user-profile-header {
+    padding: 20px 20px 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(to bottom, #f8fafc, #ffffff);
+
+    .avatar-container {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      border: 1px solid #e2e8f0;
+
+      .mat-icon { font-size: 28px; width: 28px; height: 28px; }
+    }
+
+    .user-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      
+      .user-email {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #1e293b;
+        line-height: 1.2;
+      }
+      
+      .user-role-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: $primary-color;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+
+        .dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: $primary-color;
+          box-shadow: 0 0 6px $primary-color;
+        }
+      }
+    }
+  }
+
+  .menu-actions {
+    padding: 8px;
+    background: #ffffff;
+
+    .logout-button {
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      
+      &:hover {
+        background: #fff1f2 !important;
+      }
+    }
   }
 }
 

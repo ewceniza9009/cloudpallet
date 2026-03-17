@@ -203,7 +203,7 @@
             <button mat-icon-button (click)="toggleSidenav()" class="menu-toggle-button">
                <mat-icon>{{ isExpanded() ? 'menu_open' : 'menu' }}</mat-icon>
             </button>
-            <h2 style="margin: 0; font-size: 1rem; font-weight: 600; color: #1e293b; opacity: 0.8;">Unified Management Portal</h2>
+            <h2 style="margin: 0; font-size: 0.85rem; font-weight: 800; color: #0f172a; letter-spacing: 0.05em; text-transform: uppercase;">Operations Command Center</h2>
          </div>
          <div class="header-section">
             <button mat-button [matMenuTriggerFor]="warehouseMenu" class="warehouse-menu-button">
@@ -260,15 +260,28 @@
          </mat-menu>
          <mat-menu #userMenu="matMenu" class="user-profile-menu">
             @if (currentUser(); as user) {
-            <div class="menu-header user-info">
-               <div class="user-email">{{ user.email }}</div>
-               <div class="user-role">{{ user.role }}</div>
+            <div class="user-profile-header" (click)="stopPropagation($event)">
+              <div class="avatar-container">
+                <mat-icon>account_circle</mat-icon>
+              </div>
+              <div class="user-details">
+                <div class="user-email">{{ user.email }}</div>
+                <div class="user-role-badge">
+                  <span class="dot"></span>
+                  {{ user.role }}
+                </div>
+              </div>
+            </div>
+            
+            <mat-divider></mat-divider>
+            
+            <div class="menu-actions">
+              <button mat-menu-item class="logout-button" (click)="logout()">
+                <mat-icon color="warn">logout</mat-icon>
+                <span style="color: var(--mat-sys-error);">Sign Out</span>
+              </button>
             </div>
             }
-            <button mat-menu-item (click)="logout()">
-               <mat-icon>logout</mat-icon>
-               <span>Logout</span>
-            </button>
          </mat-menu>
       </mat-toolbar>
       <main class="content">
