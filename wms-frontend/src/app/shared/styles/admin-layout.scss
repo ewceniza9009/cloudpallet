@@ -168,8 +168,8 @@
     margin-bottom: 0 !important;
   }
 
-  // Optical alignment for buttons in search row
-  button {
+  // Optical alignment for action buttons in search row
+  button:not(.mat-mdc-icon-button) {
     height: 44px !important; // Absolute 44px alignment
     padding: 0 28px !important; // Spaced to match fields
     border-radius: 8px !important;
@@ -206,7 +206,7 @@
   margin-left: auto;
   align-self: center;
 
-  button {
+  button:not(.mat-mdc-icon-button) {
     height: 44px !important; // Unify with inputs
     padding: 0 24px !important;
     border-radius: 8px !important;
@@ -784,7 +784,7 @@
 
   .mat-mdc-text-field-wrapper,
   .mdc-text-field {
-    height: 56px !important; // MATCH GLOBAL ELITE HEIGHT
+    min-height: 56px !important; // MATCH GLOBAL ELITE MIN-HEIGHT
     padding: 0 !important;
     background-color: var(--mat-sys-surface) !important; // CLINICAL CLEAN WHITE
     border: 1px solid var(--mat-sys-outline) !important;
@@ -800,9 +800,9 @@
   }
 
   .mat-mdc-form-field-flex {
-    height: 56px !important;
+    min-height: 56px !important;
     align-items: center !important;
-    padding: 0 16px !important;
+    padding: 0 16px !important; // RESTORED ELITE HORIZONTAL GUTTER
     display: flex !important;
     width: 100% !important;
     overflow: visible !important;
@@ -812,9 +812,7 @@
   .mat-mdc-form-field-infix {
     padding: 16px 0 8px !important; 
     min-height: 56px !important;
-    height: 56px !important;
-    display: flex !important;
-    align-items: center !important;
+    display: block !important; // NUKE FLEX OVERRIDES
     border-top: 0 !important; 
     width: auto !important;
     overflow: visible !important;
@@ -832,7 +830,6 @@
   }
 
   .mdc-floating-label {
-    left: 14px !important; 
     color: var(--mat-sys-on-surface-variant) !important;
     font-weight: 600 !important; 
     pointer-events: none;
@@ -870,13 +867,13 @@
   }
 
   .mat-mdc-form-field-icon-prefix {
-    padding-right: 12px !important; // MANDATORY STRUCTURAL BUFFER
+    padding: 0 12px 0 0 !important; // INNER BUFFER ONLY - CONTAINER HANDLES LEFT GUTTER
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     height: 100% !important;
     width: auto !important;
-    min-width: 24px !important;
+    min-width: 24px !important; // SURGICAL ICON BUFFER
     overflow: visible !important;
     flex-shrink: 0 !important;
 
@@ -894,13 +891,13 @@
   }
 
   .mat-mdc-form-field-icon-suffix {
-    padding-left: 12px !important;
+    padding: 0 0 0 12px !important; // INNER BUFFER ONLY - CONTAINER HANDLES RIGHT GUTTER
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     height: 100% !important;
     width: auto !important;
-    min-width: 24px !important;
+    min-width: 24px !important; // SURGICAL ICON BUFFER
     overflow: visible !important;
     flex-shrink: 0 !important;
 

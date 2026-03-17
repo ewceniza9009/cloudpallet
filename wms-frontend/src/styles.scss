@@ -35,6 +35,15 @@ html {
   --glow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
   --glow-hover: 0 12px 32px rgba(0, 0, 0, 0.6);
 
+  // GLOBAL STATE LAYER STABILIZATION (Nukes the "Black Circle" bug)
+  --mdc-icon-button-hover-state-layer-color: transparent;
+  --mdc-icon-button-hover-state-layer-opacity: 0;
+  --mdc-icon-button-focus-state-layer-color: transparent;
+  --mdc-icon-button-focus-state-layer-opacity: 0;
+  --mdc-standard-button-hover-state-layer-color: transparent;
+  --mdc-standard-button-hover-state-layer-opacity: 0;
+  --mdc-ripple-color: rgba(28, 131, 117, 0.1);
+
   // LIGHT MODE OVERRIDE
   &.light-mode {
     --mat-sys-background: #f8fafc;
@@ -471,20 +480,17 @@ body {
   .mat-mdc-form-field-flex {
     display: flex !important;
     align-items: center !important;
-    padding: 0 16px !important;
+    padding: 0 16px !important; // RESTORED ELITE HORIZONTAL GUTTER
     background-color: transparent !important;
-    height: 56px !important; // ELITE GOLD STANDARD HEIGHT
-    min-height: 56px !important;
+    min-height: 56px !important; // ELITE DYNAMIC MIN-HEIGHT
     box-sizing: border-box !important;
   }
 
   .mat-mdc-form-field-infix {
     padding: 16px 0 8px !important; // PERFECT VERTICAL AIR
-    display: flex !important;
-    align-items: center !important;
     min-height: 56px !important;
-    height: 56px !important;
     border-top: 0 !important;
+    display: block !important; // NUKE FLEX OVERRIDES FOR TEXTAREAS
   }
 
   .mat-mdc-input-element {
@@ -857,6 +863,60 @@ body {
 
   .mat-mdc-icon-button {
     flex-shrink: 0;
+    --mdc-icon-button-hover-state-layer-color: var(--mat-sys-primary) !important;
+    --mdc-icon-button-hover-state-layer-opacity: 0.08 !important;
+  }
+}
+
+// 1. Definitively suppress the internal MDC state-layer to stop the "Black Circle" bug
+.mat-mdc-icon-button,
+.mat-datepicker-toggle button,
+.mat-mdc-select-trigger,
+.mat-mdc-option,
+.mat-mdc-button-base {
+  &::before,
+  &::after,
+  .mdc-icon-button__ripple::before,
+  .mdc-button__ripple::before,
+  .mat-mdc-button-persistent-ripple::before,
+  .mat-mdc-focus-indicator::before {
+    display: none !important;
+    background-color: transparent !important;
+    opacity: 0 !important;
+  }
+}
+
+// 2. Re-implement clean, theme-aware feedback ONLY for weightless/transparent components
+.mat-mdc-icon-button,
+.mat-datepicker-toggle button,
+.mat-mdc-select-trigger,
+.mat-mdc-option {
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+  &:hover, 
+  &:focus,
+  &.mdc-ripple-upgraded--background-focused,
+  &.mat-mdc-option-active {
+    background-color: rgba(28, 131, 117, 0.08) !important; 
+  }
+
+  &:active {
+    background-color: rgba(28, 131, 117, 0.15) !important;
+  }
+}
+
+// 3. High-Definition Tactile GLOW for solid buttons (Compensates for suppressed MDC layer)
+.mat-mdc-button-base:not(.mat-mdc-icon-button) {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.08) !important;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    filter: brightness(0.95) !important;
+    transform: translateY(0);
   }
 }
 

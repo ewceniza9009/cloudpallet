@@ -7,29 +7,41 @@
 
 // Custom Invoice Summary Styling
 .summary-card {
+  background: var(--mat-sys-surface-container-low) !important;
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: var(--glow-soft);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
 
   .summary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    padding: 0.5rem 0;
 
     .summary-item {
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
+      gap: 0.25rem;
+      border-left: 1px solid var(--mat-sys-outline-variant);
+      padding-left: 1rem;
+
+      &:first-child { border-left: none; padding-left: 0; }
 
       .summary-label {
-        font-size: 0.7rem;
-        font-weight: 600;
+        font-size: 0.65rem;
+        font-weight: 800;
         color: var(--mat-sys-on-surface-variant);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.08em;
+        opacity: 0.8;
       }
 
       .summary-value {
-        font-size: 0.9rem;
-        font-weight: 500;
+        font-size: 1rem;
+        font-weight: 700;
         color: var(--mat-sys-on-surface);
+        letter-spacing: -0.01em;
       }
     }
   }
@@ -37,36 +49,59 @@
 
 // Custom Line Items Table (Specific compactness for Invoices)
 .line-items-card {
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 12px;
+  box-shadow: var(--glow-soft);
+  overflow: hidden;
+
+  mat-card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    mat-card-title { font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--mat-sys-primary); }
+    mat-card-subtitle { font-size: 0.8rem; font-weight: 500; opacity: 0.7; }
+  }
 
   .line-items-table {
     width: 100%;
     border-collapse: collapse;
 
     .table-header-row th {
-      font-size: 0.75rem;
-      font-weight: 600;
+      font-size: 0.7rem;
+      font-weight: 800;
       color: var(--mat-sys-on-surface-variant);
-      border-bottom: 1px solid var(--mat-sys-outline-variant);
-      height: 36px;
-      padding: 0 1rem;
+      background: var(--mat-sys-surface-container);
+      height: 44px;
+      padding: 0 1.5rem;
       text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--mat-sys-outline-variant);
     }
 
     .table-row {
-      height: 40px;
-      &:hover { background-color: var(--mat-sys-surface-container-high); }
+      height: 52px;
+      transition: all 0.2s ease;
+      &:hover { background-color: var(--mat-sys-surface-container-high) !important; }
 
       td {
         border-bottom: 1px solid var(--mat-sys-outline-variant);
-        padding: 0.25rem 1rem;
-        font-size: 0.85rem;
+        padding: 0.25rem 1.5rem;
+        font-size: 0.9rem;
+        color: var(--mat-sys-on-surface);
+
+        &.description-cell {
+          .line-description { font-weight: 600; }
+        }
 
         &.number-cell {
           text-align: right;
-          font-variant-numeric: tabular-nums;
+          font-family: 'Roboto Mono', monospace;
+          font-weight: 700;
+          color: var(--mat-sys-on-surface);
         }
 
-        &.amount-cell { font-weight: 600; }
+        &.amount-cell { 
+          color: var(--mat-sys-primary);
+        }
       }
     }
   }
@@ -74,33 +109,33 @@
 
 // Custom Invoice Totals Section
 .invoice-totals {
-  padding: 0.75rem 1rem;
-  background-color: var(--mat-sys-surface-container-lowest);
-  border-top: 1px solid var(--mat-sys-outline-variant);
+  padding: 1.5rem;
+  background-color: var(--mat-sys-surface-container);
+  border-top: 2px solid var(--mat-sys-outline-variant);
 
   .totals-container {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.25rem;
+    gap: 0.5rem;
 
     .total-row {
       display: flex;
       justify-content: space-between;
       width: 100%;
-      max-width: 250px;
-      padding: 0.15rem 0;
+      max-width: 320px;
+      padding: 0.25rem 0;
       align-items: center;
 
-      .total-label { font-size: 0.8rem; color: var(--mat-sys-on-surface-variant); }
-      .total-value { font-size: 0.9rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+      .total-label { font-size: 0.8rem; font-weight: 700; color: var(--mat-sys-on-surface-variant); text-transform: uppercase; letter-spacing: 0.05em; }
+      .total-value { font-size: 1rem; font-weight: 800; font-family: 'Roboto Mono', monospace; color: var(--mat-sys-on-surface); }
 
       &.grand-total {
         border-top: 1px solid var(--mat-sys-outline-variant);
-        margin-top: 0.25rem;
-        padding-top: 0.5rem;
-        .total-label { font-size: 0.9rem; font-weight: 700; color: var(--mat-sys-on-surface); }
-        .total-value { font-size: 1rem; font-weight: 700; color: var(--mat-sys-primary); }
+        margin-top: 0.5rem;
+        padding-top: 1rem;
+        .total-label { font-size: 1rem; font-weight: 900; color: var(--mat-sys-primary); }
+        .total-value { font-size: 1.4rem; font-weight: 950; color: var(--mat-sys-primary); letter-spacing: -0.02em; }
       }
     }
   }
@@ -129,8 +164,124 @@
   }
 }
 
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 2rem;
+
+  .header-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    flex: 1;
+
+    .back-button {
+      height: 48px;
+      padding: 0 16px;
+      border-radius: 10px;
+      mat-icon { font-size: 20px; width: 20px; height: 20px; }
+      span { font-weight: 700; }
+    }
+
+    .header-title-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .title-group {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .invoice-title {
+          margin: 0;
+          font-size: 1.75rem;
+          font-weight: 900;
+          color: var(--mat-sys-on-surface);
+          letter-spacing: -0.03em;
+        }
+
+        .status-badge {
+          padding: 4px 12px;
+          border-radius: 8px;
+          font-size: 0.75rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          border: 1px solid transparent;
+
+          &.issued { 
+            background: rgba(245, 158, 11, 0.1); 
+            color: #f59e0b; 
+            border-color: rgba(245, 158, 11, 0.2); 
+          }
+          &.paid { 
+            background: rgba(16, 185, 129, 0.1); 
+            color: #10b981; 
+            border-color: rgba(16, 185, 129, 0.2); 
+          }
+          &.draft { 
+            background: rgba(100, 116, 139, 0.1); 
+            color: #64748b; 
+            border-color: rgba(100, 116, 139, 0.2); 
+          }
+        }
+      }
+
+      .invoice-subtitle {
+        margin: 0;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--mat-sys-on-surface-variant);
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 0.75rem;
+
+    .action-button {
+      height: 48px;
+      padding: 0 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      mat-icon { font-size: 20px; width: 20px; height: 20px; }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .detail-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+
+    .header-main {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .summary-card .summary-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    .summary-item { border-left: none; padding-left: 0; border-bottom: 1px solid var(--mat-sys-outline-variant); padding-bottom: 0.5rem; }
+  }
+
+  .header-main {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    .back-button { width: 100%; justify-content: center; }
+  }
+
+  .header-actions {
+    flex-direction: column;
+    button { width: 100%; }
   }
 }

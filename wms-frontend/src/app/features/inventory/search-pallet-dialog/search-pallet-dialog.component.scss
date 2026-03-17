@@ -86,25 +86,38 @@ $bg-selected: var(--mat-sys-primary-container);
         min-width: 300px !important;
       }
 
-      // STRUCTURAL REPAIR: Force wide-axis dominance
-      .mat-mdc-text-field-wrapper,
-      .mdc-text-field,
-      .mat-mdc-form-field-flex,
-      .mat-mdc-form-field-infix {
-        width: 100% !important;
-        flex: 1 !important;
-      }
-
-      .mat-mdc-form-field-icon-prefix {
-        margin-right: 12px !important;
+      // STRUCTURAL REPAIR: Explicit Offset Lockdown to fix icon/text overlap
+      .mat-mdc-form-field-flex {
         display: flex !important;
+        position: relative !important;
+        padding: 0 16px !important;
         align-items: center !important;
       }
 
-      .mdc-text-field--with-leading-icon {
-        .mdc-floating-label:not(.mdc-floating-label--float-above) {
-          left: 48px !important; // CALIBRATED SURGICAL OFFSET
-        }
+      .mat-mdc-form-field-icon-prefix {
+        position: absolute !important;
+        left: 16px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 24px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        z-index: 2 !important;
+      }
+
+      .mat-mdc-form-field-infix {
+        flex: 1 !important;
+        margin-left: 32px !important; // MANDATORY AIR-GAP TO CLEAR ABSOLUTE ICON
+        padding: 16px 0 8px !important;
+        border-top: 0 !important;
+        position: relative !important;
+        z-index: 1 !important;
+      }
+
+      .mdc-floating-label {
+        left: 0 !important; // ANCHOR TO THE SHIFTED INFIX
+        position: absolute !important;
       }
     }
   }
