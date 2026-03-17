@@ -16,14 +16,14 @@ $glass-overlay: rgba(15, 23, 42, 0.7);
 :host {
   display: block;
   height: 100vh;
-  --mat-sidenav-container-background-color: #02060f;
+  --mat-sidenav-container-background-color: var(--mat-sys-background) !important;
 }
 
 .sidenav-container {
   height: 100vh;
   width: 100%;
   overflow-x: hidden !important;
-  background-color: #02060f;
+  background-color: var(--mat-sys-background) !important;
 }
 
 // ==========================================================================
@@ -87,8 +87,8 @@ $glass-overlay: rgba(15, 23, 42, 0.7);
   align-items: center;
   padding: 0 20px;
   flex-shrink: 0;
-  background: rgba(2, 6, 23, 0.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--glass-bg);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
 
   .brand-icon {
     width: 32px;
@@ -105,14 +105,14 @@ $glass-overlay: rgba(15, 23, 42, 0.7);
     .app-brand {
       font-size: 0.95rem;
       font-weight: 800;
-      color: $text-bright;
+      color: var(--mat-sys-on-surface);
       letter-spacing: 0.1em;
       text-transform: uppercase;
     }
     .brand-subtext {
       font-size: 0.65rem;
       font-weight: 700;
-      color: $primary-color;
+      color: var(--mat-sys-primary);
       letter-spacing: 0.1em;
       text-transform: uppercase;
       opacity: 0.9;
@@ -137,12 +137,13 @@ mat-nav-list {
   }
 
   .menu-heading {
-    color: #cbd5e1; // Much brighter slate for heading visibility
+    color: var(--mat-sys-on-surface-variant); // THEME AWARE CONTRAST
     font-size: 0.65rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     padding: 24px 12px 8px;
+    opacity: 0.9;
 
     &.clickable-heading {
       cursor: pointer;
@@ -151,7 +152,7 @@ mat-nav-list {
       align-items: center;
       transition: color 0.2s;
       &:hover {
-        color: $text-bright;
+        color: var(--mat-sys-on-surface);
       }
       .heading-icon {
         font-size: 16px;
@@ -163,7 +164,7 @@ mat-nav-list {
   }
 
   .sub-heading {
-    color: #2dd4bf; // Teal color
+    color: var(--mat-sys-primary); // Teal color
     font-size: 0.7rem;
     font-weight: 700;
     padding: 16px 12px 6px;
@@ -224,31 +225,33 @@ mat-nav-list {
     }
 
     &.active-link {
-      background-color: var(--mat-sys-surface-container-highest);
-      border-left: 3px solid var(--mat-sys-primary);
+      background-color: #1c8375 !important; // FORCE SOLID ELITE TEAL
+      border-left: 3px solid #00f2fe !important; // Glowing accent
+
+      // ABSOLUTE NUKE: Remove all Material white overlays/ripples
+      &::before,
+      &::after,
+      .mdc-list-item__ripple::before,
+      .mdc-list-item__ripple::after {
+        display: none !important;
+        background-color: transparent !important;
+        opacity: 0 !important;
+      }
 
       ::ng-deep {
         span,
         .mat-mdc-list-item-title,
-        .mdc-list-item__primary-text {
-          color: var(--mat-sys-primary) !important;
+        .mdc-list-item__primary-text,
+        .mdc-list-item__content {
+          color: white !important; // HIGH CONTRAST LOCK
           font-weight: 700 !important;
+          opacity: 1 !important;
+          visibility: visible !important;
         }
         .mat-icon {
-          color: var(--mat-sys-primary) !important;
+          color: white !important;
+          opacity: 1 !important;
         }
-      }
-
-      &::after {
-        content: '';
-        position: absolute;
-        right: 0;
-        top: 20%;
-        height: 60%;
-        width: 3px;
-        background: var(--mat-sys-primary);
-        border-radius: 4px 0 0 4px;
-        box-shadow: 0 0 10px var(--mat-sys-primary);
       }
     }
   }
@@ -261,10 +264,10 @@ mat-nav-list {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(2, 6, 23, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
   height: $header-height;
   display: flex;
   align-items: center;
@@ -280,7 +283,7 @@ mat-nav-list {
       margin: 0;
       font-size: 0.85rem;
       font-weight: 800;
-      color: $primary-color;
+      color: var(--mat-sys-primary);
       letter-spacing: 0.1em;
       text-transform: uppercase;
       text-shadow: 0 0 10px rgba(45, 212, 191, 0.2);
@@ -288,33 +291,28 @@ mat-nav-list {
   }
 
   .menu-toggle-button {
-    color: #94a3b8;
+    color: var(--mat-sys-on-surface-variant);
     &:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: $primary-color;
+      background: var(--mat-sys-surface-container-high);
+      color: var(--mat-sys-primary);
     }
   }
 
   .warehouse-menu-button {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--mat-sys-surface-container-low);
+    border: 1px solid var(--mat-sys-outline);
     border-radius: 8px;
-    height: 38px;
-    padding: 0 12px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #f1f5f9;
+    color: var(--mat-sys-on-surface);
     transition: all 0.2s;
 
     .mat-icon {
       font-size: 18px;
       width: 18px;
       height: 18px;
-      color: $primary-color;
-      margin-right: 8px;
+      color: var(--mat-sys-primary); // DYNAMIC THEME COLOR
     }
     &:hover {
-      border-color: $primary-color;
+      border-color: var(--mat-sys-primary);
       background: rgba(45, 212, 191, 0.1);
     }
   }
@@ -323,18 +321,17 @@ mat-nav-list {
     height: 40px;
     padding: 0 12px;
     border-radius: 10px;
-    color: #f1f5f9;
+    color: var(--mat-sys-on-surface);
     font-size: 0.85rem;
     font-weight: 600;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     background: transparent;
 
     .mat-icon {
-      margin-right: 8px;
       font-size: 24px;
       width: 24px;
       height: 24px;
-      color: #94a3b8;
+      color: var(--mat-sys-on-surface-variant); // THEME AWARE ICON
       transition: color 0.2s;
     }
 
@@ -349,9 +346,9 @@ mat-nav-list {
 
     &:hover {
       background: rgba(13, 148, 136, 0.05);
-      color: $primary-color;
+      color: var(--mat-sys-primary);
       .mat-icon {
-        color: $primary-color;
+        color: var(--mat-sys-primary);
       }
     }
   }
@@ -405,7 +402,7 @@ mat-nav-list {
       .user-email {
         font-size: 0.9rem;
         font-weight: 700;
-        color: #f1f5f9;
+        color: var(--mat-sys-on-surface); // THEME AWARE EMAIL
         line-height: 1.2;
       }
 
@@ -415,7 +412,7 @@ mat-nav-list {
         gap: 6px;
         font-size: 0.7rem;
         font-weight: 700;
-        color: $primary-color;
+        color: var(--mat-sys-primary);
         text-transform: uppercase;
         letter-spacing: 0.05em;
 
@@ -423,8 +420,8 @@ mat-nav-list {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: $primary-color;
-          box-shadow: 0 0 6px $primary-color;
+          background: var(--mat-sys-primary);
+          box-shadow: 0 0 6px var(--mat-sys-primary);
         }
       }
     }
@@ -458,7 +455,7 @@ mat-nav-list {
   width: 100%;
   overflow-x: hidden !important;
   min-height: calc(100vh - #{$header-height});
-  background-color: #02060f;
+  background-color: var(--mat-sys-background) !important;
 }
 
 // ==========================================================================

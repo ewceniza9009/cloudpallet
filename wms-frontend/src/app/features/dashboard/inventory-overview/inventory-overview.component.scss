@@ -15,11 +15,9 @@
 .filters-container {
   padding: 1.25rem;
   background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  background: var(--mat-sys-surface);
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: var(--glow-soft);
 
   .filter-header {
     display: flex;
@@ -51,7 +49,7 @@
   -webkit-backdrop-filter: var(--glass-blur) !important;
   border-radius: 12px !important;
   border: 1px solid var(--glass-border) !important;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4) !important;
+  box-shadow: var(--glow-hover) !important;
   
   mat-panel-title { 
     font-size: 0.9rem; 

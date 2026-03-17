@@ -38,17 +38,17 @@
 
   <!-- Main Content -->
   @if (foundPallet(); as pallet) {
-    <div class="master-detail-layout" style="gap: 1.5rem;">
+    <div class="master-detail-layout" style="gap: 1rem; flex-direction: column;">
       
-      <!-- Pallet Context Card (Left/Top) -->
-      <div class="list-view" style="flex: 0 0 350px; background: transparent; border: none;">
+      <!-- Pallet Context Card (Top) -->
+      <div class="list-view" style="width: 100%; background: transparent; border: none;">
         <mat-card class="main-content-card">
-          <div class="list-header" style="background: var(--mat-sys-primary); color: white;">
-             <h3 class="list-title" style="color: white;">Active Pallet</h3>
+          <div class="list-header" style="background: var(--mat-sys-primary); color: white; display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem;">
+             <h3 class="list-title" style="color: white; margin: 0;">Active Pallet</h3>
              <mat-icon style="opacity: 0.8;">inventory_2</mat-icon>
           </div>
         
-        <div class="context-actions">
+        <div class="context-actions" style="flex-direction: row; align-items: center; flex-wrap: wrap;">
           <button mat-flat-button color="primary" (click)="onMove(pallet)">
             <mat-icon>open_with</mat-icon> Move Pallet
           </button>
@@ -70,8 +70,8 @@
       </mat-card>
     </div>
 
-      <!-- Inventory List (Right/Bottom) -->
-      <div class="detail-view" style="background: transparent; border: none; padding: 0;">
+      <!-- Inventory List (Bottom) -->
+      <div class="detail-view" style="width: 100%; background: transparent; border: none; padding: 0;">
         <mat-card class="main-content-card">
           <div class="list-header">
             <h3 class="list-title">Pallet Contents</h3>

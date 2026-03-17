@@ -67,6 +67,10 @@
             <mat-icon matListItemIcon>auto_fix_high</mat-icon>
             <span mat-list-item-title>Repacking</span>
           </a>
+          <a mat-list-item routerLink="/picking" routerLinkActive="active-link" matTooltip="Picking" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>checklist</mat-icon>
+            <span mat-list-item-title>Order Picking</span>
+          </a>
           <a mat-list-item routerLink="/shipping" routerLinkActive="active-link" matTooltip="Shipping" [matTooltipDisabled]="isExpanded()">
             <mat-icon matListItemIcon>local_shipping</mat-icon>
             <span mat-list-item-title>Shipping</span>

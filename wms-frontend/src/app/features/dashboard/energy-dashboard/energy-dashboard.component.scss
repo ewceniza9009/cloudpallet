@@ -81,8 +81,9 @@
   ::ng-deep {
     .ngx-charts {
       text {
-        fill: var(--mat-sys-on-surface-variant);
+        fill: var(--mat-sys-on-surface) !important; // HIGH CONTRAST LOCK
         font-size: 13px !important;
+        font-weight: 600 !important; 
       }
       .axis-label {
         font-weight: 500 !important;
