@@ -126,7 +126,7 @@
 
 .timeline-card {
   border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--glow-soft);
   border-radius: 12px;
   padding: 0;
   background: var(--mat-sys-surface-container-low) !important; 

@@ -28,6 +28,9 @@ html {
   --glass-bg: rgba(15, 23, 42, 0.8);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-blur: blur(20px);
+  --tooltip-bg: #0f172a;
+  --tooltip-text: #f8fafc;
+  --tooltip-border: rgba(255, 255, 255, 0.12);
   --glow-primary: 0 0 40px rgba(45, 212, 191, 0.12);
   --glow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
   --glow-hover: 0 12px 32px rgba(0, 0, 0, 0.6);
@@ -44,12 +47,15 @@ html {
     --mat-sys-on-surface-variant: #334155; // DARKER FOR LEGIBILITY
     --mat-sys-outline: #cbd5e1;
     --mat-sys-outline-variant: #f1f5f9;
-    --mat-sys-shadow: rgba(0, 0, 0, 0.02);
-    --glow-soft: 0 4px 12px rgba(0, 0, 0, 0.05); // SUBTLE MIST FOR LIGHT MODE
-    --glow-hover: 0 10px 20px rgba(0, 0, 0, 0.08); // PREMIUM ELEVATION
-    --glass-bg: rgba(255, 255, 255, 0.85);
-    --glass-border: rgba(0, 0, 0, 0.05);
-    --glow-primary: 0 4px 15px rgba(13, 148, 136, 0.08);
+    --mat-sys-shadow: rgba(28, 131, 117, 0.03);
+    --glow-soft: 0 4px 16px rgba(28, 131, 117, 0.04); // ELITE TEAL MIST (Near invisible depth)
+    --glow-hover: 0 12px 32px rgba(28, 131, 117, 0.08); // WEIGHTLESS ELEVATION
+    --glass-bg: rgba(255, 255, 255, 0.92);
+    --glass-border: rgba(28, 131, 117, 0.08);
+    --glow-primary: 0 0 20px rgba(45, 212, 191, 0.12);
+    --tooltip-bg: #ffffff;
+    --tooltip-text: #0f172a;
+    --tooltip-border: rgba(28, 131, 117, 0.1);
   }
 }
 
@@ -83,7 +89,7 @@ body {
     background-color: var(--mat-sys-surface) !important;
     background: var(--mat-sys-surface) !important;
     color: var(--mat-sys-on-surface) !important;
-    border: 1px solid rgba(255, 255, 255, 0.14) !important; // DEFINITION GUARD: Make borders unmistakable
+    border: 1px solid var(--mat-sys-outline-variant) !important; // THEME AWARE DEFINITION
     box-shadow: var(--glow-soft) !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
@@ -115,16 +121,19 @@ body {
   }
 }
 
-// NUCLEAR TOOLTIP CONTRAST LOCK (Top-level for Overlay targeting)
+// THEME-AWARE TOOLTIP SYSTEM (Luminous Hover Lockdown)
 .mat-mdc-tooltip .mdc-tooltip__surface,
 .mdc-tooltip__surface {
-  background-color: #0f172a !important; // Deep obsidian for anti-glare
-  color: #f8fafc !important; // Absolute white text
+  background-color: var(--tooltip-bg) !important;
+  color: var(--tooltip-text) !important;
   font-weight: 600 !important;
-  font-size: 0.85rem !important;
-  padding: 8px 14px !important;
+  font-size: 0.8rem !important;
+  padding: 6px 12px !important;
   border-radius: 6px !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important; // Light shadow for better pop
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--tooltip-border) !important;
   opacity: 1 !important;
 }
 
@@ -354,7 +363,7 @@ body {
     .mdc-button__label,
     mat-icon,
     .mat-icon {
-      color: #020617 !important;
+      color: #ffffff !important; // ELITE WHITE ON TEAL HOVER
       opacity: 1 !important;
       visibility: visible !important;
     }
@@ -370,7 +379,7 @@ body {
     .mdc-button__label,
     mat-icon,
     .mat-icon {
-      color: #020617 !important;
+      color: #ffffff !important;
       opacity: 1 !important;
     }
   }
@@ -393,20 +402,49 @@ body {
   }
 }
 
+// ===== HEADER ICON BUTTON HARMONIZATION (Luminous Controls) =====
+.mat-mdc-icon-button.header-icon-button {
+  background-color: transparent !important;
+  color: var(--mat-sys-on-surface-variant) !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50% !important;
+
+  .mat-icon {
+    font-size: 24px !important;
+    width: 24px !important;
+    height: 24px !important;
+    color: inherit !important;
+    opacity: 0.9 !important;
+  }
+
+  &:hover {
+    background-color: rgba(45, 212, 191, 0.1) !important;
+    color: var(--mat-sys-primary) !important;
+    transform: translateY(-1px);
+    
+    .mat-icon {
+      opacity: 1 !important;
+    }
+  }
+
+  // Ensure tooltips don't clip
+  overflow: visible !important;
+}
 // ===== FORM FIELD ENHANCEMENTS =====
 .mat-mdc-form-field {
   width: 100%;
 
   .mdc-text-field {
-    border-radius: 12px;
-    padding: 0 !important; // Controlled by infix
-    background-color: var(--mat-sys-surface-container-low) !important;
+    border-radius: 8px;
+    padding: 0 !important;
+    background-color: var(--mat-sys-surface) !important; // CLINICAL CLEAN WHITE
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
     &.mdc-text-field--outlined {
       .mdc-notched-outline {
-        border-radius: 12px;
-        border-color: var(--mat-sys-outline) !important; // THEME AWARE BORDER
+        border-radius: 8px;
+        border-color: var(--mat-sys-outline) !important; 
         border-width: 1px !important;
 
         .mdc-notched-outline__leading,
@@ -419,11 +457,13 @@ body {
       &:hover .mdc-notched-outline {
         border-color: var(--mat-sys-primary) !important;
         border-width: 1.5px !important;
+        box-shadow: 0 2px 8px rgba(45, 212, 191, 0.08); 
       }
 
       &.mdc-text-field--focused .mdc-notched-outline {
         border-color: var(--mat-sys-primary) !important;
         border-width: 2px !important;
+        box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.1); 
       }
     }
   }
@@ -431,50 +471,123 @@ body {
   .mat-mdc-form-field-flex {
     display: flex !important;
     align-items: center !important;
-    padding: 16px 0 !important; // ABSOLUTE HORIZONTAL INSET
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    padding: 0 16px !important;
     background-color: transparent !important;
-    height: 44px !important;
-    min-height: 44px !important;
+    height: 56px !important; // ELITE GOLD STANDARD HEIGHT
+    min-height: 56px !important;
     box-sizing: border-box !important;
   }
 
   .mat-mdc-form-field-infix {
-    padding: 0 !important;
+    padding: 16px 0 8px !important; // PERFECT VERTICAL AIR
     display: flex !important;
     align-items: center !important;
-    height: 44px !important;
-    min-height: 44px !important;
-    width: auto !important;
-    margin-top: 0 !important; // Nuking the MDC top gap
+    min-height: 56px !important;
+    height: 56px !important;
+    border-top: 0 !important;
   }
 
   .mat-mdc-input-element {
     padding: 0 !important;
     margin: 0 !important;
-    height: 44px !important;
-    line-height: normal !important;
+    height: 24px !important;
+    font-size: 1rem !important; // PUNCHY VALUES
+    font-weight: 500 !important;
+    color: var(--mat-sys-on-surface) !important;
   }
 
-  // FORCE LABEL INSET & VERTICAL CENTER
+  // REFINED LABEL SYSTEM (No more chaos)
   .mdc-floating-label {
     left: 16px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-
+    color: var(--mat-sys-on-surface-variant) !important;
+    font-weight: 600 !important;
+    
     &.mdc-floating-label--float-above {
-      transform: translateY(-135%) scale(0.75) !important;
       left: 16px !important;
+      transform: translateY(-38px) scale(0.85) !important; // SURGICAL PRECISION
+      color: var(--mat-sys-primary) !important;
+      background: var(--mat-sys-surface) !important;
+      padding: 0 6px !important;
+      margin-left: -4px !important;
     }
   }
 
-  // Handle Date Range Inputs
-  .mat-mdc-date-range-input {
-    padding: 0 !important;
+  .mat-mdc-form-field-icon-prefix {
+    padding-right: 12px !important; // MANDATORY AIR GAP
+    margin-right: 0 !important;
+    color: var(--mat-sys-on-surface-variant) !important;
     display: flex !important;
     align-items: center !important;
-    height: 44px !important;
+    justify-content: center !important;
+    
+    .mat-icon {
+      font-size: 20px !important;
+      width: 20px !important;
+      height: 20px !important;
+    }
+  }
+
+  .mat-mdc-form-field-icon-suffix {
+    padding-left: 8px !important;
+    color: var(--mat-sys-on-surface-variant) !important;
+    
+    .mat-icon {
+      font-size: 20px !important;
+      width: 20px !important;
+      height: 20px !important;
+    }
+  }
+
+  // INTELLIGENT PREFIX SPACING: Push text and label only when icon exists
+  .mdc-text-field--with-leading-icon {
+    .mat-mdc-form-field-infix {
+      margin-left: 4px !important; // Internal structural air
+    }
+    
+    .mdc-floating-label:not(.mdc-floating-label--float-above) {
+      left: 48px !important; // SYMMETRIC ALIGNMENT WITH ICON
+    }
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    font-size: 0.75rem !important;
+    color: var(--mat-sys-on-surface-variant) !important;
+    opacity: 0.8;
+    margin-top: 4px !important;
+    font-weight: 500 !important;
+  }
+
+  // Handle Specialized Inputs
+  textarea.mat-mdc-input-element {
+    padding: 12px 0 !important;
+    height: auto !important;
+    min-height: 80px !important;
+    line-height: 1.5 !important;
+  }
+
+  .mat-mdc-select-value {
+    font-weight: 500 !important;
+  }
+
+  .mat-mdc-date-range-input {
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
+// ===== CHECKBOX & SLIDE TOGGLE HARMONIZATION (Elite Controls) =====
+.mat-mdc-checkbox {
+  --mdc-checkbox-selected-focus-icon-color: var(--mat-sys-primary) !important;
+  --mdc-checkbox-selected-hover-icon-color: var(--mat-sys-primary) !important;
+  --mdc-checkbox-selected-icon-color: var(--mat-sys-primary) !important;
+  --mdc-checkbox-selected-pressed-icon-color: var(--mat-sys-primary) !important;
+  --mdc-checkbox-unselected-focus-outline-color: var(--mat-sys-outline) !important;
+  --mdc-checkbox-unselected-hover-outline-color: var(--mat-sys-outline) !important;
+  --mdc-checkbox-unselected-icon-color: var(--mat-sys-outline) !important;
+  --mdc-checkbox-unselected-pressed-outline-color: var(--mat-sys-outline) !important;
+
+  .mdc-checkbox__background {
+    border-radius: 4px !important;
   }
 }
 
@@ -517,13 +630,15 @@ body {
   }
 }
 
-// ===== DIALOG ENHANCEMENTS =====
+// ===== DIALOG ENHANCEMENTS (Elite Depth) =====
 .mat-mdc-dialog-container {
-  border-radius: 24px !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--glow-hover) !important;
+  background: var(--mat-sys-surface) !important;
 
   .mdc-dialog__surface {
-    border-radius: 24px !important;
+    border-radius: 16px !important;
+    background: transparent !important;
   }
 }
 
@@ -573,26 +688,48 @@ body {
   // Visual polish
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+// TOOLTIP ANCHOR (Redundant nuke)
 .mat-mdc-tooltip {
-  border-radius: 8px;
-  padding: 8px 12px;
-  font: var(--mat-sys-body-small);
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(8px);
+  visibility: visible !important;
 }
 
-// ===== MENU ENHANCEMENTS =====
-.mat-mdc-menu-panel {
+// ===== MENU & OPTION HARMONIZATION =====
+.mat-mdc-menu-panel,
+.mat-mdc-autocomplete-panel {
   border-radius: 12px !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
-  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface) !important;
+  border: 1px solid var(--mat-sys-outline-variant) !important;
+  box-shadow: var(--glow-hover) !important;
+  margin-top: 4px !important;
+  overflow: hidden !important;
 
   .mat-mdc-menu-item {
     border-radius: 8px;
     min-height: 48px;
+    margin: 4px 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-      background: var(--mat-sys-surface-container);
+      background: var(--mat-sys-surface-container-high) !important;
+    }
+  }
+}
+
+.mat-mdc-option {
+  border-radius: 6px !important;
+  margin: 2px 6px !important;
+  min-height: 40px !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  
+  &:hover:not(.mdc-list-item--disabled) {
+    background-color: var(--mat-sys-surface-container-high) !important;
+  }
+
+  &.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+    background-color: rgba(45, 212, 191, 0.1) !important;
+    .mdc-list-item__primary-text {
+      color: var(--mat-sys-primary) !important;
+      font-weight: 700 !important;
     }
   }
 }

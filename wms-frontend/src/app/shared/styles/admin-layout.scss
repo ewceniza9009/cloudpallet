@@ -96,7 +96,7 @@
   max-width: 100% !important;
   margin: 0 !important;
   border: 1px solid var(--mat-sys-outline-variant) !important; // DEFINITION GUARD
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4) !important; // Elite depth
+  box-shadow: var(--glow-soft) !important; // Theme-aware elite depth
   border-radius: 12px;
   overflow: hidden;
   background: var(--mat-sys-surface) !important; // Solid surface for better contrast
@@ -235,7 +235,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important; // Deeper shadows for defined depth
+  box-shadow: var(--glow-hover) !important; // Deeper theme-aware depth for defined depth
 }
 
 // 4. List Pane (Left)
@@ -777,9 +777,9 @@
 
   .mat-mdc-text-field-wrapper,
   .mdc-text-field {
-    height: 44px !important;
+    height: 56px !important; // MATCH GLOBAL ELITE HEIGHT
     padding: 0 !important;
-    background-color: var(--mat-sys-surface-container-low) !important; // THEME AWARE
+    background-color: var(--mat-sys-surface) !important; // CLINICAL CLEAN WHITE
     border: 1px solid var(--mat-sys-outline) !important;
     border-radius: 8px !important;
     transition: all 0.2s ease;
@@ -788,55 +788,56 @@
 
     &:hover {
       border-color: var(--mat-sys-primary) !important;
-      background-color: var(--mat-sys-surface-container-high) !important; // DYNAMIC HOVER
+      box-shadow: 0 2px 8px rgba(45, 212, 191, 0.08); 
     }
   }
 
   .mat-mdc-form-field-flex {
-    height: 44px !important;
+    height: 56px !important;
     align-items: center !important;
-    padding: 0 28px !important; // LUXURY BREATHING ROOM
+    padding: 0 16px !important;
     display: flex !important;
-    width: 95% !important;
+    width: 100% !important;
     overflow: visible !important;
     margin: 0 !important;
   }
 
   .mat-mdc-form-field-infix {
-    padding: 0 !important;
-    min-height: 44px !important;
-    height: 44px !important;
-    border-top: 0 !important; // CRITICAL: Nuking the invisible gap
+    padding: 16px 0 8px !important; 
+    min-height: 56px !important;
+    height: 56px !important;
     display: flex !important;
     align-items: center !important;
-    flex: 1 1 auto !important;
+    border-top: 0 !important; 
     width: auto !important;
     overflow: visible !important;
 
     &::before {
-      display: none !important; // Kill the MDC ghost height
+      display: none !important; 
     }
   }
 
   .mat-mdc-form-field-label-wrapper {
-    top: 50% !important;
-    transform: translateY(-50%) !important;
+    top: 0 !important;
     padding-top: 0 !important;
     overflow: visible !important;
     pointer-events: none;
   }
 
   .mdc-floating-label {
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    left: 14px !important; // LUXURY INSET
+    left: 14px !important; 
     color: var(--mat-sys-on-surface-variant) !important;
-    opacity: 1 !important; // ABSOLUTE CONTRAST LEGIBILITY
+    font-weight: 600 !important; 
     pointer-events: none;
     font-size: 0.95rem !important;
 
     &.mdc-floating-label--float-above {
-      display: none !important;
+      display: block !important;
+      transform: translateY(-38px) scale(0.85) !important; // SURGICAL LOCK
+      background: var(--mat-sys-surface) !important;
+      color: var(--mat-sys-primary) !important;
+      padding: 0 6px !important;
+      margin-left: -4px !important;
     }
 
     // Account for asterisks
@@ -861,14 +862,14 @@
     display: block !important;
   }
 
-  .mat-mdc-form-field-icon-prefix,
-  .mat-mdc-form-field-icon-suffix {
-    padding: 0 !important;
+  .mat-mdc-form-field-icon-prefix {
+    padding-right: 12px !important; // MANDATORY STRUCTURAL BUFFER
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     height: 100% !important;
-    width: 32px !important; // Robust hit-box
+    width: auto !important;
+    min-width: 24px !important;
     overflow: visible !important;
     flex-shrink: 0 !important;
 
@@ -882,6 +883,35 @@
       justify-content: center;
       margin: 0 !important;
       color: var(--mat-sys-on-surface-variant) !important;
+    }
+  }
+
+  .mat-mdc-form-field-icon-suffix {
+    padding-left: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
+    width: auto !important;
+    min-width: 24px !important;
+    overflow: visible !important;
+    flex-shrink: 0 !important;
+
+    .mat-icon {
+      font-size: 20px !important;
+      width: 20px !important;
+      height: 20px !important;
+      color: var(--mat-sys-on-surface-variant) !important;
+    }
+  }
+
+  // INTELLIGENT PREFIX SPACING: Push text and label only when icon exists
+  &.mdc-text-field--with-leading-icon {
+    .mat-mdc-form-field-infix {
+      margin-left: 4px !important;
+    }
+    .mdc-floating-label:not(.mdc-floating-label--float-above) {
+      left: 48px !important; // PERFECT SYMMETRIC ALIGNMENT
     }
   }
 
