@@ -81,14 +81,14 @@
   ::ng-deep {
     .ngx-charts {
       text {
-        fill: #475569;
+        fill: var(--mat-sys-on-surface-variant);
         font-size: 13px !important;
       }
       .axis-label {
         font-weight: 500 !important;
       }
       .gridline-path {
-        stroke: #e2e8f0;
+        stroke: var(--mat-sys-outline-variant);
       }
     }
   }
@@ -139,7 +139,7 @@
 }
 
 .kpi-card {
-  background: #fff;
+  background: var(--mat-sys-surface);
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
@@ -177,12 +177,12 @@
       font-size: 1.75rem;
       font-weight: 600;
       line-height: 1.2;
-      color: #1e293b;
+      color: var(--mat-sys-on-surface);
     }
 
     .kpi-label {
       font-size: 0.875rem;
-      color: #64748b;
+      color: var(--mat-sys-on-surface-variant);
       font-weight: 500;
     }
   }
@@ -210,7 +210,7 @@
 }
 
 .chart-section {
-  background: #fff;
+  background: var(--mat-sys-surface);
   border-radius: 12px;
   border: 1px solid var(--mat-sys-outline-variant);
   padding: 1.5rem;

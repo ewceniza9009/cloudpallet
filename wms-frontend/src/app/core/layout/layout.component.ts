@@ -79,6 +79,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   isAdminExpanded = signal(this.getSavedState('isAdminExpanded', false));
   isDashboardsExpanded = signal(this.getSavedState('isDashboardsExpanded', false));
   isReportsExpanded = signal(this.getSavedState('isReportsExpanded', true));
+  isDarkMode = signal(localStorage.getItem('theme') !== 'light');
 
   constructor() {
     // Effect to save state whenever any signal changes
@@ -96,6 +97,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.applyTheme();
     this.loadWarehouses();
 
     this.signalRService
@@ -149,6 +151,21 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   toggleReportsMenu(): void {
     this.isReportsExpanded.update(expanded => !expanded);
+  }
+
+  toggleTheme(): void {
+    this.isDarkMode.update(dark => !dark);
+    this.applyTheme();
+  }
+
+  private applyTheme(): void {
+    if (this.isDarkMode()) {
+      document.documentElement.classList.remove('light-mode');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.add('light-mode');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
 

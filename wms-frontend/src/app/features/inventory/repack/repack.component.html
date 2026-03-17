@@ -1,20 +1,22 @@
-<div class="repack-container">
+<div class="report-container">
   <!-- Header -->
-  <header class="page-header">
+  <div class="header-section">
     <div class="header-content">
       <h1>Repackaging Service</h1>
       <p>Inventory Transformation & Processing</p>
     </div>
-  </header>
+  </div>
 
-  <form [formGroup]="repackForm" (ngSubmit)="onSubmit()" class="repack-layout">
+  <form [formGroup]="repackForm" (ngSubmit)="onSubmit()" class="master-detail-layout">
     
-    <!-- Left Panel: Configuration -->
-    <div class="config-panel">
-      <div class="panel-section">
-        <h3 class="section-title">Job Configuration</h3>
-        
-        <div class="card-base config-card">
+    <!-- Left Pane: Configuration -->
+    <div class="list-view">
+      <div class="list-header">
+        <h3 class="list-title">Job Configuration</h3>
+      </div>
+      
+      <div class="tab-content-wrapper">
+        <div class="form-section">
           <!-- Account Selection -->
           <div class="form-group">
             <label class="form-label">Customer Account</label>
@@ -43,52 +45,56 @@
             </mat-form-field>
           </div>
 
-          <div class="row-group">
-            <!-- Quantity -->
-            <div class="form-group" [class.disabled]="!repackForm.get('targetMaterial')?.value">
-              <label class="form-label">Quantity (Units)</label>
-              <mat-form-field appearance="outline" class="custom-field">
-                <input matInput type="number" formControlName="quantityToProcess" min="1" placeholder="0">
-              </mat-form-field>
-            </div>
-
-            <!-- Labor -->
-            <div class="form-group">
-              <label class="form-label">Labor Time (Hours)</label>
-              <mat-form-field appearance="outline" class="custom-field">
-                <mat-icon matPrefix>timer</mat-icon>
-                <input matInput type="number" formControlName="durationHours" min="0.1" step="0.1" placeholder="0.0">
-              </mat-form-field>
-            </div>
+          <div class="form-group" [class.disabled]="!repackForm.get('targetMaterial')?.value">
+            <label class="form-label">Quantity</label>
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-icon matPrefix>inventory</mat-icon>
+              <input matInput type="number" formControlName="quantityToProcess" min="1" placeholder="0">
+            </mat-form-field>
           </div>
 
-          <div class="form-actions">
-            <button mat-flat-button color="primary" type="submit" class="submit-button" 
-                    [disabled]="repackForm.invalid || isSubmitting()">
-              @if (isSubmitting()) {
-                <mat-spinner diameter="20"></mat-spinner>
-              } @else {
-                <span>Record Repack</span>
-              }
-            </button>
+          <div class="form-group">
+            <label class="form-label">Labor (Hrs)</label>
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-icon matPrefix>timer</mat-icon>
+              <input matInput type="number" formControlName="durationHours" min="0.1" step="0.1" placeholder="0.0">
+            </mat-form-field>
           </div>
         </div>
+
+        <button mat-flat-button color="primary" type="submit" style="width: 100%; height: 48px; margin-top: 1.5rem;" 
+                [disabled]="repackForm.invalid || isSubmitting()">
+          @if (isSubmitting()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            <ng-container>
+              <mat-icon>swap_horiz</mat-icon>
+              <span>Record Repack Job</span>
+            </ng-container>
+          }
+        </button>
       </div>
     </div>
 
-    <!-- Right Panel: Source Selection -->
-    <div class="source-panel">
-      <div class="panel-section">
-        <h3 class="section-title">Source Inventory</h3>
-        
-        <div class="source-selection-area">
+    <!-- Right Pane: Source Selection -->
+    <div class="detail-view">
+      <div class="detail-header">
+        <h3 class="detail-title">Source Inventory</h3>
+      </div>
+      
+      <div class="detail-content">
+        <div class="tab-content-wrapper">
           @if (!repackForm.get('targetMaterial')?.value) {
             <div class="empty-state">
-              <mat-icon>inventory_2</mat-icon>
-              <p>Select a Target Material to view available source inventory.</p>
+              <div class="empty-icon">
+                <mat-icon>inventory_2</mat-icon>
+              </div>
+              <h3>Selection Required</h3>
+              <p>Select a Target Material to view available source pallets.</p>
             </div>
           } @else {
-            <div class="search-box">
+            <div class="form-section" style="margin-bottom: 2rem;">
+              <label class="form-label">Search / Scan Source Pallet</label>
               <mat-form-field appearance="outline" class="custom-field search">
                 <mat-icon matPrefix>search</mat-icon>
                 <input type="text" matInput formControlName="sourceInventory" [matAutocomplete]="autoSource" placeholder="Search by material or pallet..." #triggerSource="matAutocompleteTrigger" (click)="triggerSource.openPanel()">
@@ -116,34 +122,35 @@
             </div>
 
             @if (selectedSourceInventory; as selectedSource) {
-              <div class="selected-source-card card-base">
-                <div class="card-header">
-                  <div class="header-icon">
-                    <mat-icon>check_circle</mat-icon>
-                  </div>
-                  <div class="header-text">
-                    <span class="title">Selected Source</span>
-                    <span class="subtitle">Inventory to be consumed</span>
-                  </div>
+              <div class="detail-card">
+                <div class="mat-mdc-card-header">
+                  <div class="mat-mdc-card-title">Selected Source Pallet</div>
+                  <mat-icon color="primary">verified</mat-icon>
                 </div>
                 
-                <div class="card-content">
-                  <div class="detail-grid">
-                    <div class="detail-item">
-                      <span class="label">Material</span>
-                      <span class="value">{{ selectedSource.materialName }}</span>
+                <div class="mat-mdc-card-content" style="padding: 1.5rem;">
+                  <div class="layout-grid">
+                    <div class="column">
+                      <div class="form-group">
+                        <span class="form-label">Material Name</span>
+                        <div style="font-size: 1.1rem; font-weight: 500;">{{ selectedSource.materialName }}</div>
+                      </div>
+                      <div class="form-group">
+                        <span class="form-label">Pallet Barcode</span>
+                        <div style="font-family: monospace; color: var(--mat-sys-primary); font-size: 1.2rem; font-weight: 700;">{{ selectedSource.palletBarcode }}</div>
+                      </div>
                     </div>
-                    <div class="detail-item">
-                      <span class="label">Pallet ID</span>
-                      <span class="value mono">{{ selectedSource.palletBarcode }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="label">Location</span>
-                      <span class="value">{{ selectedSource.location }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="label">Available Qty</span>
-                      <span class="value highlight">{{ selectedSource.quantity | number }}</span>
+                    <div class="column">
+                      <div class="form-group">
+                        <span class="form-label">Current Location</span>
+                        <div><span class="status-badge pending">{{ selectedSource.location }}</span></div>
+                      </div>
+                      <div class="form-group">
+                        <span class="form-label">Available Quantity</span>
+                        <div style="font-size: 1.8rem; font-weight: 800; color: var(--mat-sys-primary);">
+                          {{ selectedSource.quantity | number }}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

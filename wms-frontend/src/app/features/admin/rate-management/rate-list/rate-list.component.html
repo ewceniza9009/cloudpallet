@@ -1,23 +1,25 @@
-<div class="list-container">
-  <div class="list-header">
+<div class="report-container">
+  <div class="header-section">
     <div class="header-content">
-      <h2 class="list-title">Billing Rates</h2>
-      <p class="list-subtitle">Manage billing rates for services, storage, and value-added services</p>
+      <h1>Billing Rates</h1>
+      <p>Manage billing rates for services, storage, and value-added services</p>
     </div>
-    <button mat-flat-button color="primary" (click)="createNew()" class="create-button">
+    <button mat-flat-button color="primary" (click)="createNew()">
       <mat-icon>add</mat-icon>
       <span>New Rate</span>
     </button>
   </div>
 
-  <div class="search-section">
-    <mat-form-field appearance="outline" class="search-bar">
+  <div class="filter-grid">
+    <mat-form-field appearance="outline" class="custom-field">
       <mat-label>Search rates...</mat-label>
       <input matInput [formControl]="searchControl" placeholder="Search by account, service, or tier">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <div class="results-count">
-      {{ totalCount() }} rates found
+    <div class="filter-actions">
+      <span style="font-size: 0.85rem; color: var(--mat-sys-on-surface-variant);">
+        {{ totalCount() }} rates found
+      </span>
     </div>
   </div>
 

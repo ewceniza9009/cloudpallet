@@ -203,7 +203,7 @@
             <button mat-icon-button (click)="toggleSidenav()" class="menu-toggle-button">
                <mat-icon>{{ isExpanded() ? 'menu_open' : 'menu' }}</mat-icon>
             </button>
-            <h2 style="margin: 0; font-size: 0.85rem; font-weight: 800; color: #0f172a; letter-spacing: 0.05em; text-transform: uppercase;">Operations Command Center</h2>
+            <h2 class="header-title">Operations Command Center</h2>
          </div>
          <div class="header-section">
             <button mat-button [matMenuTriggerFor]="warehouseMenu" class="warehouse-menu-button">
@@ -216,6 +216,9 @@
                }
                </span>
                <mat-icon class="expand-icon">expand_more</mat-icon>
+            </button>
+            <button mat-icon-button (click)="toggleTheme()" [matTooltip]="isDarkMode() ? 'Switch to Light Mode' : 'Switch to Dark Mode'" class="header-icon-button">
+               <mat-icon>{{ isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
             </button>
             <button mat-icon-button [matMenuTriggerFor]="notificationsMenu" matTooltip="Notifications"
             class="header-icon-button" [aria-label]="notificationService.unreadCount() + ' new notifications'">

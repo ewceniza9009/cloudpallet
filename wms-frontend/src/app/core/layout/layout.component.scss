@@ -4,25 +4,26 @@
 $sidebar-width: 260px;
 $sidebar-collapsed-width: 68px;
 $header-height: 64px;
-$primary-color: #0d9488; // Professional Teal
-$sidebar-bg: #0f172a; // Deep Obsidian
-$sidebar-item-hover: rgba(255, 255, 255, 0.05);
-$sidebar-item-active: rgba(13, 148, 136, 0.15);
+$primary-color: #2dd4bf; // Cyber Teal
+$sidebar-bg: #020617; // Deep Obsidian
+$sidebar-item-hover: rgba(45, 212, 191, 0.05);
+$sidebar-item-active: rgba(45, 212, 191, 0.15);
 $text-dim: #94a3b8;
 $text-bright: #f8fafc;
 $transition-speed: 0.25s;
+$glass-overlay: rgba(15, 23, 42, 0.7);
 
 :host {
   display: block;
   height: 100vh;
-  --mat-sidenav-container-background-color: #f1f5f9;
+  --mat-sidenav-container-background-color: #02060f;
 }
 
 .sidenav-container {
   height: 100vh;
   width: 100%;
   overflow-x: hidden !important;
-  background-color: #f1f5f9;
+  background-color: #02060f;
 }
 
 // ==========================================================================
@@ -30,21 +31,21 @@ $transition-speed: 0.25s;
 // ==========================================================================
 .sidenav {
   width: $sidebar-width;
-  background: $sidebar-bg;
-  border-right: none;
+  background: var(--mat-sys-surface);
+  border-right: 1px solid var(--mat-sys-outline-variant);
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
   transition: width $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 0 50px var(--mat-sys-shadow);
 
   &.collapsed {
     width: $sidebar-collapsed-width;
 
-    .brand-text, 
-    .menu-heading, 
+    .brand-text,
+    .menu-heading,
     .sub-heading,
-    .brand-subtext, 
+    .brand-subtext,
     .heading-icon,
     ::ng-deep .mdc-list-item__primary-text,
     ::ng-deep .mat-mdc-list-item-title,
@@ -56,7 +57,11 @@ $transition-speed: 0.25s;
     .sidebar-header {
       padding: 0;
       justify-content: center;
-      .brand-icon { margin: 0; width: 32px; height: 32px; }
+      .brand-icon {
+        margin: 0;
+        width: 32px;
+        height: 32px;
+      }
     }
 
     mat-nav-list {
@@ -64,9 +69,10 @@ $transition-speed: 0.25s;
       .mat-mdc-list-item {
         justify-content: center;
         width: 48px;
-        margin: 4px auto;
         padding-left: 0 !important;
-        .mat-icon { margin: 0; }
+        .mat-icon {
+          margin: 0;
+        }
       }
     }
   }
@@ -81,7 +87,7 @@ $transition-speed: 0.25s;
   align-items: center;
   padding: 0 20px;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(2, 6, 23, 0.8);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
   .brand-icon {
@@ -95,7 +101,7 @@ $transition-speed: 0.25s;
     display: flex;
     flex-direction: column;
     white-space: nowrap;
-    
+
     .app-brand {
       font-size: 0.95rem;
       font-weight: 800;
@@ -105,9 +111,11 @@ $transition-speed: 0.25s;
     }
     .brand-subtext {
       font-size: 0.65rem;
-      font-weight: 600;
+      font-weight: 700;
       color: $primary-color;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.9;
     }
   }
 }
@@ -119,9 +127,14 @@ mat-nav-list {
   padding: 16px 12px;
   flex: 1;
   overflow-y: auto;
-  
-  &::-webkit-scrollbar { width: 4px; }
-  &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
 
   .menu-heading {
     color: #cbd5e1; // Much brighter slate for heading visibility
@@ -130,15 +143,22 @@ mat-nav-list {
     text-transform: uppercase;
     letter-spacing: 0.12em;
     padding: 24px 12px 8px;
-    
+
     &.clickable-heading {
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
       transition: color 0.2s;
-      &:hover { color: $text-bright; }
-      .heading-icon { font-size: 16px; width: 16px; height: 16px; opacity: 0.8; }
+      &:hover {
+        color: $text-bright;
+      }
+      .heading-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        opacity: 0.8;
+      }
     }
   }
 
@@ -158,42 +178,67 @@ mat-nav-list {
     transition: all 0.2s;
     overflow: visible;
 
-    // NUCLEAR VISIBILITY FIX: Target every possible text container
+    // Base visibility for nav items
     ::ng-deep {
       .mdc-list-item__primary-text,
       .mat-mdc-list-item-title,
       .mdc-list-item__content,
       span {
-        color: #ffffff !important; // Absolute white for guaranteed visibility
-        opacity: 1 !important;
-        visibility: visible !important;
-        font-weight: 500 !important;
-        font-size: 0.9rem !important;
+        color: var(--mat-sys-on-surface);
+        opacity: 0.9;
+        visibility: visible;
+        font-weight: 500;
+        font-size: 0.9rem;
       }
 
-      .mat-mdc-list-item-icon, 
+      .mat-mdc-list-item-icon,
       .mat-icon {
-        color: #94a3b8 !important;
-        opacity: 1 !important;
+        color: var(--mat-sys-on-surface-variant);
+        opacity: 0.8;
       }
     }
 
+    // Hover handled globally by Nuclear Contrast Engine
     &:hover {
-      background-color: rgba(255, 255, 255, 0.08);
-      ::ng-deep span { color: #5eead4 !important; }
+      background-color: var(--mat-sys-surface-container-high) !important;
+
+      ::ng-deep {
+        span,
+        .mat-mdc-list-item-title,
+        .mdc-list-item__primary-text {
+          color: var(--mat-sys-primary) !important;
+          opacity: 1;
+        }
+        .mat-icon {
+          color: var(--mat-sys-primary) !important;
+        }
+      }
+
+      // Eliminate MDC ripple artifacts
+      &::before,
+      .mdc-list-item__ripple::before,
+      .mdc-list-item__ripple::after {
+        background-color: transparent !important;
+        display: none !important;
+      }
     }
 
     &.active-link {
-      background-color: rgba(13, 148, 136, 0.2);
-      
+      background-color: var(--mat-sys-surface-container-highest);
+      border-left: 3px solid var(--mat-sys-primary);
+
       ::ng-deep {
-         span, .mat-mdc-list-item-title, .mdc-list-item__primary-text {
-          color: #5eead4 !important; // Radiant teal
+        span,
+        .mat-mdc-list-item-title,
+        .mdc-list-item__primary-text {
+          color: var(--mat-sys-primary) !important;
           font-weight: 700 !important;
         }
-        .mat-icon { color: #5eead4 !important; }
+        .mat-icon {
+          color: var(--mat-sys-primary) !important;
+        }
       }
-      
+
       &::after {
         content: '';
         position: absolute;
@@ -201,9 +246,9 @@ mat-nav-list {
         top: 20%;
         height: 60%;
         width: 3px;
-        background: #5eead4;
+        background: var(--mat-sys-primary);
         border-radius: 4px 0 0 4px;
-        box-shadow: -2px 0 8px rgba(94, 234, 212, 0.4);
+        box-shadow: 0 0 10px var(--mat-sys-primary);
       }
     }
   }
@@ -216,9 +261,10 @@ mat-nav-list {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(2, 6, 23, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   height: $header-height;
   display: flex;
   align-items: center;
@@ -229,44 +275,66 @@ mat-nav-list {
     display: flex;
     align-items: center;
     gap: 16px;
+
+    .header-title {
+      margin: 0;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: $primary-color;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(45, 212, 191, 0.2);
+    }
   }
 
   .menu-toggle-button {
-    color: #475569;
-    &:hover { background: rgba(0, 0, 0, 0.04); }
+    color: #94a3b8;
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: $primary-color;
+    }
   }
 
   .warehouse-menu-button {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     height: 38px;
     padding: 0 12px;
     font-size: 0.85rem;
-    font-weight: 500;
-    color: #475569;
+    font-weight: 600;
+    color: #f1f5f9;
     transition: all 0.2s;
 
-    .mat-icon { font-size: 18px; width: 18px; height: 18px; color: $primary-color; margin-right: 8px; }
-    &:hover { border-color: $primary-color; background: #f0f9f9; }
+    .mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: $primary-color;
+      margin-right: 8px;
+    }
+    &:hover {
+      border-color: $primary-color;
+      background: rgba(45, 212, 191, 0.1);
+    }
   }
 
   .user-profile-button {
     height: 40px;
     padding: 0 12px;
     border-radius: 10px;
-    color: #475569;
+    color: #f1f5f9;
     font-size: 0.85rem;
     font-weight: 600;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     background: transparent;
-    
-    .mat-icon { 
-      margin-right: 8px; 
-      font-size: 24px; 
+
+    .mat-icon {
+      margin-right: 8px;
+      font-size: 24px;
       width: 24px;
       height: 24px;
-      color: #94a3b8; 
+      color: #94a3b8;
       transition: color 0.2s;
     }
 
@@ -279,10 +347,12 @@ mat-nav-list {
       opacity: 0.5;
     }
 
-    &:hover { 
-      background: rgba(13, 148, 136, 0.05); 
+    &:hover {
+      background: rgba(13, 148, 136, 0.05);
       color: $primary-color;
-      .mat-icon { color: $primary-color; }
+      .mat-icon {
+        color: $primary-color;
+      }
     }
   }
 }
@@ -291,10 +361,13 @@ mat-nav-list {
 // # HEADER MENUS (Warehouse, Notifications, User)
 // ==========================================================================
 ::ng-deep .user-profile-menu {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
   border-radius: 12px !important;
   overflow: hidden !important;
-  border: 1px solid rgba(0,0,0,0.08) !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
   min-width: 240px !important;
   margin-top: 8px !important;
 
@@ -303,34 +376,39 @@ mat-nav-list {
     display: flex;
     align-items: center;
     gap: 16px;
-    background: linear-gradient(to bottom, #f8fafc, #ffffff);
+    background: rgba(2, 6, 23, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
     .avatar-container {
       width: 44px;
       height: 44px;
       border-radius: 12px;
-      background: #f1f5f9;
+      background: rgba(45, 212, 191, 0.1);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #94a3b8;
-      border: 1px solid #e2e8f0;
+      color: var(--mat-sys-primary);
+      border: 1px solid rgba(45, 212, 191, 0.2);
 
-      .mat-icon { font-size: 28px; width: 28px; height: 28px; }
+      .mat-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+      }
     }
 
     .user-details {
       display: flex;
       flex-direction: column;
       gap: 2px;
-      
+
       .user-email {
         font-size: 0.9rem;
         font-weight: 700;
-        color: #1e293b;
+        color: #f1f5f9;
         line-height: 1.2;
       }
-      
+
       .user-role-badge {
         display: inline-flex;
         align-items: center;
@@ -354,14 +432,22 @@ mat-nav-list {
 
   .menu-actions {
     padding: 8px;
-    background: #ffffff;
+    background: transparent;
+
+    button {
+      color: #f1f5f9 !important;
+      &:hover {
+        background: rgba(255, 255, 255, 0.05) !important;
+      }
+    }
 
     .logout-button {
       border-radius: 8px !important;
       font-weight: 600 !important;
-      
+      color: #fb7185 !important;
+
       &:hover {
-        background: #fff1f2 !important;
+        background: rgba(244, 63, 94, 0.1) !important;
       }
     }
   }
@@ -372,7 +458,7 @@ mat-nav-list {
   width: 100%;
   overflow-x: hidden !important;
   min-height: calc(100vh - #{$header-height});
-  background-color: #f1f5f9;
+  background-color: #02060f;
 }
 
 // ==========================================================================
@@ -381,7 +467,9 @@ mat-nav-list {
 @media (max-width: 992px) {
   .app-header {
     padding: 0 16px;
-    .warehouse-text { display: none; }
+    .warehouse-text {
+      display: none;
+    }
   }
 }
 

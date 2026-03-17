@@ -14,7 +14,7 @@
 .task-card {
   border: 1px solid var(--mat-sys-outline-variant);
   border-radius: 16px;
-  background: white;
+  background: var(--mat-sys-surface);
   overflow: hidden;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
@@ -50,8 +50,8 @@
     gap: 0.5rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: #059669;
-    background: #ecfdf5;
+    background: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
     padding: 4px 12px;
     border-radius: 99px;
   }

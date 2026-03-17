@@ -1,20 +1,22 @@
-<div class="kitting-container">
+<div class="report-container">
   <!-- Header -->
-  <header class="page-header">
+  <div class="header-section">
     <div class="header-content">
       <h1>Kitting Assembly</h1>
       <p>Production & Assembly Management</p>
     </div>
-  </header>
+  </div>
 
-  <form [formGroup]="kittingForm" (ngSubmit)="onSubmit()" class="kitting-layout">
+  <form [formGroup]="kittingForm" (ngSubmit)="onSubmit()" class="master-detail-layout">
     
-    <!-- Left Panel: Configuration -->
-    <div class="config-panel">
-      <div class="panel-section">
-        <h3 class="section-title">Job Configuration</h3>
-        
-        <div class="card-base config-card">
+    <!-- Left Pane: Configuration -->
+    <div class="list-view">
+      <div class="list-header">
+        <h3 class="list-title">Job Configuration</h3>
+      </div>
+      
+      <div class="tab-content-wrapper">
+        <div class="form-section">
           <!-- Account Selection -->
           <div class="form-group">
             <label class="form-label">Customer Account</label>
@@ -41,101 +43,100 @@
                 }
               </mat-autocomplete>
             </mat-form-field>
-            
-            @if (kitMaterials().length === 0 && !isLoadingLookups() && kittingForm.get('accountId')?.value) {
-              <div class="info-banner">No recipes found for this account.</div>
-            }
           </div>
 
-          <div class="row-group">
-            <!-- Quantity -->
-            <div class="form-group" [class.disabled]="!kittingForm.get('accountId')?.value">
-              <label class="form-label">Quantity (Units)</label>
-              <mat-form-field appearance="outline" class="custom-field">
-                <input matInput type="number" formControlName="quantityToBuild" min="1" placeholder="0">
-              </mat-form-field>
-            </div>
-
-            <!-- Labor -->
-            <div class="form-group">
-              <label class="form-label">Labor Time (Hours)</label>
-              <mat-form-field appearance="outline" class="custom-field">
-                <mat-icon matPrefix>timer</mat-icon>
-                <input matInput type="number" formControlName="durationHours" min="0.1" step="0.1" placeholder="0.0">
-              </mat-form-field>
-            </div>
+          <div class="form-group" [class.disabled]="!kittingForm.get('accountId')?.value">
+            <label class="form-label">Build Quantity</label>
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-icon matPrefix>inventory</mat-icon>
+              <input matInput type="number" formControlName="quantityToBuild" min="1" placeholder="0">
+            </mat-form-field>
           </div>
 
-          <div class="form-actions">
-            <button mat-flat-button color="primary" type="submit" class="submit-button" 
-                    [disabled]="kittingForm.invalid || isSubmitting() || components.length === 0">
-              @if (isSubmitting()) {
-                <mat-spinner diameter="20"></mat-spinner>
-              } @else {
-                <span>Build Kit</span>
-              }
-            </button>
+          <div class="form-group">
+            <label class="form-label">Labor Time (Hrs)</label>
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-icon matPrefix>timer</mat-icon>
+              <input matInput type="number" formControlName="durationHours" min="0.1" step="0.1" placeholder="0.0">
+            </mat-form-field>
           </div>
         </div>
+
+        <button mat-flat-button color="primary" type="submit" style="width: 100%; height: 48px; margin-top: 1.5rem;" 
+                [disabled]="kittingForm.invalid || isSubmitting() || components.length === 0">
+          @if (isSubmitting()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            <ng-container>
+              <mat-icon>settings_suggest</mat-icon>
+              <span>Execute Kitting Job</span>
+            </ng-container>
+          }
+        </button>
       </div>
     </div>
 
-    <!-- Right Panel: Components -->
-    <div class="components-panel">
-      <div class="panel-section">
-        <div class="section-header">
-          <h3 class="section-title">Component Allocation</h3>
+    <!-- Right Pane: Component Allocation -->
+    <div class="detail-view">
+      <div class="detail-header">
+        <h3 class="detail-title">Component Allocation</h3>
+        <div class="header-actions">
           <button mat-stroked-button color="primary" type="button" (click)="autoAllocate()" 
                   [disabled]="components.length === 0 || isAllocating()">
-            @if (isAllocating()) {
-              <mat-spinner diameter="18"></mat-spinner>
-            } @else {
-              <mat-icon>auto_fix_high</mat-icon>
-            }
+            <mat-icon>auto_fix_high</mat-icon>
             <span>Auto Allocate</span>
           </button>
         </div>
-        
-        <div formArrayName="components" class="components-list">
+      </div>
+      
+      <div class="detail-content">
+        <div formArrayName="components" class="tab-content-wrapper">
           @if (components.controls.length === 0) {
-            <div class="empty-components">
-              <mat-icon>extension_off</mat-icon>
-              <p>Select a Kit Recipe to view required components.</p>
+            <div class="empty-state">
+              <div class="empty-icon">
+                <mat-icon>extension_off</mat-icon>
+              </div>
+              <h3>Recipe Required</h3>
+              <p>Select a Kit Recipe to auto-load manufacturing components.</p>
             </div>
           } @else {
             @for (componentGroup of components.controls; track $index; let i = $index) {
-              <div [formGroupName]="i" class="card-base component-card">
-                <div class="card-status-bar" [class.ready]="componentGroup.valid"></div>
-                
-                <div class="card-body">
-                  <div class="component-info">
-                    <div class="info-header">
-                      <span class="component-name">{{ componentGroup.value.componentMaterialName }}</span>
-                    </div>
-                    <div class="bom-details">
-                      <span class="badge req">Required: {{ componentGroup.value.quantityToConsume | number }}</span>
-                      <span class="text-muted">Ratio: {{ componentGroup.value.bomLine.inputQuantity }}</span>
-                    </div>
+              <div [formGroupName]="i" class="detail-card" style="margin-bottom: 1rem;">
+                <div class="mat-mdc-card-header">
+                  <div class="mat-mdc-card-title">
+                    {{ componentGroup.value.componentMaterialName }}
                   </div>
-
-                  <div class="source-selection">
-                    <label class="form-label">Source Inventory</label>
-                    <mat-form-field appearance="outline" class="custom-field dense">
-                      <input type="text" matInput formControlName="sourceSearchCtrl" [matAutocomplete]="autoSource" placeholder="Search Pallet..." #triggerSource="matAutocompleteTrigger" (click)="triggerSource.openPanel()">
-                      <mat-autocomplete #autoSource="matAutocomplete" [displayWith]="displaySource" (optionSelected)="onSourceSelected($event, i)">
-                        @for (inv of componentSourceFilters[i] | async; track inv.inventoryId) {
-                          <mat-option [value]="inv" [disabled]="inv.quantity < componentGroup.value.quantityToConsume">
-                            <div class="option-row">
-                              <span class="pallet-code">{{ inv.palletBarcode }} <small *ngIf="inv.batchNumber">({{inv.batchNumber}})</small></span>
-                              <span class="qty-pill" [class.insufficient]="inv.quantity < componentGroup.value.quantityToConsume">
-                                Qty: {{inv.quantity}}
-                              </span>
-                            </div>
-                          </mat-option>
-                        }
-                      </mat-autocomplete>
-                      <!-- Error message removed as we don't know stock upfront -->
-                    </mat-form-field>
+                  <span class="status-badge" [class.active]="componentGroup.valid">
+                    {{ componentGroup.valid ? 'Ready' : 'Incomplete' }}
+                  </span>
+                </div>
+                
+                <div class="mat-mdc-card-content" style="padding: 1rem;">
+                  <div class="layout-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="column">
+                      <div style="font-size: 0.7rem; color: var(--mat-sys-on-surface-variant); text-transform: uppercase;">Requirement</div>
+                      <div style="font-size: 1.1rem; font-weight: 700; color: var(--mat-sys-primary);">
+                        {{ componentGroup.value.quantityToConsume | number }} Units
+                      </div>
+                      <div style="font-size: 0.75rem; opacity: 0.7; margin-top: 4px;">Ratio: {{ componentGroup.value.bomLine.inputQuantity }}</div>
+                    </div>
+                    
+                    <div class="column">
+                      <div style="font-size: 0.7rem; color: var(--mat-sys-on-surface-variant); text-transform: uppercase; margin-bottom: 4px;">Source Pallet</div>
+                      <mat-form-field appearance="outline" class="custom-field">
+                        <input type="text" matInput formControlName="sourceSearchCtrl" [matAutocomplete]="autoSource" placeholder="Search Pallet..." #triggerSource="matAutocompleteTrigger" (click)="triggerSource.openPanel()">
+                        <mat-autocomplete #autoSource="matAutocomplete" [displayWith]="displaySource" (optionSelected)="onSourceSelected($event, i)">
+                          @for (inv of componentSourceFilters[i] | async; track inv.inventoryId) {
+                            <mat-option [value]="inv" [disabled]="inv.quantity < componentGroup.value.quantityToConsume">
+                              <div class="option-row" style="display: flex; justify-content: space-between; width: 100%;">
+                                <span>{{ inv.palletBarcode }}</span>
+                                <span style="font-family: monospace;">Qty: {{inv.quantity}}</span>
+                              </div>
+                            </mat-option>
+                          }
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -1,10 +1,10 @@
 // Variables
-$primary-color: #0f766e;
-$text-primary: #0f172a;
-$text-secondary: #64748b;
-$border-color: #e2e8f0;
-$bg-hover: #f8fafc;
-$bg-selected: #f0fdfa;
+$primary-color: var(--mat-sys-primary);
+$text-primary: var(--mat-sys-on-surface);
+$text-secondary: var(--mat-sys-on-surface-variant);
+$border-color: var(--mat-sys-outline-variant);
+$bg-hover: var(--mat-sys-surface-container-high);
+$bg-selected: var(--mat-sys-primary-container);
 
 .dialog-container {
   display: flex;
@@ -12,7 +12,7 @@ $bg-selected: #f0fdfa;
   height: 100%;
   max-height: 85vh;
   min-width: 600px;
-  background: white;
+  background: var(--mat-sys-surface);
 }
 
 // Header
@@ -88,7 +88,7 @@ $bg-selected: #f0fdfa;
   color: $text-primary;
 
   .badge {
-    background: #e2e8f0;
+    background: var(--mat-sys-surface-container-highest);
     color: $text-secondary;
     padding: 2px 8px;
     border-radius: 12px;
@@ -103,7 +103,7 @@ $bg-selected: #f0fdfa;
   overflow-y: auto;
   overflow-x: hidden; // Fix horizontal scrollbar
   position: relative;
-  background: #fafafa;
+  background: var(--mat-sys-surface-container-low);
 }
 
 // List Items (Cards)
@@ -113,7 +113,7 @@ $bg-selected: #f0fdfa;
 
 .result-card {
   border-bottom: 1px solid $border-color;
-  background: white;
+  background: var(--mat-sys-surface);
   transition: all 0.2s;
   cursor: pointer;
   padding: 0;
@@ -168,17 +168,14 @@ $bg-selected: #f0fdfa;
       margin-bottom: 0.25rem;
       
       .location-badge {
-        background: #f1f5f9;
-        padding: 1px 6px;
-        border-radius: 4px;
-        font-weight: 500;
-        color: #475569;
+        background: var(--mat-sys-surface-container-highest);
+        color: var(--mat-sys-on-surface-variant);
       }
     }
 
     .card-summary {
       font-size: 0.85rem;
-      color: #334155;
+      color: var(--mat-sys-on-surface-variant);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -191,8 +188,8 @@ $bg-selected: #f0fdfa;
     .qty-badge {
       font-size: 0.85rem;
       font-weight: 600;
-      color: $text-primary;
-      background: #f1f5f9;
+      color: var(--mat-sys-primary);
+      background: var(--mat-sys-surface-container-highest);
       padding: 4px 8px;
       border-radius: 6px;
     }
@@ -218,7 +215,7 @@ $bg-selected: #f0fdfa;
   color: $text-secondary;
 
   .empty-icon {
-    background: #f1f5f9;
+    background: var(--mat-sys-surface-container-highest);
     padding: 1.5rem;
     border-radius: 50%;
     margin-bottom: 1rem;
@@ -250,7 +247,7 @@ $bg-selected: #f0fdfa;
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
-  background: #f8fafc;
+  background: var(--mat-sys-surface-container-low);
 }
 
 // Autocomplete

@@ -3,13 +3,13 @@
 
 // 1. Container & Main Layout
 .report-container {
-  padding: 0.75rem 1rem; 
+  padding: 0.75rem 1rem;
   width: 100% !important;
-  max-width: 100% !important; 
+  max-width: 100% !important;
   margin: 0 !important;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem; 
+  gap: 0.75rem;
   min-height: 100%;
   animation: fadeIn 0.3s ease-out;
   overflow-x: hidden; // ✅ FIX: Stop global horizontal scrollbar
@@ -21,30 +21,59 @@
 }
 
 // Ensure the host is always block-level for layout
-:host { display: block; height: 100%; }
+:host {
+  display: block;
+  height: 100%;
+}
 
 // 2. Header Section (Scoped to Reports/Admin)
 .report-container .header-section {
   display: flex !important;
   justify-content: space-between !important;
-  align-items: center !important; 
-  margin-bottom: 1.5rem !important; 
-  gap: 1.5rem !important;
-  width: 100% !important;
-  
-  h1, [class*="mat-headline"], .header-content h1, .detail-title, .invoice-title, .receiving-title {
-    font-size: 1.35rem !important; 
-    font-weight: 700 !important;
-    color: var(--mat-sys-on-surface);
-    margin: 0 !important;
-    line-height: 1.2 !important;
+  align-items: flex-end !important;
+  margin-bottom: 2.5rem !important;
+  padding-bottom: 1.5rem !important;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--mat-sys-primary);
+    border-radius: 2px 2px 0 0;
+    box-shadow: 0 0 10px var(--mat-sys-primary);
   }
 
-  p , .subtitle, .header-content p, .mat-body-1, .invoice-subtitle {
-    color: var(--mat-sys-on-surface-variant);
-    font-size: 0.85rem !important; 
+  h1,
+  [class*='mat-headline'],
+  .header-content h1,
+  .detail-title,
+  .invoice-title,
+  .receiving-title {
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: var(--mat-sys-on-surface);
+    padding: 0 !important;
     margin: 0 !important;
-    opacity: 0.7;
+    line-height: 1.1 !important;
+    letter-spacing: -0.03em !important;
+    // Removed aggressive uppercase for more premium feel
+  }
+
+  p,
+  .subtitle,
+  .header-content p,
+  .mat-body-1,
+  .invoice-subtitle {
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.9rem !important;
+    margin: 0.5rem 0 0 0 !important;
+    opacity: 0.6;
+    letter-spacing: 0.01em;
   }
 }
 
@@ -66,17 +95,19 @@
   width: 100% !important;
   max-width: 100% !important;
   margin: 0 !important;
-  border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .05), 0 2px 4px -2px rgba(0, 0, 0, .05);
-  border-radius: 8px;
+  border: 1px solid var(--mat-sys-outline-variant) !important; // DEFINITION GUARD
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4) !important; // Elite depth
+  border-radius: 12px;
   overflow: hidden;
-  background: var(--mat-sys-surface);
+  background: var(--mat-sys-surface) !important; // Solid surface for better contrast
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
 
   .mat-mdc-card-header {
     background-color: var(--mat-sys-surface-container-low);
     border-bottom: 1px solid var(--mat-sys-outline-variant);
     padding: 0.5rem 1rem;
-    
+
     .mat-mdc-card-title {
       font-size: 0.95rem;
       font-weight: 600;
@@ -84,55 +115,58 @@
   }
 }
 
-// 3. Filter Grid System (Hardened Alignment)
-.report-container .filter-grid {
-  display: flex !important; // Switch to flex for better same-row behavior
-  flex-wrap: wrap;
-  gap: 1.5rem !important; 
-  align-items: flex-end !important; // Align to bottom to match input base
-  margin-bottom: 2rem !important;
+// 3. Filter Grid System (Nukes Vertical Stacking)
+.filter-grid {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important; // NO MORE WRAPPING - NO MORE STACKING
+  gap: 1.5rem !important;
+  align-items: center !important; 
   width: 100% !important;
+  margin-bottom: 2.5rem !important;
+  overflow-x: visible !important; 
+}
+
+.filter-grid mat-form-field,
+.filter-grid .custom-field {
+  flex: 0 0 200px !important; 
+  width: 200px !important;
+  min-width: 200px !important;
+  max-width: 200px !important;
+  margin: 0 !important;
+  display: block !important;
+  height: 44px !important; // ABSOLUTE HEIGHT LOCK
   
-  ::ng-deep .mat-mdc-form-field {
-    flex: 1 1 280px; // Flexible but respects min-width
-    max-width: 400px; // Prevent ridiculous stretching
-    margin: 0 !important;
+  // NUCLEAR ALIGNMENT: Kill the subscript gap that causes staggered buttons
+  .mat-mdc-form-field-subscript-wrapper,
+  .mat-mdc-form-field-bottom-align {
+    display: none !important;
+    height: 0 !important;
   }
 
-  .filter-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem; 
-    margin-left: auto; // Push to right if space permits
-    padding-bottom: 2px; // Optical alignment with MDC inputs
-    
-    button {
-      height: 42px !important; 
-      padding: 0 20px !important;
-      border-radius: 6px !important;
-      font-size: 0.85rem !important;
-      font-weight: 600 !important;
-      white-space: nowrap !important;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      mat-icon {
-        margin-right: 8px !important;
-        font-size: 18px !important;
-        width: 18px !important;
-        height: 18px !important;
-      }
-    }
+  .mat-mdc-text-field-wrapper {
+    height: 44px !important;
+    padding: 0 !important;
   }
+}
+
+.filter-grid .filter-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1.25rem !important; // Luxury spacing
+  margin: 0 !important; 
+  margin-left: auto !important;
+  flex: 0 0 auto !important;
+  height: 44px !important;
+  align-self: center !important;
 }
 
 .report-container .search-section {
   display: flex !important;
   flex-wrap: wrap;
-  column-gap: 1.5rem !important; 
+  column-gap: 1.5rem !important;
   row-gap: 1.5rem !important; // Match column gap
-  align-items: flex-end !important; 
+  align-items: center !important;
   margin-bottom: 2rem;
   width: 100%;
   padding: 0 !important; // ✅ ALIGNMENT FIX: Remove extra padding that shifts it right
@@ -143,22 +177,25 @@
     width: auto !important;
     margin-bottom: 0 !important;
   }
-  
+
   // Optical alignment for buttons in search row
   button {
-    height: 42px !important;
-    padding: 0 20px !important;
-    border-radius: 6px !important;
-    font-size: 0.85rem !important;
-    margin-bottom: 2px; // Match optical correction in filter-grid
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    height: 44px !important; // Absolute 44px alignment
+    padding: 0 28px !important; // Spaced to match fields
+    border-radius: 8px !important;
+    font-size: 0.95rem !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px;
+    font-weight: 600 !important;
+    line-height: 44px !important;
 
     mat-icon {
-      font-size: 18px !important;
-      width: 18px !important;
-      height: 18px !important;
+      font-size: 20px !important;
+      width: 20px !important;
+      height: 20px !important;
     }
   }
 }
@@ -175,22 +212,24 @@
 .filter-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   margin-left: auto;
   align-self: center;
-  
-  // High-density buttons
+
   button {
-    height: 38px !important; // Slightly smaller height
-    padding: 0 12px !important;
-    border-radius: 6px !important;
-    font-size: 0.85rem !important;
-    font-weight: 500 !important;
-    
+    height: 44px !important; // Unify with inputs
+    padding: 0 24px !important;
+    border-radius: 8px !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
     mat-icon {
-      font-size: 18px !important;
-      width: 18px !important;
-      height: 18px !important;
+      font-size: 20px !important;
+      width: 20px !important;
+      height: 20px !important;
     }
   }
 }
@@ -198,18 +237,22 @@
 // Common Pane Styles
 .list-view,
 .detail-view {
-  background: var(--mat-sys-surface);
-  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--mat-sys-outline-variant) !important; // Use system outline for better visibility
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important; // Deeper shadows for defined depth
 }
 
 // 4. List Pane (Left)
-.list-view, .section-container {
+.list-view,
+.section-container {
   flex: 1 1 40%;
-  min-width: 350px; 
+  min-width: 350px;
   background: var(--mat-sys-surface);
   border: 1px solid var(--mat-sys-outline-variant);
   border-radius: 8px;
@@ -224,7 +267,8 @@
   }
 }
 
-.list-header, .section-header {
+.list-header,
+.section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -232,7 +276,8 @@
   border-bottom: 1px solid var(--mat-sys-outline-variant);
   background: var(--mat-sys-surface-container-low);
 
-  .list-title, .section-title {
+  .list-title,
+  .section-title {
     font-size: 1rem;
     font-weight: 600;
     margin: 0;
@@ -246,7 +291,7 @@
 
 .compact-search {
   width: 100%;
-  
+
   ::ng-deep .mat-mdc-form-field-subscript-wrapper {
     display: none;
   }
@@ -258,10 +303,12 @@
   position: relative;
   overflow: auto !important; // ✅ FIX: Internal scroll only
   width: 100%;
-  padding: 0; 
+  padding: 0;
 }
 
-.standard-table, .uom-table, .material-table {
+.standard-table,
+.uom-table,
+.material-table {
   width: 100%;
   background: transparent !important;
 
@@ -279,8 +326,12 @@
     padding: 0 0.5rem;
     border-bottom: 1px solid var(--mat-sys-outline-variant);
 
-    &:first-of-type { padding-left: 1rem; }
-    &:last-of-type { padding-right: 1rem; }
+    &:first-of-type {
+      padding-left: 1rem;
+    }
+    &:last-of-type {
+      padding-right: 1rem;
+    }
   }
 
   .mat-mdc-row {
@@ -288,11 +339,15 @@
     transition: background-color 0.2s;
     cursor: pointer;
 
-    &:hover { background-color: var(--mat-sys-surface-container-high); }
-    
+    &:hover {
+      background-color: var(--mat-sys-surface-container-high);
+    }
+
     &.active-list-item {
       background-color: var(--mat-sys-primary-container) !important;
-      .mat-mdc-cell { font-weight: 500; }
+      .mat-mdc-cell {
+        font-weight: 500;
+      }
     }
   }
 
@@ -302,8 +357,12 @@
     padding: 0 0.5rem;
     border-bottom: 1px solid var(--mat-sys-outline-variant);
 
-    &:first-of-type { padding-left: 1rem; }
-    &:last-of-type { padding-right: 1rem; }
+    &:first-of-type {
+      padding-left: 1rem;
+    }
+    &:last-of-type {
+      padding-right: 1rem;
+    }
   }
 }
 
@@ -316,16 +375,16 @@
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.05em;
-  
+
   &.active {
-    background-color: #e6f4ea; 
-    color: #137333; 
+    background-color: #e6f4ea;
+    color: #137333;
     border: 1px solid rgba(19, 115, 51, 0.15);
   }
-  
+
   &.inactive {
-    background-color: #f1f3f4; 
-    color: #5f6368; 
+    background-color: #f1f3f4;
+    color: #5f6368;
     border: 1px solid rgba(95, 99, 104, 0.15);
   }
 }
@@ -371,7 +430,7 @@
     height: 36px;
     border-radius: 6px;
     font-weight: 500;
-    
+
     mat-icon {
       margin-right: 0.5rem;
       font-size: 1.2rem;
@@ -391,7 +450,7 @@
 .detail-content {
   flex-grow: 1;
   overflow-y: auto;
-  
+
   &.loading {
     opacity: 0.5;
     pointer-events: none;
@@ -468,14 +527,33 @@
   }
 }
 
+.form-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.45rem !important;
+  width: 100%;
+
+  ::ng-deep .mat-mdc-form-field,
+  .custom-field {
+    width: 100% !important;
+  }
+}
+
+.form-label {
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  color: var(--mat-sys-on-surface-variant) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 !important;
+  opacity: 0.85;
+}
+
 .form-section {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: var(--mat-sys-surface-container-lowest);
-  border-radius: 8px;
-  border: 1px solid var(--mat-sys-outline-variant);
+  gap: 1.5rem;
+  padding: 0;
 }
 
 // Layout for setup pages that split into list/detail or two columns
@@ -672,89 +750,217 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
 
-  &.draft, &.pending { background-color: #f1f5f9; color: #475569; }
-  &.inprogress { background-color: #e0f2fe; color: #0284c7; }
-  &.completed, &.paid { background-color: #dcfce7; color: #16a34a; }
-  &.overdue, &.error { background-color: #fef2f2; color: #dc2626; }
-  &.cancelled { background-color: #f1f5f9; color: #94a3b8; text-decoration: line-through; }
+  &.draft,
+  &.pending {
+    background-color: #f1f5f9;
+    color: #475569;
+  }
+  &.inprogress {
+    background-color: #e0f2fe;
+    color: #0284c7;
+  }
+  &.completed,
+  &.paid {
+    background-color: #dcfce7;
+    color: #16a34a;
+  }
+  &.overdue,
+  &.error {
+    background-color: #fef2f2;
+    color: #dc2626;
+  }
+  &.cancelled {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    text-decoration: line-through;
+  }
 }
 
 // 13. GLOBAL FORMS SYSTEM (Premium Compact Inputs)
-// This is used everywhere via the .custom-field class
 ::ng-deep .custom-field {
-  width: 100%;
-  display: inline-block; // FLEX FIX: prevent stacking
+  width: auto;
+  display: inline-block;
   vertical-align: middle;
-  
-  .mat-mdc-text-field-wrapper {
-    height: 42px !important;
-    padding: 0 12px !important;
-    background-color: white !important;
+  overflow: visible !important;
+
+  .mat-mdc-text-field-wrapper,
+  .mdc-text-field {
+    height: 44px !important;
+    padding: 0 !important; 
+    background-color: rgba(2, 6, 23, 0.4) !important;
+    border: 1px solid var(--mat-sys-outline) !important;
     border-radius: 8px !important;
+    transition: all 0.2s ease;
+    overflow: visible !important;
+    pointer-events: auto !important;
+
+    &:hover {
+      border-color: var(--mat-sys-primary) !important;
+      background-color: rgba(2, 6, 23, 0.6) !important;
+    }
   }
 
   .mat-mdc-form-field-flex {
-    height: 100% !important;
+    height: 44px !important; 
     align-items: center !important;
-    padding: 0 !important;
+    padding: 0 28px !important; // LUXURY BREATHING ROOM
+    display: flex !important;
+    width: 100% !important;
+    overflow: visible !important;
+    margin: 0 !important;
   }
 
   .mat-mdc-form-field-infix {
-    padding: 0 !important;
-    min-height: unset !important;
+    padding: 0 !important; 
+    min-height: 44px !important; 
     border-top: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    flex: 1 1 auto !important;
     width: auto !important;
+    overflow: visible !important;
+    
+    // KILL THE GHOST: MDC adds a pseudo-element that skews centering
+    &::before {
+      display: none !important;
+    }
+  }
+
+  .mat-mdc-form-field-label-wrapper {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    padding-top: 0 !important;
+    overflow: visible !important;
+    pointer-events: none;
+  }
+
+  .mdc-floating-label {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    left: 14px !important; // LUXURY INSET
+    color: var(--mat-sys-on-surface-variant) !important;
+    opacity: 0.85 !important;
+    pointer-events: none;
+    font-size: 0.95rem !important;
+    
+    &.mdc-floating-label--float-above {
+      display: none !important;
+    }
+    
+    // Account for asterisks
+    .mat-mdc-form-field-required-marker {
+      color: var(--mat-sys-primary) !important;
+      opacity: 0.8;
+      margin-left: 2px;
+    }
   }
 
   .mat-mdc-input-element {
     padding: 0 !important;
     margin: 0 !important;
-    font-size: 0.9rem !important;
-    line-height: 42px !important;
-    height: 100% !important;
+    font-size: 0.95rem !important;
+    line-height: 44px !important; // ABSOLUTE CENTERING LOCK
+    height: 44px !important;
+    color: var(--mat-sys-on-surface) !important;
+    background: transparent !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    display: block !important;
   }
 
   .mat-mdc-form-field-icon-prefix,
   .mat-mdc-form-field-icon-suffix {
-    padding: 0 8px 0 0 !important;
+    padding: 0 !important;
     display: flex !important;
     align-items: center !important;
+    justify-content: center !important;
     height: 100% !important;
+    width: 32px !important; // Robust hit-box
+    overflow: visible !important;
+    flex-shrink: 0 !important;
 
-    .mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
+    .mat-icon,
+    .mat-datepicker-toggle-default-icon {
+      font-size: 20px !important;
+      width: 20px !important;
+      height: 20px !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      margin: 0 !important;
+      color: var(--mat-sys-on-surface-variant) !important;
     }
   }
 
+  .mat-mdc-form-field-icon-prefix {
+    margin-right: 12px !important; // Gutter for scan/calendar icons
+  }
   .mat-mdc-form-field-icon-suffix {
-    padding: 0 0 0 8px !important;
+    margin-left: 12px !important;
   }
 
   .mat-mdc-form-field-subscript-wrapper {
-    display: none; 
+    display: none !important;
   }
-
   .mdc-line-ripple {
-    display: none;
+    display: none !important;
+  }
+}
+
+// 13.5 REPORTING ADDON (CheckBoxes and Alignments)
+::ng-deep .filter-grid .mat-mdc-checkbox,
+::ng-deep .filter-actions .mat-mdc-checkbox {
+  margin-bottom: 0 !important;
+  height: 44px !important; // Sync with fields
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 12px !important;
+  
+  .mdc-form-field {
+    color: var(--mat-sys-on-surface-variant) !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
   }
 }
 
 // Global layout styles
 .date-field {
-  flex: 1 1 350px !important;
-  max-width: 400px !important;
+  flex: 1 1 320px !important; // CRITICAL: Date range needs more than 200px
+  min-width: 320px !important;
+  max-width: 380px !important;
+  height: 44px !important;
+  margin-bottom: 0 !important;
 
   ::ng-deep .mat-mdc-date-range-input {
-    height: 100%;
+    height: 44px !important; // ABSOLUTE LOCK
     display: flex !important;
     align-items: center !important;
+    padding: 0 !important;
+    
+    .mat-mdc-date-range-input-container {
+      height: 44px !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+    
+    .mat-mdc-date-range-input-inner {
+      height: 44px !important;
+      line-height: 44px !important;
+      display: flex !important;
+      align-items: center !important;
+    }
   }
 }
 
 // 14. ANIMATIONS
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

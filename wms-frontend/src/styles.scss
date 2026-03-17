@@ -1,5 +1,5 @@
-@use "@angular/material" as mat;
-@use "./app/shared/styles/admin-layout.scss";
+@use '@angular/material' as mat;
+@import './app/shared/styles/admin-layout.scss';
 @include mat.core();
 
 * {
@@ -7,93 +7,144 @@
 }
 
 html {
-  overflow-x: hidden;
-  width: 100%;
-  // Apply the theme
-  @include mat.theme(
-    (
-      color: (
-        primary: mat.$cyan-palette,
-        tertiary: mat.$orange-palette,
-      ),
-      typography: Roboto,
-      density: 0,
-    )
-  );
+  // CORE THEME ENGINE
+  --mat-sys-primary: #1c8375;
+  --mat-sys-secondary: #0ea5e9;
+  --mat-sys-tertiary: #f43f5e;
 
-  // Enhanced color tokens for elegant teal theme
-  --mat-sys-surface-container: #f8fafc; // slate-50 - lighter for elegance
-  --mat-sys-surface-container-high: #f1f5f9; // slate-100
-  --mat-sys-surface-container-highest: #e2e8f0; // slate-200
-  --mat-sys-on-surface-variant: #475569; // slate-600
-  --mat-sys-outline: #cbd5e1; // slate-300
-  --mat-sys-outline-variant: #e2e8f0; // slate-200
+  // DEFAULT: ELITE OBSIDIAN (Dark)
+  --mat-sys-background: #020611;
+  --mat-sys-surface: #0b1120;
+  --mat-sys-surface-container: #1e293b;
+  --mat-sys-surface-container-low: #0f172a;
+  --mat-sys-surface-container-high: #334155;
+  --mat-sys-surface-container-highest: #475569;
+  --mat-sys-on-surface: #f8fafc;
+  --mat-sys-on-surface-variant: #94a3b8;
+  --mat-sys-outline: #334155;
+  --mat-sys-outline-variant: rgba(255, 255, 255, 0.12);
+  --mat-sys-shadow: rgba(0, 0, 0, 0.6);
+  --glass-bg: rgba(15, 23, 42, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(20px);
+  --glow-primary: 0 0 40px rgba(45, 212, 191, 0.12);
+  --glow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
 
-  // Additional elegant teal theme variables
-  --mat-sys-primary: #0d9488; // teal-600 - elegant base
-  --mat-sys-on-primary: #ffffff;
-  --mat-sys-primary-container: #ccfbf1; // teal-50
-  --mat-sys-on-primary-container: #0f766e; // teal-700
-  --mat-sys-secondary: #475569; // slate-600
-  --mat-sys-on-secondary: #ffffff;
-  --mat-sys-secondary-container: #f1f5f9; // slate-100
-  --mat-sys-on-secondary-container: #334155; // slate-700
-  --mat-sys-tertiary: #dc2626; // red-600 for sophisticated accents
-  --mat-sys-on-tertiary: #ffffff;
-  --mat-sys-tertiary-container: #fecaca; // red-200
-  --mat-sys-on-tertiary-container: #b91c1c; // red-700
-  --mat-sys-surface: #ffffff;
-  --mat-sys-on-surface: #0f172a; // slate-900
-  --mat-sys-surface-variant: #f1f5f9; // slate-100
-  --mat-sys-on-surface-variant: #475569; // slate-600
-  --mat-sys-background: #f8fafc; // slate-50
-  --mat-sys-on-background: #0f172a; // slate-900
-  --mat-sys-error: #dc2626; // red-600
-  --mat-sys-on-error: #ffffff;
-  --mat-sys-error-container: #fecaca; // red-200
-  --mat-sys-on-error-container: #b91c1c; // red-700
-  --mat-sys-shadow: rgba(15, 23, 42, 0.1); // slate-900 with opacity
+  // LIGHT MODE OVERRIDE
+  &.light-mode {
+    --mat-sys-background: #f8fafc;
+    --mat-sys-surface: #ffffff;
+    --mat-sys-surface-container: #f1f5f9;
+    --mat-sys-surface-container-low: #f8fafc;
+    --mat-sys-surface-container-high: #e2e8f0;
+    --mat-sys-surface-container-highest: #cbd5e1;
+    --mat-sys-on-surface: #0f172a;
+    --mat-sys-on-surface-variant: #475569;
+    --mat-sys-outline: #cbd5e1;
+    --mat-sys-outline-variant: #f1f5f9;
+    --mat-sys-shadow: rgba(0, 0, 0, 0.05);
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(0, 0, 0, 0.05);
+    --glow-primary: 0 4px 15px rgba(13, 148, 136, 0.08);
+  }
 }
 
 body {
-  /* Elegant teal-themed background */
   background-color: var(--mat-sys-background);
-  color-scheme: light;
   color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
   margin: 0;
   height: 100%;
-  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  /* Subtle background pattern for elegance */
-  background-image: radial-gradient(
-      circle at 15% 50%,
-      rgba(13, 148, 136, 0.03) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 85% 30%,
-      rgba(13, 148, 136, 0.03) 0%,
-      transparent 50%
-    );
+  font-family:
+    'Roboto',
+    system-ui,
+    -apple-system,
+    'Helvetica Neue',
+    sans-serif;
+  transition:
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   background-attachment: fixed;
+  background-image:
+    radial-gradient(circle at 10% 10%, rgba(45, 212, 191, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(14, 165, 233, 0.03) 0%, transparent 40%);
 }
 
-html,
-body {
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
+// Force ALL Material components to respect the current theme variables
+::ng-deep {
+  .mat-mdc-card,
+  .mat-mdc-dialog-container .mdc-dialog__surface,
+  .mat-mdc-menu-panel,
+  .mat-mdc-select-panel,
+  .mat-mdc-autocomplete-panel {
+    background-color: var(--mat-sys-surface) !important;
+    background: var(--mat-sys-surface) !important;
+    color: var(--mat-sys-on-surface) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important; // DEFINITION GUARD: Make borders unmistakable
+    box-shadow: var(--glow-soft) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  // Elite Card Hover State
+  .mat-mdc-card:hover {
+    border-color: var(--mat-sys-primary) !important;
+    box-shadow:
+      0 12px 24px rgba(0, 0, 0, 0.4),
+      0 0 15px rgba(45, 212, 191, 0.1) !important;
+    transform: translateY(-2px);
+  }
+
+  // Ensure inputs inside cards/dialogs also adapt
+  .mat-mdc-form-field-flex {
+    background-color: transparent !important;
+  }
+
+  // Base text color for panels
+  .mat-mdc-card,
+  .mdc-dialog__surface,
+  .mat-mdc-menu-panel {
+    color: var(--mat-sys-on-surface);
+  }
+
+  .mat-mdc-input-element {
+    color: var(--mat-sys-on-surface) !important;
+  }
+
+  .mat-mdc-form-field-label {
+    color: var(--mat-sys-on-surface-variant) !important;
+  }
+}
+
+// Global utility for high-end glass looks
+.glass-effect {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: 0 8px 32px 0 var(--mat-sys-shadow) !important;
+}
+
+// Redefine elevation system to be theme-aware
+.mat-elevation-z1 {
+  box-shadow: 0 2px 5px var(--mat-sys-shadow) !important;
+}
+.mat-elevation-z2 {
+  box-shadow: 0 4px 10px var(--mat-sys-shadow) !important;
+}
+.mat-elevation-z3 {
+  box-shadow: 0 8px 20px var(--mat-sys-shadow) !important;
+}
+.mat-elevation-z4 {
+  box-shadow: 0 16px 40px var(--mat-sys-shadow) !important;
 }
 
 body {
+  background-color: var(--mat-sys-background);
+  color: var(--mat-sys-on-surface);
   margin: 0;
-  font-family: "Roboto", system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 // ===== ELEVATION SYSTEM =====
@@ -101,43 +152,39 @@ body {
   box-shadow: none !important;
 }
 .mat-elevation-z1 {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+  box-shadow:
+    0 4px 6px -1px var(--mat-sys-shadow),
+    0 2px 4px -2px var(--mat-sys-shadow) !important;
 }
 .mat-elevation-z2 {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+  box-shadow:
+    0 10px 15px -3px var(--mat-sys-shadow),
+    0 4px 6px -2px var(--mat-sys-shadow) !important;
 }
 .mat-elevation-z3 {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  box-shadow:
+    0 20px 25px -5px var(--mat-sys-shadow),
+    0 8px 10px -6px var(--mat-sys-shadow) !important;
 }
 .mat-elevation-z4 {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
-}
-.mat-elevation-z5 {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 25px 50px -12px var(--mat-sys-shadow) !important;
 }
 
 // ===== CARD ENHANCEMENTS =====
 .mat-mdc-card {
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid var(--mat-sys-outline-variant);
-  background: var(--mat-sys-surface);
-  overflow: hidden;
+  color: var(--mat-sys-on-surface);
 
   &:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
-  }
-
-  &.elevated {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-
-    &:hover {
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-    }
+    box-shadow: var(--glow-primary);
+    border-color: rgba(45, 212, 191, 0.3);
+    transform: translateY(-1px);
   }
 }
 
@@ -165,46 +212,56 @@ body {
 }
 
 // ===== BUTTON ENHANCEMENTS =====
-.mat-mdc-raised-button {
-  border-radius: 12px;
-  padding: 0 28px;
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-outlined-button,
+.mat-mdc-flat-button {
+  border-radius: 8px;
   font-weight: 600;
-  text-transform: none;
-  letter-spacing: 0.25px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  min-height: 48px;
-  font: var(--mat-sys-label-large);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background-color: var(--mat-sys-primary) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--glow-primary) !important;
+
+    // NUCLEAR CONTRAST: Force label and icon to Deep Obsidian Black
+    &,
+    .mdc-button__label,
+    mat-icon,
+    .mat-icon {
+      color: #020617 !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
   }
 
-  &:active {
-    transform: translateY(0);
+  &.mat-mdc-outlined-button {
+    border-width: 1.5px;
+    border-color: var(--mat-sys-outline);
   }
 
-  &.button-large {
-    padding: 0 36px;
-    min-height: 56px;
-    font: var(--mat-sys-title-small);
+  // GLOBAL CONTRAST GUARD: Ensures text is ALWAYS black on teal hover
+  &:hover:not(:disabled) ::ng-deep {
+    .mdc-button__label,
+    mat-icon,
+    .mat-icon {
+      color: #020617 !important;
+      opacity: 1 !important;
+    }
   }
 
-  &.button-small {
-    padding: 0 20px;
-    min-height: 40px;
-    font: var(--mat-sys-label-small);
-  }
-}
+  // DISABLED STATE: Ensure they are visible but dimmed
+  &:disabled {
+    opacity: 0.4 !important;
+    background-color: var(--mat-sys-surface-container-highest) !important;
+    color: var(--mat-sys-on-surface-variant) !important;
+    cursor: not-allowed;
 
-.mat-mdc-outlined-button {
-  border-radius: 12px;
-  text-transform: none;
-  letter-spacing: 0.25px;
-  font-weight: 500;
-  border-width: 1.5px;
-  &:hover {
-    background: var(--mat-sys-surface-container);
+    ::ng-deep .mdc-button__label {
+      color: var(--mat-sys-on-surface-variant) !important;
+    }
   }
 }
 
@@ -407,7 +464,7 @@ body {
 }
 
 // ===== CUSTOM UTILITY CLASSES =====
-.glass-effect {
+.glass-effect-legacy {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -466,7 +523,8 @@ body {
   gap: 0.5rem;
   align-items: center;
 
-  button, a {
+  button,
+  a {
     flex-shrink: 0;
   }
 }
@@ -480,7 +538,6 @@ body {
     flex-shrink: 0;
   }
 }
-
 
 // ===== SPINNER CENTERING =====
 .spinner-container {
@@ -567,7 +624,6 @@ body {
 
 // ===== SHARED ADMIN LAYOUT PATTERNS =====
 
-
 // ========================================
 // VIRTUAL SCROLLING FOR AUTOCOMPLETE DROPDOWNS
 // ========================================
@@ -608,121 +664,5 @@ mat-autocomplete .autocomplete-viewport {
   padding: 0 !important;
 }
 
-// ==========================================================================
-// CUSTOM COMPACT FIELDS - FIXED FOR LABEL/PLACEHOLDER OVERLAP
-// ==========================================================================
-.custom-field {
-  width: auto; // Allow grid/flex to control width
-  margin-bottom: 0 !important; 
-  
-  // 1. Force wrapper height
-  .mat-mdc-text-field-wrapper {
-    height: 42px !important;
-    padding: 0 12px !important;
-    background-color: white !important;
-  }
-
-  // 2. Force flex centering
-  .mat-mdc-form-field-flex {
-    height: 100% !important;
-    align-items: center !important;
-    padding: 0 !important;
-  }
-
-  // 3. HIDE THE FLOATING LABEL - it overlaps with placeholder
-  .mat-mdc-floating-label {
-    display: none !important;
-  }
-  
-  // Hide the notch outline label
-  .mdc-notched-outline__notch {
-    display: none !important;
-  }
-
-  // 4. Force infix centering - REDUCED padding since no label
-  .mat-mdc-form-field-infix {
-    padding: 0 !important;
-    min-height: unset !important;
-    border-top: 0 !important;
-    width: auto !important;
-    display: flex !important;
-    align-items: center !important;
-  }
-
-  // 5. Force input centering
-  .mat-mdc-input-element {
-    padding: 0 !important;
-    margin: 0 !important;
-    font-size: 0.9rem !important;
-    height: 42px !important;
-    line-height: 42px !important; // Back to line-height for perfect centering
-  }
-
-  // Force placeholder alignment
-  .mat-mdc-input-element::placeholder {
-    line-height: 42px !important;
-    opacity: 0.5;
-  }
-
-  // 6. Force icon positioning
-  .mat-mdc-form-field-icon-prefix,
-  .mat-mdc-form-field-icon-suffix {
-    padding: 0 8px 0 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    
-    .mat-icon { 
-      font-size: 18px !important; 
-      width: 18px !important; 
-      height: 18px !important; 
-    }
-  }
-
-  // 7. Hide subscript - THIS WAS CAUSING THE GAP
-  .mat-mdc-form-field-subscript-wrapper {
-    display: none !important; 
-    height: 0 !important;
-    margin: 0 !important;
-  }
-  
-  // 8. Fix for select dropdowns
-  .mat-mdc-select {
-    display: flex !important;
-    align-items: center !important;
-    padding: 0 !important;
-  }
-  
-  .mat-mdc-select-trigger {
-    display: flex !important;
-    align-items: center !important;
-    padding: 0 !important;
-  }
-  
-  .mat-mdc-select-value {
-    line-height: 42px !important;
-  }
-  
-  .mat-mdc-select-arrow-wrapper {
-    height: 42px !important;
-    display: flex !important;
-    align-items: center !important;
-  }
-}
-
-// ==========================================================================
-// BUTTON HEIGHT MATCHING - EXACT 42px to match fields
-// ==========================================================================
-.mat-mdc-outlined-button,
-.mat-mdc-unelevated-button,
-.mat-mdc-raised-button,
-.mat-mdc-button {
-  &:not(.button-large):not(.button-small) {
-    min-height: 42px !important;
-    height: 42px !important;
-    padding: 0 16px !important;
-    
-    .mdc-button__label {
-      line-height: 42px !important;
-    }
-  }
-}
+// End of Styles
+// End of Styles

@@ -4,24 +4,31 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  background: var(--mat-sys-background);
+  background-image: radial-gradient(circle at 15% 15%, rgba(45, 212, 191, 0.05) 0%, transparent 50%),
+                    radial-gradient(circle at 85% 85%, rgba(14, 165, 233, 0.05) 0%, transparent 50%);
   padding: 1.5rem;
 }
 
 .auth-card {
   width: 100%;
-  max-width: 480px; // Slightly wider but not too wide
-  min-width: 480px; // Ensure it doesn't get too narrow on small screens
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(100, 116, 139, 0.2);
+  max-width: 480px; 
+  min-width: 480px; 
+  border-radius: 24px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
   padding: 0;
+  overflow: hidden;
 }
 
 .auth-header {
   text-align: center;
-  padding: 2.5rem 2rem 2rem;
-  background: linear-gradient(135deg, #0097a7 0%, #006064 100%);
-  color: white;
+  padding: 3rem 2rem 2.5rem;
+  background: linear-gradient(135deg, var(--mat-sys-primary) 0%, var(--mat-sys-secondary) 100%);
+  color: var(--mat-sys-on-primary);
   border-radius: 16px 16px 0 0;
 }
 

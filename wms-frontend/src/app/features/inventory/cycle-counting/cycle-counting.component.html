@@ -1,143 +1,150 @@
-<div class="cycle-count-container">
+<div class="report-container">
   <!-- Header -->
-  <header class="page-header">
+  <div class="header-section">
     <div class="header-content">
       <h1>Inventory Cycle Count</h1>
       <p>Physical Inventory Verification</p>
     </div>
-  </header>
+  </div>
 
-  <form [formGroup]="cycleCountForm" (ngSubmit)="onSubmit()" class="cycle-count-layout">
+  <form [formGroup]="cycleCountForm" (ngSubmit)="onSubmit()" class="master-detail-layout">
     
-    <!-- Top Configuration Bar -->
-    <div class="config-bar card-base">
-      <div class="config-item">
-        <label class="form-label">Customer Account</label>
-        <mat-form-field appearance="outline" class="custom-field">
-          <mat-icon matPrefix>business</mat-icon>
-          <input type="text" matInput [formControl]="accountSearchCtrl" [matAutocomplete]="autoAccount" placeholder="Select Account"
-                 #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
-          <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccount" (optionSelected)="onAccountSelected($event)">
-            @for (account of filteredAccounts$(); track account.id) {
-              <mat-option [value]="account">{{ account.name }}</mat-option>
-            }
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-
-      <div class="config-item">
-        <label class="form-label">Labor Time (Hours)</label>
-        <mat-form-field appearance="outline" class="custom-field">
-          <mat-icon matPrefix>timer</mat-icon>
-          <input matInput type="number" formControlName="durationHours" min="0.1" step="0.1" placeholder="0.0">
-        </mat-form-field>
+    <!-- Left Pane: Configuration & Search -->
+    <div class="list-view">
+      <div class="list-header">
+        <h3 class="list-title">Job Configuration</h3>
       </div>
       
-      <div class="actions">
-        <button mat-flat-button color="primary" type="submit" class="submit-button" 
+      <div class="tab-content-wrapper">
+        <div class="form-section">
+          <div class="form-group">
+            <label class="form-label">Customer Account</label>
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-icon matPrefix>business</mat-icon>
+              <input type="text" matInput [formControl]="accountSearchCtrl" [matAutocomplete]="autoAccount" placeholder="Select Account"
+                     #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
+              <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccount" (optionSelected)="onAccountSelected($event)">
+                @for (account of filteredAccounts$(); track account.id) {
+                  <mat-option [value]="account">{{ account.name }}</mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group" [class.disabled]="!cycleCountForm.get('accountId')?.value">
+            <label class="form-label">Search / Scan Barcode</label>
+            <mat-form-field appearance="outline" class="custom-field search">
+              <mat-icon matPrefix>qr_code_scanner</mat-icon>
+              <input type="text" matInput [formControl]="inventorySearchCtrl" [matAutocomplete]="autoInventory" 
+                     placeholder="Scan Item, Pallet, or Location..." 
+                     [disabled]="!cycleCountForm.get('accountId')?.value"
+                     (keydown.enter)="onSearchEnter($event)"
+                     #triggerInventory="matAutocompleteTrigger" (click)="triggerInventory.openPanel()">
+              <mat-autocomplete #autoInventory="matAutocomplete" [displayWith]="displayInventory" (optionSelected)="addItemToCount($event)">
+                @for (inv of filteredInventories$(); track inv.inventoryId) {
+                  <mat-option [value]="inv" class="rich-option">
+                    <div class="inventory-option-row">
+                      <div class="main-info">
+                        <span class="mat-name">{{ inv.materialName }}</span>
+                        <span class="mat-sku">{{ inv.sku }}</span>
+                      </div>
+                      <div class="meta-info">
+                        <span class="badge pallet">{{ inv.palletBarcode }}</span>
+                        <span class="badge loc">{{ inv.location }}</span>
+                        <span class="badge qty">Sys Qty: {{ inv.quantity }}</span>
+                      </div>
+                    </div>
+                  </mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Labor Time (Hours)</label>
+            <mat-form-field appearance="outline" class="custom-field">
+              <mat-icon matPrefix>timer</mat-icon>
+              <input matInput type="number" formControlName="durationHours" min="0.1" step="0.1" placeholder="0.0">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <button mat-flat-button color="primary" type="submit" style="width: 100%; height: 48px; margin-top: 2rem;" 
                 [disabled]="cycleCountForm.invalid || isSubmitting() || countedItems.length === 0">
           @if (isSubmitting()) {
             <mat-spinner diameter="20"></mat-spinner>
           } @else {
-            <span>Submit Count</span>
+            <ng-container>
+              <mat-icon>check_circle</mat-icon>
+              <span>Submit Physical Count</span>
+            </ng-container>
           }
         </button>
       </div>
     </div>
 
-    <!-- Main Counting Area -->
-    <div class="counting-area" [class.disabled]="!cycleCountForm.get('accountId')?.value">
-      
-      <!-- Search / Scan Bar -->
-      <div class="scan-section">
-        <div class="search-box">
-          <mat-form-field appearance="outline" class="custom-field search">
-            <mat-icon matPrefix>qr_code_scanner</mat-icon>
-            <input type="text" matInput [formControl]="inventorySearchCtrl" [matAutocomplete]="autoInventory" 
-                   placeholder="Scan Item, Pallet, or Location..." 
-                   [disabled]="!cycleCountForm.get('accountId')?.value"
-                   (keydown.enter)="onSearchEnter($event)"
-                   #triggerInventory="matAutocompleteTrigger" (click)="triggerInventory.openPanel()">
-            <mat-autocomplete #autoInventory="matAutocomplete" [displayWith]="displayInventory" (optionSelected)="addItemToCount($event)">
-              @for (inv of filteredInventories$(); track inv.inventoryId) {
-                <mat-option [value]="inv" class="rich-option">
-                  <div class="inventory-option-row">
-                    <div class="main-info">
-                      <span class="mat-name">{{ inv.materialName }}</span>
-                      <span class="mat-sku">{{ inv.sku }}</span>
-                    </div>
-                    <div class="meta-info">
-                      <span class="badge pallet">{{ inv.palletBarcode }}</span>
-                      <span class="badge loc">{{ inv.location }}</span>
-                      <span class="badge qty">Sys Qty: {{ inv.quantity }}</span>
-                    </div>
-                  </div>
-                </mat-option>
-              }
-            </mat-autocomplete>
-          </mat-form-field>
+    <!-- Right Pane: Active Count List -->
+    <div class="detail-view">
+      <div class="detail-header">
+        <h3 class="detail-title">Active Count Session</h3>
+        <div class="header-actions">
+          <span class="status-badge" [class.active]="countedItems.length > 0">
+            {{ countedItems.length }} Items Scanned
+          </span>
         </div>
       </div>
-
-      <!-- Count List -->
-      <div formArrayName="countedItems" class="count-list">
-        @if (countedItems.controls.length === 0) {
-          <div class="empty-state">
-            <div class="illustration">
-              <mat-icon>playlist_add</mat-icon>
-            </div>
-            <h3>Ready to Count</h3>
-            <p>Select an account and scan items to begin your session.</p>
-          </div>
-        } @else {
-          <div class="list-header">
-            <span>Active Count Session ({{countedItems.controls.length}} Items)</span>
-          </div>
-          
-          @for (itemGroup of countedItems.controls; track $index; let i = $index) {
-            <div [formGroupName]="i" class="count-card card-base">
-              <div class="card-left">
-                <div class="item-identity">
-                  <span class="material-name">{{ itemGroup.value.inventoryItem.materialName }}</span>
-                  <span class="sku">{{ itemGroup.value.inventoryItem.sku }}</span>
-                </div>
-                <div class="item-location">
-                  <div class="loc-badge">
-                    <mat-icon>location_on</mat-icon> {{ itemGroup.value.inventoryItem.location }}
-                  </div>
-                  <div class="pallet-badge">
-                    <mat-icon>pallet</mat-icon> {{ itemGroup.value.inventoryItem.palletBarcode }}
-                  </div>
-                  <div class="pallet-badge material-barcode">
-                    <mat-icon>qr_code</mat-icon> {{ itemGroup.value.inventoryItem.barcode }}
-                  </div>
-                </div>
+      
+      <div class="detail-content">
+        <div formArrayName="countedItems" class="tab-content-wrapper">
+          @if (countedItems.controls.length === 0) {
+            <div class="empty-state">
+              <div class="empty-icon">
+                <mat-icon>playlist_add</mat-icon>
               </div>
-
-              <div class="card-center">
-                <div class="system-qty">
-                  <span class="label">System Qty</span>
-                  <span class="value">{{ itemGroup.value.inventoryItem.quantity | number }}</span>
+              <h3>No Items Scanned</h3>
+              <p>Select an account and scan item barcodes to begin.</p>
+            </div>
+          } @else {
+            @for (itemGroup of countedItems.controls; track $index; let i = $index) {
+              <div [formGroupName]="i" class="detail-card" style="margin-bottom: 1rem;">
+                <div class="mat-mdc-card-header">
+                  <div class="mat-mdc-card-title">
+                    {{ itemGroup.value.inventoryItem.materialName }}
+                  </div>
+                  <button mat-icon-button color="warn" type="button" (click)="removeItem(i)" matTooltip="Remove">
+                    <mat-icon>delete</mat-icon>
+                  </button>
                 </div>
                 
-                <div class="divider"></div>
-
-                <div class="count-input-wrapper">
-                  <span class="label">Physical Count</span>
-                  <mat-form-field appearance="outline" class="custom-field big-input">
-                    <input matInput type="number" formControlName="countedQuantity" min="0" placeholder="0">
-                  </mat-form-field>
+                <div class="mat-mdc-card-content" style="padding: 1rem;">
+                  <div class="layout-grid" style="grid-template-columns: 1fr auto;">
+                    <div class="column">
+                      <div class="sku" style="font-family: monospace; color: var(--mat-sys-primary);">{{ itemGroup.value.inventoryItem.sku }}</div>
+                      <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                        <span class="status-badge pending">{{ itemGroup.value.inventoryItem.location }}</span>
+                        <span class="status-badge inprogress">{{ itemGroup.value.inventoryItem.palletBarcode }}</span>
+                      </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 2rem;">
+                      <div style="text-align: right;">
+                        <div style="font-size: 0.7rem; color: var(--mat-sys-on-surface-variant); text-transform: uppercase;">System</div>
+                        <div style="font-size: 1.25rem; font-weight: 700;">{{ itemGroup.value.inventoryItem.quantity | number }}</div>
+                      </div>
+                      
+                      <div style="width: 120px;">
+                        <div style="font-size: 0.7rem; color: var(--mat-sys-on-surface-variant); text-transform: uppercase; margin-bottom: 4px;">Count</div>
+                        <mat-form-field appearance="outline" class="custom-field">
+                          <input matInput type="number" formControlName="countedQuantity" min="0" style="text-align: center; font-weight: 700;">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <div class="card-right">
-                <button mat-icon-button color="warn" type="button" (click)="removeItem(i)" matTooltip="Remove">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </div>
-            </div>
+            }
           }
-        }
+        </div>
       </div>
     </div>
   </form>
