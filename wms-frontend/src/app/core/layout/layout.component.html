@@ -43,6 +43,14 @@
           }
         </div>
         @if (isOperationsExpanded() || !isExpanded()) {
+          <a mat-list-item routerLink="/yard" routerLinkActive="active-link" matTooltip="Yard" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>local_parking</mat-icon>
+            <span mat-list-item-title>Yard Management</span>
+          </a>
+          <a mat-list-item routerLink="/docks" routerLinkActive="active-link" matTooltip="Appointments" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>event_available</mat-icon>
+            <span mat-list-item-title>Dock Appointments</span>
+          </a>
           <a mat-list-item routerLink="/receiving" routerLinkActive="active-link" matTooltip="Receiving" [matTooltipDisabled]="isExpanded()">
             <mat-icon matListItemIcon>call_received</mat-icon>
             <span mat-list-item-title>Goods Receiving</span>

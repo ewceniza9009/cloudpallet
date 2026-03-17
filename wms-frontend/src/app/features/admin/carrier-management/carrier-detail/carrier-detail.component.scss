@@ -13,9 +13,67 @@
 }
 
 .toggle-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    align-items: center;
-    padding: 0.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem; // RECOVERED AXIS GAP
+  align-items: center;
+  padding: 1rem 0;
+  width: 100%;
+
+  ::ng-deep {
+    .mat-mdc-checkbox,
+    .mat-mdc-slide-toggle {
+      .mdc-form-field {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 0 !important;
+        vertical-align: middle !important;
+      }
+
+      .mdc-label {
+        font-weight: 700 !important; // UPGRADED FOR ELITE CONTRAST
+        font-size: 0.875rem !important;
+        color: var(--mat-sys-on-surface);
+        letter-spacing: 0.01em;
+        line-height: normal !important;
+        padding: 0 !important;
+      }
+    }
+
+    // Surgical Axis Correction for the Checkbox Box
+    .mdc-checkbox {
+      padding: 0 !important;
+      margin: 0 20px 20px 0 !important;
+      flex: none !important;
+      width: 18px !important; // SCALE MATCH THE TEXT
+      height: 18px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      // Critical: MDC checkbox often has a internal offset
+      transform: translateY(-1px); // MICRO-CORRECTION FOR TEXT BASELINE
+    }
+
+    .mdc-checkbox__native-control {
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    // Nuke extra MDC shadow backgrounds
+    .mdc-checkbox__ripple,
+    .mdc-slide-toggle__ripple,
+    .mat-mdc-focus-indicator {
+      display: none !important;
+    }
+
+    // Surgical compression of the slide toggle
+    .mdc-switch {
+      flex: none !important;
+      transform: scale(0.85); // SCALE TO MATCH THE CLINICAL DENSITY
+    }
+  }
 }
