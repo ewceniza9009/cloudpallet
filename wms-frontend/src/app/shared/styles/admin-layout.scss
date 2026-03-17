@@ -770,10 +770,17 @@
 
 // 13. GLOBAL FORMS SYSTEM (Premium Compact Inputs)
 ::ng-deep .custom-field {
-  width: auto;
-  display: inline-block;
-  vertical-align: middle;
+  width: 100%; // BLOCK REVOLUTION: FILL PARENT BY DEFAULT
+  display: block; // Nuke the inline-block collisions
   overflow: visible !important;
+  box-sizing: border-box !important;
+
+  // Add a modifier for the rare legacy inline cases
+  &.inline-field {
+    width: auto;
+    display: inline-block;
+    vertical-align: middle;
+  }
 
   .mat-mdc-text-field-wrapper,
   .mdc-text-field {
@@ -902,16 +909,6 @@
       width: 20px !important;
       height: 20px !important;
       color: var(--mat-sys-on-surface-variant) !important;
-    }
-  }
-
-  // INTELLIGENT PREFIX SPACING: Push text and label only when icon exists
-  &.mdc-text-field--with-leading-icon {
-    .mat-mdc-form-field-infix {
-      margin-left: 4px !important;
-    }
-    .mdc-floating-label:not(.mdc-floating-label--float-above) {
-      left: 48px !important; // PERFECT SYMMETRIC ALIGNMENT
     }
   }
 

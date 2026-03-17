@@ -538,17 +538,6 @@ body {
     }
   }
 
-  // INTELLIGENT PREFIX SPACING: Push text and label only when icon exists
-  .mdc-text-field--with-leading-icon {
-    .mat-mdc-form-field-infix {
-      margin-left: 4px !important; // Internal structural air
-    }
-    
-    .mdc-floating-label:not(.mdc-floating-label--float-above) {
-      left: 48px !important; // SYMMETRIC ALIGNMENT WITH ICON
-    }
-  }
-
   .mat-mdc-form-field-subscript-wrapper {
     font-size: 0.75rem !important;
     color: var(--mat-sys-on-surface-variant) !important;

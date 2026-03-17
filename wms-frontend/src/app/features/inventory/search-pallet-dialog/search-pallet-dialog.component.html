@@ -14,10 +14,19 @@
     <!-- Filters -->
     <div class="filter-section">
       <div class="filter-grid">
-        <mat-form-field appearance="outline" class="custom-field search-field full-width" subscriptSizing="dynamic">
-          <mat-label>Search Barcode / LPN</mat-label>
+        <mat-form-field
+          appearance="outline"
+          class="custom-field search-field full-width"
+          subscriptSizing="dynamic"
+        >
+          <mat-label>Search barcode...</mat-label>
           <mat-icon matPrefix>qr_code_scanner</mat-icon>
-          <input matInput [formControl]="barcodeControl" (input)="onFilterChange()" placeholder="Scan or type barcode...">
+          <input
+            matInput
+            [formControl]="barcodeControl"
+            (input)="onFilterChange()"
+            placeholder="Scan barcode..."
+          />
           @if (barcodeControl.value) {
             <button mat-icon-button matSuffix (click)="barcodeControl.reset()">
               <mat-icon>close</mat-icon>
@@ -25,35 +34,82 @@
           }
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="custom-field search-field" subscriptSizing="dynamic">
+        <mat-form-field
+          appearance="outline"
+          class="custom-field search-field"
+          subscriptSizing="dynamic"
+        >
           <mat-label>Account</mat-label>
           <mat-icon matPrefix>business</mat-icon>
-          <input type="text" matInput [formControl]="accountControl" [matAutocomplete]="autoAccount" (input)="onFilterChange()" #triggerAccount="matAutocompleteTrigger" (click)="triggerAccount.openPanel()">
-          <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName" (optionSelected)="onFilterChange()">
-            <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
-              @for(account of filteredAccounts$ | async; track account.id) {
+          <input
+            type="text"
+            matInput
+            [formControl]="accountControl"
+            [matAutocomplete]="autoAccount"
+            (input)="onFilterChange()"
+            #triggerAccount="matAutocompleteTrigger"
+            (click)="triggerAccount.openPanel()"
+          />
+          <mat-autocomplete
+            #autoAccount="matAutocomplete"
+            [displayWith]="displayAccountName"
+            (optionSelected)="onFilterChange()"
+          >
+            <cdk-virtual-scroll-viewport
+              itemSize="48"
+              minBufferPx="200"
+              maxBufferPx="400"
+              class="autocomplete-viewport"
+            >
+              @for (account of filteredAccounts$ | async; track account.id) {
                 <mat-option [value]="account">{{ account.name }}</mat-option>
               }
             </cdk-virtual-scroll-viewport>
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="custom-field search-field" subscriptSizing="dynamic">
+        <mat-form-field
+          appearance="outline"
+          class="custom-field search-field"
+          subscriptSizing="dynamic"
+        >
           <mat-label>Material</mat-label>
           <mat-icon matPrefix>category</mat-icon>
-          <input type="text" matInput [formControl]="materialControl" [matAutocomplete]="autoMaterial" (input)="onFilterChange()" #triggerMaterial="matAutocompleteTrigger" (click)="triggerMaterial.openPanel()">
-          <mat-autocomplete #autoMaterial="matAutocomplete" [displayWith]="displayMaterialName" (optionSelected)="onFilterChange()">
-            <cdk-virtual-scroll-viewport itemSize="48" minBufferPx="200" maxBufferPx="400" class="autocomplete-viewport">
-              @for(material of filteredMaterials$ | async; track material.id) {
-                <mat-option [value]="material">{{ material.name }} ({{material.sku}})</mat-option>
+          <input
+            type="text"
+            matInput
+            [formControl]="materialControl"
+            [matAutocomplete]="autoMaterial"
+            (input)="onFilterChange()"
+            #triggerMaterial="matAutocompleteTrigger"
+            (click)="triggerMaterial.openPanel()"
+          />
+          <mat-autocomplete
+            #autoMaterial="matAutocomplete"
+            [displayWith]="displayMaterialName"
+            (optionSelected)="onFilterChange()"
+          >
+            <cdk-virtual-scroll-viewport
+              itemSize="48"
+              minBufferPx="200"
+              maxBufferPx="400"
+              class="autocomplete-viewport"
+            >
+              @for (material of filteredMaterials$ | async; track material.id) {
+                <mat-option [value]="material">{{ material.name }} ({{ material.sku }})</mat-option>
               }
             </cdk-virtual-scroll-viewport>
           </mat-autocomplete>
         </mat-form-field>
       </div>
-      
+
       <div class="filter-actions">
-        <button mat-button color="warn" (click)="clearFilters()" [disabled]="!accountControl.value && !materialControl.value && !barcodeControl.value">
+        <button
+          mat-button
+          color="warn"
+          (click)="clearFilters()"
+          [disabled]="!accountControl.value && !materialControl.value && !barcodeControl.value"
+        >
           Clear Filters
         </button>
       </div>
@@ -63,24 +119,26 @@
     <div class="results-section">
       <div class="results-header">
         <span>Search Results</span>
-        @if(searchResults().length > 0) {
+        @if (searchResults().length > 0) {
           <span class="badge">{{ searchResults().length }} found</span>
         }
       </div>
 
       <div class="results-list-container">
-        @if(isSearching()) {
+        @if (isSearching()) {
           <div class="loading-state">
             <mat-spinner diameter="40"></mat-spinner>
             <p>Searching inventory...</p>
           </div>
         } @else {
-          @if(searchResults().length > 0) {
+          @if (searchResults().length > 0) {
             <div class="custom-list">
-              @for(pallet of searchResults(); track pallet.palletId) {
-                <div class="result-card" 
-                     [class.selected]="selectedPallet()?.palletId === pallet.palletId"
-                     (click)="selectPallet(pallet)">
+              @for (pallet of searchResults(); track pallet.palletId) {
+                <div
+                  class="result-card"
+                  [class.selected]="selectedPallet()?.palletId === pallet.palletId"
+                  (click)="selectPallet(pallet)"
+                >
                   <div class="card-content">
                     <div class="card-icon">
                       <mat-icon>pallet</mat-icon>
@@ -97,7 +155,11 @@
                       <div class="qty-badge">Qty: {{ pallet.quantity | number }}</div>
                     </div>
                     <div class="selection-indicator">
-                      <mat-icon>{{ selectedPallet()?.palletId === pallet.palletId ? 'radio_button_checked' : 'radio_button_unchecked' }}</mat-icon>
+                      <mat-icon>{{
+                        selectedPallet()?.palletId === pallet.palletId
+                          ? 'radio_button_checked'
+                          : 'radio_button_unchecked'
+                      }}</mat-icon>
                     </div>
                   </div>
                 </div>

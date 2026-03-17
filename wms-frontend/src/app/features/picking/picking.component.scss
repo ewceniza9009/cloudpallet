@@ -14,7 +14,7 @@
 
 // Create Order Card
 .create-order-card {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem !important; // REDUCED FROM 2rem
   overflow: visible;
 
   .mat-mdc-card-header {
@@ -24,7 +24,18 @@
   }
 
   .mat-mdc-card-content {
-    padding: 0 1.5rem 1.5rem;
+    padding: 0.75rem 1.25rem !important; // HIGH-DENSITY BALANCED PADDING
+    
+    .filter-grid {
+      margin-bottom: 0.75rem !important; // DENSE SPACING
+    }
+  }
+}
+
+// 2. Checkbox & Controls Polish
+::ng-deep .create-order-card {
+  .mat-mdc-checkbox {
+    margin-right: 1.5rem;
   }
 }
 
@@ -32,12 +43,12 @@
 
 // Order Items List
 .order-items-container {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
   border-top: 1px solid var(--mat-sys-outline-variant);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .order-item-row {
@@ -51,8 +62,8 @@
 // Active Pick Lists Grid
 .active-list-section .pick-groups-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1rem !important; // COMPACT GRID GAP
 }
 
 .pick-group-card {
@@ -87,8 +98,8 @@
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 0.75rem 1rem;
-    gap: 1rem;
+    padding: 0.5rem 0.75rem; // HIGH-DENSITY ITEM FILL
+    gap: 0.75rem;
   }
 
   .item-status-indicator mat-icon {
