@@ -333,34 +333,43 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
             return Enumerable.Empty<StoredPalletSearchResultDto>();
         }
 
-        // 2. Fetch details for the found pallets
-        var pallets = await context.Pallets.AsNoTracking()
+        // 2. Fetch details via surgical projection to avoid Byte[]/Guid collision in Npgsql
+        var results = await context.Pallets.AsNoTracking()
             .Where(p => palletIds.Contains(p.Id))
-            .Include(p => p.Account)
-            .Include(p => p.Inventory)
-                .ThenInclude(i => i.Material)
-            .Include(p => p.Inventory)
-                .ThenInclude(i => i.Location)
+            .Select(p => new
+            {
+                p.Id,
+                p.Barcode,
+                AccountName = p.Account.Name,
+                ActiveInventory = p.Inventory
+                    .Where(i => i.Quantity > 0)
+                    .Select(i => new
+                    {
+                        i.Quantity,
+                        MaterialName = i.Material.Name,
+                        LocationBarcode = i.Location.Barcode
+                    })
+                    .ToList()
+            })
             .ToListAsync(cancellationToken);
 
-        // 3. Map to DTO in memory
-        return pallets.Select(p =>
+        // 3. Map to DTO in memory 
+        return results.Select(r =>
         {
-            var activeInventory = p.Inventory.Where(i => i.Quantity > 0).ToList();
-            var firstInv = activeInventory.FirstOrDefault();
-            var locationName = firstInv?.Location.Barcode ?? "Unknown";
-            var materials = activeInventory.Select(i => i.Material.Name).Distinct().ToList();
+            var firstInv = r.ActiveInventory.FirstOrDefault();
+            var locationName = firstInv?.LocationBarcode ?? "Unknown";
+            var materials = r.ActiveInventory.Select(i => i.MaterialName).Distinct().ToList();
 
             return new StoredPalletSearchResultDto
             {
-                PalletId = p.Id,
-                PalletBarcode = p.Barcode,
+                PalletId = r.Id,
+                PalletBarcode = r.Barcode,
                 LocationName = locationName,
-                AccountName = p.Account.Name,
+                AccountName = r.AccountName,
                 MaterialSummary = materials.Count > 1
                     ? $"{materials.First()} + {materials.Count - 1} other(s)"
                     : (materials.FirstOrDefault() ?? "N/A"),
-                Quantity = activeInventory.Sum(i => i.Quantity)
+                Quantity = r.ActiveInventory.Sum(i => i.Quantity)
             };
         });
     }
