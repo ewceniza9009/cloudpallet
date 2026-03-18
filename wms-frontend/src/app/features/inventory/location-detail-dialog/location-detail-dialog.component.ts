@@ -176,7 +176,8 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
         flex-direction: column;
         height: 100%;
         max-height: 85vh;
-        background: #fff;
+        background: var(--mat-sys-surface);
+        color: var(--mat-sys-on-surface);
       }
 
       .dialog-header {
@@ -184,8 +185,8 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
         justify-content: space-between;
         align-items: center;
         padding: 20px 24px;
-        border-bottom: 1px solid #f0f0f0;
-        background: #fff;
+        border-bottom: 1px solid var(--mat-sys-outline-variant);
+        background: var(--mat-sys-surface);
 
         h2 {
           margin: 0;
@@ -194,15 +195,15 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
           gap: 12px;
           font-size: 1.25rem;
           font-weight: 600;
-          color: #1a1a1a;
+          color: var(--mat-sys-on-surface);
           
           .header-icon {
-            color: #1976d2;
+            color: var(--mat-sys-primary);
           }
         }
         
         .close-btn {
-          color: #666;
+          color: var(--mat-sys-on-surface-variant);
         }
       }
 
@@ -210,7 +211,7 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
         padding: 0 !important;
         flex: 1;
         overflow-y: auto;
-        background: #f9fafb;
+        background: var(--mat-sys-surface-container-low);
       }
 
       .loading-container, .empty-state, .error-state {
@@ -220,13 +221,38 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
         justify-content: center;
         padding: 60px;
         gap: 16px;
-        color: #666;
+        color: var(--mat-sys-on-surface-variant);
 
         mat-icon {
           font-size: 48px;
           width: 48px;
           height: 48px;
           opacity: 0.5;
+        }
+      }
+
+      .custom-tabs {
+        background: var(--mat-sys-surface);
+        
+        ::ng-deep {
+          .mat-mdc-tab-body-wrapper {
+            background: var(--mat-sys-surface-container-low);
+          }
+          
+          .mat-mdc-tab-header {
+            background: var(--mat-sys-surface);
+            border-bottom: 1px solid var(--mat-sys-outline-variant);
+          }
+          
+          .mat-mdc-tab-link, .mat-mdc-tab {
+            color: var(--mat-sys-on-surface-variant) !important;
+            
+            &.mdc-tab--active {
+              .mdc-tab__text-label {
+                color: var(--mat-sys-primary) !important;
+              }
+            }
+          }
         }
       }
 
@@ -245,10 +271,10 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
       }
 
       .status-card {
-        background: #fff;
+        background: var(--mat-sys-surface);
         padding: 16px;
         border-radius: 8px;
-        border: 1px solid #e0e0e0;
+        border: 1px solid var(--mat-sys-outline-variant);
         display: flex;
         flex-direction: column;
         gap: 8px;
@@ -257,17 +283,17 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
           font-size: 0.75rem;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          color: #666;
+          color: var(--mat-sys-on-surface-variant);
           font-weight: 600;
         }
         
         .value {
           font-size: 1.25rem;
           font-weight: 600;
-          color: #333;
+          color: var(--mat-sys-on-surface);
           
           &.high-util {
-            color: #d32f2f;
+            color: var(--mat-sys-error, #ffb4ab);
           }
         }
         
@@ -276,28 +302,28 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
           padding: 4px 12px;
           border-radius: 16px;
           font-size: 0.875rem;
-          font-weight: 500;
+          font-weight: 600;
           
-          &.empty { background: #e8f5e9; color: #2e7d32; }
-          &.partial { background: #e3f2fd; color: #1565c0; }
-          &.approaching { background: #fff3e0; color: #ef6c00; }
-          &.full, &.over { background: #ffebee; color: #c62828; }
+          &.empty { background: rgba(129, 199, 132, 0.15); color: #81c784; }
+          &.partial { background: rgba(100, 181, 246, 0.15); color: #64b5f6; }
+          &.approaching { background: rgba(255, 183, 77, 0.15); color: #ffb74d; }
+          &.full, &.over { background: rgba(229, 115, 115, 0.15); color: #e57373; }
         }
       }
 
       /* Pallet Ticket */
       .pallet-ticket {
-        background: #fff;
+        background: var(--mat-sys-surface);
         border-radius: 12px;
-        border: 1px solid #e0e0e0;
+        border: 1px solid var(--mat-sys-outline-variant);
         overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        box-shadow: 0 4px 24px var(--mat-sys-shadow);
       }
 
       .ticket-header {
         padding: 20px;
-        background: #f8f9fa;
-        border-bottom: 1px solid #e0e0e0;
+        background: var(--mat-sys-surface-container);
+        border-bottom: 1px solid var(--mat-sys-outline-variant);
         display: flex;
         align-items: center;
         gap: 16px;
@@ -306,12 +332,12 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
           width: 48px;
           height: 48px;
           border-radius: 8px;
-          background: #fff;
+          background: var(--mat-sys-surface-container-high);
           display: flex;
           align-items: center;
           justify-content: center;
-          border: 1px solid #e0e0e0;
-          color: #555;
+          border: 1px solid var(--mat-sys-outline-variant);
+          color: var(--mat-sys-primary);
         }
         
         .ticket-info {
@@ -320,13 +346,13 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
           .ticket-title {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #333;
+            color: var(--mat-sys-on-surface);
             margin-bottom: 4px;
           }
           
           .ticket-subtitle {
             font-size: 0.9rem;
-            color: #666;
+            color: var(--mat-sys-on-surface-variant);
           }
         }
         
@@ -337,25 +363,26 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
             display: block;
             font-size: 1.5rem;
             font-weight: 700;
-            color: #333;
+            color: var(--mat-sys-on-surface);
             line-height: 1;
           }
           
           .weight-unit {
             font-size: 0.875rem;
-            color: #888;
+            color: var(--mat-sys-on-surface-variant);
           }
         }
       }
 
       .ticket-body {
         padding: 20px;
+        background: var(--mat-sys-surface);
         
         .contents-title {
           font-size: 0.875rem;
           text-transform: uppercase;
           letter-spacing: 1px;
-          color: #888;
+          color: var(--mat-sys-on-surface-variant);
           margin: 0 0 16px 0;
           font-weight: 600;
         }
@@ -372,9 +399,9 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
         justify-content: space-between;
         align-items: center;
         padding: 12px;
-        background: #f8f9fa;
+        background: var(--mat-sys-surface-container-low);
         border-radius: 6px;
-        border: 1px solid #eee;
+        border: 1px solid var(--mat-sys-outline-variant);
         
         .item-main {
           display: flex;
@@ -383,16 +410,16 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
           
           .item-name {
             font-weight: 500;
-            color: #333;
+            color: var(--mat-sys-on-surface);
           }
           
           .item-meta {
             font-size: 0.85rem;
-            color: #666;
+            color: var(--mat-sys-on-surface-variant);
             display: flex;
             gap: 8px;
             
-            .separator { color: #ccc; }
+            .separator { color: var(--mat-sys-outline-variant); }
           }
         }
         
@@ -401,13 +428,13 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
           
           .qty-val {
             font-weight: 600;
-            color: #333;
+            color: var(--mat-sys-on-surface);
             font-size: 1.1rem;
           }
           
           .qty-unit {
             font-size: 0.8rem;
-            color: #888;
+            color: var(--mat-sys-on-surface-variant);
             margin-left: 4px;
           }
         }
@@ -415,7 +442,7 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
 
       /* History Timeline */
       .history-content {
-        background: #fff;
+        background: var(--mat-sys-surface);
         min-height: 300px;
       }
 
@@ -430,7 +457,7 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
           top: 0;
           bottom: 0;
           width: 2px;
-          background: #f0f0f0;
+          background: var(--mat-sys-outline-variant);
         }
       }
 
@@ -445,22 +472,22 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
         
         .timeline-marker {
           position: absolute;
-          left: -20px; /* Adjust based on padding-left of container */
+          left: -20px;
           top: 4px;
           width: 12px;
           height: 12px;
           border-radius: 50%;
-          background: #1976d2;
-          border: 2px solid #fff;
-          box-shadow: 0 0 0 2px #e3f2fd;
+          background: var(--mat-sys-primary);
+          border: 2px solid var(--mat-sys-surface);
+          box-shadow: 0 0 0 2px var(--mat-sys-surface-container);
           z-index: 1;
         }
         
         .timeline-content {
-          background: #f8f9fa;
+          background: var(--mat-sys-surface-container-low);
           border-radius: 8px;
           padding: 12px 16px;
-          border: 1px solid #eee;
+          border: 1px solid var(--mat-sys-outline-variant);
           
           .timeline-header {
             display: flex;
@@ -469,18 +496,18 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
             
             .event-type {
               font-weight: 600;
-              color: #1976d2;
+              color: var(--mat-sys-primary);
             }
             
             .event-time {
               font-size: 0.85rem;
-              color: #888;
+              color: var(--mat-sys-on-surface-variant);
             }
           }
           
           .timeline-body {
             font-size: 0.9rem;
-            color: #555;
+            color: var(--mat-sys-on-surface);
             
             .event-location {
               margin-bottom: 4px;
@@ -492,7 +519,7 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
       
       .no-history {
         text-align: center;
-        color: #888;
+        color: var(--mat-sys-on-surface-variant);
         padding: 40px;
         font-style: italic;
       }

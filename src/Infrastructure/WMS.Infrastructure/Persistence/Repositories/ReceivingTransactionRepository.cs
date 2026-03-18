@@ -1,4 +1,4 @@
-﻿// ---- File: src/Infrastructure/WMS.Infrastructure/Persistence/Repositories/ReceivingTransactionRepository.cs ----
+// ---- File: src/Infrastructure/WMS.Infrastructure/Persistence/Repositories/ReceivingTransactionRepository.cs ----
 
 using Microsoft.EntityFrameworkCore;
 using WMS.Application.Abstractions.Persistence;
@@ -187,12 +187,18 @@ public class ReceivingTransactionRepository(WmsDbContext context) : IReceivingTr
             });
         }
 
-        // Event: Created from Transfer (Unchanged)
+        // Event: Created from Transfer (Refactored to projection to avoid RowVersion collision)
         var transferInTx = await context.ItemTransferTransactions
             .AsNoTracking()
-            .Include(t => t.SourceInventory).ThenInclude(si => si.Pallet)
-            .Include(t => t.SourceInventory).ThenInclude(si => si.Material)
-            .FirstOrDefaultAsync(t => t.NewDestinationPalletId == pallet.Id, cancellationToken);
+            .Where(t => t.NewDestinationPalletId == pallet.Id)
+            .Select(t => new
+            {
+                t.Timestamp,
+                t.QuantityTransferred,
+                MaterialName = t.SourceInventory.Material.Name,
+                SourcePalletBarcode = t.SourceInventory.Pallet.Barcode
+            })
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (transferInTx != null)
         {
@@ -201,7 +207,7 @@ public class ReceivingTransactionRepository(WmsDbContext context) : IReceivingTr
                 EventType = "Created from Transfer",
                 Timestamp = transferInTx.Timestamp,
                 Location = "Warehouse Floor",
-                Details = $"Created from transfer of {transferInTx.QuantityTransferred:N0} '{transferInTx.SourceInventory.Material.Name}' from pallet {transferInTx.SourceInventory.Pallet.Barcode}"
+                Details = $"Created from transfer of {transferInTx.QuantityTransferred:N0} '{transferInTx.MaterialName}' from pallet {transferInTx.SourcePalletBarcode}"
             });
         }
 
@@ -234,19 +240,25 @@ public class ReceivingTransactionRepository(WmsDbContext context) : IReceivingTr
             Details = $"Moved from BAY-{tx.FromLocation.Bay} / {tx.FromLocation.Barcode} to BAY-{tx.ToLocation.Bay} / {tx.ToLocation.Barcode}"
         }));
 
-        // Event: Items Transferred Out (Unchanged)
+        // Event: Items Transferred Out (Refactored to projection to avoid RowVersion collision)
         var transferOutTxs = await context.ItemTransferTransactions
             .AsNoTracking()
-            .Include(t => t.NewDestinationPallet)
-            .Include(t => t.SourceInventory).ThenInclude(si => si.Material)
             .Where(t => t.SourceInventory.PalletId == pallet.Id)
+            .Select(t => new
+            {
+                t.Timestamp,
+                t.QuantityTransferred,
+                MaterialName = t.SourceInventory.Material.Name,
+                DestPalletBarcode = t.NewDestinationPallet.Barcode
+            })
             .ToListAsync(cancellationToken);
+
         movements.AddRange(transferOutTxs.Select(tx => new PalletMovementDto
         {
             EventType = "Items Transferred Out",
             Timestamp = tx.Timestamp,
             Location = "Warehouse Floor",
-            Details = $"Transferred {tx.QuantityTransferred:N0} of '{tx.SourceInventory.Material.Name}' to new pallet {tx.NewDestinationPallet.Barcode}"
+            Details = $"Transferred {tx.QuantityTransferred:N0} of '{tx.MaterialName}' to new pallet {tx.DestPalletBarcode}"
         }));
 
         // --- START MODIFICATION: Fix VAS Query ---

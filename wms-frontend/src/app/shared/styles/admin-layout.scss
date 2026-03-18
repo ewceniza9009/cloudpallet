@@ -119,7 +119,7 @@
 .filter-grid {
   display: flex !important;
   flex-direction: row !important;
-  flex-wrap: nowrap !important; // NO MORE WRAPPING - NO MORE STACKING
+  flex-wrap: wrap !important; // PREMIUM FLEX: Allow wrap on mobile, but keep horizontal on desktop
   gap: 1.5rem !important;
   align-items: center !important;
   width: 100% !important;
@@ -129,13 +129,20 @@
 
 .filter-grid mat-form-field,
 .filter-grid .custom-field {
-  flex: 0 0 200px !important;
-  width: 200px !important;
-  min-width: 200px !important;
-  max-width: 200px !important;
+  flex: 0 0 400px !important; // PANORAMIC EXPANSION: Ultra-wide for better ergonomic intent
+  width: 400px !important;
+  min-width: 400px !important;
+  max-width: 400px !important;
   margin: 0 !important;
   display: block !important;
   height: 44px !important;
+
+  @media (max-width: 768px) {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
 
   .mat-mdc-form-field-subscript-wrapper {
     display: none !important;
