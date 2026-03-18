@@ -362,6 +362,45 @@ body {
   font-weight: 600;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
+  &.mat-mdc-unelevated-button.mat-primary,
+  &.mat-mdc-flat-button.mat-primary,
+  &.mat-mdc-raised-button.mat-primary {
+    color: #ffffff !important;
+    --mdc-filled-button-label-text-color: #ffffff;
+    --mdc-protected-button-label-text-color: #ffffff;
+    
+    .mdc-button__label,
+    mat-icon,
+    .mat-icon {
+      color: #ffffff !important;
+    }
+  }
+
+  &.mat-mdc-outlined-button.mat-primary,
+  &.mat-mdc-button.mat-primary {
+    color: var(--mat-sys-primary) !important;
+    --mdc-text-button-label-text-color: var(--mat-sys-primary);
+    --mdc-outlined-button-label-text-color: var(--mat-sys-primary);
+    
+    .mdc-button__label,
+    mat-icon,
+    .mat-icon {
+      color: var(--mat-sys-primary) !important;
+    }
+
+    &:hover:not(:disabled) {
+      color: #ffffff !important;
+      --mdc-text-button-label-text-color: #ffffff !important;
+      --mdc-outlined-button-label-text-color: #ffffff !important;
+      
+      .mdc-button__label,
+      mat-icon,
+      .mat-icon {
+        color: #ffffff !important;
+      }
+    }
+  }
+
   &:hover {
     background-color: var(--mat-sys-primary) !important;
     transform: translateY(-1px);
