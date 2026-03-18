@@ -1,42 +1,53 @@
-<div class="auth-container">
-  <mat-card class="auth-card">
-    <!-- Back Button -->
-    <div class="back-button-container">
-      <button mat-icon-button class="back-btn" routerLink="/" matTooltip="Go back">
+<div class="auth-wrapper">
+  <div class="background-canvas"></div>
+  
+  <div class="auth-container">
+    <mat-card class="auth-card glass-panel">
+      <!-- Back Button -->
+      <button mat-icon-button class="back-btn" routerLink="/" matTooltip="Return Home">
         <mat-icon>arrow_back</mat-icon>
       </button>
-    </div>
 
-    <div class="auth-header">
-      <div class="auth-icon">
-        <img src="favicon.png" alt="Cloud Pallet Logo" class="brand-icon" width="48" height="48">
-      </div>
-      <mat-card-title><strong>CLOUD PALLET</strong> PORTAL</mat-card-title>
-    </div>
-    <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
-        <mat-form-field appearance="outline">
-          <mat-label>Email Address</mat-label>
-          <input matInput formControlName="email" type="email" required>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput formControlName="password" type="password" required>
-        </mat-form-field>
-
-        <div class="form-actions">
-          <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid" class="login-btn">
-            Sign In
-          </button>
+      <div class="auth-header">
+        <div class="auth-brand">
+          <div class="brand-glow"></div>
+          <img src="favicon.png" alt="Cloud Pallet Logo" class="brand-icon">
         </div>
-      </form>
-    </mat-card-content>
-    <mat-card-actions>
-      <a mat-button routerLink="/register" class="link">
-        <mat-icon>person_add</mat-icon>
-        <span>Create a new account</span>
-      </a>
-    </mat-card-actions>
-  </mat-card>
+        <h1 class="brand-title">CLOUD<span class="highlight">PALLET</span></h1>
+        <p class="brand-subtitle">Warehouse Management System</p>
+      </div>
+
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+          <mat-form-field appearance="outline" class="w-full form-field-glass">
+            <mat-label>Email Address</mat-label>
+            <mat-icon matPrefix>mail</mat-icon>
+            <input matInput formControlName="email" type="email" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full form-field-glass relative-z">
+            <mat-label>Password</mat-label>
+            <mat-icon matPrefix>lock</mat-icon>
+            <input matInput formControlName="password" type="password" required>
+          </mat-form-field>
+
+          <div class="form-actions mt-2">
+            <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid" class="login-btn w-full btn-glow">
+              <mat-icon>login</mat-icon>
+              <span>Sign In</span>
+            </button>
+          </div>
+          
+
+        </form>
+      </mat-card-content>
+
+      <mat-card-actions class="auth-footer">
+        <p class="register-prompt">
+          New to Cloud Pallet? 
+          <a routerLink="/register" class="link-highlight">Create an account</a>
+        </p>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>

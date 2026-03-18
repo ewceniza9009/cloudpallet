@@ -136,7 +136,7 @@
   max-width: 240px !important;
   margin: 0 !important;
   padding: 0 !important;
-  height: 40px !important; // PROFESSIONAL HEIGHT
+  height: auto !important; // Let container grow to encompass the 56px material field
   display: block !important;
   border-radius: 6px !important;
 
@@ -211,9 +211,7 @@
   display: flex !important;
   align-items: center !important;
   gap: 0.5rem;
-  margin-left: auto !important;
   height: 40px !important;
-  margin: 0 !important;
   padding: 0 !important;
 
   button:not(.mat-mdc-icon-button) {
