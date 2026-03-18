@@ -3,13 +3,13 @@
 
 // 1. Container & Main Layout
 .report-container {
-  padding: 0.75rem 1rem;
+  padding: 0.25rem 0.5rem !important; // CLINICAL COMPRESSION: Nuke wasted space
   width: 100% !important;
   max-width: 100% !important;
   margin: 0 !important;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.25rem;
   min-height: 100%;
   animation: fadeIn 0.3s ease-out;
   overflow-x: hidden; // ✅ FIX: Stop global horizontal scrollbar
@@ -31,8 +31,8 @@
   display: flex !important;
   justify-content: space-between !important;
   align-items: flex-end !important;
-  margin-bottom: 2.5rem !important;
-  padding-bottom: 1.5rem !important;
+  margin-bottom: 0.25rem !important; // ATOMIC PROXIMITY
+  padding-bottom: 0.25rem !important;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
   position: relative;
 
@@ -54,13 +54,13 @@
   .detail-title,
   .invoice-title,
   .receiving-title {
-    font-size: 1.75rem !important;
+    font-size: 1.2rem !important; // ELITE 36: Professional title sizing
     font-weight: 700 !important;
     color: var(--mat-sys-on-surface);
     padding: 0 !important;
     margin: 0 !important;
-    line-height: 1.1 !important;
-    letter-spacing: -0.03em !important;
+    line-height: 1 !important;
+    letter-spacing: -0.01em !important;
     // Removed aggressive uppercase for more premium feel
   }
 
@@ -119,41 +119,43 @@
 .filter-grid {
   display: flex !important;
   flex-direction: row !important;
-  flex-wrap: wrap !important; // PREMIUM FLEX: Allow wrap on mobile, but keep horizontal on desktop
-  gap: 1.5rem !important;
-  align-items: center !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+  gap: 0.75rem !important; // RESPONSIVE BREATHING ROOM
+  align-items: flex-end !important; // ELITE BASELINE SYNC
   width: 100% !important;
-  margin-bottom: 2.5rem !important;
-  overflow-x: visible !important;
+  margin-bottom: 1.5rem !important;
+  overflow: visible !important;
 }
 
 .filter-grid mat-form-field,
 .filter-grid .custom-field {
-  flex: 0 0 400px !important; // PANORAMIC EXPANSION: Ultra-wide for better ergonomic intent
-  width: 400px !important;
-  min-width: 400px !important;
-  max-width: 400px !important;
+  flex: 0 0 240px !important; // REFINED WIDTH
+  width: 240px !important;
+  min-width: 240px !important;
+  max-width: 240px !important;
   margin: 0 !important;
+  padding: 0 !important;
+  height: 40px !important; // PROFESSIONAL HEIGHT
   display: block !important;
-  height: 44px !important;
+  border-radius: 6px !important;
 
   @media (max-width: 768px) {
     flex: 1 1 100% !important;
     width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
   }
 
-  .mat-mdc-form-field-subscript-wrapper {
+  .mat-mdc-form-field-subscript-wrapper,
+  .mat-mdc-form-field-bottom-align {
     display: none !important;
   }
 }
 
 .filter-grid .date-field {
-  flex: 0 0 350px !important; // PERFECT WIDTH FOR RANGE
-  width: 350px !important;
-  min-width: 350px !important;
-  max-width: 350px !important;
+  flex: 0 0 220px !important; // MICRO-SYNC
+  width: 220px !important;
+  min-width: 220px !important;
+  max-width: 220px !important;
 }
 
 // Filter grid layout and button contrast moved to global styles.scss for absolute precedence
@@ -164,7 +166,6 @@
   column-gap: 1.5rem !important;
   row-gap: 1.5rem !important; // Match column gap
   align-items: center !important;
-  margin-bottom: 2rem;
   width: 100%;
   padding: 0 !important; // ✅ ALIGNMENT FIX: Remove extra padding that shifts it right
 
@@ -207,21 +208,26 @@
 }
 
 .filter-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-left: auto;
-  align-self: center;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem;
+  margin-left: auto !important;
+  height: 40px !important;
+  margin: 0 !important;
+  padding: 0 !important;
 
   button:not(.mat-mdc-icon-button) {
-    height: 44px !important; // Unify with inputs
-    padding: 0 24px !important;
-    border-radius: 8px !important;
-    font-size: 0.9rem !important;
+    height: 40px !important;
+    padding: 0 16px !important;
+    border-radius: 6px !important;
+    font-size: 0.8rem !important;
     font-weight: 600 !important;
-    display: flex;
-    align-items: center;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     gap: 8px;
+    margin: 0 !important;
+    line-height: normal !important;
 
     mat-icon {
       font-size: 20px !important;
@@ -311,7 +317,7 @@
 
   .mat-mdc-header-row {
     background: var(--mat-sys-surface-container-low);
-    height: 36px; // Ultra compact
+    height: 32px !important; // PROFESSIONAL HIGH-DENSITY
   }
 
   .mat-mdc-header-cell {
@@ -332,7 +338,7 @@
   }
 
   .mat-mdc-row {
-    height: 40px; // Ultra compact
+    height: 32px !important; // PROFESSIONAL HIGH-DENSITY
     transition: background-color 0.2s;
     cursor: pointer;
 
@@ -791,41 +797,46 @@
 
   .mat-mdc-text-field-wrapper,
   .mdc-text-field {
-    min-height: 56px !important; // MATCH GLOBAL ELITE MIN-HEIGHT
+    min-height: 40px !important;
+    height: 40px !important;
+    font-size: 0.85rem !important;
     padding: 0 !important;
-    background-color: var(--mat-sys-surface) !important; // CLINICAL CLEAN WHITE
+    background-color: var(--mat-sys-surface) !important;
     border: 1px solid var(--mat-sys-outline) !important;
-    border-radius: 8px !important;
-    transition: all 0.2s ease;
-    overflow: visible !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
     pointer-events: auto !important;
 
     &:hover {
       border-color: var(--mat-sys-primary) !important;
-      box-shadow: 0 2px 8px rgba(45, 212, 191, 0.08); 
+      box-shadow: 0 2px 8px rgba(45, 212, 191, 0.08);
     }
   }
 
   .mat-mdc-form-field-flex {
-    min-height: 56px !important;
+    min-height: 32px !important;
+    height: 32px !important;
+    max-height: 32px !important;
     align-items: center !important;
-    padding: 0 16px !important; // RESTORED ELITE HORIZONTAL GUTTER
+    padding: 0 8px !important;
     display: flex !important;
     width: 100% !important;
-    overflow: visible !important;
-    margin: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .mat-mdc-form-field-infix {
-    padding: 16px 0 8px !important; 
-    min-height: 56px !important;
-    display: block !important; // NUKE FLEX OVERRIDES
-    border-top: 0 !important; 
+    padding: 0 !important; // NUKE INTERNAL INFIX BLOAT
+    min-height: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    border-top: 0 !important;
     width: auto !important;
-    overflow: visible !important;
 
     &::before {
-      display: none !important; 
+      display: none !important;
     }
   }
 
@@ -838,17 +849,18 @@
 
   .mdc-floating-label {
     color: var(--mat-sys-on-surface-variant) !important;
-    font-weight: 600 !important; 
+    font-weight: 600 !important;
     pointer-events: none;
-    font-size: 0.95rem !important;
+    font-size: 0.75rem !important; // ELITE LEGIBILITY
+    line-height: normal !important;
 
     &.mdc-floating-label--float-above {
       display: block !important;
-      transform: translateY(-38px) scale(0.85) !important; // SURGICAL LOCK
+      transform: translateY(-26px) scale(0.8) !important; // STANDARDIZED FLOAT
       background: var(--mat-sys-surface) !important;
       color: var(--mat-sys-primary) !important;
-      padding: 0 6px !important;
-      margin-left: -4px !important;
+      padding: 0 4px !important;
+      margin-left: -2px !important;
     }
 
     // Account for asterisks
@@ -863,8 +875,8 @@
     padding: 0 !important;
     margin: 0 !important;
     font-size: 0.95rem !important;
-    line-height: 44px !important; // FORCE BASICAL CENTER
-    height: 44px !important;
+    line-height: normal !important;
+    height: 32px !important; // CRUSHED 44PX BLOAT
     color: var(--mat-sys-on-surface) !important;
     background: transparent !important;
     text-overflow: ellipsis !important;
@@ -942,27 +954,27 @@
 
 // Global layout styles
 .date-field {
-  flex: 1 1 320px !important; // CRITICAL: Date range needs more than 200px
-  min-width: 320px !important;
-  max-width: 380px !important;
-  height: 44px !important;
+  flex: 0 0 340px !important;
+  min-width: 340px !important;
+  max-width: 340px !important;
+  height: 40px !important;
   margin-bottom: 0 !important;
 
   ::ng-deep .mat-mdc-date-range-input {
-    height: 44px !important; // ABSOLUTE LOCK
+    height: 36px !important;
     display: flex !important;
     align-items: center !important;
     padding: 0 !important;
 
     .mat-mdc-date-range-input-container {
-      height: 44px !important;
+      height: 36px !important;
       display: flex !important;
       align-items: center !important;
     }
 
     .mat-mdc-date-range-input-inner {
-      height: 44px !important;
-      line-height: 44px !important;
+      height: 36px !important;
+      line-height: normal !important;
       display: flex !important;
       align-items: center !important;
     }
