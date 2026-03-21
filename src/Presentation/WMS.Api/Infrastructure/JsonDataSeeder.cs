@@ -56,90 +56,87 @@ public static class JsonDataSeeder
             return;
         }
 
-        // Identity Tables
-        await SeedEntity<IdentityRole<Guid>>(context, inputPath, "Roles.json");
-        await context.SaveChangesAsync();
-        
-        await SeedEntity<Company>(context, inputPath, "Companies.json"); // Users depend on Company
-        await context.SaveChangesAsync();
-
-        // Custom User Seeding to fix FK and ensure valid CompanyId
-        if (!await context.Users.AnyAsync())
+        // --- OPTIMIZATION: Early Exit if already seeded ---
+        if (await context.Users.AnyAsync())
         {
-            try 
+            Console.WriteLine("Database already contains users. Skipping full seed check to save startup time.");
+            return;
+        }
+
+        try 
+        {
+            // Group 1: Independent or Root Dependencies (Roles, Companies)
+            await SeedEntity<IdentityRole<Guid>>(context, inputPath, "Roles.json");
+            await SeedEntity<Company>(context, inputPath, "Companies.json");
+            await context.SaveChangesAsync();
+            Console.WriteLine("Seeded Group 1 (Roles, Companies)");
+
+            // Group 2: User-related and Core Definitions
+            await SeedUsersInternal(context, inputPath);
+            await SeedEntity<IdentityUserRole<Guid>>(context, inputPath, "UserRoles.json");
+            await SeedEntity<Account>(context, inputPath, "Accounts.json");
+            await SeedEntity<Carrier>(context, inputPath, "Carriers.json");
+            await SeedEntity<Supplier>(context, inputPath, "Suppliers.json");
+            await SeedEntity<Truck>(context, inputPath, "Trucks.json");
+            await SeedEntity<UnitOfMeasure>(context, inputPath, "UnitsOfMeasure.json");
+            await SeedEntity<PalletType>(context, inputPath, "PalletTypes.json");
+            await SeedEntity<Rate>(context, inputPath, "Rates.json");
+            await context.SaveChangesAsync();
+            Console.WriteLine("Seeded Group 2 (Users, Core Definitions)");
+
+            // Group 3: Warehouse Structure (Hierarchical)
+            await SeedEntity<Warehouse>(context, inputPath, "Warehouses.json");
+            await context.SaveChangesAsync(); // Save Warehouses first so Rooms can point to them
+            
+            await SeedEntity<Room>(context, inputPath, "Rooms.json");
+            await context.SaveChangesAsync(); // Save Rooms first so Locations can point to them
+
+            await SeedEntity<Location>(context, inputPath, "Locations.json");
+            await SeedEntity<Dock>(context, inputPath, "Docks.json");
+            await SeedEntity<YardSpot>(context, inputPath, "YardSpots.json");
+            await context.SaveChangesAsync(); 
+            Console.WriteLine("Seeded Group 3 (Warehouse Structure)");
+
+            // Group 4: Material Master
+            await SeedEntity<MaterialCategory>(context, inputPath, "MaterialCategories.json");
+            await SeedEntity<Material>(context, inputPath, "Materials.json");
+            await SeedEntity<BillOfMaterial>(context, inputPath, "BillOfMaterials.json");
+            await SeedEntity<BillOfMaterialLine>(context, inputPath, "BillOfMaterialLines.json");
+            await context.SaveChangesAsync();
+            Console.WriteLine("Seeded Group 4 (Material Master)");
+
+            Console.WriteLine("Database seeded successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"CRITICAL ERROR during database seeding: {ex.Message}");
+            // We don't throw here to allow the app to potentially start even if seeding fails (safer for Render)
+        }
+    }
+
+    private static async Task SeedUsersInternal(WmsDbContext context, string inputPath)
+    {
+        var userPath = Path.Combine(inputPath, "Users.json");
+        if (!File.Exists(userPath)) return;
+
+        var json = await File.ReadAllTextAsync(userPath);
+        var users = JsonSerializer.Deserialize<List<User>>(json, _options);
+        
+        if (users != null && users.Any())
+        {
+            // Fix FK: Get the actual Company ID from the DB
+            var validCompanyId = await context.Companies.Select(c => c.Id).FirstOrDefaultAsync();
+            if (validCompanyId != Guid.Empty)
             {
-                Console.WriteLine("Starting User seed...");
-                var userPath = Path.Combine(inputPath, "Users.json");
-                if (File.Exists(userPath))
+                var companyIdProp = typeof(User).GetProperty(nameof(User.CompanyId));
+                foreach (var user in users)
                 {
-                    var json = await File.ReadAllTextAsync(userPath);
-                    var users = JsonSerializer.Deserialize<List<User>>(json, _options);
-                    
-                    if (users != null && users.Any())
-                    {
-                        // Fix FK: Get the actual Company ID from the DB
-                        var validCompanyId = await context.Companies.Select(c => c.Id).FirstOrDefaultAsync();
-                        if (validCompanyId != Guid.Empty)
-                        {
-                            var companyIdProp = typeof(User).GetProperty(nameof(User.CompanyId));
-                            foreach (var user in users)
-                            {
-                                // Use reflection to set private setter, ensuring it matches the DB's Company
-                                companyIdProp?.SetValue(user, validCompanyId);
-                            }
-                            Console.WriteLine($"Fixed CompanyId for {users.Count} users to {validCompanyId}");
-                        }
-                        
-                        await context.Users.AddRangeAsync(users);
-                        Console.WriteLine($"Tracker has {context.ChangeTracker.Entries().Count(e => e.State == EntityState.Added)} added entities.");
-                        await context.SaveChangesAsync();
-                        Console.WriteLine("User seed saved successfully.");
-                    }
+                    // Use reflection to set private setter
+                    companyIdProp?.SetValue(user, validCompanyId);
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"ERROR seeding Users: {ex}");
-                throw; 
-            }
+            await context.Users.AddRangeAsync(users);
         }
-        else
-        {
-             Console.WriteLine("Skipping User seed (already exists).");
-        }
-
-        await SeedEntity<IdentityUserRole<Guid>>(context, inputPath, "UserRoles.json");
-        await context.SaveChangesAsync();
-
-        // Group 1: Parties & Core Definitions
-        await SeedEntity<Account>(context, inputPath, "Accounts.json");
-        await SeedEntity<Carrier>(context, inputPath, "Carriers.json");
-        await SeedEntity<Supplier>(context, inputPath, "Suppliers.json");
-        await SeedEntity<Truck>(context, inputPath, "Trucks.json");
-        await SeedEntity<UnitOfMeasure>(context, inputPath, "UnitsOfMeasure.json");
-        await SeedEntity<PalletType>(context, inputPath, "PalletTypes.json");
-        await SeedEntity<Rate>(context, inputPath, "Rates.json");
-        await context.SaveChangesAsync();
-        Console.WriteLine("Seeded Parties & Core Definitions.");
-
-        // Group 2: Warehouse Structure
-        await SeedEntity<Warehouse>(context, inputPath, "Warehouses.json");
-        await SeedEntity<Room>(context, inputPath, "Rooms.json");
-        await SeedEntity<Location>(context, inputPath, "Locations.json");
-        await SeedEntity<Dock>(context, inputPath, "Docks.json");
-        await SeedEntity<YardSpot>(context, inputPath, "YardSpots.json");
-        await context.SaveChangesAsync();
-        Console.WriteLine("Seeded Warehouse Structure.");
-
-        // Group 3: Material Master
-        await SeedEntity<MaterialCategory>(context, inputPath, "MaterialCategories.json");
-        await SeedEntity<Material>(context, inputPath, "Materials.json");
-        await SeedEntity<BillOfMaterial>(context, inputPath, "BillOfMaterials.json");
-        await SeedEntity<BillOfMaterialLine>(context, inputPath, "BillOfMaterialLines.json");
-        await context.SaveChangesAsync();
-        Console.WriteLine("Seeded Material Master.");
-
-        Console.WriteLine("Database seeded successfully.");
     }
 
     private static async Task SeedEntity<T>(WmsDbContext context, string inputPath, string filename) where T : class

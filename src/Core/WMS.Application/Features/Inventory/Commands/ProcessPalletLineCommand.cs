@@ -56,13 +56,13 @@ public class ProcessPalletLineCommandHandler(
             }
         }
 
-        // 1. Update line details first (sets status to Processed)
-        palletLine.Update(request.Quantity, netWeight, request.BatchNumber, request.DateOfManufacture, request.ExpiryDate);
+        // 1. Update line details first (sets status to Processed)
+        palletLine.Update(request.Quantity, netWeight, request.BatchNumber, request.DateOfManufacture, request.ExpiryDate);
 
         string itemLpn;
 
-        // 2. FIX: ONLY generate and set the barcode if it's currently empty/unassigned
-        if (string.IsNullOrWhiteSpace(palletLine.Barcode))
+        // 2. FIX: ONLY generate and set the barcode if it's currently empty/unassigned
+        if (string.IsNullOrWhiteSpace(palletLine.Barcode))
         {
             itemLpn = barcodeGenerationService.GenerateItemBarcode(palletLine.MaterialId);
             palletLine.SetBarcode(itemLpn);
@@ -70,7 +70,7 @@ public class ProcessPalletLineCommandHandler(
         else
         {
             itemLpn = palletLine.Barcode; // Use existing barcode if already set
-        }
+        }
 
         await receivingRepository.UpdatePalletLineAsync(palletLine, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -80,8 +80,8 @@ public class ProcessPalletLineCommandHandler(
             throw new InvalidOperationException("Receiving session must have an associated Account to process inventory.");
         }
 
-        // 3. Publish event to ensure MaterialInventory is updated/created
-        var materialReceivedEvent = new MaterialReceivedEvent(
+        // 3. Publish event to ensure MaterialInventory is updated/created
+        var materialReceivedEvent = new MaterialReceivedEvent(
       receiving.Id,
       pallet.Id,
       palletLine.Id,

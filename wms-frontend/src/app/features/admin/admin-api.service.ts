@@ -311,8 +311,8 @@ export class AdminApiService {
   }
 
   getMaterials(): Observable<MaterialDetailDto[]> {
-    return this.http.get<MaterialDetailDto[]>(`${this.adminApiUrl}/materials/lookup`);
-  }
+    return this.http.get<MaterialDetailDto[]>(`${this.adminApiUrl}/materials/lookup`);
+  }
 
   getPagedMaterials(query: GetMaterialsQuery): Observable<PagedResult<MaterialDetailDto>> {
      let params = new HttpParams()

@@ -1,4 +1,4 @@
-﻿// ---- File: src/Presentation/WMS.Api/Controllers/AuthenticationController.cs ----
+// ---- File: src/Presentation/WMS.Api/Controllers/AuthenticationController.cs ----
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +39,7 @@ public class AuthenticationController : ControllerBase
         {
             return BadRequest("Please provide a password in the query string, e.g., /api/Authentication/hash?password=YourPassword");
         }
-        var hashedPassword = _userManager.PasswordHasher.HashPassword(null!, password);
+        var hashedPassword = _userManager.PasswordHasher.HashPassword((User)null!, password);
         return Ok(hashedPassword);
     }
     // ==============================================================================d

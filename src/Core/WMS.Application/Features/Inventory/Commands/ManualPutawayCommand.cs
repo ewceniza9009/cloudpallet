@@ -12,7 +12,7 @@ public class ManualPutawayCommandHandler(
 {
     public async Task<Guid> Handle(ManualPutawayCommand request, CancellationToken cancellationToken)
     {
-        if (await putawayRepo.HasBeenPutAwayAsync(request.PalletId, cancellationToken))
+        if (await putawayRepo.HasBeenPutAwayAsync(request.PalletId, cancellationToken))
         {
             throw new InvalidOperationException($"Pallet with ID {request.PalletId} has already been put away.");
         }
@@ -35,7 +35,7 @@ public class ManualPutawayCommandHandler(
         sourceLocation.MarkAsEmpty();
         destinationLocation.MarkAsFilled();
 
-        foreach (var item in allPalletInventory)
+        foreach (var item in allPalletInventory)
         {
             item.MoveToLocation(request.DestinationLocationId);
         }

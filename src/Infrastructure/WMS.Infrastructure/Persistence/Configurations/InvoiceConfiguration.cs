@@ -18,10 +18,10 @@ public class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
           .WithOne()
           .HasForeignKey(il => il.InvoiceId);
 
-        builder.HasOne(i => i.Account)
+        builder.HasOne(i => i.Account)
           .WithMany()
           .HasForeignKey(i => i.AccountId)         
-          .OnDelete(DeleteBehavior.Restrict);
+          .OnDelete(DeleteBehavior.Restrict);
 
-    }
+    }
 }

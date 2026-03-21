@@ -29,8 +29,8 @@ export interface AppointmentDetailsDto {
 }
 
 interface TruckDto {
-  id: string;
-  licensePlate: string;
+  id: string;
+  licensePlate: string;
 }
 
 @Injectable({ providedIn: 'root' })

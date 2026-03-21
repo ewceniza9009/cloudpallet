@@ -18,27 +18,37 @@
       </div>
 
       <mat-card-content>
+        <!-- Loading Progress Bar -->
+        <mat-progress-bar *ngIf="isLoading()" mode="indeterminate" class="auth-progress"></mat-progress-bar>
+
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
           <mat-form-field appearance="outline" class="w-full form-field-glass">
             <mat-label>Email Address</mat-label>
             <mat-icon matPrefix>mail</mat-icon>
-            <input matInput formControlName="email" type="email" required>
+            <input matInput formControlName="email" type="email" required [readonly]="isLoading()">
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="w-full form-field-glass relative-z">
             <mat-label>Password</mat-label>
             <mat-icon matPrefix>lock</mat-icon>
-            <input matInput formControlName="password" type="password" required>
+            <input matInput formControlName="password" type="password" required [readonly]="isLoading()">
           </mat-form-field>
 
+          <!-- Waking Up Hint -->
+          <div class="waking-up-hint" *ngIf="isWakingUp()">
+            <mat-icon class="spin-icon">hourglass_empty</mat-icon>
+            <span>Server is waking up, please wait...</span>
+          </div>
+
           <div class="form-actions mt-2">
-            <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid" class="login-btn w-full btn-glow">
-              <mat-icon>login</mat-icon>
-              <span>Sign In</span>
+            <button mat-flat-button color="primary" type="submit" 
+                    [disabled]="loginForm.invalid || isLoading()" 
+                    class="login-btn w-full btn-glow">
+              <mat-icon *ngIf="!isLoading()">login</mat-icon>
+              <mat-icon *ngIf="isLoading()" class="spin-icon">sync</mat-icon>
+              <span>{{ isLoading() ? 'Signing In...' : 'Sign In' }}</span>
             </button>
           </div>
-          
-
         </form>
       </mat-card-content>
 

@@ -10,12 +10,16 @@
 html {
   // CORE THEME ENGINE
   --mat-sys-primary: #1c8375;
+  --mat-sys-primary-rgb: 28, 131, 117;
   --mat-sys-secondary: #0ea5e9;
+  --mat-sys-secondary-rgb: 14, 165, 233;
   --mat-sys-tertiary: #f43f5e;
+  --mat-sys-tertiary-rgb: 244, 63, 94;
 
   // DEFAULT: ELITE OBSIDIAN (Dark)
   --mat-sys-background: #020611;
   --mat-sys-surface: #0b1120;
+  --mat-sys-surface-rgb: 11, 17, 32;
   --mat-sys-surface-container: #1e293b;
   --mat-sys-surface-container-low: #0f172a;
   --mat-sys-surface-container-high: #334155;
@@ -676,20 +680,32 @@ body {
   }
 }
 
-// ===== SNACKBAR ENHANCEMENTS =====
+// ===== SNACKBAR ENHANCEMENTS (High Visibility Glass) =====
 .mat-mdc-snack-bar-container {
-  border-radius: 12px;
-
-  &.success {
-    --mdc-snackbar-container-color: #10b981;
+  --mdc-snackbar-container-color: var(--mat-sys-surface-container-high) !important;
+  --mdc-snackbar-supporting-text-color: var(--mat-sys-on-surface) !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--mat-sys-outline-variant) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  
+  .mdc-snackbar__surface {
+     background-color: var(--mdc-snackbar-container-color) !important;
   }
 
-  &.error {
-    --mdc-snackbar-container-color: #ef4444;
+  &.success-snackbar {
+    border-color: rgba(16, 185, 129, 0.4) !important;
+    .mdc-snackbar__label { color: #10b981 !important; font-weight: 600; }
   }
 
-  &.warning {
-    --mdc-snackbar-container-color: #f59e0b;
+  &.error-snackbar {
+    border-color: rgba(239, 68, 68, 0.4) !important;
+    .mdc-snackbar__label { color: #ef4444 !important; font-weight: 600; }
+  }
+
+  &.warning-snackbar {
+    border-color: rgba(245, 158, 11, 0.4) !important;
+    .mdc-snackbar__label { color: #f59e0b !important; font-weight: 600; }
   }
 }
 

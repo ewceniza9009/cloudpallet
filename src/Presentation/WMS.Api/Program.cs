@@ -1,4 +1,4 @@
-﻿// ---- File: src/Presentation/WMS.Api/Program.cs [REFACTORED with Secret Management comment] ----
+// ---- File: src/Presentation/WMS.Api/Program.cs [REFACTORED with Secret Management comment] ----
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -198,39 +198,31 @@ using (var scope = app.Services.CreateScope())
 
         if (app.Environment.IsDevelopment())
         {
-             // Export data from local SQL Server to JSON for seeding production
-             // Ensure we don't overwrite if we don't intend to, but for now we want to capture latest
-             // Note: Directory.GetCurrentDirectory() in dotnet run might be the project folder or the root.
-             // We need to be careful with the path.
-             // If running from x:\wms, then "wms-frontend" is a sibling of "src".
-             // If running from x:\wms\src\Presentation\WMS.Api, then we need to go up.
-             // Let's assume running from x:\wms as per previous commands.
-             
-             // We can use a relative path that works from the project root
-             if (!Directory.Exists(dataPath))
+             // OPTIMIZATION: Only export if explicitly requested or needed for dev refreshes
+             // This avoids disk I/O on every 'dotnet watch' restart
+             bool shouldExport = builder.Configuration.GetValue<bool>("ExportSeedData", false);
+             if (shouldExport && Directory.Exists(dataPath))
              {
-                 // Try to find it relative to the execution directory
-                 var potentialPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../../wms-frontend/src/assets/mock-data"));
-                 if (Directory.Exists(Path.GetDirectoryName(potentialPath))) 
-                 {
-                    dataPath = potentialPath;
-                 }
+                 await JsonDataSeeder.ExportDataAsync(context, dataPath);
+                 Log.Information($"Data exported to {dataPath}");
              }
-
-             await JsonDataSeeder.ExportDataAsync(context, dataPath);
-             Log.Information($"Data exported to {dataPath}");
         }
         
-        // In Production (Neon), we use EnsureCreated to bypass migration tool issues
         if (app.Environment.IsProduction())
         {
-            // TEMPORARY: Reset DB to apply schema changes (RowVersion bytea -> uuid)
-            // User requested to comment this out. WARNING: Schema mismatch may persist if DB is not reset.
-            // await context.Database.EnsureDeletedAsync(); 
-            await context.Database.EnsureCreatedAsync();
-            await JsonDataSeeder.SeedAsync(context, dataPath);
-            
-            Log.Information("Database seeded from JSON data.");
+            // OPTIMIZATION: Check if seeding is even needed before running EnsureCreated/SeedAsync
+            // This is the fastest way to skip the 'Cold Start' tax on Render
+            if (!await context.Users.AnyAsync())
+            {
+                Log.Information("Production database empty. Initializing schema and seeding...");
+                await context.Database.EnsureCreatedAsync();
+                await JsonDataSeeder.SeedAsync(context, dataPath);
+                Log.Information("Database initialized and seeded.");
+            }
+            else 
+            {
+                Log.Information("Database already initialized. Skipping startup seeding.");
+            }
         }
     }
     catch (Exception ex)
