@@ -6,73 +6,77 @@
     </div>
   </div>
 
-  @if (isLoading()) {
-  <div class="spinner-container">
-    <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
-    <p>Loading staging area...</p>
-  </div>
-  } @else {
-  <div class="tasks-grid">
-    @for (task of tasks(); track task.palletId) {
-    <div class="task-card">
-      <!-- 1. Header: Primary Identification -->
-      <div class="card-header">
-        <div class="id-badge">
-          <span class="label">Pallet Barcode</span>
-          <span class="value">{{task.palletBarcode}}</span>
+  <mat-card class="main-content-card">
+    <mat-card-content>
+      @if (isLoading()) {
+        <div class="spinner-overlay">
+          <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+          <span>Loading staging area...</span>
         </div>
-        <div class="status-indicator">
-          <mat-icon style="font-size: 14px; width: 14px; height: 14px;">pending_actions</mat-icon>
-          <span>Ready to Store</span>
-        </div>
-      </div>
+      }
 
-      <!-- 2. Body: Material Context & Target -->
-      <div class="card-body">
-        <div class="material-preview">
-          <div class="icon-box">
-            <mat-icon>inventory_2</mat-icon>
-          </div>
-          <div class="text-info">
-            <h3>{{task.contents}}</h3>
-            <p>Weight: 1,240kg • Received today</p>
-          </div>
-        </div>
+      <div class="tasks-grid">
+        @for (task of tasks(); track task.palletId) {
+          <div class="task-card">
+            <!-- 1. Header: Primary Identification -->
+            <div class="card-header">
+              <div class="id-badge">
+                <span class="label">Pallet Barcode</span>
+                <span class="value">{{task.palletBarcode}}</span>
+              </div>
+              <div class="status-indicator">
+                <mat-icon style="font-size: 14px; width: 14px; height: 14px;">pending_actions</mat-icon>
+                <span>Ready to Store</span>
+              </div>
+            </div>
 
-        <div class="target-location">
-          <div class="loc-label">
-            <span class="sub">Suggested Location</span>
-            <span class="main">Optimized Slot</span>
-          </div>
-          <div class="loc-value" [matTooltip]="task.suggestedLocation">
-            {{task.suggestedLocation}}
-          </div>
-        </div>
-      </div>
+            <!-- 2. Body: Material Context & Target -->
+            <div class="card-body">
+              <div class="material-preview">
+                <div class="icon-box">
+                  <mat-icon>inventory_2</mat-icon>
+                </div>
+                <div class="text-info">
+                  <h3>{{task.contents}}</h3>
+                  <p>Weight: 1,240kg • Received today</p>
+                </div>
+              </div>
 
-      <!-- 3. Footer: Control Actions -->
-      <div class="card-footer">
-        <button mat-stroked-button (click)="onBlastFreeze(task)" matTooltip="Move to Blast Freezer">
-          <mat-icon>ac_unit</mat-icon>
-        </button>
-        <button mat-stroked-button (click)="onManualPutaway(task)" matTooltip="Override Location">
-           <mat-icon>edit_location_alt</mat-icon>
-        </button>
-        <button mat-flat-button color="primary" (click)="onPutaway(task)" class="primary-action">
-          <mat-icon>input</mat-icon>
-          <span>Confirm Putaway</span>
-        </button>
+              <div class="target-location">
+                <div class="loc-label">
+                  <span class="sub">Suggested Location</span>
+                  <span class="main">Optimized Slot</span>
+                </div>
+                <div class="loc-value" [matTooltip]="task.suggestedLocation">
+                  {{task.suggestedLocation}}
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Footer: Control Actions -->
+            <div class="card-footer">
+              <button mat-stroked-button (click)="onBlastFreeze(task)" matTooltip="Move to Blast Freezer">
+                <mat-icon>ac_unit</mat-icon>
+              </button>
+              <button mat-stroked-button (click)="onManualPutaway(task)" matTooltip="Override Location">
+                <mat-icon>edit_location_alt</mat-icon>
+              </button>
+              <button mat-flat-button color="primary" (click)="onPutaway(task)" class="primary-action">
+                <mat-icon>input</mat-icon>
+                <span>Confirm Putaway</span>
+              </button>
+            </div>
+          </div>
+        } @empty {
+          <div class="empty-state empty-list-message">
+            <div class="empty-icon">
+              <mat-icon>task_alt</mat-icon>
+            </div>
+            <h3>Staging Area Empty</h3>
+            <p>All inbound pallets have been successfully processed and stored.</p>
+          </div>
+        }
       </div>
-    </div>
-    } @empty {
-    <div class="empty-state empty-list-message">
-      <div class="empty-icon">
-        <mat-icon>task_alt</mat-icon>
-      </div>
-      <h3>Staging Area Empty</h3>
-      <p>All inbound pallets have been successfully processed and stored.</p>
-    </div>
-    }
-  </div>
-  }
+    </mat-card-content>
+  </mat-card>
 </div>

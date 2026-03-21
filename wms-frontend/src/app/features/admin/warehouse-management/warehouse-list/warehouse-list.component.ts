@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AdminSetupApiService, WarehouseDto } from '../../admin-setup-api.service';
 import { map, startWith } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-warehouse-list',
@@ -20,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   imports: [
     CommonModule, RouterModule, ReactiveFormsModule, MatListModule,
     MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatProgressSpinnerModule, MatTooltipModule, MatCardModule
   ],
   templateUrl: './warehouse-list.component.html',
   styleUrls: ['./warehouse-list.component.scss']

@@ -54,61 +54,62 @@
     </div>
   </form>
 
-  <mat-card class="invoice-list-card">
+  <mat-card class="main-content-card">
     <mat-card-header>
         <mat-card-title>Invoice History</mat-card-title>
     </mat-card-header>
-    <mat-card-content style="padding: 0;">
+    <mat-card-content>
       @if (isLoading()) {
-        <div class="spinner-container">
-          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        <div class="spinner-overlay">
+          <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+          <span>Loading invoices...</span>
         </div>
-      } @else {
-        @if (invoices().length > 0) {
-          <table mat-table [dataSource]="invoices()">
-            <ng-container matColumnDef="invoiceNumber">
-              <th mat-header-cell *matHeaderCellDef>Invoice #</th>
-              <td mat-cell *matCellDef="let element"><strong>{{element.invoiceNumber}}</strong></td>
-            </ng-container>
-            <ng-container matColumnDef="period">
-              <th mat-header-cell *matHeaderCellDef>Period</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.periodStart | date:'MMM d, y'}} - {{element.periodEnd | date:'MMM d, y'}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="dueDate">
-              <th mat-header-cell *matHeaderCellDef>Due Date</th>
-              <td mat-cell *matCellDef="let element">{{element.dueDate | date:'MMM d, y'}}</td>
-            </ng-container>
-            <ng-container matColumnDef="totalAmount">
-              <th mat-header-cell *matHeaderCellDef class="align-right">Total</th>
-              <td mat-cell *matCellDef="let element" class="align-right">{{element.totalAmount | currency: 'PHP' : 'symbol' : '1.2-2'}}</td>
-            </ng-container>
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef>Status</th>
-              <td mat-cell *matCellDef="let element">
-                <span class="status-badge" [ngClass]="element.status.toLowerCase()">{{element.status}}</span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let element" class="align-right">
-                <a mat-icon-button color="primary" title="View Details" [routerLink]="['/billing', element.id]">
-                  <mat-icon>visibility</mat-icon>
-                </a>
-              </td>
-            </ng-container>
+      }
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-        } @else {
-           <div class="empty-state empty-message">
-              <mat-icon>receipt_long</mat-icon>
-              <h3>No Invoices Found</h3>
-              <p>Select an account to view its invoice history or generate a new one.</p>
-           </div>
-        }
+      @if (invoices().length > 0) {
+        <table mat-table [dataSource]="invoices()">
+          <ng-container matColumnDef="invoiceNumber">
+            <th mat-header-cell *matHeaderCellDef>Invoice #</th>
+            <td mat-cell *matCellDef="let element"><strong>{{element.invoiceNumber}}</strong></td>
+          </ng-container>
+          <ng-container matColumnDef="period">
+            <th mat-header-cell *matHeaderCellDef>Period</th>
+            <td mat-cell *matCellDef="let element">
+              {{element.periodStart | date:'MMM d, y'}} - {{element.periodEnd | date:'MMM d, y'}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dueDate">
+            <th mat-header-cell *matHeaderCellDef>Due Date</th>
+            <td mat-cell *matCellDef="let element">{{element.dueDate | date:'MMM d, y'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="totalAmount">
+            <th mat-header-cell *matHeaderCellDef class="align-right">Total</th>
+            <td mat-cell *matCellDef="let element" class="align-right">{{element.totalAmount | currency: 'PHP' : 'symbol' : '1.2-2'}}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="status-badge" [ngClass]="element.status.toLowerCase()">{{element.status}}</span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element" class="align-right">
+              <a mat-icon-button color="primary" title="View Details" [routerLink]="['/billing', element.id]">
+                <mat-icon>visibility</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      } @else if (!isLoading()) {
+          <div class="empty-state empty-message">
+            <mat-icon>receipt_long</mat-icon>
+            <h3>No Invoices Found</h3>
+            <p>Select an account to view its invoice history or generate a new one.</p>
+          </div>
       }
     </mat-card-content>
   </mat-card>

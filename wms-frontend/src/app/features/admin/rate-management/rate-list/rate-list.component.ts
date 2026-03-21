@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatCardModule } from '@angular/material/card';
 import { AdminApiService, Rate, RateDto } from '../../admin-api.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
@@ -35,7 +36,8 @@ interface AccountDto { id: string; name: string; }
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatCardModule
   ],
   templateUrl: './rate-list.component.html',
   styleUrls: ['./rate-list.component.scss'],
