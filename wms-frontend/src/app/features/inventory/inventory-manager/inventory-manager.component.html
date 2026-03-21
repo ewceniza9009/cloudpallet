@@ -46,56 +46,48 @@
 
   <!-- Main Content -->
   @if (foundPallet(); as pallet) {
-    <div class="master-detail-layout" style="gap: 1rem; flex-direction: column">
+    <div class="inventory-management-stack" style="display: flex; flex-direction: column; gap: 1rem;">
       <!-- Pallet Context Card (Top) -->
-      <div class="list-view" style="width: 100%; background: transparent; border: none">
-        <mat-card class="main-content-card">
-          <div
-            class="list-header"
-            style="
-              background: var(--mat-sys-primary);
-              color: white;
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              padding: 0.75rem 1.25rem;
-            "
-          >
-            <h3 class="list-title" style="color: white; margin: 0">Active Pallet</h3>
-            <mat-icon style="opacity: 0.8">inventory_2</mat-icon>
-          </div>
+      <mat-card class="main-content-card" style="flex: 0 0 auto;">
+        <div
+          class="list-header"
+          style="
+            background: var(--mat-sys-primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+          "
+        >
+          <h3 class="list-title" style="color: white; margin: 0">Active Pallet</h3>
+          <mat-icon style="opacity: 0.8">inventory_2</mat-icon>
+        </div>
 
-          <div
-            class="context-actions"
-            style="flex-direction: row; align-items: center; flex-wrap: wrap"
-          >
-            <button mat-flat-button color="primary" (click)="onMove(pallet)">
-              <mat-icon>open_with</mat-icon> Move Pallet
-            </button>
-            <button mat-stroked-button (click)="onLabelPallet(pallet)">
-              <mat-icon>print</mat-icon> Label
-            </button>
-            <button mat-icon-button [matMenuTriggerFor]="moreActions" class="more-btn">
-              <mat-icon>more_horiz</mat-icon>
-            </button>
-            <mat-menu #moreActions="matMenu">
-              <button mat-menu-item (click)="onBlastFreeze(pallet)">
-                <mat-icon>ac_unit</mat-icon> Blast Freeze
-              </button>
-              <button mat-menu-item (click)="startTransfer(pallet)">
-                <mat-icon>call_split</mat-icon> Split / Transfer
-              </button>
-            </mat-menu>
-          </div>
-        </mat-card>
-      </div>
+        <div
+          class="context-actions"
+          style="flex-direction: row; align-items: center; flex-wrap: wrap; display: flex;"
+        >
+          <button mat-flat-button color="primary" (click)="onMove(pallet)">
+            <mat-icon>open_with</mat-icon> Move Pallet
+          </button>
+          
+          <button mat-stroked-button (click)="onLabelPallet(pallet)" style="margin-left: 0.75rem">
+            <mat-icon>print</mat-icon> Label
+          </button>
+
+          <button mat-stroked-button (click)="onBlastFreeze(pallet)" style="margin-left: 0.75rem">
+            <mat-icon>ac_unit</mat-icon> Blast Freeze
+          </button>
+
+          <button mat-stroked-button (click)="startTransfer(pallet)" style="margin-left: 0.75rem">
+            <mat-icon>call_split</mat-icon> Split / Transfer
+          </button>
+        </div>
+      </mat-card>
 
       <!-- Inventory List (Bottom) -->
-      <div
-        class="detail-view"
-        style="width: 100%; background: transparent; border: none; padding: 0"
-      >
-        <mat-card class="main-content-card">
+      <mat-card class="main-content-card" style="flex: 1 1 auto;">
           <div class="list-header">
             <h3 class="list-title">Pallet Contents</h3>
             <span
@@ -183,7 +175,6 @@
             }
           </mat-card-content>
         </mat-card>
-      </div>
     </div>
   } @else if (searchControl.value && searchControl.value.length > 5 && !isLoading()) {
     <div class="empty-state not-found">
