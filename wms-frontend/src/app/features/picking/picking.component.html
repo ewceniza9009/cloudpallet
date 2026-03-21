@@ -76,8 +76,9 @@
 
   <section class="active-list-section" aria-labelledby="active-picks-heading">
     @if (isLoading()) {
-      <div class="spinner-container">
+      <div class="spinner-container-page">
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        <p>Loading active pick lists...</p>
       </div>
     } @else {
       <div class="pick-groups-grid">

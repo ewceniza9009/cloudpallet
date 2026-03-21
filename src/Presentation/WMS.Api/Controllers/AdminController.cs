@@ -96,6 +96,7 @@ public class AdminController : ApiControllerBase
     }
 
     [HttpGet("materials/lookup")]
+    [Authorize(Policy = "OperatorPolicy")] // Allow both Operators and Admins to lookup materials
     [ProducesResponseType(typeof(IEnumerable<MaterialDetailDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMaterialLookup()
     {

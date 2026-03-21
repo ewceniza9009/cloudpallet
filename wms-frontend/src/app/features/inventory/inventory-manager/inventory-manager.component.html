@@ -38,9 +38,9 @@
 
   <!-- Loading State -->
   @if (isLoading()) {
-    <div class="empty-state loading-state">
-      <mat-spinner diameter="40"></mat-spinner>
-      <span>Fetching inventory data...</span>
+    <div class="spinner-container-page">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      <p>Fetching inventory data...</p>
     </div>
   }
 

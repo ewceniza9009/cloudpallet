@@ -39,8 +39,9 @@
   <mat-card class="main-content-card">
     <mat-card-content>
       @if (isLoading()) {
-        <div class="spinner-container">
+        <div class="spinner-container-page">
           <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+          <p>Loading sessions...</p>
         </div>
       } @else {
         <div class="sessions-table-container">

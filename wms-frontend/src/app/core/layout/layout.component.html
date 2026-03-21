@@ -190,22 +190,24 @@
         }
       </div>
       @if (isReportsExpanded() || !isExpanded()) {
-        <a mat-list-item routerLink="/reports/inventory-ledger" routerLinkActive="active-link" matTooltip="Ledger" [matTooltipDisabled]="isExpanded()">
-          <mat-icon matListItemIcon>chrome_reader_mode</mat-icon>
-          <span mat-list-item-title>Inventory Ledger</span>
-        </a>
-        <a mat-list-item routerLink="/reports/stock-on-hand" routerLinkActive="active-link" matTooltip="Stock" [matTooltipDisabled]="isExpanded()">
-          <mat-icon matListItemIcon>view_in_ar</mat-icon>
-          <span mat-list-item-title>Stock on Hand</span>
-        </a>
-        <a mat-list-item routerLink="/reports/custom" routerLinkActive="active-link" matTooltip="Custom" [matTooltipDisabled]="isExpanded()">
-          <mat-icon matListItemIcon>dashboard_customize</mat-icon>
-          <span mat-list-item-title>Report Generator</span>
-        </a>
-        <a mat-list-item routerLink="/reports/activity-log" routerLinkActive="active-link" matTooltip="Logs" [matTooltipDisabled]="isExpanded()">
-          <mat-icon matListItemIcon>history</mat-icon>
-          <span mat-list-item-title>Activity Logs</span>
-        </a>
+        @if (authService.hasRole('Admin') || authService.hasRole('Finance')) {
+          <a mat-list-item routerLink="/reports/inventory-ledger" routerLinkActive="active-link" matTooltip="Ledger" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>chrome_reader_mode</mat-icon>
+            <span mat-list-item-title>Inventory Ledger</span>
+          </a>
+          <a mat-list-item routerLink="/reports/stock-on-hand" routerLinkActive="active-link" matTooltip="Stock" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>view_in_ar</mat-icon>
+            <span mat-list-item-title>Stock on Hand</span>
+          </a>
+          <a mat-list-item routerLink="/reports/custom" routerLinkActive="active-link" matTooltip="Custom" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>dashboard_customize</mat-icon>
+            <span mat-list-item-title>Report Generator</span>
+          </a>
+          <a mat-list-item routerLink="/reports/activity-log" routerLinkActive="active-link" matTooltip="Logs" [matTooltipDisabled]="isExpanded()">
+            <mat-icon matListItemIcon>history</mat-icon>
+            <span mat-list-item-title>Activity Logs</span>
+          </a>
+        }
         <a mat-list-item routerLink="/tracer" routerLinkActive="active-link" matTooltip="Tracer" [matTooltipDisabled]="isExpanded()">
           <mat-icon matListItemIcon>gps_fixed</mat-icon>
           <span mat-list-item-title>Pallet Tracer</span>

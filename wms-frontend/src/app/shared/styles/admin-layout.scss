@@ -718,27 +718,28 @@
 .spinner-container-page {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 4rem 2rem;
-  color: var(--mat-sys-on-surface-variant);
-  flex-grow: 1;
-  min-height: 400px;
+  justify-content: center; // VERTICAL CENTER
+  align-items: center;     // HORIZONTAL CENTER
+  gap: 1.5rem;
   width: 100%;
+  height: 100%;            // Fill the host
+  min-height: 50vh;        // At least half screen height
+  flex-grow: 1;            // Take all space in flex parent
   animation: fadeIn 0.4s ease-out;
+  padding: 0;
 
   mat-progress-spinner {
-    filter: drop-shadow(0 0 12px rgba(13, 148, 136, 0.2));
+    filter: drop-shadow(0 0 15px rgba(13, 148, 136, 0.3)); // Premium glow
   }
 
   p {
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 500;
-    letter-spacing: 0.025em;
+    letter-spacing: 0.05em;
     color: var(--mat-sys-on-surface-variant);
-    opacity: 0.8;
+    opacity: 0.9;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
 }
 
