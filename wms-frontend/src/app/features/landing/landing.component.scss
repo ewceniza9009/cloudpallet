@@ -1,1076 +1,116 @@
 // landing.component.scss
+$brand: #00e5ff; $br-dim: #00bcd4; $bg-d: #00121a; $bg-s: #001e2e; $txt-p: #e8f4f8; $txt-m: #7ea8b8; $b-sub: rgba(0, 229, 255, 0.08); $b-glow: rgba(0, 229, 255, 0.28);
 
-// Design Tokens
-$brand:        #00e5ff;
-$brand-dim:    #00bcd4;
-$bg-darkest:   #00121a;
-$bg-dark:      #001e26;
-$bg-surface:   #001e2e;
-$text-primary: #e8f4f8;
-$text-muted:   #7ea8b8;
-$text-dim:     #3e6878;
-$border-subtle: rgba(0, 229, 255, 0.08);
-$border-glow:   rgba(0, 229, 255, 0.28);
-
-// Host
-:host {
-  display: block;
-  overflow-x: hidden;
-  background-color: $bg-darkest;
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+:host { display: block; overflow-x: hidden; background-color: $bg-d; font-family: 'Inter', sans-serif; }
+.highlight { background: linear-gradient(90deg, $brand, #66f9ff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.section-header-wrap { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 5rem;
+  .section-tag { display: inline-block; background: rgba(0,229,255,0.07); border: 1px solid $b-glow; color: $brand; font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 0.3rem 1rem; border-radius: 100px; margin-bottom: 1.25rem; }
+  .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: $txt-p; margin: 0 0 1rem; line-height: 1.15; }
+  .section-subtitle { font-size: 1.05rem; color: $txt-m; max-width: 580px; font-weight: 300; }
 }
 
-// Shared Section Header
-.section-header-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 5rem;
-
-  .section-tag {
-    display: inline-block;
-    background: rgba(0, 229, 255, 0.07);
-    border: 1px solid $border-glow;
-    color: $brand;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    padding: 0.3rem 1rem;
-    border-radius: 100px;
-    margin-bottom: 1.25rem;
+// Hero
+.landing-hero { background: #001e26; min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+  &::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 220px; background: linear-gradient(to bottom, transparent, $bg-d); z-index: 2; pointer-events: none; }
+  .hero-content { position: relative; z-index: 5; text-align: center; max-width: 900px; padding: 4rem 2rem; }
+  .hero-icon .icon-wrapper { background: rgba(0,229,255,0.08); border-radius: 50%; padding: 1.5rem; display: inline-flex; backdrop-filter: blur(16px); border: 1px solid rgba(0,229,255,0.22); box-shadow: 0 0 40px rgba(0,229,255,0.12); animation: gentlePulse 4s infinite; margin-bottom: 2rem; }
+  .hero-title { font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -2px; text-transform: uppercase; background: linear-gradient(135deg,#fff 0%,$brand 60%,#66f9ff 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: slideUp 0.8s both; }
+  .hero-title2 { font-size: clamp(1rem, 2.5vw, 1.6rem); font-weight: 300; color: $br-dim; letter-spacing: 4px; text-transform: uppercase; animation: slideUp 0.8s 0.1s both; }
+  .hero-subtitle { font-size: 1.15rem; color: $txt-m; margin: 0 auto 2.5rem; line-height: 1.7; max-width: 620px; animation: slideUp 0.8s 0.2s both; }
+  .hero-stats { display: inline-flex; align-items: center; background: rgba(0,18,26,0.75); border: 1px solid $b-glow; border-radius: 100px; padding: 0.85rem 2rem; margin-bottom: 2.5rem; backdrop-filter: blur(16px); animation: slideUp 0.8s 0.3s both;
+    .stat-pill { display: flex; flex-direction: column; padding: 0 1.5rem; .stat-value { font-size: 1.05rem; font-weight: 700; color: $brand; } .stat-label { font-size: 0.65rem; color: $txt-m; text-transform: uppercase; }}
+    .stat-divider { width: 1px; height: 34px; background: $b-glow; }
   }
-
-  .section-title {
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
-    color: $text-primary;
-    margin: 0 0 1rem;
-    line-height: 1.15;
-    letter-spacing: -0.5px;
-  }
-
-  .section-subtitle {
-    font-size: 1.05rem;
-    color: $text-muted;
-    max-width: 580px;
-    line-height: 1.7;
-    font-weight: 300;
-    margin: 0;
-  }
-}
-
-// Highlight gradient text
-.highlight {
-  background: linear-gradient(90deg, $brand, #66f9ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-// 1. Hero
-
-.landing-hero {
-  background: $bg-dark;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-
-  .hero-background {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 220px;
-    background: linear-gradient(to bottom, transparent, $bg-darkest);
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 5;
-    text-align: center;
-    max-width: 900px;
-    padding: 4rem 2rem;
-  }
-
-  .hero-icon {
-    margin-bottom: 2rem;
-
-    .icon-wrapper {
-      background: rgba(0, 229, 255, 0.08);
-      border-radius: 50%;
-      padding: 1.5rem;
-      display: inline-flex;
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(0, 229, 255, 0.22);
-      box-shadow: 0 0 40px rgba(0, 229, 255, 0.12);
-      animation: gentlePulse 4s ease-in-out infinite;
-    }
-  }
-
-  .hero-title {
-    font-size: clamp(3rem, 7vw, 5.5rem);
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    line-height: 1.05;
-    letter-spacing: -2px;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, #ffffff 0%, $brand 60%, #66f9ff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: slideUp 0.8s ease-out both;
-
-    strong { font-weight: 800; }
-  }
-
-  .hero-title2 {
-    font-size: clamp(1rem, 2.5vw, 1.6rem);
-    font-weight: 300;
-    margin-bottom: 0.5rem;
-    color: $brand-dim;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    animation: slideUp 0.8s ease-out 0.12s both;
-  }
-
-  .hero-creator {
-    font-size: 0.75rem;
-    color: rgba(126, 168, 184, 0.7);
-    letter-spacing: 2px;
-    margin-bottom: 1.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    animation: slideUp 0.8s ease-out 0.18s both;
-
-    span {
-      color: rgba(0, 229, 255, 0.7);
-      font-weight: 600;
-    }
-  }
-
-  .hero-subtitle {
-    font-size: 1.15rem;
-    color: $text-muted;
-    margin-bottom: 2.5rem;
-    font-weight: 300;
-    line-height: 1.7;
-    max-width: 620px;
-    margin-left: auto;
-    margin-right: auto;
-    animation: slideUp 0.8s ease-out 0.22s both;
-  }
-
-  .hero-stats {
-    display: inline-flex;
-    align-items: center;
-    background: rgba(0, 18, 26, 0.75);
-    border: 1px solid $border-glow;
-    border-radius: 100px;
-    padding: 0.85rem 2rem;
-    margin-bottom: 2.5rem;
-    backdrop-filter: blur(16px);
-    animation: slideUp 0.8s ease-out 0.3s both;
-
-    .stat-pill {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 1.5rem;
-
-      .stat-value {
-        font-size: 1.05rem;
-        font-weight: 700;
-        color: $brand;
-        line-height: 1.2;
-      }
-
-      .stat-label {
-        font-size: 0.65rem;
-        color: $text-muted;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-top: 2px;
-        white-space: nowrap;
-      }
-    }
-
-    .stat-divider {
-      width: 1px;
-      height: 34px;
-      background: $border-glow;
-    }
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    animation: slideUp 0.8s ease-out 0.4s both;
-
-    .cta-button {
-      font-size: 0.9rem;
-      padding: 13px 30px;
-      border-radius: 6px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-
-      &.primary {
-        background: $brand;
-        color: $bg-darkest;
-        border: none;
-        box-shadow: 0 0 30px rgba(0, 229, 255, 0.25);
-
-        &:hover {
-          background: #66f9ff;
-          box-shadow: 0 0 50px rgba(0, 229, 255, 0.55);
-          transform: translateY(-2px);
-        }
-      }
-
-      &.secondary {
-        background: transparent;
-        color: $text-muted;
-        border: 1px solid rgba(126, 168, 184, 0.3);
-
-        &:hover {
-          border-color: $brand;
-          color: $brand;
-          background: rgba(0, 229, 255, 0.05);
-        }
-      }
-    }
-  }
-
-  .scroll-indicator {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-
-    span {
-      font-size: 0.6rem;
-      letter-spacing: 3px;
-      color: $text-dim;
-      text-transform: uppercase;
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 36px;
-      background: linear-gradient(to bottom, $brand, transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; animation: slideUp 0.8s 0.4s both;
+    .cta-button { font-size: 0.9rem; padding: 13px 30px; border-radius: 6px; transition: 0.3s; font-weight: 600; text-transform: uppercase; display: inline-flex; align-items: center; gap: 0.5rem;
+      &.primary { background: $brand; color: $bg-d; box-shadow: 0 0 30px rgba(0,229,255,0.25); &:hover { background: #66f9ff; transform: translateY(-2px); }}
+      &.secondary { color: $txt-m; border: 1px solid rgba(126,168,184,0.3); &:hover { border-color: $brand; color: $brand; }}
     }
   }
 }
 
-// 2. Process / How It Works
-
-.process-section {
-  padding: 8rem 2rem;
-  background: $bg-darkest;
-
-  .process-steps {
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    gap: 0;
-    flex-wrap: nowrap;
+// Workflow Steps
+.process-section { padding: 8rem 2rem; background: $bg-d;
+  .process-steps { display: flex; max-width: 1200px; margin: 0 auto; align-items: center; gap: 1rem; }
+  .process-step { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 2rem 1.5rem; background: rgba(0,30,46,0.5); border: 1px solid $b-sub; border-radius: 16px; transition: 0.3s;
+    &:hover { border-color: $b-glow; background: rgba(0,37,55,0.8); transform: translateY(-4px); }
+    .step-num { font-size: 2.5rem; font-weight: 900; color: rgba(0,229,255,0.1); margin-bottom: 0.5rem; }
+    .step-icon-wrap { width: 56px; height: 56px; border-radius: 14px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; mat-icon { color: $brand; font-size: 1.6rem; }}
+    h3 { font-size: 1rem; font-weight: 700; color: $txt-p; margin: 0 0 0.5rem; }
+    p { font-size: 0.88rem; color: $txt-m; line-height: 1.6; }
   }
+  .process-arrow { color: rgba(0,229,255,0.2); }
+}
 
-  .process-arrow {
-    display: flex;
-    align-items: center;
-    align-self: center;
-    flex-shrink: 0;
-    padding: 0;
-
-    mat-icon {
-      color: rgba(0, 229, 255, 0.3);
-      font-size: 1.5rem;
-      width: 1.5rem;
-      height: 1.5rem;
-    }
-  }
-
-  .process-step {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 2rem 1.5rem;
-    background: rgba(0, 30, 46, 0.5);
-    border: 1px solid $border-subtle;
-    border-radius: 16px;
-    transition: all 0.35s ease;
-    min-width: 0;
-
-    &:hover {
-      border-color: $border-glow;
-      background: rgba(0, 37, 55, 0.8);
-      transform: translateY(-4px);
-
-      .step-icon-wrap {
-        box-shadow: 0 0 30px rgba(0, 229, 255, 0.25);
-        background: rgba(0, 229, 255, 0.12);
-        border-color: $border-glow;
-      }
-    }
-
-    .step-num {
-      font-size: 2.5rem;
-      font-weight: 900;
-      color: rgba(0, 229, 255, 0.1);
-      line-height: 1;
-      margin-bottom: 1rem;
-      letter-spacing: -1px;
-    }
-
-    .step-icon-wrap {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: rgba(0, 229, 255, 0.06);
-      border: 1px solid rgba(0, 229, 255, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.25rem;
-      transition: all 0.35s ease;
-
-      mat-icon {
-        color: $brand;
-        font-size: 1.6rem;
-        width: 1.6rem;
-        height: 1.6rem;
-      }
-    }
-
-    h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: $text-primary;
-      margin-bottom: 0.6rem;
-      margin-top: 0;
-    }
-
-    p {
-      font-size: 0.88rem;
-      color: $text-muted;
-      line-height: 1.65;
-      margin: 0;
-    }
+// Features Grid
+.features-section { padding: 8rem 2rem; background: $bg-s; position: relative; background-image: linear-gradient(rgba(0,229,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.015) 1px, transparent 1px); background-size: 50px 50px;
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; max-width: 1280px; margin: 0 auto; }
+  .feature-card { display: flex; flex-direction: column; padding: 1.75rem; border-radius: 14px; border: 1px solid $b-sub; transition: 0.3s; position: relative; overflow: hidden;
+    &::before { content: ''; position: absolute; top:0; left:0; right:0; height:2px; opacity:0; transition:0.3s; }
+    &:hover { transform: translateY(-5px); border-color: rgba(0,229,255,0.2); &::before { opacity:1; }}
+    @mixin v($bg, $bt, $ic) { background: linear-gradient(145deg, $bg, rgba(0,18,26,0.85)); &::before { background: $bt; } .fc-icon { background: rgba($ic,0.1); border-color: rgba($ic,0.2); mat-icon { color: $ic; }}}
+    &.fc-blue   { @include v(rgba(0,60,120,0.2), linear-gradient(90deg,#2979ff,#00b0ff), #2979ff); }
+    &.fc-cyan   { @include v(rgba(0,80,100,0.2), linear-gradient(90deg,#00e5ff,#00bcd4), #00e5ff); }
+    &.fc-teal   { @include v(rgba(0,77,77,0.2),  linear-gradient(90deg,#1de9b6,#00bfa5), #1de9b6); }
+    &.fc-indigo { @include v(rgba(50,20,100,0.2), linear-gradient(90deg,#7c4dff,#651fff), #7c4dff); }
+    &.fc-green  { @include v(rgba(0,70,40,0.2),   linear-gradient(90deg,#00e676,#1de9b6), #00e676); }
+    &.fc-amber  { @include v(rgba(80,50,0,0.2),   linear-gradient(90deg,#ffc400,#ff9100), #ffc400); }
+    .fc-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+    .fc-icon { width: 50px; height: 50px; border-radius: 12px; border: 1px solid; display: flex; align-items: center; justify-content: center; mat-icon { font-size: 1.5rem; }}
+    .fc-titles { h3 { font-size: 1.05rem; font-weight: 700; color: $txt-p; margin:0; } span { font-size: 0.7rem; color: $txt-m; text-transform: uppercase; letter-spacing: 1px; }}
+    p { font-size: 0.92rem; color: $txt-m; line-height: 1.7; flex: 1; }
+    .fc-footer { display: flex; justify-content: flex-end; margin-top: 1rem; .fc-arrow { color: rgba(0,229,255,0.2); }}
   }
 }
 
-// 3. Features
-
-.features-section {
-  padding: 8rem 2rem;
-  background: $bg-surface;
-  position: relative;
-
-  background-image:
-    linear-gradient(rgba(0, 229, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 229, 255, 0.018) 1px, transparent 1px);
-  background-size: 50px 50px;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, $border-glow, transparent);
-  }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-
-// Feature Card
-
-  .feature-card {
-    display: flex;
-    flex-direction: column;
-    padding: 1.75rem;
-    border-radius: 14px;
-    border: 1px solid $border-subtle;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    cursor: default;
-
-    // Top shimmer line – color accent unique per card variant
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      border-radius: 14px 14px 0 0;
-      opacity: 0;
-      transition: opacity 0.35s ease;
-    }
-
-    &:hover {
-      transform: translateY(-5px);
-      border-color: rgba(0, 229, 255, 0.2);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-
-      &::before { opacity: 1; }
-
-      .fc-icon mat-icon { transform: scale(1.12) rotate(-5deg); }
-      .fc-arrow { opacity: 1; transform: translateX(4px); }
-    }
-
-    // Per-card color accents
-    &.fc-blue   { background: linear-gradient(145deg, rgba(0, 60, 120, 0.25), rgba(0, 18, 26, 0.85)); &::before { background: linear-gradient(90deg, #2979ff, #00b0ff); } .fc-icon { background: rgba(41, 121, 255, 0.12); border-color: rgba(41, 121, 255, 0.25); mat-icon { color: #64b5f6; } } }
-    &.fc-cyan   { background: linear-gradient(145deg, rgba(0, 80, 100, 0.3), rgba(0, 18, 26, 0.85));  &::before { background: linear-gradient(90deg, #00e5ff, #00bcd4); } .fc-icon { background: rgba(0, 229, 255, 0.1);  border-color: rgba(0, 229, 255, 0.25);   mat-icon { color: #00e5ff; } } }
-    &.fc-teal   { background: linear-gradient(145deg, rgba(0, 77, 77, 0.3), rgba(0, 18, 26, 0.85));   &::before { background: linear-gradient(90deg, #1de9b6, #00bfa5); } .fc-icon { background: rgba(29, 233, 182, 0.1);  border-color: rgba(29, 233, 182, 0.25);  mat-icon { color: #1de9b6; } } }
-    &.fc-indigo { background: linear-gradient(145deg, rgba(50, 20, 100, 0.3), rgba(0, 18, 26, 0.85)); &::before { background: linear-gradient(90deg, #7c4dff, #651fff); } .fc-icon { background: rgba(124, 77, 255, 0.12); border-color: rgba(124, 77, 255, 0.25); mat-icon { color: #b39ddb; } } }
-    &.fc-green  { background: linear-gradient(145deg, rgba(0, 70, 40, 0.3), rgba(0, 18, 26, 0.85));   &::before { background: linear-gradient(90deg, #00e676, #1de9b6); } .fc-icon { background: rgba(0, 230, 118, 0.1);   border-color: rgba(0, 230, 118, 0.25);   mat-icon { color: #69f0ae; } } }
-    &.fc-amber  { background: linear-gradient(145deg, rgba(80, 50, 0, 0.3), rgba(0, 18, 26, 0.85));   &::before { background: linear-gradient(90deg, #ffc400, #ff9100); } .fc-icon { background: rgba(255, 196, 0, 0.1);   border-color: rgba(255, 196, 0, 0.22);   mat-icon { color: #ffca28; } } }
-
-    .fc-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.1rem;
-    }
-
-    .fc-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      border: 1px solid;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-
-      mat-icon {
-        font-size: 1.6rem;
-        width: 1.6rem;
-        height: 1.6rem;
-        transition: transform 0.35s ease;
-      }
-    }
-
-    .fc-titles {
-      h3 {
-        font-size: 1.05rem;
-        font-weight: 700;
-        color: $text-primary;
-        margin: 0 0 0.2rem;
-        letter-spacing: -0.25px;
-      }
-
-      span {
-        font-size: 0.7rem;
-        color: $text-muted;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        font-weight: 600;
-      }
-    }
-
-    p {
-      font-size: 0.92rem;
-      color: $text-muted;
-      line-height: 1.7;
-      margin: 0;
-      flex: 1;
-    }
-
-    .fc-footer {
-      margin-top: 1.25rem;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .fc-arrow {
-      color: $text-dim;
-      font-size: 1.25rem;
-      width: 1.25rem;
-      height: 1.25rem;
-      opacity: 0;
-      transition: all 0.3s ease;
-    }
+// Core Services Grid
+.core-section { padding: 8rem 2rem; background: #001e26; position: relative;
+  .core-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; max-width: 1280px; margin: 0 auto; .core-primary { grid-column: 1 / -1; }}
+  .core-card { background: rgba(0,18,26,0.7); border: 1px solid $b-sub; border-radius: 16px; padding: 2rem; transition: 0.3s; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 1rem;
+    &::before { content: ''; position: absolute; top:0; left:0; right:0; height:2px; background: linear-gradient(90deg,$brand,#66f9ff); opacity:0; transition: 0.3s; }
+    &:hover { border-color: rgba(0,229,255,0.22); background: rgba(0,30,46,0.9); transform: translateY(-4px); &::before { opacity: 1; }}
+    &.core-primary { background: linear-gradient(135deg,rgba(0,40,60,0.9),rgba(0,18,26,0.95)); border-color: rgba(0,229,255,0.18); padding: 2.5rem; &::before { opacity: 0.7; } h3 { font-size: 1.5rem; } .core-icon-wrap { width: 64px; height: 64px; mat-icon { font-size: 2rem; }}}
+    .core-card-top { display: flex; align-items: center; justify-content: space-between; }
+    .core-icon-wrap { width: 54px; height: 54px; border-radius: 14px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.14); display: flex; align-items: center; justify-content: center; mat-icon { font-size: 1.6rem; color: $br-dim; }}
+    .core-badge { font-size: 0.65rem; font-weight: 700; color: $brand; background: rgba(0,229,255,0.08); border: 1px solid $b-glow; padding: 0.2rem 0.75rem; border-radius: 100px; }
+    h3 { font-size: 1.15rem; font-weight: 700; color: $txt-p; margin:0; }
+    p { font-size: 0.92rem; color: $txt-m; line-height: 1.7; }
+    .core-rates { display: flex; gap: 0.75rem; flex-wrap: wrap; .core-rate-item { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; color: $txt-m; mat-icon { font-size: 1rem; color: $br-dim; }}}
+    .billing-tag { font-size: 0.75rem; color: $brand; opacity: 0.8; }
   }
 }
 
-// 4. Core Services
-
-.core-section {
-  padding: 8rem 2rem;
-  background: $bg-dark;
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, $border-glow, transparent);
-  }
-
-  .core-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
-    gap: 1.25rem;
-    max-width: 1280px;
-    margin: 0 auto;
-
-    // Primary card spans full width on top
-    .core-primary {
-      grid-column: 1 / -1;
-    }
-  }
-
-  .core-card {
-    background: rgba(0, 18, 26, 0.7);
-    border: 1px solid $border-subtle;
-    border-radius: 16px;
-    padding: 2rem;
-    transition: all 0.35s ease;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, $brand, #66f9ff);
-      opacity: 0;
-      transition: opacity 0.35s ease;
-      border-radius: 16px 16px 0 0;
-    }
-
-    &:hover {
-      border-color: rgba(0, 229, 255, 0.22);
-      background: rgba(0, 30, 46, 0.9);
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
-
-      &::before { opacity: 1; }
-
-      .core-icon-wrap {
-        background: rgba(0, 229, 255, 0.12);
-        border-color: $border-glow;
-        box-shadow: 0 0 24px rgba(0, 229, 255, 0.18);
-        mat-icon { color: $brand; }
-      }
-    }
-
-    // Primary card — full-width hero card
-    &.core-primary {
-      background: linear-gradient(135deg, rgba(0, 40, 60, 0.9), rgba(0, 18, 26, 0.95));
-      border-color: rgba(0, 229, 255, 0.18);
-      padding: 2.5rem;
-
-      &::before { opacity: 0.7; }
-
-      h3 { font-size: 1.5rem; }
-
-      .core-icon-wrap {
-        width: 64px;
-        height: 64px;
-
-        mat-icon {
-          font-size: 2rem;
-          width: 2rem;
-          height: 2rem;
-        }
-      }
-    }
-
-    .core-card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .core-icon-wrap {
-      width: 54px;
-      height: 54px;
-      flex-shrink: 0;
-      border-radius: 14px;
-      background: rgba(0, 229, 255, 0.06);
-      border: 1px solid rgba(0, 229, 255, 0.14);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.35s ease;
-
-      mat-icon {
-        font-size: 1.6rem;
-        width: 1.6rem;
-        height: 1.6rem;
-        color: $brand-dim;
-        transition: color 0.35s ease;
-      }
-    }
-
-    .core-badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: $brand;
-      background: rgba(0, 229, 255, 0.08);
-      border: 1px solid $border-glow;
-      padding: 0.25rem 0.75rem;
-      border-radius: 100px;
-    }
-
-    h3 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: $text-primary;
-      margin: 0;
-      letter-spacing: -0.25px;
-    }
-
-    p {
-      font-size: 0.92rem;
-      color: $text-muted;
-      line-height: 1.7;
-      margin: 0;
-    }
-
-    .core-rates {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-
-      .core-rate-item {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        background: rgba(0, 229, 255, 0.05);
-        border: 1px solid rgba(0, 229, 255, 0.1);
-        border-radius: 8px;
-        padding: 0.35rem 0.85rem;
-        font-size: 0.8rem;
-        color: $text-muted;
-
-        mat-icon {
-          font-size: 1rem;
-          width: 1rem;
-          height: 1rem;
-          color: $brand-dim;
-        }
-      }
-    }
-
-    .billing-tag {
-      display: inline-block;
-      background: rgba(0, 229, 255, 0.06);
-      border: 1px solid rgba(0, 229, 255, 0.12);
-      border-radius: 6px;
-      padding: 0.4rem 0.85rem;
-      font-size: 0.78rem;
-      color: $brand-dim;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-    }
+// VAS Cards
+.vas-section { padding: 8rem 2rem; background: $bg-d;
+  .vas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; max-width: 1280px; margin: 0 auto; }
+  .vas-card { display: flex; gap: 1.25rem; background: rgba(0,30,46,0.5); border-radius: 14px; padding: 1.75rem; border: 1px solid $b-sub; transition: 0.3s;
+    &:hover { border-color: rgba(0,229,255,0.2); background: rgba(0,40,60,0.7); transform: translateY(-4px); }
+    .vas-icon-wrap { width: 48px; height: 48px; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; mat-icon { color: $txt-m; }}
+    .vas-body { h3 { font-size: 1.1rem; font-weight: 700; color: $txt-p; margin:0 0 0.4rem; } p { font-size: 0.9rem; color: $txt-m; line-height: 1.6; margin-bottom: 0.8rem; } .billing-tag { font-size: 0.75rem; color: $brand; opacity:0.7; font-weight: 600; }}
   }
 }
 
-// 5. VAS
-
-.vas-section {
-
-  padding: 8rem 2rem;
-  background: $bg-darkest;
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, $border-glow, transparent);
+// CTA & Footer
+.cta-section { padding: 8rem 2rem; background: #001e26; text-align: center; position: relative; overflow: hidden;
+  .cta-content { position: relative; z-index: 2; h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: $txt-p; margin-bottom: 1.5rem; line-height: 1.2; } p { font-size: 1.1rem; color: $txt-m; margin-bottom: 3rem; }}
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem;
+    .cta-btn-primary { background: $brand; color: $bg-d; padding: 12px 30px; font-weight: 700; border-radius: 6px; }
+    .cta-btn-outline { color: $brand; border: 1px solid $brand; padding: 12px 30px; border-radius: 6px; }
   }
-
-  .vas-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-
-  .vas-card {
-    display: flex;
-    gap: 1.25rem;
-    background: rgba(0, 30, 46, 0.5);
-    border-radius: 14px;
-    padding: 1.75rem;
-    border: 1px solid $border-subtle;
-    transition: all 0.35s ease;
-    position: relative;
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, $brand, transparent);
-      opacity: 0;
-      transition: opacity 0.35s ease;
-      border-radius: 14px 0 0 14px;
-    }
-
-    &:hover {
-      border-color: rgba(0, 229, 255, 0.2);
-      background: rgba(0, 40, 60, 0.7);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-
-      &::before { opacity: 1; }
-
-      .vas-icon-wrap {
-        background: rgba(0, 229, 255, 0.12);
-        border-color: $border-glow;
-        box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
-
-        mat-icon { color: $brand; }
-      }
-    }
-
-    .vas-icon-wrap {
-      width: 48px;
-      height: 48px;
-      flex-shrink: 0;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.35s ease;
-
-      mat-icon {
-        font-size: 1.5rem;
-        width: 1.5rem;
-        height: 1.5rem;
-        color: $text-muted;
-        transition: color 0.35s ease;
-      }
-    }
-
-    .vas-body {
-      flex: 1;
-
-      h3 {
-        font-size: 1rem;
-        font-weight: 700;
-        color: $text-primary;
-        margin: 0 0 0.5rem;
-      }
-
-      p {
-        font-size: 0.88rem;
-        color: $text-muted;
-        line-height: 1.65;
-        margin-bottom: 1rem;
-      }
-
-      .billing-tag {
-        display: inline-block;
-        background: rgba(0, 229, 255, 0.06);
-        border: 1px solid rgba(0, 229, 255, 0.12);
-        border-radius: 6px;
-        padding: 0.3rem 0.75rem;
-        font-size: 0.75rem;
-        color: $brand-dim;
-        font-weight: 600;
-        letter-spacing: 0.3px;
-      }
-    }
-  }
+  .cta-footnote { font-size: 0.8rem; color: $txt-m; opacity: 0.6; }
 }
 
-// 6. CTA
-
-.cta-section {
-  padding: 10rem 2rem;
-  background: linear-gradient(180deg, $bg-darkest 0%, #000c10 100%);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-
-  .cta-orb {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 700px;
-    height: 700px;
-    background: radial-gradient(circle, rgba(0, 229, 255, 0.06) 0%, transparent 65%);
-    pointer-events: none;
-  }
-
-  .cta-content {
-    position: relative;
-    z-index: 2;
-    max-width: 680px;
-    margin: 0 auto;
-
-    h2 {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 700;
-      color: $text-primary;
-      margin-bottom: 1.25rem;
-      line-height: 1.2;
-      letter-spacing: -1px;
-    }
-
-    > p {
-      font-size: 1.1rem;
-      color: $text-muted;
-      font-weight: 300;
-      line-height: 1.7;
-      margin-bottom: 3rem;
-    }
-
-    .cta-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 1.75rem;
-    }
-
-    .cta-btn-primary {
-      font-size: 0.95rem;
-      padding: 14px 36px;
-      border-radius: 8px;
-      font-weight: 700;
-      background: $brand;
-      color: $bg-darkest;
-      border: none;
-      box-shadow: 0 0 40px rgba(0, 229, 255, 0.3);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.3s ease;
-
-      &:hover {
-        background: #66f9ff;
-        box-shadow: 0 0 60px rgba(0, 229, 255, 0.55);
-        transform: translateY(-3px);
-      }
-    }
-
-    .cta-btn-outline {
-      font-size: 0.95rem;
-      padding: 14px 36px;
-      border-radius: 8px;
-      font-weight: 600;
-      background: transparent;
-      color: $text-muted;
-      border: 1px solid rgba(126, 168, 184, 0.25);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.3s ease;
-
-      &:hover {
-        border-color: $brand;
-        color: $brand;
-        background: rgba(0, 229, 255, 0.05);
-      }
-    }
-
-    .cta-footnote {
-      font-size: 0.78rem;
-      color: $text-dim;
-      margin: 0;
-      letter-spacing: 0.5px;
-    }
-  }
+.landing-footer { padding: 4rem 2rem; background: $bg-d; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;
+  .footer-inner { max-width: 1200px; margin: 0 auto; .footer-brand { display: inline-flex; align-items: center; gap: 0.5rem; color: $txt-p; font-weight: 700; margin-bottom: 1rem; } .footer-copy { color: $txt-m; font-size: 0.85rem; margin-bottom: 0.5rem; } .footer-dev { color: $txt-m; font-size: 0.8rem; span { color: $brand; }}}
 }
 
-// 7. Footer
-
-.landing-footer {
-  background: #00080d;
-  border-top: 1px solid rgba(0, 229, 255, 0.06);
-  padding: 1.75rem 2rem;
-
-  .footer-inner {
-    max-width: 1280px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: $text-primary;
-  }
-
-  .footer-copy {
-    font-size: 0.78rem;
-    color: $text-dim;
-    margin: 0;
-  }
-
-  .footer-dev {
-    font-size: 0.78rem;
-    color: $text-dim;
-    margin: 0;
-
-    span {
-      color: $brand;
-      font-weight: 600;
-    }
-  }
-}
-
-// Animations
-
-@keyframes gentlePulse {
-  0%, 100% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.12); }
-  50%       { box-shadow: 0 0 60px rgba(0, 229, 255, 0.28); }
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scrollPulse {
-  0%, 100% { opacity: 0.3; }
-  50%       { opacity: 1; }
-}
-
-// Responsive
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); }}
+@keyframes gentlePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); }}
 
 @media (max-width: 1024px) {
-  .features-section .features-grid,
-  .vas-section .vas-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .core-section .core-grid {
-    grid-template-columns: repeat(2, 1fr);
-
-    .core-primary { grid-column: 1 / -1; }
-  }
+  .features-grid, .core-grid, .vas-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .process-steps { flex-direction: column; .process-arrow { display: none; }}
 }
-
 @media (max-width: 768px) {
-  .landing-hero {
-    .hero-title { font-size: 2.75rem; letter-spacing: -1px; }
-    .hero-title2 { font-size: 1rem; letter-spacing: 2px; }
-    .hero-subtitle { font-size: 1rem; }
-
-    .hero-stats {
-      flex-direction: column;
-      gap: 0.75rem;
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-
-      .stat-divider { width: 60px; height: 1px; }
-    }
-
-    .hero-actions {
-      flex-direction: column;
-      align-items: center;
-
-      .cta-button { width: 100%; max-width: 280px; justify-content: center; }
-    }
-  }
-
-  .process-section {
-    .process-steps {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .process-arrow { display: none; }
-  }
-
-  .features-section .features-grid,
-  .core-section .core-grid,
-  .vas-section .vas-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .core-section .core-grid .core-primary {
-    grid-column: 1;
-  }
-
-  .process-section,
-  .features-section,
-  .core-section,
-  .vas-section,
-  .cta-section {
-    padding: 5rem 1.25rem;
-  }
-
-  .section-header-wrap { margin-bottom: 3rem; }
-
-  .cta-section .cta-content {
-    .cta-actions { flex-direction: column; align-items: center; }
-    .cta-btn-primary,
-    .cta-btn-outline { width: 100%; max-width: 280px; justify-content: center; }
-  }
-
-  .landing-footer .footer-inner { justify-content: center; text-align: center; }
+  .features-grid, .core-grid, .vas-grid { grid-template-columns: 1fr !important; }
 }
