@@ -1,4 +1,5 @@
 // ---- File: src/Presentation/WMS.Api/Controllers/AuthenticationController.cs ----
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WMS.Application.Features.Users.Commands;
 using WMS.Domain.Entities;
 using WMS.Domain.Enums;
 
@@ -21,16 +23,15 @@ public class AuthenticationController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
     private readonly IConfiguration _configuration;
+    private readonly IMediator _mediator;
 
-    public AuthenticationController(UserManager<User> userManager, IConfiguration configuration)
+    public AuthenticationController(UserManager<User> userManager, IConfiguration configuration, IMediator mediator)
     {
         _userManager = userManager;
         _configuration = configuration;
+        _mediator = mediator;
     }
 
-    // ==============================================================================
-    // STEP 1: ADD THIS TEMPORARY METHOD TO GENERATE A VALID HASH
-    // ==============================================================================
     [AllowAnonymous]
     [HttpGet("hash")]
     public IActionResult GetPasswordHash([FromQuery] string password)
@@ -42,7 +43,6 @@ public class AuthenticationController : ControllerBase
         var hashedPassword = _userManager.PasswordHasher.HashPassword((User)null!, password);
         return Ok(hashedPassword);
     }
-    // ==============================================================================d
 
     [AllowAnonymous]
     [HttpPost("register")]
@@ -77,8 +77,29 @@ public class AuthenticationController : ControllerBase
             return Unauthorized(new { Message = "Invalid credentials" });
         }
 
+        if (!user.IsActive)
+        {
+            return Unauthorized(new { Message = "Account is blocked. Please contact administrator." });
+        }
+
         var token = GenerateJwtToken(user);
         return Ok(new AuthResponse(token));
+    }
+
+    [Authorize]
+    [HttpPut("profile")]
+    public async Task<IActionResult> UpdateProfile(UpdateProfileCommand command)
+    {
+        await _mediator.Send(command);
+        return Ok(new { Message = "Profile updated successfully" });
+    }
+
+    [Authorize]
+    [HttpPost("change-password")]
+    public async Task<IActionResult> ChangePassword(ChangePasswordCommand command)
+    {
+        await _mediator.Send(command);
+        return Ok(new { Message = "Password changed successfully" });
     }
 
     private string GenerateJwtToken(User user)

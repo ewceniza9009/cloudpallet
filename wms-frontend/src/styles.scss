@@ -370,6 +370,7 @@ body {
   &.mat-mdc-unelevated-button.mat-primary,
   &.mat-mdc-flat-button.mat-primary,
   &.mat-mdc-raised-button.mat-primary {
+    background-color: var(--mat-sys-primary) !important;
     color: #ffffff !important;
     --mdc-filled-button-label-text-color: #ffffff;
     --mdc-protected-button-label-text-color: #ffffff;
@@ -444,13 +445,18 @@ body {
 
   // DISABLED STATE: Ensure they are visible but dimmed
   &:disabled {
-    opacity: 0.4 !important;
-    background-color: var(--mat-sys-surface-container-highest) !important;
+    opacity: 0.65 !important;
+    background-color: var(--mat-sys-surface-container-high) !important;
     color: var(--mat-sys-on-surface-variant) !important;
-    cursor: not-allowed;
+    cursor: not-allowed !important;
+    border: 1px solid var(--mat-sys-outline) !important;
 
     ::ng-deep .mdc-button__label {
       color: var(--mat-sys-on-surface-variant) !important;
+    }
+
+    .mat-icon {
+      opacity: 0.6 !important;
     }
   }
 }

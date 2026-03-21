@@ -26,6 +26,20 @@ public class AdminController : ApiControllerBase
         return NoContent();
     }
 
+    [HttpPut("users/{userId:guid}/status")]
+    public async Task<IActionResult> UpdateUserStatus(Guid userId, [FromBody] bool isActive)
+    {
+        await Mediator.Send(new UpdateUserStatusCommand(userId, isActive));
+        return NoContent();
+    }
+
+    [HttpPost("users/{userId:guid}/reset-password")]
+    public async Task<IActionResult> ResetUserPassword(Guid userId, [FromBody] string newPassword)
+    {
+        await Mediator.Send(new ResetUserPasswordCommand(userId, newPassword));
+        return Ok(new { Message = "Password reset successfully" });
+    }
+
     [HttpGet("rates")]
     [Authorize(Policy = "FinancePolicy")]
     [ProducesResponseType(typeof(PagedResult<RateDto>), StatusCodes.Status200OK)]

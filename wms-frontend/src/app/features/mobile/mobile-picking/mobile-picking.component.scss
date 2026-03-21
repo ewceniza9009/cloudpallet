@@ -26,7 +26,7 @@
     flex-direction: column;
     align-items: center;
     padding: 48px 16px;
-    color: #9e9e9e;
+    color: var(--mat-sys-on-surface-variant);
 
     mat-icon {
         font-size: 48px;
@@ -43,16 +43,16 @@
 .group-list {
     margin-bottom: 16px;
     border-radius: 8px;
-    background: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background: var(--mat-sys-surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     overflow: hidden;
 }
 
 .group-header {
     padding: 16px;
-    background: #fff;
+    background: var(--mat-sys-surface-container);
     cursor: pointer;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
 
     .group-info {
         display: flex;
@@ -64,7 +64,7 @@
         }
 
         .order-id {
-            color: #757575;
+            color: var(--mat-sys-on-surface-variant);
             font-size: 12px;
         }
     }
@@ -76,7 +76,7 @@
 
         mat-icon {
             transition: transform 0.2s;
-            color: #757575;
+            color: var(--mat-sys-on-surface-variant);
 
             &.rotated {
                 transform: rotate(180deg);
@@ -86,16 +86,16 @@
 }
 
 .group-items {
-    background: #fafafa;
+    background: var(--mat-sys-background);
     padding: 8px;
 }
 
 .pick-item-card {
-    background: white;
+    background: var(--mat-sys-surface);
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 8px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--mat-sys-outline-variant);
 
     &:last-child {
         margin-bottom: 0;
@@ -107,8 +107,8 @@
         margin-bottom: 8px;
 
         .location {
-            background-color: #e3f2fd;
-            color: #1565c0;
+            background-color: var(--mat-sys-primary-container);
+            color: var(--mat-sys-primary);
             padding: 2px 6px;
             border-radius: 4px;
             font-weight: 500;
@@ -139,7 +139,7 @@
         }
 
         .sku {
-            color: #757575;
+            color: var(--mat-sys-on-surface-variant);
             font-size: 12px;
         }
 
@@ -152,7 +152,7 @@
         display: flex;
         justify-content: flex-end;
         gap: 8px;
-        border-top: 1px dashed #e0e0e0;
+        border-top: 1px dashed var(--mat-sys-outline-variant);
         padding-top: 8px;
     }
 }

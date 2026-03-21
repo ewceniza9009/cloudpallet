@@ -1,4 +1,4 @@
-﻿// ---- File: src/Core/WMS.Application/Features/Inventory/Commands/RecordCycleCountCommand.cs ----
+// ---- File: src/Core/WMS.Application/Features/Inventory/Commands/RecordCycleCountCommand.cs ----
 
 using MediatR;
 using WMS.Application.Abstractions.Persistence;
@@ -50,8 +50,7 @@ public class RecordCycleCountCommandHandler(
                 var weightAdjustment = discrepancy * weightPerUnit;
 
                 // 1. Perform the actual inventory adjustment
-                inventory.AdjustQuantity(discrepancy);
-                inventory.AdjustForWeighedPick(0, -weightAdjustment); // Adjust weight
+                inventory.AdjustInventory(discrepancy, weightAdjustment);
                 totalWeightAdjusted += weightAdjustment;
 
                 // --- START: IMPLEMENTED AUDIT ---

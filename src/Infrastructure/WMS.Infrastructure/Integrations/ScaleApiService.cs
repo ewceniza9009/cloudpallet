@@ -1,9 +1,9 @@
-﻿using WMS.Application.Abstractions.Integrations;
+using WMS.Application.Abstractions.Integrations;
 using WMS.Domain.ValueObjects;
 
 namespace WMS.Infrastructure.Integrations;
 
-public class ScaleApiService(IHttpClientFactory httpClientFactory) : IScaleApiService
+public class ScaleApiService() : IScaleApiService
 {
     //private readonly HttpClient _httpClient = httpClientFactory.CreateClient("ScaleApi");
 

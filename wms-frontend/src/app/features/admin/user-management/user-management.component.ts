@@ -10,7 +10,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AdminApiService, UserDto, UserRole } from '../admin-api.service';
+import { ResetPasswordDialogComponent } from './reset-password-dialog.component';
 
 interface RoleOption {
   value: UserRole;
@@ -34,6 +36,7 @@ interface RoleOption {
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatDialogModule,
   ],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.scss'],
@@ -41,6 +44,7 @@ interface RoleOption {
 export class UserManagementComponent implements OnInit {
   private adminApi = inject(AdminApiService);
   private snackBar = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
 
   users = signal<UserDto[]>([]);
   isLoading = signal(true);
@@ -66,7 +70,7 @@ export class UserManagementComponent implements OnInit {
     },
   ];
 
-  displayedColumns = ['username', 'name', 'email', 'role', 'actions'];
+  displayedColumns = ['username', 'name', 'email', 'role', 'status', 'actions'];
 
   ngOnInit(): void {
     this.loadUsers();
@@ -100,6 +104,30 @@ export class UserManagementComponent implements OnInit {
         this.snackBar.open('Failed to update user role.', 'Close', {
           duration: 5000,
         }),
+    });
+  }
+
+  toggleUserStatus(user: UserDto): void {
+    const newStatus = !user.isActive;
+    this.adminApi.updateUserStatus(user.id, newStatus).subscribe({
+      next: () => {
+        this.snackBar.open(`User ${newStatus ? 'unblocked' : 'blocked'} successfully!`, 'OK', { duration: 3000 });
+        this.loadUsers();
+      },
+      error: () => this.snackBar.open('Failed to update user status.', 'Close', { duration: 5000 })
+    });
+  }
+
+  resetPassword(userId: string): void {
+    const dialogRef = this.dialog.open(ResetPasswordDialogComponent, { width: '400px' });
+
+    dialogRef.afterClosed().subscribe(newPassword => {
+      if (!newPassword) return;
+
+      this.adminApi.resetUserPassword(userId, newPassword).subscribe({
+        next: () => this.snackBar.open('Password reset successfully!', 'OK', { duration: 3000 }),
+        error: () => this.snackBar.open('Failed to reset password.', 'Close', { duration: 5000 })
+      });
     });
   }
 

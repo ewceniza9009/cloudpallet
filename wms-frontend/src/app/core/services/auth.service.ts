@@ -7,7 +7,19 @@ export interface DecodedToken {
   role: 'Admin' | 'Operator' | 'Finance';
   email: string;
   sub: string;
+  firstName?: string;
+  lastName?: string;
   [key: string]: any;
+}
+
+export interface UpdateProfileCommand {
+  firstName: string;
+  lastName: string;
+}
+
+export interface ChangePasswordCommand {
+  currentPassword: string;
+  newPassword: string;
 }
 
 export interface RegisterRequest {
@@ -58,6 +70,14 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     this.currentUser.set(null);
+  }
+
+  updateProfile(command: UpdateProfileCommand) {
+    return this.http.put(`${this.apiUrl}/Authentication/profile`, command);
+  }
+
+  changePassword(command: ChangePasswordCommand) {
+    return this.http.post(`${this.apiUrl}/Authentication/change-password`, command);
   }
 
   hasRole(role: 'Admin' | 'Operator' | 'Finance'): boolean {

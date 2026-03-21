@@ -1,4 +1,4 @@
-﻿// ---- File: src/Core/WMS.Application/Features/Inventory/Commands/CreateKitCommand.cs ----
+// ---- File: src/Core/WMS.Application/Features/Inventory/Commands/CreateKitCommand.cs ----
 
 using MediatR;
 using WMS.Application.Abstractions.Integrations;
@@ -96,7 +96,7 @@ public class CreateKitCommandHandler(
             var weightToDebit = (inventorySource.WeightActual.Value / inventorySource.Quantity) * component.QuantityToConsume;
 
             // Adjust inventory
-            inventorySource.AdjustForWeighedPick(component.QuantityToConsume, weightToDebit);
+            inventorySource.AdjustInventory(-component.QuantityToConsume, -weightToDebit);
 
             // Log to VAS
             vasTransaction.AddInputLine(component.ComponentMaterialId, component.QuantityToConsume, weightToDebit, inventorySource.BatchNumber, inventorySource.ExpiryDate);

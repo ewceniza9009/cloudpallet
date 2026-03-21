@@ -96,3 +96,30 @@
     }
   }
 }
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  
+  mat-icon { font-size: 1rem; width: 1rem; height: 1rem; }
+  
+  &.active {
+    background: rgba(76, 175, 80, 0.1);
+    color: #2e7d32;
+  }
+  
+  &.blocked {
+    background: rgba(244, 67, 54, 0.1);
+    color: #d32f2f;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.25rem;
+}

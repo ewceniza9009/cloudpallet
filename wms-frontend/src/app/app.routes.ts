@@ -60,6 +60,13 @@ export const routes: Routes = [
           ).then((c) => c.EnergyDashboardComponent),
       },
       {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/profile/profile.component').then(
+            (c) => c.ProfileComponent
+          ),
+      },
+      {
         path: 'inventory-overview',
         loadComponent: () =>
           import(

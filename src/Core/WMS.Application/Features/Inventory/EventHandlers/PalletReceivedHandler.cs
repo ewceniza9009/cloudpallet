@@ -1,4 +1,4 @@
-﻿// ---- File: src/Core/WMS.Application/Features/Inventory/EventHandlers/PalletReceivedHandler.cs ----
+// ---- File: src/Core/WMS.Application/Features/Inventory/EventHandlers/PalletReceivedHandler.cs ----
 
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -19,8 +19,7 @@ public class PalletReceivedHandler(
     IReceivingTransactionRepository receivingRepository,
     IUnitOfWork unitOfWork,
     ICurrentUserService currentUserService,
-    IBarcodeGenerationService barcodeGenerationService,
-    ILogger<PalletReceivedHandler> logger) // Added Logger
+    ILogger<PalletReceivedHandler> logger)
     : INotificationHandler<PalletReceivedEvent>
 {
     public async Task Handle(PalletReceivedEvent notification, CancellationToken cancellationToken)

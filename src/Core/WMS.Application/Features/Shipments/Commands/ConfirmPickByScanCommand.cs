@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Domain.Enums;
 
@@ -34,7 +34,7 @@ public class ConfirmPickByScanCommandHandler(IPickTransactionRepository pickRepo
             throw new InvalidOperationException("Verification failed: Scanned LPN does not match the required inventory.");
         }
 
-        pickTransaction.MaterialInventory.AdjustForWeighedPick(pickTransaction.Quantity, request.ActualWeight);
+        pickTransaction.MaterialInventory.AdjustInventory(-pickTransaction.Quantity, -request.ActualWeight);
 
         pickTransaction.ConfirmPick(PickStatus.Confirmed, request.ActualWeight);
 

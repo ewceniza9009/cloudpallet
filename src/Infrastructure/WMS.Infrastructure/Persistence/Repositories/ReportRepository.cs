@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Application.Common.Models;
@@ -10,7 +10,7 @@ using WMS.Domain.Shared;
 
 namespace WMS.Infrastructure.Persistence.Repositories;
 
-public class ReportRepository(WmsDbContext context, IClock clock) : IReportRepository   
+public class ReportRepository(WmsDbContext context) : IReportRepository   
 {
     private static readonly Dictionary<ServiceType, string> StorageTierMap = new()
     {

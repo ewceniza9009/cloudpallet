@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using System.Text.Json.Serialization;
 using WMS.Domain.Enums;
 using WMS.Domain.Events;
@@ -52,5 +52,16 @@ public class User : IdentityUser<Guid>
 
         Role = newRole;
         AddDomainEvent(new UserRoleChangedEvent(Id, newRole));
+    }
+
+    public void UpdateProfile(string firstName, string lastName)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+    }
+
+    public void SetStatus(bool isActive)
+    {
+        IsActive = isActive;
     }
 }

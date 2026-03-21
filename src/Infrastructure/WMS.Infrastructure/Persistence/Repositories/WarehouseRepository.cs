@@ -10,7 +10,6 @@ using WMS.Domain.Enums;
 using WMS.Domain.Shared;
 using WMS.Domain.Entities;
 using System.Reflection;
-using System.Runtime.Serialization;
 
 namespace WMS.Infrastructure.Persistence.Repositories;
 
@@ -232,8 +231,7 @@ public class WarehouseRepository(WmsDbContext context) : IWarehouseRepository
                     
                     // RECONSTRUCT LOCATION for QueryHandler
                     // Location construction is tricky as it has many private fields, but we only need Barcode and Bay.
-                    // Let's use Activator or Reflection to set the internal properties.
-                    var loc = (Location)FormatterServices.GetUninitializedObject(typeof(Location));
+                    var loc = (Location)Activator.CreateInstance(typeof(Location), true)!;
                     typeof(Entity<Guid>).GetProperty("Id")?.SetValue(loc, inv.LocationId);
                     typeof(Location).GetProperty("Barcode")?.SetValue(loc, inv.LocationBarcode);
                     typeof(Location).GetProperty("Bay")?.SetValue(loc, inv.LocationBay);

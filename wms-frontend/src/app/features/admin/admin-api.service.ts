@@ -49,6 +49,7 @@ export interface UserDto {
   lastName: string;
   email: string;
   role: UserRole;
+  isActive: boolean;
 }
 
 export type ServiceType =
@@ -276,6 +277,26 @@ export class AdminApiService {
     return this.http.put<void>(
       `${this.adminApiUrl}/users/${userId}/role`,
       `"${newRole}"`,
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
+
+  updateUserStatus(userId: string, isActive: boolean): Observable<void> {
+    return this.http.put<void>(
+      `${this.adminApiUrl}/users/${userId}/status`,
+      JSON.stringify(isActive),
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
+
+  resetUserPassword(userId: string, newPassword: string): Observable<void> {
+    return this.http.post<void>(
+      `${this.adminApiUrl}/users/${userId}/reset-password`,
+      JSON.stringify(newPassword),
       {
         headers: { 'Content-Type': 'application/json' },
       }

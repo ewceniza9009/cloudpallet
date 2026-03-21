@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using WMS.Application.Abstractions.Integrations;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Domain.Entities;
@@ -19,11 +19,9 @@ public record TransferItemsToNewPalletCommand(
 
 public class TransferItemsToNewPalletCommandHandler(
     IMaterialInventoryRepository inventoryRepository,
-    IReceivingTransactionRepository receivingRepository,
     IPalletTypeRepository palletTypeRepository,
     IItemTransferTransactionRepository itemTransferRepository,
-    IVASTransactionRepository vasRepository, // <-- ADDED VAS Repo
-    IBarcodeGenerationService barcodeService,
+    IVASTransactionRepository vasRepository,
     IMaterialRepository materialRepository,
     IUnitOfWork unitOfWork) : IRequestHandler<TransferItemsToNewPalletCommand, Guid>
 {

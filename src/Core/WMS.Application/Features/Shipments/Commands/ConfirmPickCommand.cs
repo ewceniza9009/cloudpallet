@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Domain.Enums;
 
@@ -8,7 +8,6 @@ public record ConfirmPickCommand(Guid PickTransactionId, PickStatus NewStatus, G
 
 public class ConfirmPickCommandHandler(
     IPickTransactionRepository pickRepository,
-    IMaterialInventoryRepository inventoryRepository, // ADD THIS
     IUnitOfWork unitOfWork)
     : IRequestHandler<ConfirmPickCommand>
 {
@@ -30,7 +29,7 @@ public class ConfirmPickCommandHandler(
         // THIS IS THE FIX: Deduct inventory at the moment of confirmation
         if (request.NewStatus == PickStatus.Confirmed)
         {
-            pickTransaction.MaterialInventory.AdjustQuantity(-pickTransaction.Quantity);
+            pickTransaction.MaterialInventory.AdjustInventory(-pickTransaction.Quantity, 0);
         }
 
         pickTransaction.ConfirmPick(request.NewStatus, 0); // Pass 0 for weight since it's a manual confirmation

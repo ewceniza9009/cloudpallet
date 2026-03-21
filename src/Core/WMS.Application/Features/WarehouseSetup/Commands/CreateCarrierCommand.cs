@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Domain.Entities;
 using WMS.Domain.ValueObjects;
@@ -17,7 +17,6 @@ public record CreateCarrierCommand(
     DateTime? InsuranceExpiryDate) : IRequest<Guid>;
 
 public class CreateCarrierCommandHandler(
-    IWarehouseAdminRepository warehouseAdminRepository,       
     ICarrierRepository carrierRepository,
     IUnitOfWork unitOfWork)
     : IRequestHandler<CreateCarrierCommand, Guid>

@@ -84,7 +84,7 @@ public class VoidVasTransactionCommandHandler(
                     // Adjust weight if tracked (or just quantity if weight is 0)
                     if (line.Weight > 0)
                     {
-                        existingInventory.AdjustForWeighedPick(-line.Quantity, -line.Weight);
+                        existingInventory.AdjustInventory(line.Quantity, line.Weight);
                     }
                     else
                     {
@@ -94,7 +94,7 @@ public class VoidVasTransactionCommandHandler(
                         // Let's stick to AdjustForWeighedPick with 0 weight if needed, or just AdjustQuantity.
                         // AdjustForWeighedPick: Quantity -= q; Weight -= w;
                         // If w is 0, Weight doesn't change.
-                        existingInventory.AdjustForWeighedPick(-line.Quantity, 0);
+                        existingInventory.AdjustInventory(line.Quantity, 0);
                     }
 
                     // Audit
@@ -175,13 +175,13 @@ public class VoidVasTransactionCommandHandler(
                     if (qtyToTake >= inv.Quantity)
                     {
                         // Fully remove this record? 
-                        // AdjustForWeighedPick will reduce it to 0.
-                        inv.AdjustForWeighedPick(qtyToTake, weightToTake);
+                        // AdjustInventory will reduce it to 0.
+                        inv.AdjustInventory(-qtyToTake, -weightToTake);
                         // Ideally we might delete the record if 0, but keeping it 0 is safer for history.
                     }
                     else
                     {
-                        inv.AdjustForWeighedPick(qtyToTake, weightToTake);
+                        inv.AdjustInventory(-qtyToTake, -weightToTake);
                     }
 
                     // Audit

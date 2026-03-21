@@ -144,7 +144,7 @@ public class AmendVasTransactionLineCommandHandler(
                     // Proportional weight if not explicitly tracked per unit, or use the delta weight if it's a single item adjustment
                     decimal weightToTake = (qtyToTake / quantityDelta) * weightDelta;
 
-                    inv.AdjustForWeighedPick(qtyToTake, weightToTake);
+                    inv.AdjustInventory(-qtyToTake, -weightToTake);
 
                     await adjustmentRepository.AddAsync(InventoryAdjustment.Create(
                         inv.Id,
@@ -174,7 +174,7 @@ public class AmendVasTransactionLineCommandHandler(
 
                 if (existingInventory != null)
                 {
-                    existingInventory.AdjustForWeighedPick(-qtyToReturn, -weightToReturn); // Negative pick = Add
+                    existingInventory.AdjustInventory(qtyToReturn, weightToReturn); // Positive = Add
                     
                     await adjustmentRepository.AddAsync(InventoryAdjustment.Create(
                         existingInventory.Id,
@@ -229,7 +229,7 @@ public class AmendVasTransactionLineCommandHandler(
                 
                 if (existingInventory != null)
                 {
-                    existingInventory.AdjustForWeighedPick(-quantityDelta, -weightDelta); // Negative pick = Add
+                    existingInventory.AdjustInventory(quantityDelta, weightDelta); // Positive = Add
                     
                     await adjustmentRepository.AddAsync(InventoryAdjustment.Create(
                         existingInventory.Id,
@@ -287,7 +287,7 @@ public class AmendVasTransactionLineCommandHandler(
                     decimal qtyToTake = Math.Min(inv.Quantity, qtyToRemove);
                     decimal weightToTake = (qtyToTake / qtyToRemove) * weightToRemove;
 
-                    inv.AdjustForWeighedPick(qtyToTake, weightToTake);
+                    inv.AdjustInventory(-qtyToTake, -weightToTake);
 
                     await adjustmentRepository.AddAsync(InventoryAdjustment.Create(
                         inv.Id,

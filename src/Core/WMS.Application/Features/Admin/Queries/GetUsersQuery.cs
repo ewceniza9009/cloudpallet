@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MediatR;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Domain.Enums;
@@ -13,6 +13,7 @@ public record UserDto
     public string LastName { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;
     public UserRole Role { get; init; }
+    public bool IsActive { get; init; }
 }
 
 public record GetUsersQuery : IRequest<IEnumerable<UserDto>>;
