@@ -481,11 +481,50 @@ mat-nav-list {
   .content {
     padding: 16px;
   }
-}
 
-// ==========================================================================
-// # ANIMATIONS (Restored & Fixed)
-// ==========================================================================
-// ==========================================================================
-// # ANIMATIONS (Holographic / Professional Grade)
-// ==========================================================================
+  // MOBILE OPERATOR SPECIFIC: Hide Sidebar completely from UI flow
+  .sidenav.hidden-mobile-operator {
+    display: none !important;
+    width: 0 !important;
+  }
+
+  // Adjust content to take full width when sidebar is nuked
+  .sidenav-container.is-mobile {
+    ::ng-deep .mat-sidenav-content {
+      margin-left: 0 !important;
+    }
+  }
+
+  // MENU Button (Holographic Accent)
+  .mobile-menu-btn {
+    background: var(--mat-sys-primary) !important;
+    color: white !important;
+    border-radius: 12px;
+    height: 44px;
+    padding: 0 20px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+    border: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    .mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(45, 212, 191, 0.4);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}

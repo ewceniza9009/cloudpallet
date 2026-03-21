@@ -1,44 +1,49 @@
 .menu-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 16px;
-    padding-bottom: 24px;
+    padding: 16px 12px 32px;
 }
 
 .welcome-section {
     grid-column: 1 / -1;
     margin-bottom: 8px;
+    padding: 0 4px;
 
     h2 {
         margin: 0;
-        font-size: 24px;
-        font-weight: 500;
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--mat-sys-on-surface);
     }
 
     p {
         margin: 4px 0 0;
-        color: #666;
+        color: var(--mat-sys-on-surface-variant);
+        font-size: 1rem;
     }
 }
 
 .menu-card {
-    aspect-ratio: 1;
-    border-radius: 16px;
-    box-shadow: none; // Flat look for modern feel
+    min-height: 100px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.2s;
+    background-color: white; // Base card color
 
     &:active {
-        transform: scale(0.96);
+        transform: scale(0.98);
+        filter: brightness(0.95);
     }
 
     .card-content {
         height: 100%;
         display: flex;
-        flex-direction: column;
+        flex-direction: row; 
         align-items: center;
-        justify-content: center;
-        gap: 12px;
+        padding: 0 24px;
+        gap: 20px;
 
         mat-icon {
             font-size: 32px;
@@ -47,8 +52,9 @@
         }
 
         .label {
-            font-weight: 500;
-            color: #333;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #222;
         }
     }
 }

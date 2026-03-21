@@ -1,5 +1,5 @@
-<mat-sidenav-container class="sidenav-container" autosize>
-   <mat-sidenav #drawer class="sidenav" mode="side" opened [class.collapsed]="!isExpanded()">
+<mat-sidenav-container class="sidenav-container" autosize [class.is-mobile]="isMobile()">
+   <mat-sidenav #drawer class="sidenav" [mode]="isMobile() ? 'over' : 'side'" [opened]="!isMobile() && isExpanded()" [class.collapsed]="!isExpanded()" [class.hidden-mobile-operator]="isMobile() && authService.currentUserRole() === 'Operator'">
    <div class="sidebar-header">
       <img src="favicon.png" alt="Cloud Pallet Logo" class="brand-icon">
       <div class="brand-text">
@@ -216,12 +216,18 @@
    <mat-sidenav-content>
       <mat-toolbar class="app-header">
          <div class="header-section">
-            <button mat-icon-button (click)="toggleSidenav()" class="menu-toggle-button">
+            <button mat-icon-button (click)="toggleSidenav()" class="menu-toggle-button" *ngIf="!(isMobile() && authService.currentUserRole() === 'Operator')">
                <mat-icon>{{ isExpanded() ? 'menu_open' : 'menu' }}</mat-icon>
             </button>
-            <h2 class="header-title"> MENU</h2>
+            <h2 class="header-title" *ngIf="!(isMobile() && authService.currentUserRole() === 'Operator')">Operations Command Center</h2>
+            <button mat-button class="mobile-menu-btn" *ngIf="isMobile() && authService.currentUserRole() === 'Operator'" routerLink="/mobile/menu">
+              <mat-icon>grid_view</mat-icon>
+              <span>MENU</span>
+            </button>
          </div>
-         <div class="header-section">
+
+         <!-- Warehouse Dropdown (HIDE ON MOBILE FOR OPERATORS) -->
+         <div class="header-section" *ngIf="!(isMobile() && authService.currentUserRole() === 'Operator')">
             <button mat-button [matMenuTriggerFor]="warehouseMenu" class="warehouse-menu-button">
                <mat-icon>location_on</mat-icon>
                <span class="warehouse-text">
@@ -233,20 +239,24 @@
                </span>
                <mat-icon class="expand-icon">expand_more</mat-icon>
             </button>
-            <button mat-icon-button (click)="toggleTheme()" [matTooltip]="isDarkMode() ? 'Switch to Light Mode' : 'Switch to Dark Mode'" class="header-icon-button">
+         </div>
+
+         <!-- Action Section (CLEANUP FOR MOBILE) -->
+         <div class="header-section">
+            <button mat-icon-button (click)="toggleTheme()" [matTooltip]="isDarkMode() ? 'Switch to Light Mode' : 'Switch to Dark Mode'" class="header-icon-button" *ngIf="!isMobile()">
                <mat-icon>{{ isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
             </button>
             <button mat-icon-button [matMenuTriggerFor]="notificationsMenu" matTooltip="Notifications"
-            class="header-icon-button" [aria-label]="notificationService.unreadCount() + ' new notifications'">
+            class="header-icon-button" [aria-label]="notificationService.unreadCount() + ' new notifications'" *ngIf="!isMobile()">
             <mat-icon matBadgeColor="warn"
                [matBadge]="notificationService.unreadCount() > 0 ? notificationService.unreadCount() : null">notifications</mat-icon>
             </button>
             <button mat-button class="user-profile-button" [matMenuTriggerFor]="userMenu">
                <mat-icon>account_circle</mat-icon>
                @if (currentUser(); as user) {
-               <span>{{ user.email }}</span>
+               <span *ngIf="!isMobile()">{{ user.email }}</span>
                }
-               <mat-icon class="expand-icon">expand_more</mat-icon>
+               <mat-icon class="expand-icon" *ngIf="!isMobile()">expand_more</mat-icon>
             </button>
          </div>
          <mat-menu #warehouseMenu="matMenu" class="warehouse-menu">

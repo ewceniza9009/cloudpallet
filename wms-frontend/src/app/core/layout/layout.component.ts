@@ -13,7 +13,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { filter, map, shareReplay } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
@@ -54,6 +56,15 @@ export class LayoutComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private http = inject(HttpClient);
   private signalRService = inject(SignalRService);
+  private breakpointObserver = inject(BreakpointObserver);
+
+  isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
+
+  isMobile = signal(false);
 
   // Helper to initialize signals from localStorage
   private getSavedState(key: string, defaultValue: boolean): boolean {
@@ -100,10 +111,43 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.applyTheme();
     this.loadWarehouses();
 
+    // Subscribe to mobile detection
+    this.isHandset$.subscribe(isMobile => {
+      this.isMobile.set(isMobile);
+      this.checkMobileOperatorRedirect();
+    });
+
+    // Listen for navigation to re-check mobile state
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.checkMobileOperatorRedirect();
+    });
+
     this.signalRService
       .startConnections()
       .then(() => console.log('✅ SignalR connections established globally from LayoutComponent.'))
       .catch(err => console.error('❌ Global SignalR connection failed:', err));
+  }
+
+  private checkMobileOperatorRedirect(): void {
+    const isOperator = this.authService.currentUserRole() === 'Operator';
+    const isMobileUrl = this.router.url.startsWith('/mobile');
+    
+    if (isOperator) {
+      if (this.isMobile()) {
+        // MOBILE OPERATOR: Force sidenav closed and ensure we are on mobile routes
+        this.isExpanded.set(false);
+        if (this.router.url === '/' || this.router.url === '/dashboard') {
+          this.router.navigate(['/mobile/menu']);
+        }
+      } else {
+        // DESKTOP OPERATOR: If somehow on a mobile route, push back to dashboard
+        if (isMobileUrl) {
+          this.router.navigate(['/dashboard']);
+        }
+      }
+    }
   }
 
   ngOnDestroy(): void {
