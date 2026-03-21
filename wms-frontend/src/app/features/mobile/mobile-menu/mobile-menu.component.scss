@@ -27,10 +27,10 @@
 .menu-card {
     min-height: 100px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     cursor: pointer;
     transition: all 0.2s;
-    background-color: white; // Base card color
+    border: 1px solid rgba(0,0,0,0.05);
 
     &:active {
         transform: scale(0.98);
@@ -49,12 +49,16 @@
             font-size: 32px;
             height: 32px;
             width: 32px;
+            // Force dark icons for those specific pastel backgrounds
+            color: rgba(0, 0, 0, 0.7) !important;
         }
 
         .label {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #222;
+            font-size: 1.25rem;
+            font-weight: 800;
+            // Force dark text regardless of theme for the pastel cards
+            color: #121212 !important; 
+            letter-spacing: -0.01em;
         }
     }
 }

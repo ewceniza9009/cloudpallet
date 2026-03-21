@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container" autosize [class.is-mobile]="isMobile()">
+<mat-sidenav-container class="sidenav-container" [class.is-mobile]="isMobile()">
    <mat-sidenav #drawer class="sidenav" [mode]="isMobile() ? 'over' : 'side'" [opened]="!isMobile() && isExpanded()" [class.collapsed]="!isExpanded()" [class.hidden-mobile-operator]="isMobile() && authService.currentUserRole() === 'Operator'">
    <div class="sidebar-header">
       <img src="favicon.png" alt="Cloud Pallet Logo" class="brand-icon">
