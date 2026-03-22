@@ -13,7 +13,7 @@
   } @else {
     <div class="setup-grid">
       <!-- Docks Section -->
-      <div class="list-view">
+      <div class="list-view dock-list-view">
         <div class="list-header">
           <h3 class="list-title">Docks ({{ filteredDocks().length }})</h3>
           <button mat-flat-button color="primary" (click)="onAddDock()">
@@ -81,7 +81,7 @@
       </div>
 
       <!-- Yard Spots Section -->
-      <div class="list-view">
+      <div class="list-view yard-list-view">
         <div class="list-header">
           <h3 class="list-title">Yard Spots ({{ filteredYardSpots().length }})</h3>
           <button mat-flat-button color="primary" (click)="onAddYardSpot()">
