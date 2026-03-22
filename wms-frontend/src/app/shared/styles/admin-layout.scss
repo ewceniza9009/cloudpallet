@@ -828,30 +828,28 @@
 
 // 12. Full Page Centered Spinner
 .spinner-container-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; // VERTICAL CENTER
-  align-items: center;     // HORIZONTAL CENTER
-  gap: 1.5rem;
-  width: 100%;
-  height: 100%;            // Fill the host
-  min-height: 50vh;        // At least half screen height
-  flex-grow: 1;            // Take all space in flex parent
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 1.5rem !important;
+  width: 100% !important;
+  min-height: calc(100vh - 180px) !important; // Match the report-container viewport logic
+  flex: 1 !important;
   animation: fadeIn 0.4s ease-out;
   padding: 0;
-
+  
   mat-progress-spinner {
-    filter: drop-shadow(0 0 15px rgba(13, 148, 136, 0.3)); // Premium glow
+    filter: drop-shadow(0 0 15px rgba(13, 148, 136, 0.3));
   }
 
-  p {
+  span, p {
     margin: 0;
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
     letter-spacing: 0.05em;
-    color: var(--mat-sys-on-surface-variant);
-    opacity: 0.9;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    color: var(--mat-sys-primary) !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 }
 

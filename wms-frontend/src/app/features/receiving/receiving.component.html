@@ -138,7 +138,7 @@
             aria-label="Select page of sessions"
           >
           </mat-paginator>
-        } @else {
+        } @else if (!isLoading()) {
           <div class="empty-state empty-sessions-state">
             <mat-icon>inventory_2</mat-icon>
             <h3>No Receiving Sessions Found</h3>
