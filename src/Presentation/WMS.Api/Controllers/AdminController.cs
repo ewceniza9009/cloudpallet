@@ -9,10 +9,11 @@ namespace WMS.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Policy = "AdminPolicy")]
+[Authorize]
 public class AdminController : ApiControllerBase
 {
     [HttpGet("users")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<IActionResult> GetUsers()
     {
         var users = await Mediator.Send(new GetUsersQuery());
@@ -20,6 +21,7 @@ public class AdminController : ApiControllerBase
     }
 
     [HttpPut("users/{userId:guid}/role")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<IActionResult> UpdateUserRole(Guid userId, [FromBody] UserRole newRole)
     {
         await Mediator.Send(new UpdateUserRoleCommand(userId, newRole));
@@ -27,6 +29,7 @@ public class AdminController : ApiControllerBase
     }
 
     [HttpPut("users/{userId:guid}/status")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<IActionResult> UpdateUserStatus(Guid userId, [FromBody] bool isActive)
     {
         await Mediator.Send(new UpdateUserStatusCommand(userId, isActive));
@@ -34,6 +37,7 @@ public class AdminController : ApiControllerBase
     }
 
     [HttpPost("users/{userId:guid}/reset-password")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<IActionResult> ResetUserPassword(Guid userId, [FromBody] string newPassword)
     {
         await Mediator.Send(new ResetUserPasswordCommand(userId, newPassword));
@@ -88,6 +92,7 @@ public class AdminController : ApiControllerBase
     }
 
     [HttpGet("materials")]
+    [Authorize(Policy = "OperatorPolicy")]
     [ProducesResponseType(typeof(PagedResult<MaterialDetailDto>), StatusCodes.Status200OK)]     
     public async Task<IActionResult> GetMaterials([FromQuery] GetMaterialsQuery query)     
     {
@@ -105,6 +110,7 @@ public class AdminController : ApiControllerBase
     }
 
     [HttpPost("materials")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<IActionResult> CreateMaterial(CreateMaterialCommand command)
     {
         var materialId = await Mediator.Send(command);
@@ -112,6 +118,7 @@ public class AdminController : ApiControllerBase
     }
 
     [HttpGet("materials/{id:guid}")]
+    [Authorize(Policy = "OperatorPolicy")]
     [ProducesResponseType(typeof(MaterialDetailDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetMaterialById(Guid id)
@@ -121,6 +128,7 @@ public class AdminController : ApiControllerBase
     }
 
     [HttpPut("materials/{id:guid}")]
+    [Authorize(Policy = "AdminPolicy")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateMaterial(Guid id, UpdateMaterialCommand command)
@@ -131,6 +139,7 @@ public class AdminController : ApiControllerBase
     }
 
     [HttpDelete("materials/{id:guid}")]
+    [Authorize(Policy = "AdminPolicy")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteMaterial(Guid id)
@@ -140,6 +149,7 @@ public class AdminController : ApiControllerBase
     }
 
     [HttpPost("boms")]
+    [Authorize(Policy = "AdminPolicy")]
     public async Task<IActionResult> CreateBillOfMaterial(CreateBillOfMaterialCommand command)
     {
         var bomId = await Mediator.Send(command);
@@ -147,6 +157,7 @@ public class AdminController : ApiControllerBase
     }
 
     [HttpGet("materials/{outputMaterialId:guid}/bom")]
+    [Authorize(Policy = "OperatorPolicy")]
     [ProducesResponseType(typeof(BomDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetBomByOutputMaterialId(Guid outputMaterialId)
     {
