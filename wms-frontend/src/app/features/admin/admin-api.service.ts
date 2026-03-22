@@ -252,6 +252,7 @@ export interface GetRatesQuery {
     sortBy?: string;
     sortDirection?: 'asc' | 'desc';
     searchTerm?: string;
+    includeInactive?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -311,6 +312,7 @@ export class AdminApiService {
     if (query.sortBy) params = params.set('sortBy', query.sortBy);
     if (query.sortDirection) params = params.set('sortDirection', query.sortDirection);
     if (query.searchTerm) params = params.set('searchTerm', query.searchTerm);
+    if (query.includeInactive) params = params.set('includeInactive', 'true');
 
     return this.http.get<PagedResult<RateDto>>(`${this.adminApiUrl}/rates`, { params });
   }

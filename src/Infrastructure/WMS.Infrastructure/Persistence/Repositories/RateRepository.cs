@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Domain.Entities;
@@ -72,6 +72,11 @@ public class RateRepository(WmsDbContext context) : IRateRepository
     public async Task<Application.Common.Models.PagedResult<Application.Features.Admin.Queries.RateDto>> GetPagedListAsync(Application.Features.Admin.Queries.GetRatesQuery request, CancellationToken cancellationToken)
     {
         var query = context.Rates.AsNoTracking();
+
+        if (!request.IncludeInactive)
+        {
+            query = query.Where(r => r.IsActive);
+        }
 
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
         {

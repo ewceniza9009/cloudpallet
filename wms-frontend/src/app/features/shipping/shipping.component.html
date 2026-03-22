@@ -13,41 +13,45 @@
   </div>
   } @else {
   @if (groups().length > 0) {
-    <div class="results-container">
-      <div class="groups-grid">
+    <div class="results-container" style="padding-top: 1rem;">
+      <div class="groups-grid" style="align-items: start !important; gap: 1.5rem;">
         @for (group of groups(); track group.accountId) {
-        <mat-card class="main-content-card group-card">
-          <div class="card-content-wrapper">
-            <div class="info-section">
-              <div class="account-row">
-                <mat-icon class="account-icon">inventory</mat-icon>
-                <span class="account-name">{{ group.accountName }}</span>
+          <mat-card class="detail-card" style="margin: 0; width: 100%; border: 1px solid var(--mat-sys-outline-variant); box-shadow: var(--glow-soft);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 1.25rem 1.5rem;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.25rem;">
+                  <div style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 10px; background: rgba(28, 131, 117, 0.1); color: var(--mat-sys-primary);">
+                    <mat-icon style="font-size: 24px; height: 24px; width: 24px;">inventory_2</mat-icon>
+                  </div>
+                  <div>
+                    <h3 style="margin: 0; font-size: 1.25rem; font-weight: 700; color: var(--mat-sys-on-surface); line-height: 1.2;">{{ group.accountName }}</h3>
+                    <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--mat-sys-secondary); letter-spacing: 0.05em; margin-top: 6px;">
+                      Awaiting Shipment
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="status-row">
-                Awaiting Shipment
+
+              <div style="display: flex; align-items: center; gap: 1.5rem; background: var(--mat-sys-surface-container-low); padding: 0.6rem 1.25rem; border-radius: 8px; border: 1px solid var(--mat-sys-outline-variant);">
+                <div style="text-align: center;">
+                  <div style="font-size: 0.7rem; font-weight: 700; color: var(--mat-sys-on-surface-variant); text-transform: uppercase; margin-bottom: 4px;">Items</div>
+                  <div style="font-size: 1.5rem; font-weight: 800; color: var(--mat-sys-primary); line-height: 1;">{{ group.itemCount }}</div>
+                </div>
+                <div style="width: 1px; height: 32px; background: var(--mat-sys-outline-variant);"></div>
+                <div style="text-align: center;">
+                  <div style="font-size: 0.7rem; font-weight: 700; color: var(--mat-sys-on-surface-variant); text-transform: uppercase; margin-bottom: 4px;">Units</div>
+                  <div style="font-size: 1.5rem; font-weight: 800; color: var(--mat-sys-primary); line-height: 1;">{{ group.totalQuantity }}</div>
+                </div>
               </div>
             </div>
 
-            <div class="stats-section">
-              <div class="stat-item">
-                <span class="label">Items</span>
-                <span class="value">{{ group.itemCount }}</span>
-              </div>
-              <div class="divider"></div>
-              <div class="stat-item">
-                <span class="label">Units</span>
-                <span class="value">{{ group.totalQuantity }}</span>
-              </div>
+            <div style="padding: 1rem 1.5rem; background: var(--mat-sys-surface-container-lowest); border-top: 1px solid var(--mat-sys-outline-variant); display: flex; justify-content: flex-end;">
+              <button mat-flat-button color="primary" (click)="onShip(group)" style="height: 44px; padding: 0 24px; font-weight: 600; font-size: 0.95rem; border-radius: 8px;">
+                <mat-icon>local_shipping</mat-icon>
+                <span>Ship Order</span>
+              </button>
             </div>
-          </div>
-
-          <mat-card-actions align="end" class="compact-actions">
-            <button mat-flat-button color="primary" (click)="onShip(group)">
-              <mat-icon>local_shipping</mat-icon>
-              <span>Ship Order</span>
-            </button>
-          </mat-card-actions>
-        </mat-card>
+          </mat-card>
         }
       </div>
     </div>

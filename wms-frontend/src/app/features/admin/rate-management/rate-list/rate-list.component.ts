@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AdminApiService, Rate, RateDto } from '../../admin-api.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
@@ -37,7 +38,8 @@ interface AccountDto { id: string; name: string; }
     MatTooltipModule,
     MatPaginatorModule,
     MatSortModule,
-    MatCardModule
+    MatCardModule,
+    MatSlideToggleModule
   ],
   templateUrl: './rate-list.component.html',
   styleUrls: ['./rate-list.component.scss'],
@@ -81,6 +83,7 @@ export class RateListComponent implements OnInit {
   totalCount = signal(0);
   isLoading = signal(true);
   searchControl = new FormControl('');
+  showInactiveControl = new FormControl(false);
   accountMap = new Map<string, string>();
 
   displayedColumns: string[] = [
@@ -97,10 +100,10 @@ export class RateListComponent implements OnInit {
     this.loadAccounts();
     this.loadData();
 
-    // Add debounce for better search performance
-    this.searchControl.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged()
+    // Add debounce for better search performance, and merge with toggle
+    merge(
+      this.searchControl.valueChanges.pipe(debounceTime(300), distinctUntilChanged()),
+      this.showInactiveControl.valueChanges
     ).subscribe(() => {
       if (this.paginator) this.paginator.pageIndex = 0;
       this.loadData();
@@ -127,13 +130,15 @@ export class RateListComponent implements OnInit {
     const sortBy = this.sort ? this.sort.active : 'ServiceType';
     const sortDirection = this.sort ? this.sort.direction : 'asc';
     const searchTerm = this.searchControl.value || '';
+    const includeInactive = this.showInactiveControl.value || false;
 
     this.adminApi.getRates({
       page,
       pageSize,
       sortBy,
       sortDirection: sortDirection === '' ? undefined : sortDirection as 'asc' | 'desc',
-      searchTerm
+      searchTerm,
+      includeInactive
     }).subscribe({
       next: (result) => {
         this.rates.set(result.items);

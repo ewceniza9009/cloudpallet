@@ -127,10 +127,17 @@
                         <input type="text" matInput formControlName="sourceSearchCtrl" [matAutocomplete]="autoSource" placeholder="Search Pallet..." #triggerSource="matAutocompleteTrigger" (click)="triggerSource.openPanel()">
                         <mat-autocomplete #autoSource="matAutocomplete" [displayWith]="displaySource" (optionSelected)="onSourceSelected($event, i)">
                           @for (inv of componentSourceFilters[i] | async; track inv.inventoryId) {
-                            <mat-option [value]="inv" [disabled]="inv.quantity < componentGroup.value.quantityToConsume">
-                              <div class="option-row" style="display: flex; justify-content: space-between; width: 100%;">
-                                <span>{{ inv.palletBarcode }}</span>
-                                <span style="font-family: monospace;">Qty: {{inv.quantity}}</span>
+                            <mat-option [value]="inv" class="rich-option" [disabled]="inv.quantity < componentGroup.value.quantityToConsume">
+                              <div class="inventory-option-row">
+                                <div class="main-info">
+                                  <span class="mat-name">{{ inv.materialName }}</span>
+                                  <span class="mat-sku">{{ inv.sku }}</span>
+                                </div>
+                                <div class="meta-info">
+                                  <span class="badge pallet">{{ inv.palletBarcode }}</span>
+                                  <span class="badge loc">{{ inv.location }}</span>
+                                  <span class="badge qty">Qty: {{ inv.quantity }}</span>
+                                </div>
                               </div>
                             </mat-option>
                           }

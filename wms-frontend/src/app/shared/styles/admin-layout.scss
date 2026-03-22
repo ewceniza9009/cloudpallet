@@ -1128,3 +1128,84 @@
     margin: 12px;
   }
 }
+
+// 15. AUTOCOMPLETE RICH OPTIONS
+.rich-option {
+  height: auto !important;
+  min-height: 60px !important;
+  padding: 8px 16px !important;
+  line-height: normal !important;
+  white-space: normal !important;
+
+  .mdc-list-item__primary-text {
+    width: 100%;
+    white-space: normal !important;
+  }
+
+  .inventory-option-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    padding: 4px 0;
+    
+    .main-info {
+      display: flex;
+      justify-content: flex-start;
+      align-items: baseline;
+      gap: 12px;
+      
+      .mat-name {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--mat-sys-on-surface);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      
+      .mat-sku {
+        font-family: monospace;
+        font-size: 0.85rem;
+        color: var(--mat-sys-on-surface-variant);
+        flex-shrink: 0;
+      }
+    }
+    
+    .meta-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+        
+        &.pallet {
+          background-color: var(--mat-sys-surface-container-highest);
+          color: var(--mat-sys-on-surface);
+          border: 1px solid var(--mat-sys-outline-variant);
+          font-family: monospace;
+        }
+        
+        &.loc {
+          background-color: rgba(14, 165, 233, 0.15);
+          color: var(--mat-sys-secondary);
+        }
+        
+        &.qty {
+          background-color: rgba(16, 185, 129, 0.15);
+          color: #10b981;
+          margin-left: auto;
+        }
+      }
+    }
+  }
+}

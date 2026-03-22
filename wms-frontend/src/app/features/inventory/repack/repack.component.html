@@ -93,7 +93,7 @@
               <p>Select a Target Material to view available source pallets.</p>
             </div>
           } @else {
-            <div class="form-section" style="margin-bottom: 2rem;">
+            <div class="form-section">
               <label class="form-label">Search / Scan Source Pallet</label>
               <mat-form-field appearance="outline" class="custom-field search">
                 <mat-icon matPrefix>search</mat-icon>
@@ -129,27 +129,23 @@
                 </div>
                 
                 <div class="mat-mdc-card-content" style="padding: 1.5rem;">
-                  <div class="layout-grid">
-                    <div class="column">
-                      <div class="form-group">
-                        <span class="form-label">Material Name</span>
-                        <div style="font-size: 1.1rem; font-weight: 500;">{{ selectedSource.materialName }}</div>
-                      </div>
-                      <div class="form-group">
-                        <span class="form-label">Pallet Barcode</span>
-                        <div style="font-family: monospace; color: var(--mat-sys-primary); font-size: 1.2rem; font-weight: 700;">{{ selectedSource.palletBarcode }}</div>
-                      </div>
+                  <div style="display: grid; grid-template-columns: 2fr 1.5fr 1fr auto; gap: 1.5rem; align-items: center;">
+                    <div class="form-group">
+                      <span class="form-label">Material Name</span>
+                      <div style="font-size: 1.1rem; font-weight: 500;">{{ selectedSource.materialName }}</div>
                     </div>
-                    <div class="column">
-                      <div class="form-group">
-                        <span class="form-label">Current Location</span>
-                        <div><span class="status-badge pending">{{ selectedSource.location }}</span></div>
-                      </div>
-                      <div class="form-group">
-                        <span class="form-label">Available Quantity</span>
-                        <div style="font-size: 1.8rem; font-weight: 800; color: var(--mat-sys-primary);">
-                          {{ selectedSource.quantity | number }}
-                        </div>
+                    <div class="form-group">
+                      <span class="form-label">Pallet Barcode</span>
+                      <div style="font-family: monospace; color: var(--mat-sys-primary); font-size: 1.2rem; font-weight: 700;">{{ selectedSource.palletBarcode }}</div>
+                    </div>
+                    <div class="form-group">
+                      <span class="form-label">Current Location</span>
+                      <div><span class="status-badge pending" style="font-size: 0.85rem; padding: 4px 12px;">{{ selectedSource.location }}</span></div>
+                    </div>
+                    <div class="form-group" style="text-align: right;">
+                      <span class="form-label" style="display: block;">Available Quantity</span>
+                      <div style="font-size: 2.2rem; font-weight: 800; color: var(--mat-sys-primary); line-height: 1; padding-top: 4px;">
+                        {{ selectedSource.quantity | number }}
                       </div>
                     </div>
                   </div>

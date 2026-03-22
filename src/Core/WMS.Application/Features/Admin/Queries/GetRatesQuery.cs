@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Application.Common.Models;
 
@@ -11,6 +11,7 @@ public class GetRatesQuery : IRequest<PagedResult<RateDto>>
     public string? SortBy { get; set; }
     public string? SortDirection { get; set; }
     public string? SearchTerm { get; set; }
+    public bool IncludeInactive { get; set; } = false;
 }
 
 public class GetRatesQueryHandler(IRateRepository rateRepository)
