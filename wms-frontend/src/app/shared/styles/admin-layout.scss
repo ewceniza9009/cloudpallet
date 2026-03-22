@@ -3,20 +3,27 @@
 
 // 1. Container & Main Layout
 .report-container {
-  padding: 0.25rem 0.5rem !important; // CLINICAL COMPRESSION: Nuke wasted space
+  padding: 0.5rem 1rem !important;
   width: 100% !important;
   max-width: 100% !important;
   margin: 0 !important;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  min-height: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem; // Reduced from 0.75rem for a tighter fit
+  min-height: calc(100vh - 100px);
   animation: fadeIn 0.3s ease-out;
-  overflow-x: hidden; // ✅ FIX: Stop global horizontal scrollbar
+
+  // Modern Operational Sections (Picking/Shipping)
+  section {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    width: 100% !important;
+    min-height: 0;
+  }
 
   @media (max-width: 1024px) {
     padding: 0.5rem;
-    gap: 0.5rem;
   }
 }
 
@@ -24,6 +31,70 @@
 :host {
   display: block;
   height: 100%;
+}
+
+// 2. Grid & Container Growth
+// Ensure the results containers stretch to enable vertical centering for EMPTY states
+.results-container {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  width: 100% !important;
+  min-height: 0;
+  overflow: visible !important;
+}
+
+// Operational grids stretch to fill available height (requires vertical centering for EMPTY states)
+.operational-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  width: 100% !important;
+  min-height: 0;
+  
+  // Results inside MUST grow and center
+  .results-container {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    width: 100% !important;
+  }
+}
+
+// Standard data list grids (tiles)
+.setup-grid,
+.pick-groups-grid,
+.groups-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important;
+  gap: 1.5rem !important;
+  width: 100% !important;
+  align-items: stretch !important; // Balanced symmetry—items in a row match height
+  flex-shrink: 0;
+  
+  // Ensure the internal containers stretch and look like cards
+  .list-view {
+    display: flex !important;
+    flex-direction: column !important;
+    background: var(--mat-sys-surface) !important;
+    border: 1px solid var(--mat-sys-outline-variant) !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: var(--glow-soft) !important;
+    min-height: 200px !important;
+    height: 100% !important; // ABSOLUTE FORCE
+    
+    // Internal contents must also fill space
+    .table-wrapper {
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      
+      table {
+        flex: 1 !important;
+      }
+    }
+  }
 }
 
 // 2. Header Section (Scoped to Reports/Admin)
@@ -93,25 +164,62 @@
 // Global Card for non-master-detail pages (e.g. Invoices, Receiving)
 .main-content-card {
   width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  border: 1px solid var(--mat-sys-outline-variant) !important; // DEFINITION GUARD
-  box-shadow: var(--glow-soft) !important; // Theme-aware elite depth
+  margin: 0 !important; // Absolute zero margin to stop vertical drift
+  border: 1px solid var(--mat-sys-outline-variant) !important;
+  box-shadow: var(--glow-soft) !important;
   border-radius: 12px;
-  overflow: hidden;
-  background: var(--mat-sys-surface) !important; // Solid surface for better contrast
+  background: var(--mat-sys-surface) !important;
   backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden;
+
+  // ONLY the last card on a page should grow to fill space (for Reports)
+  // EXCEPT when it is inside a grid (Standard Tiled Grids)
+  &:last-child:not(.groups-grid *):not(.pick-groups-grid *):not(.setup-grid *) {
+    // Only grow if it's a top-level main card or inside an operational grid
+    @at-root .report-container > &, 
+             .report-container > section > &, 
+             .operational-grid > & {
+      flex-grow: 1 !important;
+    }
+  }
 
   .mat-mdc-card-header {
     background-color: var(--mat-sys-surface-container-low);
     border-bottom: 1px solid var(--mat-sys-outline-variant);
     padding: 0.5rem 1rem;
+    flex-shrink: 0;
 
     .mat-mdc-card-title {
       font-size: 0.95rem;
       font-weight: 600;
     }
+  }
+
+  .mat-mdc-card-content {
+    flex-grow: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+    min-height: 0;
+    overflow: hidden;
+
+    // Results container MUST grow to fill card and enable centering
+    .results-container {
+      display: flex !important;
+      flex-direction: column !important;
+      flex: 1 !important;
+      width: 100% !important;
+      min-height: 0;
+      overflow: hidden;
+    }
+  }
+
+  // Ensure paginator sticks to bottom
+  mat-paginator {
+    margin-top: auto;
+    border-top: 1px solid var(--mat-sys-outline-variant);
   }
 }
 
@@ -124,7 +232,7 @@
   gap: 0.75rem !important; // RESPONSIVE BREATHING ROOM
   align-items: flex-end !important; // ELITE BASELINE SYNC
   width: 100% !important;
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 0.25rem !important; // NUKED the useless space
   overflow: visible !important;
 }
 
@@ -659,6 +767,10 @@
   text-align: center;
   padding: 4rem 2rem;
   color: var(--mat-sys-on-surface-variant);
+  flex: 1;                 // NEW: Fill available height in flex parent
+  min-height: 400px;       // NEW: Guarantee a minimum presence
+  width: 100%;             // NEW: Ensure full width
+  animation: fadeIn 0.5s ease-out;
 
   .empty-icon {
     display: flex;

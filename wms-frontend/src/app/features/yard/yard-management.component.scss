@@ -9,7 +9,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 1.5rem;
-  align-items: start;
+  align-items: stretch; // FILL VERTICAL SPACE
+  flex-grow: 1;         // GROW TO SCREEN BOTTOM
+  min-height: 0;
 }
 
 .list-card {

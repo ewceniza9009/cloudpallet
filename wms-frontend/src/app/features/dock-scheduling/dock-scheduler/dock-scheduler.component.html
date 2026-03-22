@@ -28,11 +28,8 @@
   } @else {
   <div class="scheduler-grid">
     <div class="main-content-col">
-      <mat-card class="main-content-card detail-card">
-        <mat-card-header>
-          <mat-card-title>View Schedule</mat-card-title>
-        </mat-card-header>
-        <mat-card-content [formGroup]="selectionForm" class="selection-controls">
+      <mat-card class="main-content-card filter-toolbar-card">
+        <mat-card-content [formGroup]="selectionForm" class="selection-toolbar">
           <mat-form-field appearance="outline" class="custom-field">
             <mat-label>Select Dock</mat-label>
             <mat-select formControlName="dockId">
@@ -110,11 +107,9 @@
     </div>
 
     <div class="sidebar-col">
-      <mat-card class="main-content-card detail-card sticky-sidebar">
-        <mat-card-header>
-          <mat-card-title>Schedule New Appointment</mat-card-title>
-        </mat-card-header>
+      <mat-card class="main-content-card compact-sidebar-card sticky-sidebar">
         <mat-card-content>
+          <h3 class="compact-sidebar-title">New Appointment</h3>
           <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()" class="appointment-form">
             <mat-radio-group formControlName="type" class="appointment-type-selector">
               <mat-radio-button value="Receiving">Inbound (Receiving)</mat-radio-button>

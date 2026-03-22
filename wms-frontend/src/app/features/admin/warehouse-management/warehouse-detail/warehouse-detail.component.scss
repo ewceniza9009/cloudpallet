@@ -7,4 +7,8 @@
 }
 
 // Add any specialized overrides here.
-// Core grid, card, and detail styling are inherited from admin-layout.scss
+.form-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.25rem !important; // MILES OF AIR
+}

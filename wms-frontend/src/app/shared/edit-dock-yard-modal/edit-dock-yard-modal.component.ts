@@ -63,14 +63,14 @@ export type EditModalData = {
       </div>
 
       <div mat-dialog-actions class="modal-actions">
-        <button mat-button (click)="onCancel()" type="button">Cancel</button>
+        <button mat-button (click)="onCancel()" type="button" class="cancel-btn">Cancel</button>
         <button
           mat-flat-button
           color="primary"
           (click)="onSave()"
           [disabled]="editForm.invalid"
-          type="button">
-          <mat-icon>{{ data.item ? 'save' : 'add' }}</mat-icon>
+          type="button"
+          class="update-btn">
           {{ data.item ? 'Update' : 'Create' }}
         </button>
       </div>

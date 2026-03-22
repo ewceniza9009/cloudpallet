@@ -12,47 +12,57 @@
     <p>Loading Orders...</p>
   </div>
   } @else {
-  <div class="groups-grid">
-    @for (group of groups(); track group.accountId) {
-    <mat-card class="main-content-card group-card">
-      <div class="card-content-wrapper">
-        <div class="info-section">
-          <div class="account-row">
-            <mat-icon class="account-icon">inventory</mat-icon>
-            <span class="account-name">{{ group.accountName }}</span>
-          </div>
-          <div class="status-row">
-            Awaiting Shipment
-          </div>
-        </div>
+  @if (groups().length > 0) {
+    <div class="results-container">
+      <div class="groups-grid">
+        @for (group of groups(); track group.accountId) {
+        <mat-card class="main-content-card group-card">
+          <div class="card-content-wrapper">
+            <div class="info-section">
+              <div class="account-row">
+                <mat-icon class="account-icon">inventory</mat-icon>
+                <span class="account-name">{{ group.accountName }}</span>
+              </div>
+              <div class="status-row">
+                Awaiting Shipment
+              </div>
+            </div>
 
-        <div class="stats-section">
-          <div class="stat-item">
-            <span class="label">Items</span>
-            <span class="value">{{ group.itemCount }}</span>
+            <div class="stats-section">
+              <div class="stat-item">
+                <span class="label">Items</span>
+                <span class="value">{{ group.itemCount }}</span>
+              </div>
+              <div class="divider"></div>
+              <div class="stat-item">
+                <span class="label">Units</span>
+                <span class="value">{{ group.totalQuantity }}</span>
+              </div>
+            </div>
           </div>
-          <div class="divider"></div>
-          <div class="stat-item">
-            <span class="label">Units</span>
-            <span class="value">{{ group.totalQuantity }}</span>
-          </div>
-        </div>
+
+          <mat-card-actions align="end" class="compact-actions">
+            <button mat-flat-button color="primary" (click)="onShip(group)">
+              <mat-icon>local_shipping</mat-icon>
+              <span>Ship Order</span>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+        }
       </div>
-
-      <mat-card-actions align="end" class="compact-actions">
-        <button mat-flat-button color="primary" (click)="onShip(group)">
-          <mat-icon>local_shipping</mat-icon>
-          <span>Ship Order</span>
-        </button>
-      </mat-card-actions>
-    </mat-card>
-    } @empty {
-    <div class="empty-state empty-list-message">
-      <mat-icon>all_inbox</mat-icon>
-      <h2>No Orders Ready</h2>
-      <p>There are no fully picked orders awaiting shipment.</p>
     </div>
-    }
-  </div>
+  } @else {
+    <div class="operational-grid">
+      <mat-card class="main-content-card">
+        <mat-card-content class="results-container">
+          <div class="empty-state">
+            <mat-icon>all_inbox</mat-icon>
+            <h3>No Orders Ready</h3>
+            <p>There are no fully picked orders awaiting shipment.</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
   }
 </div>

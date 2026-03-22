@@ -81,75 +81,79 @@
         <p>Loading active pick lists...</p>
       </div>
     } @else {
-      <div class="pick-groups-grid">
-        @for (group of pickListGroups(); track group.accountId) {
-          <mat-card class="main-content-card pick-group-card">
-            <mat-card-header>
-              <div mat-card-avatar class="account-avatar">
-                <mat-icon>business</mat-icon>
-              </div>
-              <mat-card-title>{{ group.accountName }}</mat-card-title>
-              <mat-card-subtitle>
-                {{ group.items.length }} item(s) to pick
-              </mat-card-subtitle>
-            </mat-card-header>
+      @if (pickListGroups().length > 0) {
+        <div class="pick-groups-grid">
+          @for (group of pickListGroups(); track group.accountId) {
+            <mat-card class="main-content-card pick-group-card">
+              <mat-card-header>
+                <div mat-card-avatar class="account-avatar">
+                  <mat-icon>business</mat-icon>
+                </div>
+                <mat-card-title>{{ group.accountName }}</mat-card-title>
+                <mat-card-subtitle>
+                  {{ group.items.length }} item(s) to pick
+                </mat-card-subtitle>
+              </mat-card-header>
 
-            <mat-card-content>
-              <mat-list>
-                @for(item of group.items; track item.pickId) {
-                  <mat-list-item class="pick-item">
-                    <div class="pick-item-content">
-                        <div class="item-status-indicator">
-                          <mat-icon [ngClass]="item.status.toLowerCase()">
-                            {{ item.status === 'Confirmed' ? 'check_circle' :
-                               (item.status === 'Short' ? 'warning' : 'pending') }}
-                          </mat-icon>
-                        </div>
-                        
-                        <div class="item-details-main">
-                          <div class="item-title">
-                            {{ item.material }}
-                            <span class="item-sku">({{ item.sku }})</span>
+              <mat-card-content>
+                <mat-list>
+                  @for(item of group.items; track item.pickId) {
+                    <mat-list-item class="pick-item">
+                      <div class="pick-item-content">
+                          <div class="item-status-indicator">
+                            <mat-icon [ngClass]="item.status.toLowerCase()">
+                              {{ item.status === 'Confirmed' ? 'check_circle' :
+                                (item.status === 'Short' ? 'warning' : 'pending') }}
+                            </mat-icon>
                           </div>
-                          <div class="item-meta">
-                            <span>Loc: <strong>{{ item.location }}</strong></span>
-                            <span>Qty: <strong>{{ item.quantity }}</strong></span>
+                          
+                          <div class="item-details-main">
+                            <div class="item-title">
+                              {{ item.material }}
+                              <span class="item-sku">({{ item.sku }})</span>
+                            </div>
+                            <div class="item-meta">
+                              <span>Loc: <strong>{{ item.location }}</strong></span>
+                              <span>Qty: <strong>{{ item.quantity }}</strong></span>
+                            </div>
                           </div>
-                        </div>
 
-                        <div class="item-actions">
-                          @if (item.status === 'Planned') {
-                            <button mat-icon-button color="warn" (click)="deleteItem(item)" matTooltip="Delete" class="action-button">
-                              <mat-icon>delete</mat-icon>
-                            </button>
-                            <button mat-icon-button color="warn" (click)="markAsShort(item)" matTooltip="Mark Short" class="action-button">
-                              <mat-icon>warning</mat-icon>
-                            </button>                           
-                            <button mat-icon-button color="primary" (click)="openScanDialog(item)" matTooltip="Scan" class="action-button">
-                              <mat-icon>qr_code_scanner</mat-icon>
-                            </button>
-                          } @else {
-                            <span class="status-badge" [ngClass]="'status-badge-' + item.status.toLowerCase()">{{ item.status }}</span>
-                          }
-                        </div>
-                    </div>
-                  </mat-list-item>
-                }
-              </mat-list>
-            </mat-card-content>
-          </mat-card>
-        } @empty {
-          <mat-card class="main-content-card empty-card">
-            <mat-card-content>
-              <div class="empty-state empty-list-message">
+                          <div class="item-actions">
+                            @if (item.status === 'Planned') {
+                              <button mat-icon-button color="warn" (click)="deleteItem(item)" matTooltip="Delete" class="action-button">
+                                <mat-icon>delete</mat-icon>
+                              </button>
+                              <button mat-icon-button color="warn" (click)="markAsShort(item)" matTooltip="Mark Short" class="action-button">
+                                <mat-icon>warning</mat-icon>
+                              </button>                           
+                              <button mat-icon-button color="primary" (click)="openScanDialog(item)" matTooltip="Scan" class="action-button">
+                                <mat-icon>qr_code_scanner</mat-icon>
+                              </button>
+                            } @else {
+                              <span class="status-badge" [ngClass]="'status-badge-' + item.status.toLowerCase()">{{ item.status }}</span>
+                            }
+                          </div>
+                      </div>
+                    </mat-list-item>
+                  }
+                </mat-list>
+              </mat-card-content>
+            </mat-card>
+          }
+        </div>
+      } @else {
+        <div class="operational-grid">
+          <mat-card class="main-content-card">
+            <mat-card-content class="results-container">
+              <div class="empty-state">
                 <mat-icon>checklist</mat-icon>
                 <h3>No pending picks.</h3>
                 <p>Create a new pick list to get started.</p>
               </div>
             </mat-card-content>
           </mat-card>
-        }
-      </div>
+        </div>
+      }
     }
   </section>
 </div>

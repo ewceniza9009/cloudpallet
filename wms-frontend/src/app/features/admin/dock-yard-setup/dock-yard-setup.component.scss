@@ -39,3 +39,46 @@
     &.delete { color: var(--mat-sys-error); }
   }
 }
+
+// THE CURE FOR UNEVEN CARDS:
+::ng-deep .setup-grid {
+  display: grid !important;
+  align-items: stretch !important; // Force neighbor matching
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)) !important;
+  gap: 1.5rem !important;
+
+  .list-view {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important; // ABSOLUTE FORCE
+    background: var(--mat-sys-surface-container-low) !important;
+    border: 1px solid var(--mat-sys-outline-variant) !important;
+    border-radius: 12px !important;
+    
+    .search-section {
+      padding: 0.75rem 1rem !important;
+      border-bottom: 1px solid var(--mat-sys-outline-variant-low) !important;
+      
+      ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+        display: none !important; // Nuke the hidden gap
+      }
+    }
+    
+    .table-wrapper {
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      margin-top: 0 !important; // Bring table flush
+      
+      table {
+        margin-bottom: auto !important; // Push extra space to the bottom, not between rows
+        background: transparent !important;
+        
+        tr.mat-mdc-header-row,
+        tr.mat-mdc-row {
+          height: 32px !important; // FORCED COMPACT DENSITY
+        }
+      }
+    }
+  }
+}

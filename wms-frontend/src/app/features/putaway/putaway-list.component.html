@@ -6,14 +6,12 @@
     </div>
   </div>
 
-  <mat-card class="main-content-card">
-    <mat-card-content>
-      @if (isLoading()) {
-        <div class="spinner-overlay">
-          <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
-          <span>Loading staging area...</span>
-        </div>
-      }
+  @if (isLoading()) {
+    <div class="spinner-container-page">
+      <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+      <p>Consulting the staging area...</p>
+    </div>
+  } @else {
 
       <div class="tasks-grid">
         @for (task of tasks(); track task.palletId) {
@@ -77,6 +75,5 @@
           </div>
         }
       </div>
-    </mat-card-content>
-  </mat-card>
+  }
 </div>

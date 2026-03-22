@@ -91,8 +91,7 @@ export class DockYardSetupComponent implements OnInit {
   // --- Dock Methods ---
   onAddDock(): void {
     const dialogRef = this.dialog.open(EditDockYardModalComponent, {
-      data: { type: 'dock' } as EditModalData,
-      width: '450px'
+      data: { type: 'dock' } as EditModalData
     });
 
     dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
@@ -106,8 +105,7 @@ export class DockYardSetupComponent implements OnInit {
 
   onEditDock(dock: DockSetupDto): void {
     const dialogRef = this.dialog.open(EditDockYardModalComponent, {
-      data: { type: 'dock', item: dock } as EditModalData,
-      width: '450px'
+      data: { type: 'dock', item: dock } as EditModalData
     });
 
     dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
@@ -134,8 +132,7 @@ export class DockYardSetupComponent implements OnInit {
   // --- Yard Spot Methods ---
   onAddYardSpot(): void {
     const dialogRef = this.dialog.open(EditDockYardModalComponent, {
-      data: { type: 'yardSpot' } as EditModalData,
-      width: '450px'
+      data: { type: 'yardSpot' } as EditModalData
     });
 
     dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
@@ -152,8 +149,7 @@ export class DockYardSetupComponent implements OnInit {
 
   onEditYardSpot(spot: YardSpotSetupDto): void {
     const dialogRef = this.dialog.open(EditDockYardModalComponent, {
-      data: { type: 'yardSpot', item: spot } as EditModalData,
-      width: '450px'
+      data: { type: 'yardSpot', item: spot } as EditModalData
     });
 
     dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
