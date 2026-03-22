@@ -8,14 +8,28 @@
 .cell-content {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
 
   .type-icon {
     color: var(--mat-sys-primary);
-    opacity: 0.8;
-    font-size: 1.1rem;
-    width: 1.1rem;
-    height: 1.1rem;
+    background: var(--mat-sys-primary-container);
+    border-radius: 8px;
+    width: 36px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 22px !important;
+    line-height: 22px !important;
+    padding: 0 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin: 0 !important;
+  }
+
+  .primary-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--mat-sys-on-surface);
   }
 }
 
@@ -58,31 +72,45 @@
     display: flex !important;
     flex-direction: column !important;
     height: 100% !important;
-    background: var(--mat-sys-surface-container-low) !important;
+    background: var(--mat-sys-surface) !important;
     border: 1px solid var(--mat-sys-outline-variant) !important;
     border-radius: 12px !important;
+    box-shadow: var(--glow-soft) !important;
     
-    .search-section {
-      padding: 0.75rem 1rem !important;
-      border-bottom: 1px solid var(--mat-sys-outline-variant-low) !important;
-      ::ng-deep .mat-mdc-form-field-subscript-wrapper { display: none !important; }
+    .list-header {
+      padding: 1.25rem 1.25rem 0.5rem !important;
+      border-bottom: none !important;
+      background: transparent !important;
+      
+      .list-title {
+        font-size: 1.15rem !important;
+        font-weight: 700 !important;
+      }
     }
     
     .table-wrapper {
       position: relative;
       overflow: auto;
-      ::ng-deep table { width: 100%; background: transparent !important; }
+      ::ng-deep table { 
+        width: 100%; 
+        background: transparent !important; 
+        
+        tr.mat-mdc-row {
+          transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          &:hover { background-color: var(--mat-sys-surface-container) !important; }
+        }
+      }
     }
   }
 
   // === INDEPENDENT CONTROL ===
   .dock-list-view {
-    ::ng-deep tr.mat-mdc-row { height: 52px !important; }
-    ::ng-deep td.mat-mdc-cell { height: 52px !important; padding: 0 12px !important; }
+    ::ng-deep tr.mat-mdc-row { height: 64px !important; }
+    ::ng-deep td.mat-mdc-cell { height: 64px !important; padding: 0 16px !important; border-bottom: 1px dashed var(--mat-sys-outline-variant) !important; }
   }
 
   .yard-list-view {
-    ::ng-deep tr.mat-mdc-row { height: auto !important; }
-    ::ng-deep td.mat-mdc-cell { height: auto !important; padding: 0 12px !important; }
+    ::ng-deep tr.mat-mdc-row { height: 64px !important; }
+    ::ng-deep td.mat-mdc-cell { height: 64px !important; padding: 0 16px !important; border-bottom: 1px dashed var(--mat-sys-outline-variant) !important; }
   }
 }

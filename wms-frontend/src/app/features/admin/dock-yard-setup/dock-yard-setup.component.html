@@ -22,15 +22,10 @@
           </button>
         </div>
 
-        <div class="search-section">
-          <mat-form-field
-            appearance="outline"
-            class="custom-field search-bar compact-search"
-            subscriptSizing="dynamic"
-            style="width: 100%"
-          >
-            <mat-label>Search docks</mat-label>
-            <input matInput [formControl]="dockSearchControl" />
+        <div class="filter-grid" style="padding: 0 1.25rem 1rem; border-bottom: 1px solid var(--mat-sys-outline-variant); margin-bottom: 0;">
+          <mat-form-field appearance="outline" class="custom-field compact-search" style="width: 100%; flex: 1;">
+            <mat-label>Search docks...</mat-label>
+            <input matInput [formControl]="dockSearchControl" placeholder="Dock name or code">
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
@@ -90,10 +85,10 @@
           </button>
         </div>
 
-        <div class="search-section">
-          <mat-form-field appearance="outline" class="custom-field compact-search">
-            <mat-label>Search yard spots</mat-label>
-            <input matInput [formControl]="yardSearchControl" />
+        <div class="filter-grid" style="padding: 0 1.25rem 1rem; border-bottom: 1px solid var(--mat-sys-outline-variant); margin-bottom: 0;">
+          <mat-form-field appearance="outline" class="custom-field compact-search" style="width: 100%; flex: 1;">
+            <mat-label>Search yard spots...</mat-label>
+            <input matInput [formControl]="yardSearchControl" placeholder="Spot name or code">
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
