@@ -87,6 +87,22 @@ public class RateRepository(WmsDbContext context) : IRateRepository
             query = query.Where(r => r.Tier.ToLower().Contains(term));
         }
 
+        if (!string.IsNullOrWhiteSpace(request.Tier))
+        {
+            query = query.Where(r => r.Tier == request.Tier);
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Uom) && Enum.TryParse<RateUom>(request.Uom, out var uomEnum))
+        {
+            query = query.Where(r => r.Uom == uomEnum);
+        }
+
+        if (request.EffectiveDate.HasValue)
+        {
+            var date = request.EffectiveDate.Value.Date;
+            query = query.Where(r => r.EffectiveStartDate.Date <= date && (r.EffectiveEndDate == null || r.EffectiveEndDate.Value.Date >= date));
+        }
+
         var totalCount = await query.CountAsync(cancellationToken);
 
         if (!string.IsNullOrWhiteSpace(request.SortBy))

@@ -253,6 +253,9 @@ export interface GetRatesQuery {
     sortDirection?: 'asc' | 'desc';
     searchTerm?: string;
     includeInactive?: boolean;
+    tier?: string;
+    uom?: string;
+    effectiveDate?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -313,6 +316,9 @@ export class AdminApiService {
     if (query.sortDirection) params = params.set('sortDirection', query.sortDirection);
     if (query.searchTerm) params = params.set('searchTerm', query.searchTerm);
     if (query.includeInactive) params = params.set('includeInactive', 'true');
+    if (query.tier) params = params.set('tier', query.tier);
+    if (query.uom) params = params.set('uom', query.uom);
+    if (query.effectiveDate) params = params.set('effectiveDate', query.effectiveDate);
 
     return this.http.get<PagedResult<RateDto>>(`${this.adminApiUrl}/rates`, { params });
   }

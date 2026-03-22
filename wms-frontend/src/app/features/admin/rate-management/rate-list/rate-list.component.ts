@@ -12,7 +12,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { AdminApiService, Rate, RateDto } from '../../admin-api.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
@@ -39,7 +41,9 @@ interface AccountDto { id: string; name: string; }
     MatPaginatorModule,
     MatSortModule,
     MatCardModule,
-    MatSlideToggleModule
+    MatCheckboxModule,
+    MatSelectModule,
+    MatDatepickerModule
   ],
   templateUrl: './rate-list.component.html',
   styleUrls: ['./rate-list.component.scss'],
@@ -84,6 +88,17 @@ export class RateListComponent implements OnInit {
   isLoading = signal(true);
   searchControl = new FormControl('');
   showInactiveControl = new FormControl(false);
+  tierControl = new FormControl<string | null>(null);
+  uomControl = new FormControl<string | null>(null);
+  dateControl = new FormControl<Date | null>(null);
+  
+  validRateTiers = [
+    'FrozenStorage', 'Chilling', 'CoolStorage', 'DeepFrozen',
+    'ULT', 'Kg', 'Each', 'Hour', 'Shipment', 'Expedited'
+  ];
+  
+  uoms = ['Pallet', 'Kg', 'Day', 'Cycle', 'Each', 'Hour', 'Shipment', 'Percent'];
+
   accountMap = new Map<string, string>();
 
   displayedColumns: string[] = [
@@ -103,7 +118,10 @@ export class RateListComponent implements OnInit {
     // Add debounce for better search performance, and merge with toggle
     merge(
       this.searchControl.valueChanges.pipe(debounceTime(300), distinctUntilChanged()),
-      this.showInactiveControl.valueChanges
+      this.showInactiveControl.valueChanges,
+      this.tierControl.valueChanges,
+      this.uomControl.valueChanges,
+      this.dateControl.valueChanges
     ).subscribe(() => {
       if (this.paginator) this.paginator.pageIndex = 0;
       this.loadData();
@@ -131,6 +149,9 @@ export class RateListComponent implements OnInit {
     const sortDirection = this.sort ? this.sort.direction : 'asc';
     const searchTerm = this.searchControl.value || '';
     const includeInactive = this.showInactiveControl.value || false;
+    const tier = this.tierControl.value || undefined;
+    const uom = this.uomControl.value || undefined;
+    const effectiveDate = this.dateControl.value ? this.dateControl.value.toISOString() : undefined;
 
     this.adminApi.getRates({
       page,
@@ -138,7 +159,10 @@ export class RateListComponent implements OnInit {
       sortBy,
       sortDirection: sortDirection === '' ? undefined : sortDirection as 'asc' | 'desc',
       searchTerm,
-      includeInactive
+      includeInactive,
+      tier,
+      uom,
+      effectiveDate
     }).subscribe({
       next: (result) => {
         this.rates.set(result.items);

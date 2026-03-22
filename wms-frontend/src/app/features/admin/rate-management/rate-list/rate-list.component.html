@@ -10,18 +10,48 @@
     </button>
   </div>
 
-  <div class="filter-grid" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem;">
-    <div style="display: flex; align-items: center; gap: 1.5rem; flex: 1;">
-      <mat-form-field appearance="outline" class="custom-field" style="width: 320px;">
-        <mat-label>Search rates...</mat-label>
-        <input matInput [formControl]="searchControl" placeholder="Search by account, service, or tier">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-      <mat-slide-toggle color="primary" [formControl]="showInactiveControl">Show historical rates</mat-slide-toggle>
-    </div>
+  <div class="filter-grid">
+    <mat-form-field appearance="outline" class="custom-field">
+      <mat-label>Search rates...</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Search by account, service, or tier">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
 
-    <div class="filter-actions">
-      <span style="font-size: 0.85rem; color: var(--mat-sys-on-surface-variant); font-weight: 500;">
+    <mat-form-field appearance="outline" class="custom-field">
+      <mat-label>Filter by Tier</mat-label>
+      <mat-select [formControl]="tierControl" placeholder="All Tiers">
+        <mat-option [value]="null">All Tiers</mat-option>
+        @for (tier of validRateTiers; track tier) {
+          <mat-option [value]="tier">{{ tier || '(No Tier / Default)' }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="custom-field">
+      <mat-label>Filter by UoM</mat-label>
+      <mat-select [formControl]="uomControl" placeholder="All UoMs">
+        <mat-option [value]="null">All UoMs</mat-option>
+        @for (uom of uoms; track uom) {
+          <mat-option [value]="uom">{{ uom }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="custom-field date-field">
+      <mat-label>Active On Date</mat-label>
+      <input matInput [matDatepicker]="picker" [formControl]="dateControl" placeholder="Any Date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    
+    <div class="filter-actions" style="flex-grow: 1; justify-content: flex-end;">
+      @if (tierControl.value || uomControl.value || dateControl.value) {
+        <button mat-button color="warn" (click)="tierControl.setValue(null); uomControl.setValue(null); dateControl.setValue(null)">
+          Clear Filters
+        </button>
+      }
+      <mat-checkbox color="primary" [formControl]="showInactiveControl" style="margin: 0 1rem; white-space: nowrap; flex-shrink: 0;">Show Historical</mat-checkbox>
+      <span style="font-size: 0.85rem; color: var(--mat-sys-on-surface-variant); font-weight: 500; white-space: nowrap;">
         {{ totalCount() }} rates found
       </span>
     </div>

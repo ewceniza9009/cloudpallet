@@ -12,6 +12,9 @@ public class GetRatesQuery : IRequest<PagedResult<RateDto>>
     public string? SortDirection { get; set; }
     public string? SearchTerm { get; set; }
     public bool IncludeInactive { get; set; } = false;
+    public string? Tier { get; set; }
+    public string? Uom { get; set; }
+    public DateTime? EffectiveDate { get; set; }
 }
 
 public class GetRatesQueryHandler(IRateRepository rateRepository)
