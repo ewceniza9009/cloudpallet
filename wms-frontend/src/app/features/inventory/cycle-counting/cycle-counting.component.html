@@ -37,7 +37,6 @@
               <mat-icon matPrefix>qr_code_scanner</mat-icon>
               <input type="text" matInput [formControl]="inventorySearchCtrl" [matAutocomplete]="autoInventory" 
                      placeholder="Scan Item, Pallet, or Location..." 
-                     [disabled]="!cycleCountForm.get('accountId')?.value"
                      (keydown.enter)="onSearchEnter($event)"
                      #triggerInventory="matAutocompleteTrigger" (click)="triggerInventory.openPanel()">
               <mat-autocomplete #autoInventory="matAutocomplete" [displayWith]="displayInventory" (optionSelected)="addItemToCount($event)">

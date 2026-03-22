@@ -250,7 +250,7 @@
             </button>
             <button mat-icon-button [matMenuTriggerFor]="notificationsMenu" matTooltip="Notifications"
             class="header-icon-button" [aria-label]="notificationService.unreadCount() + ' new notifications'" *ngIf="!isMobile()">
-            <mat-icon matBadgeColor="warn"
+            <mat-icon matBadgeColor="warn" [aria-hidden]="false"
                [matBadge]="notificationService.unreadCount() > 0 ? notificationService.unreadCount() : null">notifications</mat-icon>
             </button>
             <button mat-button class="user-profile-button" [matMenuTriggerFor]="userMenu">

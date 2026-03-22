@@ -88,7 +88,7 @@ export class CycleCountingComponent implements OnInit {
 
   accountSearchCtrl = new FormControl<string | AccountDto | null>(null);
   inventorySearchCtrl = new FormControl<string | RepackableInventoryDto | null>(
-    null
+    { value: null, disabled: true }
   );
 
   constructor() {
@@ -205,6 +205,8 @@ export class CycleCountingComponent implements OnInit {
     if (addedCount > 0) {
       this.snackBar.open(successMessage, 'Close', { duration: 3000 });
       this.inventorySearchCtrl.setValue('');
+      this.inventorySearchCtrl.disable(); // Force regroup
+      this.inventorySearchCtrl.enable();
       // Reset filter to show all
       this.filteredInventories$.set(this.accountInventories());
     } else {

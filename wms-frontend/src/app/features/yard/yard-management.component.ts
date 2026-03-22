@@ -100,7 +100,7 @@ export class YardManagementComponent implements OnInit {
     effect(() => {
       const date = this.selectedDate();
       this.loadYardData(date);
-    }, { allowSignalWrites: true });
+    });
   }
 
   ngOnInit(): void {
