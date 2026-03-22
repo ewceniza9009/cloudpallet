@@ -22,7 +22,7 @@ public class MaterialInventory : Entity<Guid>
     public ComplianceLabelType ComplianceLabelStatus { get; private set; } // <-- NEW PROPERTY
     public DateTime? QuarantineStartDate { get; private set; } // <-- NEW PROPERTY
     public DateTime? QuarantineEndDate { get; private set; } // <-- NEW PROPERTY
-    public byte[] RowVersion { get; private set; } = null!; // Optimistic Concurrency Token
+    public Guid RowVersion { get; private set; } // Optimistic Concurrency Token
     public Material Material { get; private set; } = null!;
     public Location Location { get; private set; } = null!;
 

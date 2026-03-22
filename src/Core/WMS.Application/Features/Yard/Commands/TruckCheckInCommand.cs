@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Domain.Enums;  
 using WMS.Domain.Events;
@@ -23,7 +23,7 @@ public class TruckCheckInCommandHandler(
             throw new InvalidOperationException($"Yard spot {yardSpot.SpotNumber} is already occupied.");
         }
 
-        var today = DateTime.Now;
+        var today = DateTime.UtcNow;
         var tomorrow = today.AddDays(1);
 
         var appointment = (await appointmentRepository.GetAppointmentsForTruckByDateAsync(

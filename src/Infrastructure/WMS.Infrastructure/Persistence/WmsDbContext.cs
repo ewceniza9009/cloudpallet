@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -103,6 +103,7 @@ public class WmsDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>, I
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         UpdateAuditableEntities();
+        UpdateConcurrencyTokens();
 
         var domainEvents = ChangeTracker.Entries<User>().AsEnumerable<EntityEntry>()
             .Concat(ChangeTracker.Entries<AggregateRoot<Guid>>())
@@ -132,6 +133,17 @@ public class WmsDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>, I
         }
 
         return result;
+    }
+
+    private void UpdateConcurrencyTokens()
+    {
+        var entries = ChangeTracker.Entries<MaterialInventory>()
+            .Where(e => e.State == EntityState.Modified);
+
+        foreach (var entry in entries)
+        {
+            entry.Property(e => e.RowVersion).CurrentValue = Guid.NewGuid();
+        }
     }
 
     private void UpdateAuditableEntities()
