@@ -6,30 +6,39 @@
     </div>
   </div>
 
-  <form (submit)="onSearch($event)" class="search-section" style="margin-bottom: 2.5rem;">
-    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic" style="width: 450px;">
+  <form (submit)="onSearch($event)" class="search-section tracer-search">
+    <mat-form-field appearance="outline" class="custom-field" subscriptSizing="dynamic">
       <mat-label>Enter Pallet Barcode (LPN)</mat-label>
       <input matInput [formControl]="searchControl" placeholder="Scan or type pallet identifier...">
       <mat-icon matSuffix>qr_code_scanner</mat-icon>
     </mat-form-field>
-    <button mat-flat-button color="primary" type="submit" [disabled]="!searchControl.value || isLoading()">
+    <button mat-flat-button color="primary" type="submit" [disabled]="!searchControl.value || isLoading()" class="action-button">
       <mat-icon>search</mat-icon>
       <span>Trace</span>
     </button>
   </form>
 
   @if (isLoading()) {
-  <div class="spinner-container">
-    <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
-    <p>Tracking pallet movements...</p>
-  </div>
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+      <p>Tracking pallet movements...</p>
+    </div>
   } @else {
-  @if (searched() && palletHistory().length === 0) {
-  <div class="empty-state empty-list-message">
-    <div class="empty-icon"><mat-icon>search_off</mat-icon></div>
-    <h3>No Movement History Found</h3>
-    <p>No tracking records were found for pallet "<strong>{{searchControl.value}}</strong>". Please verify the barcode and try again.</p>
-  </div>
+    @if (!searched()) {
+      <div class="empty-state">
+        <div class="empty-icon"><mat-icon>manage_search</mat-icon></div>
+        <h3>Ready to Trace</h3>
+        <p>Scan or enter a pallet LPN above to view its complete movement history.</p>
+      </div>
+    }
+
+    @if (searched() && palletHistory().length === 0) {
+      <div class="empty-state empty-list-message">
+        <div class="empty-icon"><mat-icon>search_off</mat-icon></div>
+        <h3>No Movement History Found</h3>
+        <p>No tracking records were found for pallet "<strong>{{searchControl.value}}</strong>". Please verify the barcode and try again.</p>
+      </div>
+    }
   }
 
   @if (palletHistory().length > 0) {
@@ -76,6 +85,5 @@
       }
     </div>
   </div>
-  }
   }
 </div>

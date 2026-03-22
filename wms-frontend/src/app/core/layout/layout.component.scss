@@ -462,6 +462,9 @@ mat-nav-list {
   overflow-x: hidden !important;
   min-height: calc(100vh - #{$header-height});
   background-color: var(--mat-sys-background) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
 }
 
 // ==========================================================================

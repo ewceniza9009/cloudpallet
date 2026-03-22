@@ -7,6 +7,24 @@
 
 
 
+.tracer-search {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  
+  .custom-field {
+    width: 450px;
+    max-width: 100%;
+  }
+
+  .action-button {
+    height: 56px;
+    padding: 0 32px;
+    font-weight: 600;
+  }
+}
+
 // Search layout is now handled by .search-section in admin-layout.scss
 
 .results-header {

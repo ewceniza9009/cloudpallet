@@ -758,19 +758,25 @@
   }
 }
 
-// 10. Empty States
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 4rem 2rem;
-  color: var(--mat-sys-on-surface-variant);
-  flex: 1;                 // NEW: Fill available height in flex parent
-  min-height: 400px;       // NEW: Guarantee a minimum presence
-  width: 100%;             // NEW: Ensure full width
+.empty-state,
+.empty-list-message,
+.error-zone {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 4rem 2rem !important;
+  color: var(--mat-sys-on-surface-variant) !important;
+  flex: 1 !important;                 
+  min-height: 400px !important;       
+  width: 100% !important;             
+  min-width: 100% !important;         // Nuke any shrinking
+  margin: 0 auto !important;          // Horizontal lock
   animation: fadeIn 0.5s ease-out;
+  grid-column: 1 / -1 !important;     // Surface Grid compatibility
+  align-self: center !important;
+  justify-self: center !important;
 
   .empty-icon {
     display: flex;
@@ -816,41 +822,54 @@
   z-index: 10;
 }
 
-.spinner-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  padding: 3rem;
-  color: var(--mat-sys-on-surface-variant);
-}
-
-// 12. Full Page Centered Spinner
+.spinner-container,
 .spinner-container-page {
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
   align-items: center !important;
   gap: 1.5rem !important;
+  padding: 4rem !important;
   width: 100% !important;
-  min-height: calc(100vh - 180px) !important; // Match the report-container viewport logic
+  min-width: 100% !important;
   flex: 1 !important;
-  animation: fadeIn 0.4s ease-out;
-  padding: 0;
+  min-height: 300px !important;
+  color: var(--mat-sys-on-surface-variant) !important;
+  margin: 0 auto !important;
+  grid-column: 1 / -1 !important;     // Inventory Overview Grid fix
   
+  // Full page variants need taller minimum height
+  &.spinner-container-page {
+    min-height: calc(100vh - 180px) !important;
+  }
+
   mat-progress-spinner {
-    filter: drop-shadow(0 0 15px rgba(13, 148, 136, 0.3));
+    filter: drop-shadow(0 0 15px rgba(28, 131, 117, 0.3));
+    margin: 0 auto !important;
   }
 
   span, p {
-    margin: 0;
+    margin: 0 !important;
+    text-align: center !important;
     font-size: 1.15rem !important;
     font-weight: 600 !important;
     letter-spacing: 0.05em;
     color: var(--mat-sys-primary) !important;
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
+}
+
+// Fixed overlay variant
+.spinner-overlay {
+  position: absolute;
+  inset: 0 !important;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 1000 !important;
+  border-radius: inherit;
 }
 
 // 12. Standard status badges for various contexts

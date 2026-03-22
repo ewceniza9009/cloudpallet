@@ -255,9 +255,7 @@
 .location-card mat-progress-bar { --mdc-linear-progress-active-indicator-color: var(--progress-color); }
 
 .error-card {
-  .error-zone {
-    text-align: center; padding: 3rem;
-    mat-icon { font-size: 4rem; width: 4rem; height: 4rem; color: var(--mat-sys-error); margin-bottom: 1rem; opacity: 0.5; }
-    h2 { font-weight: 600; }
-  }
+  min-height: 400px;
+  display: flex !important;
+  flex-direction: column !important;
 }

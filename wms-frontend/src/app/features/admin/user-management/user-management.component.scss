@@ -2,7 +2,24 @@
 // Layout patterns are now centralized in admin-layout.scss
 
 :host {
-  display: block;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  height: 100%;
+}
+
+.report-container {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+}
+
+.content-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  justify-content: center !important;
+  min-height: 0;
 }
 
 .username-text { font-weight: 600; color: var(--mat-sys-primary); }

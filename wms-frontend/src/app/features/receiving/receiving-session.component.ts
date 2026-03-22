@@ -174,6 +174,7 @@ export class ReceivingSessionComponent implements OnInit, OnDestroy {
   isAddingPallet = signal(false);
   isNewSession = signal(true);
   variance = signal<ReceivingVarianceDto | null>(null);
+  isLoading = signal(false);
 
   materialSearchCtrl = new FormControl('');
   filteredMaterials = signal<MaterialDto[]>([]);
@@ -375,6 +376,7 @@ export class ReceivingSessionComponent implements OnInit, OnDestroy {
   }
 
   private loadExistingSession(sessionId: string): void {
+    this.isLoading.set(true);
     this.inventoryApi.getReceivingSessionById(sessionId).subscribe({
       next: (session) => {
         this.receivingSessionId.set(session.receivingId);
@@ -408,6 +410,7 @@ export class ReceivingSessionComponent implements OnInit, OnDestroy {
           this.accountControl.disable();
           this.supplierControl.updateValueAndValidity({ emitEvent: true });
           this.accountControl.updateValueAndValidity({ emitEvent: true });
+          this.isLoading.set(false);
         });
 
         const palletStates: PalletState[] = session.pallets.map(
@@ -423,8 +426,10 @@ export class ReceivingSessionComponent implements OnInit, OnDestroy {
         this.pallets.set(palletStates);
         this.loadVariance(sessionId);
       },
-      error: () =>
-        this.snackBar.open('Failed to load existing session details.', 'Close'),
+      error: () => {
+        this.isLoading.set(false);
+        this.snackBar.open('Failed to load existing session details.', 'Close');
+      },
     });
   }
 

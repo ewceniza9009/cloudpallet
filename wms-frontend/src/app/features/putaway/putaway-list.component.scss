@@ -2,13 +2,38 @@
 // Using a clean, data-first approach to maximize operational clarity
 
 :host {
-  display: block;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  height: 100%;
+}
+
+.report-container {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  padding: 0 !important;
 }
 
 .tasks-grid {
-  display: grid;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  align-items: center; // For empty state centering
+  justify-content: center;
+
+  // Apply grid only for real tasks - DISABLE FLEX STRETCH FOR GRID
+  &:has(.task-card) {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-auto-rows: min-content; // CRITICAL: Don't stretch the cards!
+    justify-content: start;
+    align-content: start;
+    align-items: start !important; // CRITICAL FOR GRID ITEMS
+    flex: 0 1 auto !important; // Don't force fill if we have items
+    min-height: 0;
+  }
 }
 
 .task-card {
