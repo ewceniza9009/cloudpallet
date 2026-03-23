@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
@@ -90,6 +90,7 @@ public class LookupsController(WmsDbContext context) : ControllerBase
     {
         return Ok(await context.Suppliers
           .AsNoTracking()
+          .Where(s => s.IsActive)
           .OrderBy(s => s.Name)
           .Select(s => new SupplierDto(s.Id, s.Name))
           .ToListAsync());
@@ -192,6 +193,7 @@ public class LookupsController(WmsDbContext context) : ControllerBase
     {
         return Ok(await context.Accounts
           .AsNoTracking()
+          .Where(a => a.IsActive)
           .OrderBy(a => a.Name)
           .Select(a => new AccountDto(a.Id, a.Name))
           .ToListAsync());
@@ -203,6 +205,7 @@ public class LookupsController(WmsDbContext context) : ControllerBase
     {
         return Ok(await context.Trucks
           .AsNoTracking()
+          .Where(t => t.IsActive)
           .OrderBy(t => t.LicensePlate)
           .Select(t => new TruckDto(t.Id, t.LicensePlate))
           .ToListAsync());

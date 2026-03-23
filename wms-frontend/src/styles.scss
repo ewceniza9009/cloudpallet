@@ -1113,6 +1113,19 @@ mat-autocomplete .autocomplete-viewport {
   padding: 0 !important;
 }
 
+/* GLOBAL AUTOCOMPLETE SCROLLBAR FIX */
+.mat-mdc-autocomplete-panel {
+  max-height: 400px !important; // Increased to show up to 8-9 items
+  overflow-y: auto !important;   // FORCE scrollbar when content exceeds height
+  
+  // Custom scrollbar
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-thumb { 
+    background: var(--mat-sys-outline-variant); 
+    border-radius: 10px; 
+  }
+}
+
 // ===== GLOBAL DIALOG SCROLLBAR EXTRACTION =====
 .cdk-overlay-pane {
   max-width: 95vw !important;
