@@ -1,10 +1,52 @@
-// Styles for Account Setup component
-// Layout patterns are now centralized in admin-layout.scss
-
 :host {
     display: block;
     height: 100%;
 }
 
-// Add any component-specific overrides below if needed
-// Currently, all layout needs are met by the shared admin-layout system.
+// Global baseline reset for any checkboxes in this component
+::ng-deep mat-checkbox {
+    margin-bottom: 0 !important;
+    vertical-align: middle !important;
+    
+    .mdc-form-field {
+        display: flex !important;
+        align-items: center !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        height: auto !important;
+    }
+
+    .mdc-checkbox {
+        padding: 0 !important;
+        margin: 0 8px 0 0 !important;
+        flex-shrink: 0 !important;
+        
+        // NUKE the 20px bottom margin leaking from styles.scss
+        margin-bottom: 0 !important;
+
+        .mdc-checkbox__native-control {
+            margin: 0 !important;
+            top: 0 !important;
+            bottom: 0 !important;
+        }
+    }
+
+    .mdc-label {
+        margin-top: 20px !important;
+        margin-left: 15px !important;
+        padding: 0 !important;
+        line-height: normal !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+}
+
+.checkbox-row {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-bottom: 0.5rem;
+}
