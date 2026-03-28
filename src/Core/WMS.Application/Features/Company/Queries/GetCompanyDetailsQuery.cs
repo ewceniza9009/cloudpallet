@@ -1,6 +1,6 @@
-﻿using MediatR;
+using MediatR;
 using WMS.Application.Abstractions.Persistence;
-using AutoMapper;
+
 using WMS.Domain.Entities;
 using WMS.Domain.ValueObjects;
 

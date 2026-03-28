@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using WMS.Application.Common.Mappings;
 using MediatR;
 using WMS.Application.Abstractions.Persistence;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ public record PickListGroupDto
 
 public record GetPickListQuery(Guid UserId) : IRequest<IEnumerable<PickListGroupDto>>;
 
-public class GetPickListQueryHandler(IPickTransactionRepository pickRepository, IMapper mapper)
+public class GetPickListQueryHandler(IPickTransactionRepository pickRepository, IWmsMapper mapper)
     : IRequestHandler<GetPickListQuery, IEnumerable<PickListGroupDto>>
 {
     public async Task<IEnumerable<PickListGroupDto>> Handle(GetPickListQuery request, CancellationToken cancellationToken)
@@ -33,7 +33,7 @@ public class GetPickListQueryHandler(IPickTransactionRepository pickRepository, 
             {
                 AccountId = g.Key,
                 AccountName = g.First().Account.Name,
-                Items = mapper.Map<List<PickItemDto>>(g.ToList())
+                Items = mapper.MapToDtos(g).ToList()
             })
             .OrderBy(g => g.AccountName)
             .ToList();

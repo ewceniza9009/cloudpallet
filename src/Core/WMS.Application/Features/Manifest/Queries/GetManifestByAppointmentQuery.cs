@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using WMS.Application.Common.Mappings;
 using MediatR;
 using WMS.Application.Abstractions.Persistence;
 
@@ -23,7 +23,7 @@ public record GetManifestByAppointmentQuery(Guid AppointmentId) : IRequest<Cargo
 public class GetManifestByAppointmentQueryHandler(
     ICargoManifestRepository manifestRepository,
     IMaterialRepository materialRepository,
-    IMapper mapper) : IRequestHandler<GetManifestByAppointmentQuery, CargoManifestDto?>
+    IWmsMapper mapper) : IRequestHandler<GetManifestByAppointmentQuery, CargoManifestDto?>
 {
     public async Task<CargoManifestDto?> Handle(GetManifestByAppointmentQuery request, CancellationToken cancellationToken)
     {
@@ -33,7 +33,7 @@ public class GetManifestByAppointmentQueryHandler(
             return null;
         }
 
-        var dto = mapper.Map<CargoManifestDto>(manifest);
+        var dto = mapper.MapToDto(manifest);
 
         var materialIds = dto.Lines.Select(l => l.MaterialId).ToList();
         var materials = await materialRepository.GetByIdsAsync(materialIds, cancellationToken);

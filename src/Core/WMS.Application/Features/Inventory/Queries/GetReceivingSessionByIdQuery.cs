@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using WMS.Application.Common.Mappings;
 using MediatR;
 using WMS.Application.Abstractions.Persistence;
 using WMS.Domain.Entities.Transaction;
@@ -43,7 +43,7 @@ public record GetReceivingSessionByIdQuery(Guid ReceivingId) : IRequest<Receivin
 public class GetReceivingSessionByIdQueryHandler(
     IReceivingTransactionRepository receivingRepository,
     IMaterialRepository materialRepository,
-    IMapper mapper)
+    IWmsMapper mapper)
     : IRequestHandler<GetReceivingSessionByIdQuery, ReceivingSessionDetailDto?>
 {
     public async Task<ReceivingSessionDetailDto?> Handle(GetReceivingSessionByIdQuery request, CancellationToken cancellationToken)
@@ -51,7 +51,7 @@ public class GetReceivingSessionByIdQueryHandler(
         var receiving = await receivingRepository.GetByIdWithDetailsAsync(request.ReceivingId, cancellationToken);
         if (receiving is null) return null;
 
-        var dto = mapper.Map<ReceivingSessionDetailDto>(receiving);
+        var dto = mapper.MapToDto(receiving);
 
         var materialIds = dto.Pallets.SelectMany(p => p.Lines.Select(l => l.MaterialId)).Distinct().ToList();
         var materials = await materialRepository.GetByIdsAsync(materialIds, cancellationToken);

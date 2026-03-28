@@ -1,6 +1,6 @@
-﻿using MediatR;
+using MediatR;
 using WMS.Application.Abstractions.Persistence;
-using AutoMapper;
+using WMS.Application.Common.Mappings;
 
 namespace WMS.Application.Features.Yard.Queries;
 
@@ -17,13 +17,13 @@ public record YardAppointmentDto
 
 public record GetTodaysAppointmentsQuery(Guid WarehouseId, DateTime StartDate, DateTime EndDate) : IRequest<IEnumerable<YardAppointmentDto>>;
 
-public class GetTodaysAppointmentsQueryHandler(IReadOnlyAppointmentRepository appointmentRepository, IMapper mapper)
+public class GetTodaysAppointmentsQueryHandler(IReadOnlyAppointmentRepository appointmentRepository, IWmsMapper mapper)
     : IRequestHandler<GetTodaysAppointmentsQuery, IEnumerable<YardAppointmentDto>>
 {
     public async Task<IEnumerable<YardAppointmentDto>> Handle(GetTodaysAppointmentsQuery request, CancellationToken cancellationToken)
     {
         var appointments = await appointmentRepository.GetAppointmentsForDateRangeAsync(request.WarehouseId, request.StartDate, request.EndDate, cancellationToken);
 
-        return mapper.Map<IEnumerable<YardAppointmentDto>>(appointments);
+        return mapper.MapToYardDtos(appointments);
     }
 }

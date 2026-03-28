@@ -5,6 +5,7 @@ using MediatR;
 using WMS.Application.Common.Behaviors;
 using WMS.Domain.Services;
 using WMS.Application.Services;
+using WMS.Application.Common.Mappings;
 
 namespace WMS.Application;
 
@@ -12,7 +13,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddAutoMapper(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
+        services.AddSingleton<IWmsMapper, WmsMapper>();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         services.AddMediatR(cfg => {
