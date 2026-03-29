@@ -6,6 +6,8 @@ import {
   inject,
   signal,
   ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  computed,
 } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, FormControl } from '@angular/forms';
@@ -27,6 +29,7 @@ import {
 } from '@angular/material/autocomplete';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HttpClient } from '@angular/common/http';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { merge, startWith, switchMap, map, Subject, debounceTime } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import {
@@ -85,6 +88,7 @@ interface LookupDto {
       ),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InventoryLedgerComponent implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
@@ -114,18 +118,21 @@ export class InventoryLedgerComponent implements OnInit, AfterViewInit {
   materials = signal<LookupDto[]>([]);
   suppliers = signal<LookupDto[]>([]);
 
-  filteredAccounts$ = this.accountControl.valueChanges.pipe(
-    startWith(''),
-    map((value) => this._filter(value, this.accounts()))
-  );
-  filteredMaterials$ = this.materialControl.valueChanges.pipe(
-    startWith(''),
-    map((value) => this._filter(value, this.materials()))
-  );
-  filteredSuppliers$ = this.supplierControl.valueChanges.pipe(
-    startWith(''),
-    map((value) => this._filter(value, this.suppliers()))
-  );
+  private accountSearchTrigger = toSignal(this.accountControl.valueChanges.pipe(startWith('')));
+  private materialSearchTrigger = toSignal(this.materialControl.valueChanges.pipe(startWith('')));
+  private supplierSearchTrigger = toSignal(this.supplierControl.valueChanges.pipe(startWith('')));
+
+  filteredAccounts = computed(() => {
+    return this._filter(this.accountSearchTrigger() || '', this.accounts());
+  });
+
+  filteredMaterials = computed(() => {
+    return this._filter(this.materialSearchTrigger() || '', this.materials());
+  });
+
+  filteredSuppliers = computed(() => {
+    return this._filter(this.supplierSearchTrigger() || '', this.suppliers());
+  });
 
   isLoading = signal(true);
   resultsLength = signal(0);
@@ -362,5 +369,13 @@ export class InventoryLedgerComponent implements OnInit, AfterViewInit {
         });
       }
     });
+  }
+
+  trackByGroup(index: number, item: InventoryLedgerGroupDto): string {
+    return item.materialId;
+  }
+
+  trackByLine(index: number, item: any): string {
+    return `${item.date}-${item.document}`;
   }
 }
