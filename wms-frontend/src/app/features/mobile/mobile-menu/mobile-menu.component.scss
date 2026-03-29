@@ -1,64 +1,88 @@
 .menu-grid {
+    padding: 1.5rem;
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 16px 12px 32px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    min-height: 100vh;
+    background: #0f172a; /* Unified background */
+    align-content: start;
+    overflow-y: auto;
 }
 
 .welcome-section {
-    grid-column: 1 / -1;
-    margin-bottom: 8px;
-    padding: 0 4px;
+    grid-column: span 2;
+    padding: 1rem 0 2rem;
+    color: white;
 
     h2 {
+        font-size: 2rem;
+        font-weight: 900;
         margin: 0;
-        font-size: 26px;
-        font-weight: 800;
-        color: var(--mat-sys-on-surface);
+        letter-spacing: -0.03em;
+        color: white !important;
+        line-height: 1;
     }
 
     p {
-        margin: 4px 0 0;
-        color: var(--mat-sys-on-surface-variant);
+        color: #94a3b8;
         font-size: 1rem;
+        margin-top: 0.5rem;
+        font-weight: 500;
     }
 }
 
 .menu-card {
-    min-height: 100px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 28px;
+    border: none;
     cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
 
     &:active {
-        transform: scale(0.98);
-        filter: brightness(0.95);
+        transform: scale(0.92);
+        opacity: 0.9;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
+        opacity: 0.6;
+        z-index: 1;
     }
 
     .card-content {
-        height: 100%;
         display: flex;
-        flex-direction: row; 
+        flex-direction: column;
         align-items: center;
-        padding: 0 24px;
-        gap: 20px;
+        gap: 1rem;
+        z-index: 2;
 
         mat-icon {
-            font-size: 32px;
-            height: 32px;
-            width: 32px;
-            // Force dark icons for those specific pastel backgrounds
-            color: rgba(0, 0, 0, 0.7) !important;
+            font-size: 3.5rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            color: white !important;
+            filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.3));
         }
 
         .label {
-            font-size: 1.25rem;
-            font-weight: 800;
-            // Force dark text regardless of theme for the pastel cards
-            color: #121212 !important; 
-            letter-spacing: -0.01em;
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: white !important;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
         }
     }
 }

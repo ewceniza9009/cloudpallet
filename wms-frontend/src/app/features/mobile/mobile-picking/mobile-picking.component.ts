@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,6 +8,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 import { PickingApiService, PickListGroupDto, PickItem, ConfirmPickByScanRequest, ConfirmPickRequest } from '../../picking/picking-api.service';
 import { ScanConfirmationDialogComponent, ScanDialogData } from '../../picking/scan-confirmation-dialog/scan-confirmation-dialog.component';
 import { filter } from 'rxjs';
@@ -16,13 +20,17 @@ import { filter } from 'rxjs';
     standalone: true,
     imports: [
         CommonModule,
+        RouterModule,
         MatCardModule,
         MatButtonModule,
         MatIconModule,
         MatChipsModule,
         MatSnackBarModule,
         MatDialogModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule
     ],
     templateUrl: './mobile-picking.component.html',
     styleUrls: ['./mobile-picking.component.scss']
@@ -34,6 +42,9 @@ export class MobilePickingComponent implements OnInit {
 
     pickListGroups = signal<PickListGroupDto[]>([]);
     isLoading = signal(true);
+    showSearch = signal(false);
+    searchQuery = '';
+    toastMsg = signal<string | null>(null);
 
     // Track expanded groups for accordion-like behavior
     expandedGroups = signal<Set<string>>(new Set());
@@ -127,6 +138,11 @@ export class MobilePickingComponent implements OnInit {
                     { duration: 5000 }
                 ),
         });
+    }
+
+    startGeneralScan(): void {
+        this.toastMsg.set('CAMERA COMPONENT MISSING. RUN: npm install @zxing/ngx-scanner');
+        setTimeout(() => this.toastMsg.set(null), 5000);
     }
 
     private updateItemStatus(pickId: string, newStatus: 'Confirmed' | 'Short'): void {

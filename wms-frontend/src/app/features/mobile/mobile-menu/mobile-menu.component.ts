@@ -16,10 +16,12 @@ export class MobileMenuComponent {
     authService = inject(AuthService);
 
     menuItems = [
-        { label: 'Picking', icon: 'shopping_cart', route: '/mobile/picking', color: '#e3f2fd', iconColor: '#1976d2' },
-        { label: 'Receiving', icon: 'input', route: '/mobile/receiving', color: '#e8f5e9', iconColor: '#388e3c' },
-        { label: 'Putaway', icon: 'place', route: '/mobile/putaway', color: '#fff3e0', iconColor: '#f57c00' },
-        { label: 'Inventory', icon: 'inventory_2', route: '/mobile/inventory', color: '#f3e5f5', iconColor: '#7b1fa2' },
+        { label: 'Receiving', icon: 'input', route: '/mobile/receiving', color: 'linear-gradient(135deg, #43a047 0%, #1b5e20 100%)', iconColor: '#ffffff' },
+        { label: 'Putaway', icon: 'place', route: '/mobile/putaway', color: 'linear-gradient(135deg, #fb8c00 0%, #ef6c00 100%)', iconColor: '#ffffff' },
+        { label: 'Picking', icon: 'shopping_cart', route: '/mobile/picking', color: 'linear-gradient(135deg, #1e88e5 0%, #0d47a1 100%)', iconColor: '#ffffff' },
+        { label: 'Inventory', icon: 'inventory_2', route: '/mobile/inventory', color: 'linear-gradient(135deg, #8e24aa 0%, #4a148c 100%)', iconColor: '#ffffff' },
+        { label: 'VAS', icon: 'auto_fix_high', route: '/mobile/vas', color: 'linear-gradient(135deg, #ffb300 0%, #ff8f00 100%)', iconColor: '#ffffff' },
+        { label: 'Shipping', icon: 'local_shipping', route: '/mobile/shipping', color: 'linear-gradient(135deg, #00897b 0%, #004d40 100%)', iconColor: '#ffffff' },
     ];
 }
 // Refreshed

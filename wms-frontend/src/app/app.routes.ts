@@ -437,13 +437,14 @@ export const routes: Routes = [
             (c) => c.ActivityLogComponent
           ),
       },
-      {
-        path: 'mobile',
-        loadChildren: () =>
-          import('./features/mobile/mobile.routes').then((m) => m.MOBILE_ROUTES),
-      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
+  },
+  {
+    path: 'mobile',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/mobile/mobile.routes').then((m) => m.MOBILE_ROUTES),
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

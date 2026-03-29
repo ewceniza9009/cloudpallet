@@ -1,15 +1,27 @@
 .mobile-container {
+  min-height: 100vh;
+  background: #0f172a; /* Unified background */
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-  background-color: var(--mat-sys-background); // Theme aware background
 }
 
 .mobile-content {
   flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  -webkit-overflow-scrolling: touch;
-  background-color: var(--mat-sys-background);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Ensure material components within mobile containers respect the dark theme */
+::ng-deep {
+    .mat-step-header {
+        background: transparent !important;
+    }
+    .mat-step-label {
+        color: rgba(255,255,255,0.7) !important;
+    }
+    .mat-step-label-selected {
+        color: white !important;
+        font-weight: 700 !important;
+    }
 }

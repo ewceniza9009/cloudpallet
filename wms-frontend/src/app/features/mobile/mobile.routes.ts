@@ -27,6 +27,41 @@ export const MOBILE_ROUTES: Routes = [
             (c) => c.MobilePickingComponent
           ),
       },
+      {
+        path: 'receiving',
+        loadComponent: () =>
+          import('./mobile-receiving/mobile-receiving.component').then(
+            (c) => c.MobileReceivingComponent
+          ),
+      },
+      {
+        path: 'putaway',
+        loadComponent: () =>
+          import('./mobile-putaway/mobile-putaway.component').then(
+            (c) => c.MobilePutawayComponent
+          ),
+      },
+      {
+        path: 'inventory',
+        loadComponent: () =>
+          import('./mobile-inventory/mobile-inventory.component').then(
+            (c) => c.MobileInventoryComponent
+          ),
+      },
+      {
+        path: 'vas',
+        loadComponent: () =>
+          import('./mobile-vas/mobile-vas.component').then(
+            (c) => c.MobileVASComponent
+          ),
+      },
+      {
+        path: 'shipping',
+        loadComponent: () =>
+          import('./mobile-shipping/mobile-shipping.component').then(
+            (c) => c.MobileShippingComponent
+          ),
+      },
     ],
   },
 ];
