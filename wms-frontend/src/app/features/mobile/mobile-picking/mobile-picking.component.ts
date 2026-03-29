@@ -10,10 +10,13 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
 import { PickingApiService, PickListGroupDto, PickItem, ConfirmPickByScanRequest, ConfirmPickRequest } from '../../picking/picking-api.service';
 import { ScanConfirmationDialogComponent, ScanDialogData } from '../../picking/scan-confirmation-dialog/scan-confirmation-dialog.component';
+import { MobileHeaderComponent } from '../../../shared/components/mobile-header/mobile-header.component';
 import { filter } from 'rxjs';
+import { MobileService } from '../../../core/services/mobile.service';
 
 @Component({
     selector: 'app-mobile-picking',
@@ -21,6 +24,7 @@ import { filter } from 'rxjs';
     imports: [
         CommonModule,
         RouterModule,
+        MobileHeaderComponent,
         MatCardModule,
         MatButtonModule,
         MatIconModule,
@@ -30,6 +34,7 @@ import { filter } from 'rxjs';
         MatProgressSpinnerModule,
         MatFormFieldModule,
         MatInputModule,
+        MatProgressBarModule,
         FormsModule
     ],
     templateUrl: './mobile-picking.component.html',
@@ -39,6 +44,7 @@ export class MobilePickingComponent implements OnInit {
     private pickingApi = inject(PickingApiService);
     private snackBar = inject(MatSnackBar);
     private dialog = inject(MatDialog);
+    private mobile = inject(MobileService);
 
     pickListGroups = signal<PickListGroupDto[]>([]);
     isLoading = signal(true);
@@ -110,7 +116,10 @@ export class MobilePickingComponent implements OnInit {
             };
 
             this.pickingApi.confirmPickByScan(request).subscribe({
-                next: () => this.updateItemStatus(item.pickId, 'Confirmed'),
+                next: () => {
+                    this.updateItemStatus(item.pickId, 'Confirmed');
+                    this.mobile.notifySuccess();
+                },
                 error: (err) =>
                     this.snackBar.open(
                         `Scan Confirmation Failed: ${err.error?.detail || err.error?.title || 'Check console.'}`,
@@ -141,8 +150,15 @@ export class MobilePickingComponent implements OnInit {
     }
 
     startGeneralScan(): void {
+        this.mobile.notifyScan();
         this.toastMsg.set('CAMERA COMPONENT MISSING. RUN: npm install @zxing/ngx-scanner');
         setTimeout(() => this.toastMsg.set(null), 5000);
+    }
+
+    getProgress(group: PickListGroupDto): number {
+        if (!group.items.length) return 0;
+        const confirmed = group.items.filter(i => i.status === 'Confirmed').length;
+        return (confirmed / group.items.length) * 100;
     }
 
     private updateItemStatus(pickId: string, newStatus: 'Confirmed' | 'Short'): void {

@@ -1,41 +1,58 @@
-<h2 mat-dialog-title>Scan to Confirm Pick</h2>
-<mat-dialog-content cdkTrapFocus>
-  <p class="dialog-info">
-    <strong>Material:</strong> {{ data.material }}<br>
-    <strong>Required Location:</strong> {{ data.location }}
-  </p>
+<div class="glass-dialog">
+    <header class="dialog-header">
+        <mat-icon>qr_code_scanner</mat-icon>
+        <div class="title-wrap">
+            <h2>Scan Confirmation</h2>
+            <span class="lpn">ITEM ID: {{ data.pickId }}</span>
+        </div>
+    </header>
 
-  <form [formGroup]="scanForm" class="scan-form">
-    <mat-form-field appearance="outline">
-      <mat-label>1. Scan Location Barcode</mat-label>
-      <input matInput formControlName="scannedLocationCode" cdkFocusInitial>
-    </mat-form-field>
+    <mat-dialog-content cdkTrapFocus class="premium-content">
+        <div class="target-card">
+            <div class="info-row">
+                <span class="label">MATERIAL</span>
+                <span class="val">{{ data.material }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">TARGET LOCATION</span>
+                <span class="val loc">{{ data.location }}</span>
+            </div>
+        </div>
 
-    <mat-form-field appearance="outline">
-      <mat-label>2. Scan LPN / Pallet Barcode</mat-label>
-      <input matInput formControlName="scannedLpn">
-    </mat-form-field>
+        <form [formGroup]="scanForm" class="premium-scan-form">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>1. Scan Location Barcode</mat-label>
+                <input matInput formControlName="scannedLocationCode" cdkFocusInitial placeholder="LOC-XXXXX">
+                <mat-icon matSuffix>location_on</mat-icon>
+            </mat-form-field>
 
-    <div class="weigh-section">
-      <mat-form-field appearance="outline">
-        <mat-label>3. Captured Weight (KG)</mat-label>
-        <input matInput type="number" formControlName="actualWeight" [readonly]="isWeightReadonly()">
-      </mat-form-field>
-      <button mat-stroked-button color="primary" type="button" (click)="onWeigh()" [disabled]="isWeighing()">
-        @if(isWeighing()) {
-          <mat-spinner diameter="20"></mat-spinner>
-        } @else {
-          <ng-container>
-            <mat-icon>scale</mat-icon>
-            <span>Weigh</span>
-          </ng-container>
-        }
-      </button>
-    </div>
-  </form>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>2. Scan LPN / Pallet Barcode</mat-label>
+                <input matInput formControlName="scannedLpn" placeholder="LPN-XXXXXX">
+                <mat-icon matSuffix>pallet</mat-icon>
+            </mat-form-field>
 
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-stroked-button color="primary" (click)="onConfirm()" [disabled]="scanForm.invalid">Confirm Pick</button>
-</mat-dialog-actions>
+            <div class="weigh-row">
+                <mat-form-field appearance="outline" class="weight-field">
+                    <mat-label>3. Captured Weight (KG)</mat-label>
+                    <input matInput type="number" formControlName="actualWeight" [readonly]="isWeightReadonly()" placeholder="0.00">
+                    <mat-icon matSuffix>scale</mat-icon>
+                </mat-form-field>
+                <button mat-flat-button color="accent" type="button" class="weigh-btn" (click)="onWeigh()" [disabled]="isWeighing()">
+                    @if(isWeighing()) {
+                        <mat-spinner diameter="20"></mat-spinner>
+                    } @else {
+                        <span>AUTO-WEIGH</span>
+                    }
+                </button>
+            </div>
+        </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end" class="premium-actions">
+        <button mat-button class="cancel-btn" (click)="onCancel()">DISCARD</button>
+        <button mat-flat-button color="primary" class="confirm-btn" (click)="onConfirm()" [disabled]="scanForm.invalid">
+            <mat-icon>done_all</mat-icon> CONFIRM PICK
+        </button>
+    </mat-dialog-actions>
+</div>
