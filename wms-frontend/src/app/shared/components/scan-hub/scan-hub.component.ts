@@ -6,11 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MobileService } from '../../../core/services/mobile.service';
+import { CameraScannerComponent } from '../camera-scanner/camera-scanner.component';
 
 @Component({
   selector: 'app-scan-hub',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule],
+  imports: [CommonModule, FormsModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, CameraScannerComponent],
   template: `
     <div class="scan-hub-wrapper">
       <input #scannerInput type="text" class="hidden-scanner" (keyup.enter)="onScan($event)" autofocus>
@@ -52,6 +53,12 @@ import { MobileService } from '../../../core/services/mobile.service';
           <mat-icon>warning</mat-icon>
           <span>{{ toastMsg() }}</span>
       </div>
+
+      <app-camera-scanner 
+        *ngIf="showCamera()" 
+        (scan)="handleCameraScan($event)" 
+        (closed)="showCamera.set(false)">
+      </app-camera-scanner>
     </div>
   `,
   styles: [`
@@ -116,6 +123,7 @@ export class ScanHubComponent implements AfterViewInit {
   private mobile = inject(MobileService);
   
   showManual = signal(false);
+  showCamera = signal(false);
   isSuccess = signal(false);
   manualVal = '';
   toastMsg = signal<string | null>(null);
@@ -160,8 +168,11 @@ export class ScanHubComponent implements AfterViewInit {
 
   onCameraScan(event: Event): void {
     event.stopPropagation();
-    this.mobile.notifyScan();
-    this.toastMsg.set('CAMERA COMPONENT MISSING. RUN: npm install @zxing/ngx-scanner');
-    setTimeout(() => this.toastMsg.set(null), 5000);
+    this.showCamera.set(true);
+  }
+
+  handleCameraScan(result: string): void {
+    this.showCamera.set(false);
+    this.handleInput(result);
   }
 }

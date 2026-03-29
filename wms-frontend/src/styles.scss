@@ -1274,3 +1274,19 @@ mat-autocomplete .autocomplete-viewport {
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); }}
 @keyframes gentlePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); }}
 @keyframes scrollPulse { 0%, 100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(10px); opacity: 1; }}
+
+.full-screen-scanner {
+  max-width: 100vw !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  margin: 0 !important;
+  
+  .mdc-dialog__surface {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+  }
+}

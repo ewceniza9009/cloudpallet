@@ -17,6 +17,7 @@ import { ScanConfirmationDialogComponent, ScanDialogData } from '../../picking/s
 import { MobileHeaderComponent } from '../../../shared/components/mobile-header/mobile-header.component';
 import { filter } from 'rxjs';
 import { MobileService } from '../../../core/services/mobile.service';
+import { CameraScannerDialogComponent } from '../../../shared/components/camera-scanner/camera-scanner-dialog.component';
 
 @Component({
     selector: 'app-mobile-picking',
@@ -150,9 +151,18 @@ export class MobilePickingComponent implements OnInit {
     }
 
     startGeneralScan(): void {
-        this.mobile.notifyScan();
-        this.toastMsg.set('CAMERA COMPONENT MISSING. RUN: npm install @zxing/ngx-scanner');
-        setTimeout(() => this.toastMsg.set(null), 5000);
+        const dialogRef = this.dialog.open(CameraScannerDialogComponent, {
+            width: '100vw',
+            height: '100vh',
+            maxWidth: 'none',
+            panelClass: 'full-screen-scanner'
+        });
+
+        dialogRef.afterClosed().pipe(filter(r => !!r)).subscribe(result => {
+           this.searchQuery = result;
+           // If it's a barcode we might want to automatically perform an action
+           this.snackBar.open(`Scanned: ${result}`, 'OK', { duration: 3000 });
+        });
     }
 
     getProgress(group: PickListGroupDto): number {
