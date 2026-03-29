@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -51,6 +51,7 @@ export class CycleCountVarianceComponent implements OnInit {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
   private reportsApi = inject(ReportsApiService);
+  private cdr = inject(ChangeDetectorRef);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -98,6 +99,7 @@ export class CycleCountVarianceComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.cdr.detectChanges();
 
     merge(
       this.sort.sortChange,
@@ -147,8 +149,15 @@ export class CycleCountVarianceComponent implements OnInit {
   }
 
   updateFilterFormIDs(): void {
-    this.filterForm.controls.accountId.setValue(this.getControlId(this.accountControl));
-    this.filterForm.controls.materialId.setValue(this.getControlId(this.materialControl));
+    const accId = this.getControlId(this.accountControl);
+    const matId = this.getControlId(this.materialControl);
+
+    if (this.filterForm.controls.accountId.value !== accId) {
+      this.filterForm.controls.accountId.setValue(accId, { emitEvent: false });
+    }
+    if (this.filterForm.controls.materialId.value !== matId) {
+      this.filterForm.controls.materialId.setValue(matId, { emitEvent: false });
+    }
   }
 
   private getControlId(control: FormControl<any>): string | null {
@@ -163,8 +172,8 @@ export class CycleCountVarianceComponent implements OnInit {
 
   resetFilters(): void {
     this.filterForm.reset();
-    this.accountControl.reset();
-    this.materialControl.reset();
+    this.accountControl.setValue(null, { emitEvent: true });
+    this.materialControl.setValue(null, { emitEvent: true });
     this.filterChange.next();
   }
 

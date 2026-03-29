@@ -5,6 +5,7 @@ import {
   ViewChild,
   inject,
   signal,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, FormControl } from '@angular/forms';
@@ -90,6 +91,7 @@ export class InventoryLedgerComponent implements OnInit, AfterViewInit {
   private http = inject(HttpClient);
   private reportsApi = inject(ReportsApiService);
   private warehouseState = inject(WarehouseStateService);
+  private cdr = inject(ChangeDetectorRef);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -148,6 +150,7 @@ export class InventoryLedgerComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.cdr.detectChanges();
 
     merge(
       this.sort.sortChange,
@@ -214,15 +217,19 @@ export class InventoryLedgerComponent implements OnInit, AfterViewInit {
   }
 
   updateFilterFormIDs(): void {
-    this.filterForm.controls.accountId.setValue(
-      this.getControlId(this.accountControl)
-    );
-    this.filterForm.controls.materialId.setValue(
-      this.getControlId(this.materialControl)
-    );
-    this.filterForm.controls.supplierId.setValue(
-      this.getControlId(this.supplierControl)
-    );
+    const accId = this.getControlId(this.accountControl);
+    const matId = this.getControlId(this.materialControl);
+    const supId = this.getControlId(this.supplierControl);
+
+    if (this.filterForm.controls.accountId.value !== accId) {
+      this.filterForm.controls.accountId.setValue(accId, { emitEvent: false });
+    }
+    if (this.filterForm.controls.materialId.value !== matId) {
+      this.filterForm.controls.materialId.setValue(matId, { emitEvent: false });
+    }
+    if (this.filterForm.controls.supplierId.value !== supId) {
+      this.filterForm.controls.supplierId.setValue(supId, { emitEvent: false });
+    }
   }
 
   private getControlId(control: FormControl<any>): string | null {
@@ -237,9 +244,9 @@ export class InventoryLedgerComponent implements OnInit, AfterViewInit {
 
   resetFilters(): void {
     this.filterForm.reset();
-    this.accountControl.reset();
-    this.materialControl.reset();
-    this.supplierControl.reset();
+    this.accountControl.setValue(null, { emitEvent: true });
+    this.materialControl.setValue(null, { emitEvent: true });
+    this.supplierControl.setValue(null, { emitEvent: true });
     this.filterChange.next();
   }
 

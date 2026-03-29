@@ -131,19 +131,19 @@
           <div class="sub-heading">Materials & UOMs</div>
           <a mat-list-item routerLink="/admin/materials" routerLinkActive="active-link" matTooltip="Materials" [matTooltipDisabled]="isExpanded()">
             <mat-icon matListItemIcon>category</mat-icon>
-            <span mat-list-item-title>Material</span>
+            <span matListItemTitle>Material</span>
           </a>
           <a mat-list-item routerLink="/setup/units-of-measure" routerLinkActive="active-link" matTooltip="UOMs" [matTooltipDisabled]="isExpanded()">
             <mat-icon matListItemIcon>straighten</mat-icon>
-            <span mat-list-item-title>Units of Measure</span>
+            <span matListItemTitle>Units of Measure</span>
           </a>
           <a mat-list-item routerLink="/setup/pallet-types" routerLinkActive="active-link" matTooltip="Pallets" [matTooltipDisabled]="isExpanded()">
             <mat-icon matListItemIcon>pallet</mat-icon>
-            <span mat-list-item-title>Pallet Types</span>
+            <span matListItemTitle>Pallet Types</span>
           </a>
           <a mat-list-item routerLink="/admin/rates" routerLinkActive="active-link" matTooltip="Rates" [matTooltipDisabled]="isExpanded()">
             <mat-icon matListItemIcon>payments</mat-icon>
-            <span mat-list-item-title>Rate</span>
+            <span matListItemTitle>Rate</span>
           </a>
 
         }
@@ -250,8 +250,9 @@
             </button>
             <button mat-icon-button [matMenuTriggerFor]="notificationsMenu" matTooltip="Notifications"
             class="header-icon-button" [aria-label]="notificationService.unreadCount() + ' new notifications'" *ngIf="!isMobile()">
-            <mat-icon matBadgeColor="warn" [aria-hidden]="false"
-               [matBadge]="notificationService.unreadCount() > 0 ? notificationService.unreadCount() : null">notifications</mat-icon>
+            <mat-icon matBadgeColor="warn" aria-hidden="false"
+               [matBadge]="notificationService.unreadCount()"
+               [matBadgeHidden]="notificationService.unreadCount() === 0">notifications</mat-icon>
             </button>
             <button mat-button class="user-profile-button" [matMenuTriggerFor]="userMenu">
                <mat-icon>account_circle</mat-icon>

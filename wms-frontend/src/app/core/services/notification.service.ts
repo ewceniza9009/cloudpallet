@@ -1,4 +1,4 @@
-import { Injectable, effect, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { SignalRService } from './signal-r.service';
 
 export interface Notification {
@@ -18,16 +18,11 @@ export class NotificationService {
   private readonly MAX_NOTIFICATIONS = 20;
 
   notifications = signal<Notification[]>([]);
-  unreadCount = signal(0);
+  unreadCount = computed(() => this.notifications().filter(n => !n.isRead).length);
 
   constructor() {
     this.loadFromStorage();
     this.listenForRealTimeEvents();
-
-    effect(() => {
-        const unread = this.notifications().filter(n => !n.isRead).length;
-        this.unreadCount.set(unread);
-    });
   }
 
   private listenForRealTimeEvents(): void {
