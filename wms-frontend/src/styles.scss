@@ -142,13 +142,14 @@ body {
   color: var(--tooltip-text) !important;
   font-weight: 600 !important;
   font-size: 0.8rem !important;
-  padding: 6px 12px !important;
-  border-radius: 6px !important;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important; // Light shadow for better pop
+  padding: 8px 14px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4) !important;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--tooltip-border) !important;
   opacity: 1 !important;
+  z-index: 10000 !important; // ABSOLUTE DOMINANCE
 }
 
 // Global utility for high-end glass looks
@@ -675,15 +676,102 @@ body {
   }
 }
 
-// ===== DIALOG ENHANCEMENTS (Elite Depth) =====
+// ===== DIALOG ENHANCEMENTS (Elite Global Standardization) =====
 .mat-mdc-dialog-container {
   border-radius: 16px !important;
   box-shadow: var(--glow-hover) !important;
   background: var(--mat-sys-surface) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  max-width: 600px !important; // Global wide-screen constraint
+  min-width: 380px !important; // Absolute tight constraint
 
   .mdc-dialog__surface {
     border-radius: 16px !important;
     background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-height: 85vh !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  // STANDARD HEADER: Luminous Glass-Lock
+  [mat-dialog-title],
+  .mat-mdc-dialog-title {
+    margin: 0 !important;
+    padding: 1.25rem 1.75rem !important;
+    background: var(--mat-sys-surface-container-low);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    font-size: 1.15rem !important;
+    font-weight: 800 !important;
+    color: var(--mat-sys-on-surface);
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 12px;
+    letter-spacing: -0.01em;
+
+    .mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      opacity: 0.8;
+      color: var(--mat-sys-primary);
+    }
+  }
+
+  // STANDARD CONTENT: Depth-Optimized scrolling
+  [mat-dialog-content],
+  .mat-mdc-dialog-content {
+    padding: 1.75rem !important;
+    max-height: none !important;
+    flex-grow: 1 !important;
+    overflow-y: auto !important;
+    margin: 0 !important;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--mat-sys-on-surface-variant);
+    scrollbar-width: thin;
+    scrollbar-color: var(--mat-sys-outline) transparent;
+
+    &::-webkit-scrollbar { width: 6px; }
+    &::-webkit-scrollbar-thumb { background: var(--mat-sys-outline); border-radius: 10px; }
+
+    mat-form-field { width: 100% !important; margin-bottom: 0.5rem; }
+  }
+
+  // STANDARD ACTIONS: Clinical Footer Lock
+  [mat-dialog-actions],
+  .mat-mdc-dialog-actions {
+    margin: 0 !important;
+    padding: 1rem 1.75rem !important;
+    border-top: 1px solid var(--mat-sys-outline-variant);
+    background: var(--mat-sys-surface-container-low);
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    width: 100% !important;
+    gap: 0.75rem !important;
+    min-height: 72px !important;
+
+    button {
+      height: 40px !important;
+      border-radius: 10px !important;
+      font-weight: 700 !important;
+      padding: 0 1.5rem !important;
+      letter-spacing: 0.01em;
+
+      &.mat-mdc-button:not(.mat-primary) {
+         border: 1px solid var(--mat-sys-outline) !important;
+         color: var(--mat-sys-on-surface-variant) !important;
+      }
+
+      &.mat-primary {
+         box-shadow: 0 4px 12px rgba(28, 131, 117, 0.2) !important;
+      }
+    }
   }
 }
 

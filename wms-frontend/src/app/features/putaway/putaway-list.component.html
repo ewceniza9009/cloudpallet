@@ -53,12 +53,14 @@
 
             <!-- 3. Footer: Control Actions -->
             <div class="card-footer">
-              <button mat-stroked-button (click)="onBlastFreeze(task)" matTooltip="Move to Blast Freezer">
-                <mat-icon>ac_unit</mat-icon>
-              </button>
-              <button mat-stroked-button (click)="onManualPutaway(task)" matTooltip="Override Location">
-                <mat-icon>edit_location_alt</mat-icon>
-              </button>
+              <div class="secondary-actions">
+                <button mat-icon-button class="square-action" (click)="onBlastFreeze(task)" matTooltip="Record Blast Freeze" matTooltipPosition="above">
+                  <mat-icon>ac_unit</mat-icon>
+                </button>
+                <button mat-icon-button class="square-action" (click)="onManualPutaway(task)" matTooltip="Manual Override Slot" matTooltipPosition="above">
+                  <mat-icon>edit_location_alt</mat-icon>
+                </button>
+              </div>
               <button mat-flat-button color="primary" (click)="onPutaway(task)" class="primary-action">
                 <mat-icon>input</mat-icon>
                 <span>Confirm Putaway</span>

@@ -162,32 +162,79 @@
 
 // Actions
 .card-footer {
-  padding: 0.6rem 1rem;
+  padding: 0.85rem 1rem;
   background: var(--mat-sys-surface-container-low);
   border-top: 1px solid var(--mat-sys-outline-variant-low);
-  display: flex;
-  gap: 0.5rem;
-  justify-content: flex-end;
+  display: flex !important;
+  justify-content: space-between !important; // Split Icons (Left) and Confirm (Right)
+  align-items: center;
+
+  .secondary-actions {
+    display: flex;
+    gap: 0.6rem;
+  }
 
   button {
-    height: 36px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.8rem;
+    height: 38px !important;
+    border-radius: 10px !important;
+    font-weight: 800 !important;
+    font-size: 0.75rem !important;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
-    
-    &.primary-action {
-      padding: 0 1.25rem;
-      background: var(--mat-sys-primary);
-      color: white;
-      box-shadow: 0 4px 12px rgba(45, 212, 191, 0.2);
+    letter-spacing: 0.05em;
+    margin: 0 !important;
+
+    // Custom Square Action UI
+    &.square-action {
+      min-width: 38px !important;
+      width: 38px !important;
+      height: 38px !important;
+      border-radius: 10px !important;
+      border: 1px solid var(--mat-sys-outline) !important;
+      background: var(--mat-sys-surface-container-high) !important;
+      color: var(--mat-sys-on-surface-variant) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      
+      &:hover {
+        background: var(--mat-sys-primary) !important;
+        color: white !important;
+        border-color: var(--mat-sys-primary) !important;
+      }
+
+      .mat-icon {
+        font-size: 20px !important;
+        width: 20px !important;
+        height: 20px !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+      }
     }
 
-    .mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
+    &.primary-action {
+      background: var(--mat-sys-primary) !important;
+      color: white !important;
+      box-shadow: 0 6px 16px rgba(45, 212, 191, 0.25) !important;
+      padding: 0 1.25rem !important; 
+      border: none !important;
+      min-width: 170px;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(45, 212, 191, 0.35) !important;
+      }
+
+      .mat-icon { 
+        font-size: 20px !important;
+        width: 20px !important;
+        height: 20px !important;
+        margin: 0 6px 0 0 !important; 
+      }
     }
   }
 }

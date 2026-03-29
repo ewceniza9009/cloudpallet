@@ -1,32 +1,36 @@
+:host {
+  display: block;
+  max-width: 460px; // NUCLEAR CONSTRAINT: Prevents "Ribbon" stretching
+  min-width: 340px;
+  overflow: hidden;
+}
+
 // Clean & Professional Dialog Styling
-$primary-color: var(--mat-sys-primary);
-$on-surface: var(--mat-sys-on-surface);
 $outline-variant: var(--mat-sys-outline-variant);
 
-// Header
 .clean-header {
   display: flex !important;
   align-items: center;
   gap: 12px;
   margin: 0 !important;
-  padding: 16px 24px !important;
+  padding: 1.25rem 1.5rem !important;
   border-bottom: 1px solid $outline-variant;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: $on-surface;
+  background: var(--mat-sys-surface-container-low);
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  color: var(--mat-sys-on-surface);
 
   .header-icon {
-    color: $primary-color;
     width: 24px;
     height: 24px;
     font-size: 24px;
+    color: var(--mat-sys-primary);
   }
 }
 
-// Content
 .clean-content {
-  padding: 20px 24px !important;
-  min-width: 500px;
+  padding: 1.5rem 1.5rem !important;
+  background: var(--mat-sys-surface);
   max-height: 70vh;
 }
 
@@ -63,34 +67,31 @@ mat-form-field {
     color: var(--mat-sys-on-surface-variant);
 }
 
-// Autocomplete Panel Override - Global styles (works with ViewEncapsulation.None)
-.putaway-panel {
-    max-height: 280px !important; // Limit height
-    overflow-y: auto !important;
-    
-    .mat-mdc-option {
-        min-height: 44px !important;
-        font-size: 0.9rem !important;
-        padding: 0 16px !important;
-    }
-}
-
 // Actions
 .clean-actions {
-  padding: 12px 24px !important;
+  padding: 1rem 1.5rem !important;
   border-top: 1px solid $outline-variant;
-  background-color: var(--mat-sys-surface-container-lowest);
-  gap: 12px;
+  background-color: var(--mat-sys-surface-container-low);
+  gap: 0.75rem;
   margin-bottom: 0;
 
   button {
-    height: 36px;
-    border-radius: 6px;
-    padding: 0 16px;
-    font-weight: 500;
+    height: 40px;
+    border-radius: 10px;
+    padding: 0 1.5rem;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: 0.01em;
     
-    .btn-icon {
-        margin-right: 8px;
+    &[mat-stroked-button] {
+       border-color: var(--mat-sys-outline) !important;
+       color: var(--mat-sys-on-surface-variant) !important;
+    }
+
+    &[color="primary"] {
+      background: var(--mat-sys-primary) !important;
+      color: white !important;
+      box-shadow: 0 4px 12px rgba(28, 131, 117, 0.2);
     }
   }
 }
