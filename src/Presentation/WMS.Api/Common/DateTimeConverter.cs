@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -33,8 +33,14 @@ namespace WMS.Api.Common
 
         public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
         {
-            // FIX (OUTBOUND): Always write the UTC value with the 'Z' suffix.
-            // This forces Angular to correctly shift the time to the user's local timezone (e.g., 1:00 AM UTC -> 9:00 AM Local).
+            // FIX (OUTBOUND): Check for MinValue to avoid OverflowException in certain time zones.
+            if (value == DateTime.MinValue)
+            {
+                writer.WriteStringValue("0001-01-01T00:00:00.000Z");
+                return;
+            }
+
+            // Always write the UTC value with the 'Z' suffix.
             writer.WriteStringValue(value.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffZ"));
         }
     }

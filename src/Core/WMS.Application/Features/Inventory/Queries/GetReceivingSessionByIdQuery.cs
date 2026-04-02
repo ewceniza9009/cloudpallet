@@ -52,18 +52,38 @@ public class GetReceivingSessionByIdQueryHandler(
         if (receiving is null) return null;
 
         var dto = mapper.MapToDto(receiving);
+        if (dto == null) return null;
 
-        var materialIds = dto.Pallets.SelectMany(p => p.Lines.Select(l => l.MaterialId)).Distinct().ToList();
-        var materials = await materialRepository.GetByIdsAsync(materialIds, cancellationToken);
-        var materialMap = materials.ToDictionary(m => m.Id, m => m.Name);
+        dto.Pallets ??= new();
 
-        foreach (var pallet in dto.Pallets)
+        // 1. Manually populate PalletType names since we ignored them in Mapperly for NRE safety
+        foreach (var pallet in receiving.Pallets)
         {
-            foreach (var line in pallet.Lines)
+            var palletDto = dto.Pallets.FirstOrDefault(pd => pd.Id == pallet.Id);
+            if (palletDto != null)
             {
-                if (materialMap.TryGetValue(line.MaterialId, out var name))
+                palletDto.PalletTypeName = pallet.PalletType?.Name ?? "N/A";
+            }
+        }
+
+        // 2. Optimized Material Name population
+        var materialIds = dto.Pallets
+            .SelectMany(p => (p.Lines ?? new()).Select(l => l.MaterialId))
+            .Distinct()
+            .ToList();
+            
+        var materials = await materialRepository.GetByIdsAsync(materialIds, cancellationToken);
+        var materialMap = (materials ?? Enumerable.Empty<WMS.Domain.Entities.Material>())
+            .ToDictionary(m => m.Id, m => m.Name);
+
+        foreach (var palletDto in dto.Pallets)
+        {
+            palletDto.Lines ??= new();
+            foreach (var lineDto in palletDto.Lines)
+            {
+                if (materialMap.TryGetValue(lineDto.MaterialId, out var name))
                 {
-                    line.MaterialName = name;
+                    lineDto.MaterialName = name;
                 }
             }
         }

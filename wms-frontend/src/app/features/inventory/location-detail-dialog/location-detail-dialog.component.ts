@@ -38,10 +38,10 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
   template: `
     <div class="dialog-container">
       <div class="dialog-header">
-        <h2 mat-dialog-title>
+        <div class="header-content">
           <mat-icon class="header-icon">location_on</mat-icon>
           <span class="header-text">Location {{ data.barcode }}</span>
-        </h2>
+        </div>
         <button mat-icon-button mat-dialog-close class="close-btn">
           <mat-icon>close</mat-icon>
         </button>
@@ -188,13 +188,12 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
         border-bottom: 1px solid var(--mat-sys-outline-variant);
         background: var(--mat-sys-surface);
 
-        h2 {
-          margin: 0;
+        .header-content {
           display: flex;
           align-items: center;
           gap: 12px;
           font-size: 1.25rem;
-          font-weight: 600;
+          font-weight: 750; // Bolder title
           color: var(--mat-sys-on-surface);
           
           .header-icon {
@@ -204,6 +203,7 @@ import { LocationDto } from '../../warehouse/warehouse-api.service';
         
         .close-btn {
           color: var(--mat-sys-on-surface-variant);
+          margin-right: -8px; // Pull closer to edge for premium feel
         }
       }
 

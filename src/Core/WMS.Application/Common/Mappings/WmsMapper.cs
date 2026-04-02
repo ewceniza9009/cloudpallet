@@ -51,9 +51,10 @@ public partial class WmsMapper : IWmsMapper
     [MapProperty(nameof(Receiving.AppointmentId), nameof(ReceivingSessionDetailDto.DockAppointmentId))]
     public partial ReceivingSessionDetailDto MapToDto(Receiving receiving);
 
-    [MapProperty("PalletType.Name", nameof(PalletDetailDto.PalletTypeName))]
+    [MapperIgnoreTarget(nameof(PalletDetailDto.PalletTypeName))]
     public partial PalletDetailDto MapToDto(Pallet pallet);
 
+    [MapperIgnoreTarget(nameof(PalletLineDetailDto.MaterialName))]
     [MapProperty(nameof(PalletLine.Id), nameof(PalletLineDetailDto.PalletLineId))]
     [MapProperty(nameof(PalletLine.Weight), nameof(PalletLineDetailDto.NetWeight))]
     public partial PalletLineDetailDto MapToDto(PalletLine line);
