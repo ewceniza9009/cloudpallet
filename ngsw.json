@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1774768303280,
+  "timestamp": 1775142776985,
   "index": "/cloudpallet/index.html",
   "assetGroups": [
     {
@@ -67,6 +67,7 @@
         "/cloudpallet/chunk-IXXUF3V3.js",
         "/cloudpallet/chunk-IZB6GOKZ.js",
         "/cloudpallet/chunk-J6RINQL4.js",
+        "/cloudpallet/chunk-JZ3XTKSR.js",
         "/cloudpallet/chunk-K3TZQW3J.js",
         "/cloudpallet/chunk-KDLWDHMX.js",
         "/cloudpallet/chunk-KFMJEIT5.js",
@@ -80,7 +81,6 @@
         "/cloudpallet/chunk-LM5EDXUA.js",
         "/cloudpallet/chunk-LU7GTCM7.js",
         "/cloudpallet/chunk-LWYKMW7M.js",
-        "/cloudpallet/chunk-MJMCCTOH.js",
         "/cloudpallet/chunk-MS4AQ6UA.js",
         "/cloudpallet/chunk-MYTOB33C.js",
         "/cloudpallet/chunk-NCDNX677.js",
@@ -134,7 +134,7 @@
         "/cloudpallet/chunk-ZVYNGC77.js",
         "/cloudpallet/favicon.ico",
         "/cloudpallet/index.html",
-        "/cloudpallet/main-U5XQTWON.js",
+        "/cloudpallet/main-G7TANZOC.js",
         "/cloudpallet/manifest.webmanifest",
         "/cloudpallet/polyfills-5CFQRCPP.js",
         "/cloudpallet/styles-JU3HMAT5.css"
@@ -214,6 +214,7 @@
     "/cloudpallet/chunk-IXXUF3V3.js": "2b2d9c084eeb8cfd6f5daede7f2456650fa8f06f",
     "/cloudpallet/chunk-IZB6GOKZ.js": "49566ae9b917b62a870718a64aadcdbb897886a6",
     "/cloudpallet/chunk-J6RINQL4.js": "80ab71b619afa8ae9898d280dfb0309f9963eeb9",
+    "/cloudpallet/chunk-JZ3XTKSR.js": "1cff4d79b7953b6b08e40554acdf39d5f6dc6b11",
     "/cloudpallet/chunk-K3TZQW3J.js": "9216073fa46eee8e4f070150bcff54aab4733bdd",
     "/cloudpallet/chunk-KDLWDHMX.js": "974e7f7d35b9bae834272f4c3151e64f7f95ae68",
     "/cloudpallet/chunk-KFMJEIT5.js": "9878222273a8d53726faa072f6fd947ffb3904cd",
@@ -227,7 +228,6 @@
     "/cloudpallet/chunk-LM5EDXUA.js": "8c53ea7bff89a87d5437802165e6df53e029864c",
     "/cloudpallet/chunk-LU7GTCM7.js": "723537120ffab3b220aa5a20b48cac90fe77525f",
     "/cloudpallet/chunk-LWYKMW7M.js": "1578874dbed0aab9868e262c5a60143a185a0358",
-    "/cloudpallet/chunk-MJMCCTOH.js": "a864e7944a1b8d7b002e0f8baabb130af870bf8e",
     "/cloudpallet/chunk-MS4AQ6UA.js": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
     "/cloudpallet/chunk-MYTOB33C.js": "9984a38503a0351e220a18366ebb3e77d02be1a6",
     "/cloudpallet/chunk-NCDNX677.js": "a83384cc19442b5cd1fad90040548396ff7bc799",
@@ -281,8 +281,8 @@
     "/cloudpallet/chunk-ZVYNGC77.js": "17fabbd73b8e4297ec31992b365d41b7a170662e",
     "/cloudpallet/favicon.ico": "5e9be0d20a77f926d843c8da08e39445642bc7c2",
     "/cloudpallet/favicon.png": "4e6312068213d62f949cca49fa3a26f7c8019cb4",
-    "/cloudpallet/index.html": "acc9606540cd9d0818f18154668a307791e9e5a0",
-    "/cloudpallet/main-U5XQTWON.js": "79701bb64f418b9cc703ca951e574e5ad3b958a3",
+    "/cloudpallet/index.html": "d78b7c4c2c70290632145e517c83037d0a73fcd2",
+    "/cloudpallet/main-G7TANZOC.js": "a3971133c7197ab568277d3cbf3634ba109f54b3",
     "/cloudpallet/manifest.webmanifest": "f992b8d74ded039290ac502ff7765e9e91803fa9",
     "/cloudpallet/polyfills-5CFQRCPP.js": "f2241e9a25858f895ce299d15f6f22e849e2fd72",
     "/cloudpallet/styles-JU3HMAT5.css": "58c3378d3e419bd0d59cb19a1de75355638d7653"
