@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WMS.Application.Abstractions.Caching;
@@ -94,6 +94,7 @@ public static class DependencyInjection
         services.AddScoped<IScaleApiService, ScaleApiService>();
         services.AddScoped<IAutomationService, AutomationService>();
         services.AddScoped<IBarcodeGenerationService, BarcodeGenerationService>();
+        services.AddScoped<WMS.Application.Abstractions.Services.ILookupService, WMS.Infrastructure.Services.LookupService>();
 
         return services;
     }
