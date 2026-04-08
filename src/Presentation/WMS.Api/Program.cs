@@ -169,9 +169,11 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        // Restrict origins for production
-        var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? ["http://localhost:4200", "http://localhost:17283", "https://ewceniza9009.github.io"];
-        policy.WithOrigins(allowedOrigins)
+        var originsList = new List<string> { "http://localhost:4200", "http://localhost:17283", "https://ewceniza9009.github.io" };
+        var configOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+        if (configOrigins != null) originsList.AddRange(configOrigins);
+
+        policy.WithOrigins(originsList.Distinct().ToArray())
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -231,15 +233,15 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-app.UseExceptionHandler(); // Use custom and default exception handling
-app.UseSerilogRequestLogging(); // Log HTTP requests
+// Apply CORS at the very front of the pipeline to handle preflights and exceptions
+app.UseCors(); 
+app.UseExceptionHandler(); 
+app.UseSerilogRequestLogging(); 
 app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.UseCors(); // Apply CORS policy
-
-app.UseAuthentication(); // Must come before Authorization
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers(); // Map attribute-routed controllers
