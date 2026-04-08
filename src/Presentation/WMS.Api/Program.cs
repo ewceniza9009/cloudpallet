@@ -169,11 +169,12 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        var originsList = new List<string> { "http://localhost:4200", "http://localhost:17283", "https://ewceniza9009.github.io" };
-        var configOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
-        if (configOrigins != null) originsList.AddRange(configOrigins);
-
-        policy.WithOrigins(originsList.Distinct().ToArray())
+        policy.SetIsOriginAllowed(origin => 
+              {
+                  var uri = new Uri(origin);
+                  return uri.Host.Equals("ewceniza9009.github.io", StringComparison.OrdinalIgnoreCase) || 
+                         uri.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase);
+              })
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
