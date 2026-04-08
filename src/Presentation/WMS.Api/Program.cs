@@ -189,49 +189,41 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Initialize Database (Schema & Seed)
-using (var scope = app.Services.CreateScope())
+// Initialize Database in a background task to prevent startup hangs on slow environments (like Render Free Tier)
+_ = Task.Run(async () =>
 {
-    var services = scope.ServiceProvider;
-    try
+    using (var scope = app.Services.CreateScope())
     {
-        var context = services.GetRequiredService<WmsDbContext>();
-        var dataPath = Path.Combine(Directory.GetCurrentDirectory(), "wms-frontend", "src", "assets", "mock-data");
+        var services = scope.ServiceProvider;
+        try
+        {
+            var context = services.GetRequiredService<WmsDbContext>();
+            var dataPath = Path.Combine(Directory.GetCurrentDirectory(), "wms-frontend", "src", "assets", "mock-data");
 
-        if (app.Environment.IsDevelopment())
-        {
-             // OPTIMIZATION: Only export if explicitly requested or needed for dev refreshes
-             // This avoids disk I/O on every 'dotnet watch' restart
-             bool shouldExport = builder.Configuration.GetValue<bool>("ExportSeedData", false);
-             if (shouldExport && Directory.Exists(dataPath))
-             {
-                 await JsonDataSeeder.ExportDataAsync(context, dataPath);
-                 Log.Information($"Data exported to {dataPath}");
-             }
-        }
-        
-        if (app.Environment.IsProduction())
-        {
-            // OPTIMIZATION: Check if seeding is even needed before running EnsureCreated/SeedAsync
-            // This is the fastest way to skip the 'Cold Start' tax on Render
-            if (!await context.Users.AnyAsync())
+            if (app.Environment.IsProduction())
             {
-                Log.Information("Production database empty. Initializing schema and seeding...");
-                await context.Database.EnsureCreatedAsync();
-                await JsonDataSeeder.SeedAsync(context, dataPath);
-                Log.Information("Database initialized and seeded.");
-            }
-            else 
-            {
-                Log.Information("Database already initialized. Skipping startup seeding.");
+                // Give the DB a moment to wake up if it's on a cold start
+                await Task.Delay(2000); 
+
+                if (!await context.Users.AnyAsync())
+                {
+                    Log.Information("Production database empty. Initializing schema and seeding...");
+                    await context.Database.EnsureCreatedAsync();
+                    await JsonDataSeeder.SeedAsync(context, dataPath);
+                    Log.Information("Database initialized and seeded.");
+                }
+                else 
+                {
+                    Log.Information("Database already initialized. Skipping startup seeding.");
+                }
             }
         }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "An error occurred while initializing the database in the background.");
+        }
     }
-    catch (Exception ex)
-    {
-        Log.Error(ex, "An error occurred while initializing the database.");
-    }
-}
+});
 
 // Apply CORS at the very front of the pipeline to handle preflights and exceptions
 app.UseCors(); 
