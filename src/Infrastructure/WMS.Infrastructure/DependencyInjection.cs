@@ -83,10 +83,18 @@ public static class DependencyInjection
         services.AddScoped<IReportGenerator, PdfReportGenerator>();
         services.AddScoped<IReportRepository, ReportRepository>();
 
-        services.AddStackExchangeRedisCache(options =>
+        var redisConnection = configuration.GetConnectionString("Redis");
+        if (string.IsNullOrEmpty(redisConnection))
         {
-            options.Configuration = configuration.GetConnectionString("Redis");
-        });
+            services.AddDistributedMemoryCache();
+        }
+        else
+        {
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = redisConnection;
+            });
+        }
         services.AddSingleton<ICacheService, RedisCacheService>();
 
         services.AddHttpClient("ScaleApi", client => { client.BaseAddress = new Uri(configuration["ExternalServices:ScaleApiUrl"]!); });
